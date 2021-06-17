@@ -1,0 +1,7 @@
+.carousel-indicators li {
+    border-color: #777;
+}
+
+.carousel-indicators .active {
+    background-color: #777;
+}
