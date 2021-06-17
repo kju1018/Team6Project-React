@@ -1,11 +1,31 @@
+import { useState } from "react";
+import { Button, ButtonGroup, ToggleButton } from "react-bootstrap";
+
+
 import Item from "views/components/Item";
+import PrescriptionHeader from "./components/PrescriptionHeader";
+
+
 
 function PatientWaiting(props) {
+
+  const [listtype, setListtype] = useState("wait");
+
+  const handleChange = (event) => {
+    setListtype(event.target.value);
+  }
+
   return (
     <>
-    <div className="d-flex align-items-center" style={{height:"50px"}}>현재 대기 환자</div>
-    <button className="btn btn-info btn-sm">대기</button> <button className="btn btn-info btn-sm">완료</button>
-    <div className={`overflow-auto p-3`} style={{height:"calc(100% - 50px)"}}>
+    <PrescriptionHeader headertitle="환자 리스트" buttonname="환자 검색"/>
+    <div>
+    <ButtonGroup toggle>
+      <ToggleButton type="radio" variant={`${listtype === "wait" ? "secondary" : "light" }`} name="type"  checked={listtype==="wait"} value="wait" onChange={handleChange}><div className="ml-5 mr-5">대기</div></ToggleButton>
+      <ToggleButton type="radio" variant={`${listtype === "complete" ? "secondary" : "light" }`} name="type"  checked={listtype==="complete"} value="complete" onChange={handleChange}><div className="ml-5 mr-5">완료</div></ToggleButton>
+    </ButtonGroup>
+    </div>
+
+    <div className={`overflow-auto p-3`} style={{height:"calc(100% - 80px)"}}>
       <Item/>
     </div>
     </>

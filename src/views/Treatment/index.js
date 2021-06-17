@@ -8,12 +8,11 @@ import TreatmentMemo from "./TreatmentMemo";
 
 
 function Treatment(props) {
-  // 
+  
   return (
     <div className="vh-100 row ml-0 mr-0">
       <div className="col-4 h-100">
         <div className="d-flex align-items-end justify-content-start" style={{height:"5vh", marginLeft:"15px"}}>
-        {/* <button className="btn btn-info btn-sm">환자 검색</button> */}
         </div>
         <div className="pl-3 pr-3 pb-3 pt-0" style={{height:"30vh"}}>
           <PatientWaiting/>
