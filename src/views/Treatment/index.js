@@ -8,6 +8,7 @@ import TreatmentMemo from "./TreatmentMemo";
 
 
 function Treatment(props) {
+  // 
   return (
     <div className="vh-100 row ml-0 mr-0">
       <div className="col-4 h-100">
