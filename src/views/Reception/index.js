@@ -24,21 +24,21 @@ function Reception(props){
     return( 
     <>
 
-    <div className="container-fluid  d-flex" style={{height:"100%",minWidth:"1200px", padding:"30px"}}>
+    <div className="container-fluid  d-flex" style={{minWidth:"1200px"}}>
         <div className=" col-6 " style={{height:"100%"}}>
-            <div className="row-6 p-2" >
+            <div style={{padding:"10px"}} >
                 <SearchPatient patientList ={patientList}/>
             </div>
-            <div className="row-6 p-2">
+            <div style={{padding:"10px"}}>
                 <Reservation patientList ={patientList}/>
             </div>
            
         </div>
         <div className=" col-6 " style={{height:"100%"}}>
-            <div className="row-6 p-2">
+            <div style={{padding:"10px"}}>
                 <TreatmentReception patientList ={patientList}/>
             </div>
-            <div className="row-6 p-2">
+            <div style={{padding:"10px"}}>
                 <TestReception patientList ={patientList}/>
             </div>
         </div>
