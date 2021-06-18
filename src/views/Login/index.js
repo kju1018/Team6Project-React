@@ -9,8 +9,8 @@ function Login() { //컴포넌트 이름
   const handleShow = () => setShow(true);
   
   return (
-    <div className="ml-5 mt-4">
-      <div><img src="logo.png" className="mt-3 ml-5" /></div>
+    <div className="ml-4 mt-4">
+      <div><img src="logo.png" className="mt-3 ml-4" /></div>
       <div>
       <div className="row ml-0 mr-0 mt-2">
         <div className="col-6">
@@ -27,7 +27,7 @@ function Login() { //컴포넌트 이름
             </div>
           </div>
         </div>
-      <div className="col-6">
+      <div className="col-6 loginimg">
         <img src="Doctors-pana.png" width="90%"/>
       </div>
       </div>
