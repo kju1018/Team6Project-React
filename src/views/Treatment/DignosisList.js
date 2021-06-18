@@ -4,7 +4,7 @@ import PrescriptionHeader from "views/Treatment/components/PrescriptionHeader";
 function DiagnosisList(props) {
   return (
     <>
-    <PrescriptionHeader headertitle="상병 목록" buttonname="저장"/>
+    <PrescriptionHeader headertitle="상병 목록" buttonname="검색"/>
       <div className="overflow-auto p-3" style={{height:"calc(100% - 50px"}}>
         <div className="pt-2 pb-2 mb-2 d-flex align-items-center" style={{boxShadow:"rgb(0 0 0 / 8%) 0px 0px 5px 2px", borderRadius:"15px", fontSize:"13px"}}>
           <div className="col-2 pr-2 pl-2 text-center">G55</div>
