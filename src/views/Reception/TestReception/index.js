@@ -1,7 +1,7 @@
 import Item from "views/components/Item";
 
 function TestReception(props){
-    
+   
     const property = ["id","name","room","state","registerday"]
     return(
         <div className="d-flex flex-column" style={{height:"450px"}}>
