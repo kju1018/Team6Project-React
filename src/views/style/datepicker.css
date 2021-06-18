@@ -805,6 +805,9 @@
 }
 
 .example-custom-input {
-  border: 1px solid grey;
-  width: 130px;
+  background-color: white;
+  border-radius: 20px;
+  width: 150px;
+  height: 30px;
+  text-align: center;
 }
