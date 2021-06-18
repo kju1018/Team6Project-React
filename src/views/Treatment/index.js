@@ -5,6 +5,7 @@ import PatientWaiting from "./PatientWaiting";
 import PatientTreatment from "./PtientTreatment";
 import TestList from "./TestList";
 import TreatmentMemo from "./TreatmentMemo";
+import TestResult from "./TestResult";
 
 
 function Treatment(props) {
@@ -14,7 +15,7 @@ function Treatment(props) {
       <div className="col-4 h-100">
         <div className="d-flex align-items-end justify-content-start" style={{height:"5vh", marginLeft:"15px"}}>
         </div>
-        <div className="pl-3 pr-3 pb-3 pt-0" style={{height:"30vh"}}>
+        <div className="pl-3 pr-3 pt-0" style={{height:"30vh"}}>
           <PatientWaiting/>
         </div>
 
@@ -40,15 +41,9 @@ function Treatment(props) {
       </div>
       <div className="col-4 h-100">
         <div style={{height:"5vh"}}></div>
-        <div className="pl-3 pr-3 pb-3 pt-0" style={{height:"35vh"}}>
+        <div className="pl-3 pr-3 pb-3 pt-0" style={{height:"95vh"}}>
           <TestList/>
-        </div>
-        <div className="p-3 bg-success" style={{height:"25vh"}}>
-          
-        </div>
-        <div className="p-3 bg-secondary" style={{height:"35vh"}}>
-          
-        </div>                 
+        </div>                
       </div>
     </div>
 

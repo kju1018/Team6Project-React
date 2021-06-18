@@ -27,7 +27,7 @@ function Item(props) {
 },[])
   
   return (
-    <div className="mb-2 pt-2 pb-2 d-flex align-items-center" style={{boxShadow: "rgb(0 0 0 / 8%) 0px 0px 5px 2px",borderRadius:"15px",fontSize: "13px"}}>
+    <div className="ml-2 mr-2 mb-2 pt-2 pb-2 d-flex align-items-center" style={{boxShadow: "rgb(0 0 0 / 8%) 0px 0px 5px 2px",borderRadius:"15px",fontSize: "13px"}}>
     {itemArray.map((item,index)=>{
       return(
         <div className={index===1?"col pl-0 pr-0 text-center":"col pl-0 pr-0 text-center border-left"}>
