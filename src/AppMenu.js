@@ -9,7 +9,13 @@ function AppMenu() {
         <NavLink to="/" exact className="nav-link pt-4 pb-4" activeStyle={{color:"#A2C9BB", backgroundColor:"#F5F9F8", borderRadius:"0px 20px 20px 0px"}} style={{color:"black"}}>
           <div className="row">
             <div className="col-6 text-right"><i className="bi bi-house-door"></i></div>
-            <div className="col-6">홈</div>
+            <div className="col-6">로그인</div>
+          </div>
+        </NavLink>
+        <NavLink to="/home" exact className="nav-link pt-4 pb-4" activeStyle={{color:"#A2C9BB", backgroundColor:"#F5F9F8", borderRadius:"0px 20px 20px 0px"}} style={{color:"black"}}>
+          <div className="row">
+            <div className="col-6 text-right"><i className="bi bi-house-door"></i></div>
+            <div className="col-6">로그인</div>
           </div>
         </NavLink>
         {/* Link는 이걸 클릭하면 이동한다 라는 뜻 */}
