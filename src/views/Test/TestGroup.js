@@ -1,40 +1,38 @@
-import { Button } from "react-bootstrap";
+import { useEffect, useState } from "react";
+import { Badge, Button } from "react-bootstrap";
 import { Accordion, Card } from "react-bootstrap";
-function TestGroup() {
+import TestCode from "./TestCode";
+function TestGroup(props) {
+  //console.log(props.state);
+  const [color, setColor] = useState('success');
+  useEffect(() => {
+    if (props.state === "대기중") {
+      let label = 'success'
+      setColor(label);
+    }
+    if (props.state === "진행중") {
+      let label = 'primary'
+      setColor(label);
+    }
+    if (props.state === "완료") {
+      let label = 'danger'
+      setColor(label);
+    }
+  })
   return (
     <div>
     <Accordion defaultActiveKey="0">
     <Card>
       <Card.Header>
         <Accordion.Toggle as={Button} variant="link" eventKey="0">
-          Click me!
+          묶음코드 <Badge variant={color}>{props.state}</Badge>
         </Accordion.Toggle>
       </Card.Header>
       <Accordion.Collapse eventKey="0">
-        <Card.Body>Hello! I'm the body</Card.Body>
+        <Card.Body><TestCode/></Card.Body>
       </Accordion.Collapse>
     </Card>
-    <Card>
-      <Card.Header>
-        <Accordion.Toggle as={Button} variant="link" eventKey="1">
-          Click me!
-        </Accordion.Toggle>
-      </Card.Header>
-      <Accordion.Collapse eventKey="1">
-        <Card.Body>Hello! I'm another body</Card.Body>
-      </Accordion.Collapse>
-    </Card>
-    <Card>
-      <Card.Header>
-        <Accordion.Toggle as={Button} variant="link" eventKey="2">
-          Click me!
-        </Accordion.Toggle>
-      </Card.Header>
-      <Accordion.Collapse eventKey="2">
-        <Card.Body>Hello! I'm another body</Card.Body>
-      </Accordion.Collapse>
-    </Card>
-  </Accordion>
+    </Accordion>
     </div>
   );
 }

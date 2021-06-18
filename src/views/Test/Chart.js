@@ -8,9 +8,9 @@ function Chart() {
         borderWidth: 2,
         hoverBorderWidth: 3,
         backgroundColor: [
-          "rgba(238, 102, 121, 1)",
+          "#ff6b6b",
           "rgba(98, 181, 229, 1)",
-          "rgba(255, 198, 0, 1)"
+          "#ffe66d"
         ],
         fill: true
       }
@@ -24,7 +24,7 @@ function Chart() {
         borderWidth: 2,
         hoverBorderWidth: 3,
         backgroundColor: [
-          "rgba(238, 102, 121, 1)",
+          "#ff6b6b",
           "rgba(98, 181, 229, 1)"
         ],
         fill: true
@@ -47,9 +47,9 @@ function Chart() {
                     />
                     </div>
                     <div style={{marginTop:"70px", marginLeft:"60px"}}>
-                        <div className="row mb-1" style={{height:"16px"}}><div className="mt-1 mr-1" style={{backgroundColor:"rgba(238, 102, 121, 1)", width:"32px", height:"16px"}}></div><div style={{height:"16px"}}>대기</div></div>
+                        <div className="row mb-1" style={{height:"16px"}}><div className="mt-1 mr-1" style={{backgroundColor:"#ff6b6b", width:"32px", height:"16px"}}></div><div style={{height:"16px"}}>대기</div></div>
                         <div className="row mb-1" style={{height:"16px"}}><div className="mt-1 mr-1" style={{backgroundColor:"rgba(98, 181, 229, 1)", width:"32px", height:"16px"}}></div><div style={{height:"16px"}}>진행중</div></div>
-                        <div className="row" style={{height:"16px"}}><div className="mt-1 mr-1" style={{backgroundColor:"rgba(255, 198, 0, 1)", width:"32px", height:"16px"}}></div><div style={{height:"16px"}}>완료</div></div>
+                        <div className="row" style={{height:"16px"}}><div className="mt-1 mr-1" style={{backgroundColor:"#ffe66d", width:"32px", height:"16px"}}></div><div style={{height:"16px"}}>완료</div></div>
                       </div>
                   </div>
                 </div>
@@ -68,7 +68,7 @@ function Chart() {
                       />
                       </div>
                       <div style={{marginTop:"91px", marginLeft:"60px"}}>
-                        <div className="row mb-1" style={{height:"16px"}}><div className="mt-1 mr-1" style={{backgroundColor:"rgba(238, 102, 121, 1)", width:"32px", height:"16px"}}></div><div style={{height:"16px"}}>미입력</div></div>
+                        <div className="row mb-1" style={{height:"16px"}}><div className="mt-1 mr-1" style={{backgroundColor:"#ff6b6b", width:"32px", height:"16px"}}></div><div style={{height:"16px"}}>미입력</div></div>
                         <div className="row" style={{height:"16px"}}><div className="mt-1 mr-1" style={{backgroundColor:"rgba(98, 181, 229, 1)", width:"32px", height:"16px"}}></div><div style={{height:"16px"}}>완료</div></div>
                       </div>
                     </div>
