@@ -1,27 +1,75 @@
 import { useState, forwardRef } from "react";
 import DatePicker from "react-datepicker";
 import "views/style/datepicker.css";
+import { registerLocale } from "react-datepicker";  // 한국어적용
+import ko from 'date-fns/locale/ko'; // 한국어적용
+registerLocale("ko", ko) // 한국어적용
 
 function PeriodSearch() {
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
+  const [btnClicked, setBtnClicked] = useState("당일");
   const ExampleCustomInput = forwardRef(({ value, onClick }, ref) => (
     <div className="example-custom-input" onClick={onClick} ref={ref}>
       {value}
     </div>
   ));
 
+  const handleBtnClicked = (e) => {
+    const { value } = e.target;
+    setBtnClicked(value);
+    const currentDate = new Date();
+    // 오늘 날짜
+    if (value === "당일") {
+      setStartDate(new Date());
+      setEndDate(new Date());
+    }
+    // 3일 전부터 오늘까지의 기간
+    if (value === "3일") {
+      let threeDaysAgo = new Date(
+        currentDate.getTime() - 3 * 24 * 60 * 60 * 1000
+      );
+      setStartDate(threeDaysAgo);
+      setEndDate(new Date());
+    }
+    // 1주일 전부터 오늘까지의 기간
+    if (value === "1주일") {
+      let weekAgo = new Date(currentDate.getTime() - 7 * 24 * 60 * 60 * 1000);
+      setStartDate(weekAgo);
+      setEndDate(new Date());
+    }
+    // 1개월 전부터 오늘까지의 기간
+    if (value === "1개월") {
+      let oneMonthAgo = new Date(
+        new Date().getFullYear(),
+        new Date().getMonth() - 1,
+        new Date().getDate()
+      );
+      setStartDate(oneMonthAgo);
+      setEndDate(new Date());
+    }
+    // 3개월 전부터 오늘까지의 기간
+    if (value === "3개월") {
+      let threeMonthAgo = new Date(
+        new Date().getFullYear(),
+        new Date().getMonth() - 3,
+        new Date().getDate()
+      );
+      setStartDate(threeMonthAgo);
+      setEndDate(new Date());
+    }
+  };
 
   return (
     <div className="row">
-            <div className="col-3" style={{backgroundColor: "rgb(197, 197, 197)"}}><div className="text-center mt-4 p-3" style={{color: ""}}>조회기간</div></div>
-            <div className="col-9" style={{backgroundColor: "rgb(238, 238, 238)"}}>
+            <div className="col-3" style={{backgroundColor: "#d2d2cf"}}><div className="text-center mt-4 p-3" style={{color: "#403d39"}}>조회기간</div></div>
+            <div className="col-9" style={{backgroundColor: "#EDECEA"}}>
               <div className="mt-3">
-                <button type="button" className="btn btn-dark btn-sm mr-1" >당일</button>
-                <button type="button" className="btn btn-dark btn-sm mr-1">7일</button>
-                <button type="button" className="btn btn-dark btn-sm mr-1">15일</button>
-                <button type="button" className="btn btn-dark btn-sm mr-1">1개월</button>
-                <button type="button" className="btn btn-dark btn-sm mr-1">3개월</button>
+                <button type="button" className="btn btn-dark btn-sm mr-1" value="당일" onClick={ handleBtnClicked }>당일</button>
+                <button type="button" className="btn btn-dark btn-sm mr-1" value="3일" onClick={ handleBtnClicked }>3일</button>
+                <button type="button" className="btn btn-dark btn-sm mr-1" value="1주일" onClick={ handleBtnClicked }>1주일</button>
+                <button type="button" className="btn btn-dark btn-sm mr-1" value="1개월" onClick={ handleBtnClicked }>1개월</button>
+                <button type="button" className="btn btn-dark btn-sm mr-1" value="3개월" onClick={ handleBtnClicked }>3개월</button>
               </div>
               <div className="row ml-1 mt-3 mb-3">
               <div className="row ml-0">
@@ -36,6 +84,8 @@ function PeriodSearch() {
                   selected={startDate}
                   onChange={(date) => setStartDate(date)}
                   customInput={<ExampleCustomInput />}
+                  dateFormat="yyyy-MM-dd"
+                  locale={ko}
                 />
                 </div>
               </div>
