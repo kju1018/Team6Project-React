@@ -1,7 +1,7 @@
 function TestWaitingList() {
   return (
-    <div className="pt-2 pb-2 mb-2 d-flex align-items-center" style={{boxShadow:"rgb(0 0 0 / 8%) 0px 0px 5px 2px", borderRadius:"15px", fontSize:"13px"}}>
-      <div className="col p-0 text-center">순서</div>
+    <div className="pt-2 pb-2 mb-2 d-flex align-items-center" style={{ boxShadow:"rgb(0 0 0 / 8%) 0px 0px 5px 2px", borderRadius:"15px", fontSize:"13px"}}>
+      <div className="col p-0 pt-1 pb-1 text-center">순서</div>
       <div className="col p-0 text-center">번호</div>
       <div className="col p-0 text-center">이름</div>
       <div className="col p-0 text-center">성별/나이</div>
