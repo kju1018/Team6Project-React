@@ -3,7 +3,7 @@ import Item from "views/components/Item";
 
 
 function TreatmentReception(props){
-    
+      
     useEffect(()=>{
         console.log(props.patientList)
         

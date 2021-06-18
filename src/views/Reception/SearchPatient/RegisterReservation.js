@@ -3,8 +3,8 @@ import Calendar from "./Calendar";
 function RegisterReservation(props){
     const patient = props.patientList[0];
     return(
-        <div className="conatainer" style={{padding:"1px 40px", height:"300px"}}>
-               <div className="row d-flex justify-content-between text-center border " style={{borderRadius:"15px",width:"100%",marginLeft:"5px"}}>
+        <div className="conatainer" style={{height:"400px"}}>
+               <div className="row d-flex justify-content-between text-center border " style={{borderRadius:"15px"}}>
                     <div style={{width:"10%"}}>ID</div>
                     <div style={{width:"10%"}}>이름</div>
                     <div style={{width:"10%"}}>성별</div>
