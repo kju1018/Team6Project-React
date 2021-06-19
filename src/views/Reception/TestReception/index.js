@@ -4,7 +4,7 @@ function TestReception(props){
    
     const property = ["id","name","room","state","registerday"]
     return(
-        <div className="d-flex flex-column" style={{height:"450px"}}>
+        <div className="d-flex flex-column" style={{height:"520px"}}>
         <div className="row d-flex flex-row justify-content-between">
                 <label style={{marginRight:"10px"}}>검사 접수 환자</label>
                 <div>
@@ -17,8 +17,8 @@ function TestReception(props){
             <button style={{marginRight:"10px"}} className="btn btn-outline-dark btn-sm">대기</button>
             <button style={{marginRight:"10px"}} className="btn btn-outline-dark btn-sm">완료</button>
         </div>
-        <div className="rounded-lg justify-content-center" style={{marginTop:"10px"}}>
-            <div className="d-flex justify-content-between text-center border " style={{borderRadius:"15px"}}>
+        <div className="rounded-lg justify-content-center">
+            <div className="d-flex justify-content-between text-center border " style={{borderRadius:"15px",marginTop:"10px",marginBottom:"10px"}}>
                 <div style={{width:"20%"}}>순번</div>
                 <div style={{width:"20%"}}>ID</div>
                 <div style={{width:"20%"}}>이름</div>
@@ -28,7 +28,7 @@ function TestReception(props){
         
         
             </div>
-            <div className="overflow-auto  justify-content-center" style={{height:"300px"}} >
+            <div className="overflow-auto  justify-content-center" style={{height:"394px"}} >
                
                  {props.patientList&&props.patientList.map((item,index)=>{return(
                                     <div key={index}>

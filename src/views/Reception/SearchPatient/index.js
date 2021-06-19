@@ -11,14 +11,14 @@ function SearchPatient(props){
     
 
     return(
-    <div className="d-flex flex-column" style={{height:"300px"}} >
-        <div className="row ">
+    <div className="d-flex flex-column" style={{height:"416px"}} >
+        <div>
                 <label style={{marginRight:"10px"}}>환자정보</label>
                 <button  style={{marginRight:"10px"}} className="btn btn-outline-dark btn-sm" onClick={()=>{setSearchModalshow(true)}}>환자검색</button>
                  <button style={{marginRight:"10px"}} className="btn btn-outline-dark btn-sm" onClick={()=>{setRegisterhModalshow(true)}}>예약</button>
         </div>
         
-        <div className="row">
+        <div >
             <div>
                 {patient.name}
             </div>
