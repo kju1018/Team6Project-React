@@ -12,7 +12,7 @@ function SearchPatientModal(props){
             </div>
 
             <div >
-                  <button className="btn btn-outline-dark btn-sm">등록</button>
+                  <button className="btn btn-outline-dark btn-sm">선택</button>
             </div>
         </div>
         <div className="rounded-lg justify-content-center" style={{marginTop:"10px"}}>
