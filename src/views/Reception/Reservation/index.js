@@ -4,10 +4,10 @@ import { useEffect, useState } from "react";
 
 function Reservation(props){
     const property = ["id","name","rstate","reservationtype","registerday"]
-    const [selectDate,setSelectDate] = useState();
+    const [selectDate,setSelectDate] = useState("");
     useEffect(()=>{
         console.log("adsf")
-        console.log(selectDate.toLocaleDateString());
+        console.log(selectDate);
     },[selectDate])
     return(
     <div className="d-flex flex-column " style={{height:"624px"}}>
@@ -34,7 +34,7 @@ function Reservation(props){
             <div className="overflow-auto  justify-content-center" style={{height:"400px"}} >
                
                  {props.patientList&&props.patientList.map((item,index)=>{
-                     if(item.registerday ===selectDate.toLocaleDateString()){
+                     if(item.registerday ===selectDate){
                         return(
                             <div key={index}>
                                     <Item item ={item} property={property} order={index}/>
