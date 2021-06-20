@@ -3,9 +3,10 @@ let lastbno = 20;
 let data = [];
 
 let date = new Date();
-date.setDate(date.getDate()-1);
+
 
 for(var i=1; i<=lastbno; i++) {
+  date.setDate(date.getDate()-i);
   data.push({
     patientid:i, 
     patientname:"환자이름"+i, 
@@ -14,7 +15,7 @@ for(var i=1; i<=lastbno; i++) {
     sex: i%2===0 ? "남" : "여",
     age:10+i,
     phonenumber: "010-1234-1234", 
-    lasttreatment:date.toLocaleDateString(),
+    lasttreatment:(new Date).toLocaleDateString(),
     registerday:date.toLocaleDateString(),
     state: i % 3 === 0? "대기" : "완료"
   });
