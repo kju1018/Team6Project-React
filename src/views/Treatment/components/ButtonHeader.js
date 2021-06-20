@@ -1,4 +1,4 @@
-function PrescriptionHeader(props) {
+function TreatmentButtonHeader(props) {
   return (
     <>
       <div className="row align-items-center" style={{height:"50px"}}>
@@ -9,4 +9,4 @@ function PrescriptionHeader(props) {
   );
 }
 
-export default PrescriptionHeader;
+export default TreatmentButtonHeader;

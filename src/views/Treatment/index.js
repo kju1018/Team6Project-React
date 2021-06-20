@@ -1,7 +1,7 @@
 import DiagnosisList from "./DignosisList";
 import DrugList from "./DrugList";
 import PatientProfile from "./PatientProfile";
-import PatientWaiting from "./PatientWaiting";
+import ReceptionList from "./ReceptionList";
 import PatientTreatment from "./PtientTreatment";
 import TestList from "./TestList";
 import TreatmentMemo from "./TreatmentMemo";
@@ -16,7 +16,7 @@ function Treatment(props) {
         <div className="d-flex align-items-end justify-content-start" style={{height:"5vh", marginLeft:"15px"}}>
         </div>
         <div className="pl-3 pr-3 pt-0" style={{height:"30vh"}}>
-          <PatientWaiting/>
+          <ReceptionList/>
         </div>
 
         <div className="p-3" style={{height:"35vh"}}>
