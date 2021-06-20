@@ -8,11 +8,14 @@ function TestReception(props){
     const handleChange = (event) => {
         setListtype(event.target.value);
       }
+      const click = (item) =>{
+        console.log(item)
+    }
     const property = ["id","name","room","state","registerday"]
     return(
         <div className="d-flex flex-column" style={{height:"520px"}}>
         <div className="row d-flex flex-row justify-content-between">
-                <label style={{marginRight:"10px"}}>검사 접수 환자</label>
+                <label style={{marginRight:"10px"}}><i class="bi bi-droplet mr-2"/>검사 접수 환자</label>
                 <div>
                 <button style={{marginRight:"10px"}} className="btn btn-outline-dark btn-sm">검사취소</button>
                 <button style={{marginRight:"10px"}} className="btn btn-outline-dark btn-sm">수정</button>
@@ -42,7 +45,7 @@ function TestReception(props){
                       if(listtype==="all"||item.state===listtype){
                      return(
                                     <div key={index}>
-                                            <Item item ={item} property={property} order={index}/>
+                                            <Item onClick={click} item ={item} property={property} order={index}/>
                                     </div>                         
                  )
                 }})} 

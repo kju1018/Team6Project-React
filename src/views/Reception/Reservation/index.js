@@ -4,14 +4,17 @@ import { useEffect, useState } from "react";
 
 function Reservation(props){
     const property = ["id","name","rstate","reservationtype","registerday"]
-    const [selectDate,setSelectDate] = useState("");
+    const [selectDate,setSelectDate] = useState(new Date().toLocaleDateString());
     useEffect(()=>{
         console.log("adsf")
         console.log(selectDate);
     },[selectDate])
+    const click = (item) =>{
+        console.log(item)
+    }
     return(
     <div className="d-flex flex-column " style={{height:"624px"}}>
-        예약
+        <div><i class="bi bi-calendar-event mr-2"/>예약</div>
         <Calendar setSelectDate = {(date)=>{setSelectDate(date)}}/>
 
         <div className="d-flex justify-content-end" style={{marginTop:"10px"}}>
@@ -38,7 +41,7 @@ function Reservation(props){
 
                         return(
                             <div key={index}>
-                                    <Item item ={item} property={property} order={index}/>
+                                    <Item onClick={click} item ={item} property={property} order={index}/>
                             </div>                         
          )
                      }

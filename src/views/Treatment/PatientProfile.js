@@ -5,10 +5,9 @@ function PatientProfile(props) {
   const selectedPatient = useSelector((state) => {
     return state.patientReducer.patient;
   });
-
+  
   return (
     <>
-      <div className="d-flex align-items-center" style={{height:"50px"}}>환자 프로필</div>
       <div className="overflow-auto" style={{height:"calc(100% - 50px)", overflowX:"auto"}}>
         <div className="d-flex ml-0 mr-0" style={{height:"33.3%", minWidth:"200px"}}>
           <div className="col d-flex flex-column justify-content-center">

@@ -8,7 +8,7 @@ function ReceptionList(props) {
 
   return (
     <>
-      <ButtonHeader headertitle="접수 리스트" buttonname="환자 검색"/>
+      <ButtonHeader headertitle="접수 리스트" iclassName="bi bi-list-task mr-1" buttonname="환자 검색"/>
       <Tab.Container id="left-tabs-example" defaultActiveKey="wait">
         <Nav fill variant="tabs" className="flex-column mb-2">
           <Row className="ml-0 mr-0">
@@ -30,33 +30,6 @@ function ReceptionList(props) {
 }
 
 export default ReceptionList;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-
+import { useEffect, useRef, useState } from "react";
+import style from "./item.module.css"
 
 function Item(props) {
   const item = props.item
@@ -21,16 +21,16 @@ function Item(props) {
         itemarray.push(item[property[i]]);
        }
     }
-   
-
+  
       setItemArray(itemarray);
 },[])
   
   return (
-    <div className="ml-2 mr-2 mb-2 pt-2 pb-2 d-flex align-items-center" style={{boxShadow: "rgb(0 0 0 / 8%) 0px 0px 5px 2px",borderRadius:"15px",fontSize: "13px"}}>
+    
+    <div tabindex="0" onClick={(event)=>{if(props.onClick)props.onClick(item); }} className="ml-2 mr-2 mb-2 pt-2 pb-2 d-flex align-items-center" style={{ boxShadow: "rgb(0 0 0 / 8%) 0px 0px 5px 2px",borderRadius:"15px",fontSize: "13px" }}>
     {itemArray.map((item,index)=>{
       return(
-        <div className={index===1?"col pl-0 pr-0 text-center":"col pl-0 pr-0 text-center border-left"}>
+        <div key={index}  className={index===0?"col pl-0 pr-0 text-center":"col pl-0 pr-0 text-center border-left"}>
           {item}
         </div>
       )
@@ -40,3 +40,7 @@ function Item(props) {
 }
 
 export default Item;
+
+
+
+
