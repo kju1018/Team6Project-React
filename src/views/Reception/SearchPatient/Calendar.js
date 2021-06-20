@@ -1,12 +1,10 @@
-import { Carousel } from "react-bootstrap";
+import { Carousel, Pagination } from "react-bootstrap";
 import React, { useEffect, useState } from "react";
-
 //현재 DayIndex 구하기
 const CalcDayIndex =(month) =>{
-    let lastDay = null;
-    // 해당 달의 마지막 날
-    lastDay = new Date(2021,month,0).getDate();
-    const DayIndex = lastDay%7
+    let today = new Date().getDate();
+    
+    const DayIndex = (today%7) -1
     return DayIndex;
 }
 
@@ -44,6 +42,8 @@ function Calendar(props){
     const [index, setIndex] = useState(0);
     // 현재 슬라이드 배열
     const [CItem, setCItem] = useState(()=>(CalcCitem(month)));
+    // 해당 날짜에 따른 시간 상태
+    const [times, setTimes] = useState(Array.from({length:12},()=>0))
 
     //일자 선택 함수
     const onChangeDaySelect =(index,e) =>{
@@ -59,6 +59,7 @@ function Calendar(props){
   //현재 날짜의 슬라이드로 이동 초기화
   useEffect(()=>{
     const today = new Date().getDate()
+    console.log(today)
     setIndex(parseInt(today/7));
   },[])
 
@@ -81,6 +82,8 @@ function Calendar(props){
             setMonth(newMonth)
         }
     }
+
+
     return(
         <div className="container">
             <div className="d-flex flex-row" style={{margin:"10px 0px"}}>
@@ -96,7 +99,7 @@ function Calendar(props){
                                     <div className={index<4?"row d-flex justify-content-between":"row d-flex"}  style={{padding:"0px 130px"}}>
                                 
                                  {citem.map((day,index)=>{return(
-                                       <button onClick={()=>{onChangeDaySelect(index)}}  className="border " style={{backgroundColor:index===dayIndex?"red":"white", borderRadius:"15px",marginLeft:"5px", width:"30px", textAlign:"center"}}>
+                                       <button onClick={()=>{onChangeDaySelect(index)}}  className="border " style={{backgroundColor:index===dayIndex?"green":"white", borderRadius:"15px",marginLeft:"5px", width:"50px", textAlign:"center"}}>
                                         {day}<br/>
                                        {week[new Date("2021-"+month+"-"+day).getDay()]}
                                         </button>       
@@ -109,6 +112,21 @@ function Calendar(props){
                 }
  
             </Carousel>
+            {props.dateOnly?"":
+            
+            <div className={"row d-felx justify-content-between"}>
+                {times.map((time,index)=>{
+                    {console.log("asdf")}
+                    return(
+                    
+                    <button>{`${index}~${index+1}`}</button>
+                )
+                    
+                })}
+            </div>
+            
+            
+            }
         </div>
 
         
