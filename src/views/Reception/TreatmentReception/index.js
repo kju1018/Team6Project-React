@@ -10,10 +10,11 @@ function TreatmentReception(props){
         console.log(props.patientList)
         
     },[props.patientList])
-    const property = ["id","name","room","state","registerday"]
     const handleChange = (event) => {
         setListtype(event.target.value);
       }
+    const property = ["id","name","room","state","registerday"]
+   
     return(
         <div className="d-flex flex-column" style={{height:"520px"}}>
             <div className="d-flex justify-content-between">
@@ -42,12 +43,16 @@ function TreatmentReception(props){
             </div>
             <div className="overflow-auto  justify-content-center" style={{height:"394px"}} >
                
-                 {props.patientList&&props.patientList.map((item,index)=>{return(
-                                    <div key={index}>
-                                            <Item item ={item} property={property} order={index}/>
-                                    </div>
-                                    
-                 )})} 
+                 {props.patientList&&props.patientList.map((item,index)=>{
+                     if(listtype==="all"||item.state===listtype){
+                        return(
+                            <div key={index}>
+                                    <Item item ={item} property={property} order={index}/>
+                            </div>
+                            
+                             )
+                     }
+                     })} 
             </div>
             </div>
         </div>

@@ -6,8 +6,8 @@ import { useEffect, useState } from "react";
 const InitPatientList = () =>{
     let patientlist=[];
     for(var i=1; i<12; i++){
-        const TR = {id:i, name:"name"+i, sex:i%2,age:i,ssn:"950328-1111111",state:"대기중",
-        phone:"010-2496-7236",registerday:new Date().toLocaleDateString(), 
+        const TR = {id:i, name:"name"+i, sex:i%2,age:i,ssn:"950328-1111111",rstate:i%2?"대기":"접수완료",state:i%2?"wait":"complete",
+        phone:"010-2496-7236",registerday:new Date().toLocaleDateString(), reservationtype:i%2?"진료":"검사",
         lasttreatment:new Date().toLocaleDateString(),room:"room"+i,ssn1:new Date().toLocaleDateString()  } 
         patientlist.push(TR);
     }
