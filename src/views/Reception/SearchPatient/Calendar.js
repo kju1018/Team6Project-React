@@ -39,28 +39,32 @@ function Calendar(props){
     // 현재 day index 상태
     const [dayIndex, setDayIndex] = useState(()=>(CalcDayIndex(new Date().getMonth()+1)))
     // 현재 슬라이드 인덱스
-    const [index, setIndex] = useState(0);
+    const [slideIndex, setSlideIndex] = useState(0);
     // 현재 슬라이드 배열
     const [CItem, setCItem] = useState(()=>(CalcCitem(month)));
-    // 해당 날짜에 따른 시간 상태
-    const [times, setTimes] = useState(Array.from({length:12},()=>0))
 
     //일자 선택 함수
     const onChangeDaySelect =(index,e) =>{
         setDayIndex(index);
+      
     }
+    // 최종 결과 date set하는곳
+    useEffect(()=>{
+        const day = CItem[slideIndex][dayIndex];
+        const selectDate = new Date(new Date().getFullYear()+"-"+month+"-"+day)
+        props.setSelectDate(selectDate) 
+    },[dayIndex,slideIndex,month])
 
     // 현재 슬라이드 이동 함수
   const handleSelect = (selectedIndex,e) => {
-      console.log(selectedIndex)
-    setIndex(selectedIndex);
+    setSlideIndex(selectedIndex);
   };
 
   //현재 날짜의 슬라이드로 이동 초기화
   useEffect(()=>{
     const today = new Date().getDate()
     console.log(today)
-    setIndex(parseInt(today/7));
+    setSlideIndex(parseInt(today/7));
   },[])
 
   //달이 바뀔때 해당 달의 날짜배열 상태 변경
@@ -87,11 +91,11 @@ function Calendar(props){
     return(
         <div className="container">
             <div className="d-flex flex-row" style={{margin:"10px 0px"}}>
-                <button onClick={()=>{ChangeMonth(false)}}>←</button>
-                <label style={{fontWeight:"bold", fontSize:"1.3rem", margin:"0px 10px"}}>{month}월</label>
-                <button onClick={()=>{ChangeMonth(true)}}>→</button>
+                <button className="carousel-control-prev-icon bg-info" style={{border:"none"}} onClick={()=>{ChangeMonth(false)}}/>
+                <label style={{fontWeight:"bold", margin:"0px 10px"}}>{month}월</label>
+                <button className="carousel-control-next-icon  bg-info "style={{border:"none"}} onClick={()=>{ChangeMonth(true)}}/>
             </div>
-            <Carousel interval={null}  variant="dark"  prevIcon = {<span className="carousel-control-prev-icon bg-dark" />} nextIcon={<span className="carousel-control-next-icon bg-dark " />} indicators={false} activeIndex={index} onSelect={handleSelect}>
+            <Carousel interval={null}  variant="dark"  prevIcon = {<span className="carousel-control-prev-icon bg-info" />} nextIcon={<span className="carousel-control-next-icon  bg-info " />} indicators={false} activeIndex={slideIndex} onSelect={handleSelect}>
                 {
                     CItem.map((citem,index)=>{
                         return(
@@ -99,9 +103,9 @@ function Calendar(props){
                                     <div className={index<4?"row d-flex justify-content-between":"row d-flex"}  style={{padding:"0px 130px"}}>
                                 
                                  {citem.map((day,index)=>{return(
-                                       <button onClick={()=>{onChangeDaySelect(index)}}  className="border " style={{backgroundColor:index===dayIndex?"green":"white", borderRadius:"15px",marginLeft:"5px", width:"50px", textAlign:"center"}}>
+                                       <button onClick={()=>{onChangeDaySelect(index)}} style={{backgroundColor:dayIndex!==index?"white":"#F6FCFA",border:dayIndex!==index?"none":"2px solid skyblue", borderRadius:"15px",marginLeft:"5px", width:"50px", textAlign:"center"}}>
                                         {day}<br/>
-                                       {week[new Date("2021-"+month+"-"+day).getDay()]}
+                                       {week[new Date(new Date().getFullYear()+"-"+month+"-"+day).getDay()]}
                                         </button>       
                                 )
                                 })}
@@ -112,21 +116,7 @@ function Calendar(props){
                 }
  
             </Carousel>
-            {props.dateOnly?"":
             
-            <div className={"row d-felx justify-content-between"}>
-                {times.map((time,index)=>{
-                    {console.log("asdf")}
-                    return(
-                    
-                    <button>{`${index}~${index+1}`}</button>
-                )
-                    
-                })}
-            </div>
-            
-            
-            }
         </div>
 
         
