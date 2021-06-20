@@ -13,12 +13,15 @@ function TreatmentReception(props){
     const handleChange = (event) => {
         setListtype(event.target.value);
       }
+      const click = (item) =>{
+        console.log(item)
+    }
     const property = ["id","name","room","state","registerday"]
    
     return(
         <div className="d-flex flex-column" style={{height:"520px"}}>
             <div className="d-flex justify-content-between">
-                    <label style={{marginRight:"10px"}}>진료 접수 환자</label>
+                    <label style={{marginRight:"10px"}}><i class="bi bi-clipboard-plus mr-2"/>진료 접수 환자</label>
                     <button style={{marginRight:"10px"}} className="btn btn-outline-dark btn-sm">접수취소</button>
             </div>
             <div>
@@ -47,7 +50,7 @@ function TreatmentReception(props){
                      if(listtype==="all"||item.state===listtype){
                         return(
                             <div key={index}>
-                                    <Item item ={item} property={property} order={index}/>
+                                    <Item onClick={click}  item ={item} property={property} order={index}/>
                             </div>
                             
                              )

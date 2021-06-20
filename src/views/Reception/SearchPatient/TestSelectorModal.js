@@ -27,7 +27,7 @@ function TestSelectorModal(props){
                         {testList.map((item,index)=>{return(
                                 <div>
                                 <input type="checkbox" onChange={(e)=>{handleTestList(e,index)}} value={testList[index].ischeck}/>
-                                {item.testname}
+                                <label style={{marginLeft:"5px"}}>{item.testname}</label>
                                 </div>
                             )})
                         }
