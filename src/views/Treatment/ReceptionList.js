@@ -4,11 +4,24 @@ import { Button, ButtonGroup, Nav, Row, Tab, TabContent, Tabs, ToggleButton } fr
 import ButtonHeader from "./components/ButtonHeader";
 import "views/style/patientWaiting.css";
 import ReceptionContents from "./components/ReceptionContents";
+import SearchPatient from "./components/SearchPatient";
+import { useDispatch } from "react-redux";
+import { createSetPatient } from "redux/patient-reducer";
 function ReceptionList(props) {
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
+  const dispatch = useDispatch();
+  const loadPatient = (patient) => {
+    dispatch(createSetPatient(patient));
+  }
+
 
   return (
     <>
-      <ButtonHeader headertitle="접수 리스트" iclassName="bi bi-list-task mr-1" buttonname="환자 검색"/>
+      <ButtonHeader headertitle="접수 리스트" iclassName="bi bi-list-task mr-1" buttonname="환자 검색" onclick={handleShow}/>
       <Tab.Container id="left-tabs-example" defaultActiveKey="wait">
         <Nav fill variant="tabs" className="flex-column mb-2">
           <Row className="ml-0 mr-0">
@@ -25,6 +38,8 @@ function ReceptionList(props) {
           <ReceptionContents eventKey="complete" type="완료"/>
         </Tab.Content>
       </Tab.Container>
+
+      <SearchPatient show={show} handleClose={handleClose} loadPatient={loadPatient}></SearchPatient>
     </>
   );
 }
