@@ -52,7 +52,8 @@ function Calendar(props){
     useEffect(()=>{
         const day = CItem[slideIndex][dayIndex];
         const selectDate = new Date(new Date().getFullYear()+"-"+month+"-"+day)
-        props.setSelectDate(selectDate) 
+        props.setSelectDate(selectDate.toLocaleDateString()) 
+
     },[dayIndex,slideIndex,month])
 
     // 현재 슬라이드 이동 함수
