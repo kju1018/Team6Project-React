@@ -35,6 +35,7 @@ function Reservation(props){
                
                  {props.patientList&&props.patientList.map((item,index)=>{
                      if(item.registerday ===selectDate){
+
                         return(
                             <div key={index}>
                                     <Item item ={item} property={property} order={index}/>
