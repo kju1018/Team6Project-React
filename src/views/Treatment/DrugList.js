@@ -1,20 +1,28 @@
 
+import { useSelector } from "react-redux";
+import Item from "views/components/Item";
 import ButtonHeader from "views/Treatment/components/ButtonHeader";
+import { getTreatemntDrugs } from "./data/Data";
 
 
 function DrugList(props) {
+
+  const selectedTreatment = useSelector((state) => {
+    return state.treatmentReducer.treatment;
+  })
+
+  const drugs = getTreatemntDrugs(selectedTreatment.treatmentid);
+
   return (
     <>
     <ButtonHeader headertitle="처방약 목록" iclassName="bi bi-bag-plus mr-1" buttonname="검색"/>
     <div className="overflow-auto p-3" style={{height:"calc(100% - 50px"}}>
-      <div className="pt-2 pb-2 mb-2 d-flex" style={{boxShadow:"rgb(0 0 0 / 8%) 0px 0px 5px 2px", borderRadius:"15px", fontSize:"13px"}}>
-        <div className="col-3 pr-0 pl-0 text-center border-left">NIZA15</div>
-        <div className="col-5 pr-0 pl-0 text-center border-left">AXID Cap 150mg</div>
-        <div className="col-3 pr-0 pl-0 text-center border-left">내복약</div>
-        <div className="col-1 pr-0 pl-0 text-center border-left">C</div>
-      </div>
-        
-      </div>
+      {drugs.map (drug => {
+          return (
+            <Item key={drug.drugid} item={drug}></Item>
+          );
+      })}
+    </div>
     </>
   );
 }

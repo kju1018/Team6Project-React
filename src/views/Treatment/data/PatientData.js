@@ -25,3 +25,13 @@ export function getPatients(state) {
   const patients = data.filter(patient => patient.state === state);
   return patients;
 }
+
+
+export function getAllPatients(state) {
+  return data;
+}
+
+export function getSearchPatients(searchName) {
+  const patients = data.filter(patient => patient.patientname.includes(searchName))
+  return patients;
+}
