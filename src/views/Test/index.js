@@ -3,7 +3,6 @@ import Banner from "./Banner";
 import Chart from "./Chart";
 import PeriodSearch from "./PeriodSearch";
 import TestGroup from "./TestGroup";
-import TestHeader from "./TestHeader";
 import TestResult from "./TestResult";
 import TestWaitingList from "./TestWaitingList";
 
@@ -67,7 +66,16 @@ function TestPage(props) {
           <div className="text-right"><button className="btn btn-sm btn-dark mb-2 mt-4" onClick={handleShow}>검사 이력 조회 및 결과 입력</button></div>
           <TestResult show={show} handleClose={handleClose} />
           <div>
-            <TestHeader/>
+          <div  className="pt-2 pb-2 mb-1 d-flex align-items-center" style={{fontSize:"13px"}}>
+            <div className="col p-0 text-center">순서</div>
+            <div className="col p-0 text-center" style={{borderLeft:"solid 1px gray"}}>번호</div>
+            <div className="col p-0 text-center" style={{borderLeft:"solid 1px gray"}}>이름</div>
+            <div className="col p-0 text-center" style={{borderLeft:"solid 1px gray"}}>성별/나이</div>
+            <div className="col p-0 text-center" style={{borderLeft:"solid 1px gray"}}>생년월일</div>
+            <div className="col p-0 text-center" style={{borderLeft:"solid 1px gray"}}>검사시간</div>
+            <div className="col p-0 text-center" style={{borderLeft:"solid 1px gray"}}>상태</div>
+            <div className="col p-0 text-center" style={{borderLeft:"solid 1px gray"}}>입력상태</div>
+          </div>
             <TestWaitingList/>
           </div>
         </div>

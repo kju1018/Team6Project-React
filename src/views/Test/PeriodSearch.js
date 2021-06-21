@@ -66,10 +66,10 @@ function PeriodSearch() {
             <div className="col-9" style={{backgroundColor: "#EDECEA"}}>
               <div className="mt-3">
                 <button type="button" className="btn btn-dark btn-sm mr-1" value="당일" onClick={ handleBtnClicked }>당일</button>
-                <button type="button" className="btn btn-dark btn-sm mr-1" value="3일" onClick={ handleBtnClicked }>3일</button>
-                <button type="button" className="btn btn-dark btn-sm mr-1" value="1주일" onClick={ handleBtnClicked }>1주일</button>
-                <button type="button" className="btn btn-dark btn-sm mr-1" value="1개월" onClick={ handleBtnClicked }>1개월</button>
-                <button type="button" className="btn btn-dark btn-sm mr-1" value="3개월" onClick={ handleBtnClicked }>3개월</button>
+                <button type="button" className="btn btn-dark btn-sm mr-1" value="3일" onClick={ handleBtnClicked }>-3일</button>
+                <button type="button" className="btn btn-dark btn-sm mr-1" value="1주일" onClick={ handleBtnClicked }>-1주일</button>
+                <button type="button" className="btn btn-dark btn-sm mr-1" value="1개월" onClick={ handleBtnClicked }>-1개월</button>
+                <button type="button" className="btn btn-dark btn-sm mr-1" value="3개월" onClick={ handleBtnClicked }>-3개월</button>
               </div>
               <div className="row ml-1 mt-3 mb-3">
               <div className="row ml-0">
