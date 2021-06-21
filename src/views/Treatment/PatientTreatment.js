@@ -14,10 +14,10 @@ function PatientTreatment(props) {
 
   const selectedTreatment = useSelector((state) => {
     return state.treatmentReducer.treatment;
-  })
+  });
 
   const patientTreatments = getTreatments(selectedPatient.patientid);
-  console.log(patientTreatments);
+
   const selectTreatment = (treatment) => {
     dispatch(createSetTreatment(treatment));
   }
@@ -35,9 +35,7 @@ function PatientTreatment(props) {
       <div className="overflow-auto p-3" style={{height:"calc(100% - 50px)"}}>
         {patientTreatments.map (treatment => {
         return (
-          <div key={treatment.treatmentid} onClick={() => selectTreatment(treatment)} style={{cursor:"pointer"}}>
-            <Item item={treatment} property={["treatmentdate"]}></Item>
-          </div>
+          <Item key={treatment.treatmentid} item={treatment} property={["treatmentdate"]} onClick={selectTreatment}></Item>
         );
         })}
       </div>
