@@ -5,41 +5,35 @@ import TestCode from "./TestCode";
 
 const intitState = () =>{
   let states= []
-  for(var i=0; i<6;i++) {
-    state.push({label:"success", state:"대기중", code:"묶음코드", ischeck:false})
+  for(var i=0; i<6; i++) {
+    states.push({label:"success", state:"대기중", code:"묶음코드", ischeck:false})
   }
-  return state;
+  return states;
 }
 function TestGroup(props) {
   useEffect(()=>{
-    console.log("hi1")
-    console.log(props.state)
+    // console.log("hi1")
+    // console.log(props.state)
   },[props.state])
   const [state, setState] = useState(intitState);
-  const changeHandler = (event, arrindex) => { 
-    const modify = checkedInputs.map((item,index)=>{
-      if(index===arrindex){
-        item = event.target.checked;
-      }
-      return item;
-    })
-    setCheckedInputs(modify)
+  
+  const changeHandler = (e, stateindex) => { 
+    
   }
 
-  
    useEffect(() => {
-      let tmp = [object,object,object,object,object,object];
+      let tmp = intitState;
       let item;
-        for(var i=0; i<checkedInputs.length; i++){
-            if(checkedInputs[i]){
+        for(var i=0; i<state.length; i++){
+            if(state[i]){
               //console.log(i)
-              if(object.state==="진행중"){
+              if(state.state==="진행중"){
                 item = {
                   label: 'primary',
                   state: '진행중'
                 };
               }
-              else if(object.state==="대기중"){
+              else if(state.state==="대기중"){
                 item =  {
                   label: 'success',
                   state: '대기중'
@@ -53,13 +47,13 @@ function TestGroup(props) {
               }
             tmp[i] = item;         
         } else {
-          tmp[i] = change[i];
+          tmp[i] = state[i];
         }
       }
-      setChange(tmp)
+      setState(tmp)
       
      
-  },[object.state])
+  },[state.state])
   return (
     <div>
     <Accordion defaultActiveKey="0">
@@ -67,7 +61,7 @@ function TestGroup(props) {
       <Card>
       <Card.Header>
         <Accordion.Toggle as={Button} variant="link" eventKey={index.toString()}>
-          <input type="checkbox" onChange={e => {changeHandler(e,index)}} value={state[index].ischeck}/>{state[index].code} <Badge variant={state[index].label}>{state[index].code}</Badge>
+          <input type="checkbox" onChange={e => {changeHandler(e, index)}} value={state[index].ischeck}/>{state[index].code} <Badge variant={state[index].label}>{state[index].code}</Badge>
         </Accordion.Toggle>
       </Card.Header>
       <Accordion.Collapse eventKey={index.toString()}>

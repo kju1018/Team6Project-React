@@ -2,7 +2,6 @@ import { Button, Col, Modal, Row } from "react-bootstrap";
 
 function TestResult(props) {
   return (
-    <>
       <Modal centered size="lg" show={props.show} onHide={props.handleClose} animation={false}>
         <Modal.Header closeButton>
           <Modal.Title>검사결과</Modal.Title>
@@ -35,7 +34,7 @@ function TestResult(props) {
           </Row>
         </Modal.Body>
       </Modal>
-    </>
+    
   );
 }
 export default TestResult;
