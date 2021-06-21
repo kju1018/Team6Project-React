@@ -9,7 +9,7 @@ function Login() { //컴포넌트 이름
   const handleShow = () => setShow(true);
   
   return (
-    <div className="ml-4 mt-4">
+    <div style={{backgroundColor:"#CDDFDB"}}>
       <div><img src="logo.png" className="mt-3 ml-4" /></div>
       <div>
       <div className="row ml-0 mr-0 mt-2">

@@ -25,7 +25,7 @@ function SearchPatient(props) {
 
   return (
     <>
-      <Modal show={props.show} onHide={props.handleClose} >
+      <Modal show={props.show} onHide={props.handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>환자 검색</Modal.Title>
         </Modal.Header>

@@ -45,3 +45,12 @@ export function getTests(treatmentid) {
   return tests;
 }
 
+export function getPackageTests(treatmentid) {
+  const tests = testData.filter(test => test.treatmentid === treatmentid);
+  const dupArr = [1, 2, 3, 1, 2];
+
+const set = new Set(dupArr);
+
+const uniqueArr = [...set];
+}
+

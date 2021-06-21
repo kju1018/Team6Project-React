@@ -13,7 +13,7 @@ function DiagnosisList(props) {
   const diagnoses = getDiagnoses(selectedTreatment.treatmentid);
   return (
     <>
-    <ButtonHeader headertitle="상병 목록" iclassName="bi bi-check2-square mr-1" buttonname="검색"/>
+    <ButtonHeader headertitle="상병 목록" iclassName="bi bi-check2-square" color="#D27E7B" btnicon="bi bi-plus-square" buttonname="추가"/>
       <div className="overflow-auto p-3" style={{height:"calc(100% - 50px"}}>
       {diagnoses.map (diagnosis => {
           return (

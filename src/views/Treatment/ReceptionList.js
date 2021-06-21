@@ -15,15 +15,16 @@ function ReceptionList(props) {
 
   const dispatch = useDispatch();
   const loadPatient = (patient) => {
-    dispatch(createSetPatient(patient));
+    // dispatch(createSetPatient(patient));
+
   }
 
 
   return (
     <>
-      <ButtonHeader headertitle="접수 리스트" iclassName="bi bi-list-task mr-1" buttonname="환자 검색" onclick={handleShow}/>
+      <ButtonHeader headertitle="접수 리스트" iclassName="bi bi-list-task " color="#9ACAA1" buttonname="환자 검색" onclick={handleShow}/>
       <Tab.Container id="left-tabs-example" defaultActiveKey="wait">
-        <Nav fill variant="tabs" className="flex-column mb-2">
+        <Nav fill variant="tabs" className="flex-column">
           <Row className="ml-0 mr-0">
             <Nav.Item>
               <Nav.Link eventKey="wait">대기</Nav.Link>
@@ -33,7 +34,7 @@ function ReceptionList(props) {
             </Nav.Item>
           </Row>
         </Nav>
-        <Tab.Content className={`overflow-auto`} style={{height:"calc(100% - 90px)"}}>
+        <Tab.Content className="overflow-auto pt-2" style={{height:"calc(100% - 95px)"}}>
           <ReceptionContents eventKey="wait" type="대기"/>
           <ReceptionContents eventKey="complete" type="완료"/>
         </Tab.Content>

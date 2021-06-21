@@ -15,7 +15,7 @@ function DrugList(props) {
 
   return (
     <>
-    <ButtonHeader headertitle="처방약 목록" iclassName="bi bi-bag-plus mr-1" buttonname="검색"/>
+    <ButtonHeader headertitle="처방약 목록" iclassName="bi bi-bag-plus" color="#FFCD82" buttonname="검색"/>
     <div className="overflow-auto p-3" style={{height:"calc(100% - 50px"}}>
       {drugs.map (drug => {
           return (
