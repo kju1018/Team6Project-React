@@ -19,7 +19,7 @@ function TreatmentReception(props){
     const property = ["id","name","room","state","registerday"]
    
     return(
-        <div className="d-flex flex-column" style={{height:"520px"}}>
+        <div className="d-flex flex-column" style={{height:"420px"}}>
             <div className="d-flex justify-content-between">
                     <label style={{marginRight:"10px"}}><i class="bi bi-clipboard-plus mr-2"/>진료 접수 환자</label>
                     <button style={{marginRight:"10px"}} className="btn btn-outline-dark btn-sm">접수취소</button>
@@ -44,7 +44,7 @@ function TreatmentReception(props){
         
         
             </div>
-            <div className="overflow-auto  justify-content-center" style={{height:"394px"}} >
+            <div className="overflow-auto  justify-content-center" style={{height:"294px"}} >
                
                  {props.patientList&&props.patientList.map((item,index)=>{
                      if(listtype==="all"||item.state===listtype){
