@@ -13,7 +13,7 @@ function Reservation(props){
         console.log(item)
     }
     return(
-    <div className="d-flex flex-column " style={{height:"624px"}}>
+    <div className="d-flex flex-column " style={{height:"524px"}}>
         <div><i class="bi bi-calendar-event mr-2"/>예약</div>
         <Calendar setSelectDate = {(date)=>{setSelectDate(date)}}/>
 
@@ -34,7 +34,7 @@ function Reservation(props){
         
         
             </div>
-            <div className="overflow-auto  justify-content-center" style={{height:"400px"}} >
+            <div className="overflow-auto  justify-content-center" style={{height:"350px"}} >
                
                  {props.patientList&&props.patientList.map((item,index)=>{
                      if(item.registerday ===selectDate){

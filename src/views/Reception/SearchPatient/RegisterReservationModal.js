@@ -55,8 +55,9 @@ function RegisterReservationModal(props){
 
     //초기화 함수
     useEffect(()=>{
-        
-    },[]) 
+        console.log("saef")
+        console.log(props.patient)
+    },[props.patient]) 
     useEffect(()=>{
     },[startDate])
     const getReservationDate= () =>{
