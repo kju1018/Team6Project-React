@@ -99,7 +99,7 @@ function RegisterReservationModal(props){
                 </div>
             </div>
             <div className="row" style={{height:"80%"}}>
-                <div className="col-6 text-center" style={{margin:"10px", height:"100%"}} >
+                <div className="col-6 text-center" style={{margin:"10px",marginTop:"5%", height:"100%"}} >
                     <ReactDatePicker 
                     selected={startDate}
                     onChange={(date) => setStartDate(date)}
@@ -129,9 +129,9 @@ function RegisterReservationModal(props){
                     <div className="col border" style={{overflow:"auto" ,borderRadius:"15px",  marginTop:"15px", height:"70%"}}> 
                         {!reservationType&&
                             testList.map((item,index)=>{return(
-                                <div>
+                                <div >
                                 <input type="checkbox" onChange={(e)=>{handleTestList(e,index)}} value={testList[index].ischeck}/>
-                                {item.testname}
+                                <label style={{marginLeft:"5px"}}>{item.testname}</label>
                                 </div>
                             )})
                         }

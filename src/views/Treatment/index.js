@@ -2,14 +2,15 @@ import DiagnosisList from "./DignosisList";
 import DrugList from "./DrugList";
 import PatientProfile from "./PatientProfile";
 import ReceptionList from "./ReceptionList";
-import PatientTreatment from "./PtientTreatment";
+import PatientTreatment from "./PatientTreatment";
 import TestList from "./TestList";
 import TreatmentMemo from "./TreatmentMemo";
 import TestResult from "./TestResult";
 
 
 function Treatment(props) {
-  
+  //patient
+  //oclick()
   return (
     <div className="vh-100 row ml-0 mr-0">
       <div className="col-4 h-100">
@@ -20,6 +21,7 @@ function Treatment(props) {
         </div>
 
         <div className="p-3" style={{height:"35vh"}}>
+          <div className="d-flex align-items-center" style={{height:"50px"}}><i className="bi bi-person-square mr-1"></i>환자 프로필</div>
           <PatientProfile/>
         </div>
 
