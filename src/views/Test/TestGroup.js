@@ -2,17 +2,20 @@ import { useEffect, useState } from "react";
 import { Badge, Button } from "react-bootstrap";
 import { Accordion, Card } from "react-bootstrap";
 import TestCode from "./TestCode";
-function TestGroup(props) {
-  let object = {
-    label: props.state.label,
-    state: props.state.state
+
+const intitState = () =>{
+  let states= []
+  for(var i=0; i<6;i++) {
+    state.push({label:"success", state:"대기중", code:"묶음코드", ischeck:false})
   }
+  return state;
+}
+function TestGroup(props) {
   useEffect(()=>{
     console.log("hi1")
     console.log(props.state)
   },[props.state])
-  const [checkedInputs, setCheckedInputs] = useState([false,false,false,false,false,false]);
-  const [arr, setArr] = useState(["묶음코드","묶음코드","묶음코드","묶음코드","묶음코드","묶음코드"])
+  const [state, setState] = useState(intitState);
   const changeHandler = (event, arrindex) => { 
     const modify = checkedInputs.map((item,index)=>{
       if(index===arrindex){
@@ -24,8 +27,7 @@ function TestGroup(props) {
   }
 
   
-  const [change, setChange] = useState([object,object,object,object,object,object]);
-  useEffect(() => {
+   useEffect(() => {
       let tmp = [object,object,object,object,object,object];
       let item;
         for(var i=0; i<checkedInputs.length; i++){
@@ -61,11 +63,11 @@ function TestGroup(props) {
   return (
     <div>
     <Accordion defaultActiveKey="0">
-    {arr.map((item,index)=>{return(
+    {state.map((item,index)=>{return(
       <Card>
       <Card.Header>
         <Accordion.Toggle as={Button} variant="link" eventKey={index.toString()}>
-          <input type="checkbox" onChange={e => {changeHandler(e,index)}} value={checkedInputs[index]}/>{item} <Badge variant={change[index].label}>{change[index].state}</Badge>
+          <input type="checkbox" onChange={e => {changeHandler(e,index)}} value={state[index].ischeck}/>{state[index].code} <Badge variant={state[index].label}>{state[index].code}</Badge>
         </Accordion.Toggle>
       </Card.Header>
       <Accordion.Collapse eventKey={index.toString()}>
