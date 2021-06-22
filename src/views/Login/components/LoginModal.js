@@ -14,7 +14,7 @@ function LoginModal(props) {
           <Col md={6} className="mt-auto mb-5 pl-0">
             <Form>
               <Form.Group controlId="formBasicEmail">
-                <Form.Label>Email address</Form.Label>
+                <Form.Label>User ID</Form.Label>
                 <Form.Control type="email" placeholder="Enter email" />
                 <Form.Text className="text-muted">
                   We'll never share your email with anyone else.
@@ -31,7 +31,7 @@ function LoginModal(props) {
         </Modal.Body>
         <Modal.Footer>
           <Button variant="dark" size="lg" block onClick={props.handleClose}>
-            Login
+            <i className="bi bi-lock mr-1"></i>Login
           </Button>
         </Modal.Footer>
       </Modal>
