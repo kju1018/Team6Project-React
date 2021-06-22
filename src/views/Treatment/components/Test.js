@@ -7,7 +7,7 @@ function Test(props) {
     <Card>
       <Card.Header>
         <Accordion.Toggle block as={Button} size="sm" variant="outline-dark" eventKey="0">
-          <span style={{fontSize:"14px"}}>ss</span>Click me!
+          <span style={{fontSize:"14px"}}></span>Click me!
         </Accordion.Toggle>
       </Card.Header>
       <Accordion.Collapse eventKey="0">
