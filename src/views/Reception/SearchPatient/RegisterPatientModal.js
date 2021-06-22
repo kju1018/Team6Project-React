@@ -5,7 +5,6 @@ function RegisterPatientModal(props){
     return(
         <>
         
-        <PatientProfile/>
         <div className="d-flex justify-content-end mt-2">
             <button className="btn btn-outline-dark btn-sm">등록</button>
         </div>

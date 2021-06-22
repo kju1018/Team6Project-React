@@ -6,12 +6,19 @@ import RegisterPatientModal from "./RegisterPatientModal";
 import RegisterReservationModal from "./RegisterReservationModal";
 import PatientProfile from "views/Treatment/PatientProfile";
 function SearchPatient(props){
-    const patient = props.patientList[0]
     const [searchModalshow, setSearchModalshow] = useState(false);
     const [reservationRegisterhModalshow, setreservationRegisterhModalshow] = useState(false);
     const [patientRegisterhModalshow, setPatientRegisterhModalshow] = useState(false);
     const [testSelectorModalshow, setTestSelectorModalshow] = useState(false);
-    let SelectedPatient;
+    let SelectedPatient; 
+    const [patient, setPatient] = useState({
+      patientname:"환자이름", 
+      ssn1:"-", 
+      ssn2:"-", 
+      sex: "성별",
+      age:"-",
+      phonenumber: "-", 
+    });
     
     // 검색창에 해당 환자 선택했을때 - 변수저장 및 모달창 닫기
     const setSelectedPatient = (Patient)=>{
@@ -32,7 +39,7 @@ function SearchPatient(props){
    
         </div>
         
-        <PatientProfile/>
+        <PatientProfile selectedPatient={patient}/>
         
         
       <Modal backdrop="static" size="lg" show={searchModalshow}  onHide={()=>{setSearchModalshow(false)}}>
