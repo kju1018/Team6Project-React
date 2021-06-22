@@ -1,4 +1,5 @@
 
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import Item from "views/components/Item";
 import ButtonHeader from "views/Treatment/components/ButtonHeader";
@@ -6,12 +7,11 @@ import { getTreatemntDrugs } from "./data/Data";
 
 
 function DrugList(props) {
-
-  const selectedTreatment = useSelector((state) => {
-    return state.treatmentReducer.treatment;
-  })
-
-  const drugs = getTreatemntDrugs(selectedTreatment.treatmentid);
+  const [drugs, setDrugs] = useState([]);
+  useEffect(() => {
+    setDrugs(getTreatemntDrugs(props.selectedTreatment.treatmentid));
+    console.log("DrugList 데이터 가져옴")
+  }, [props])
 
   return (
     <>

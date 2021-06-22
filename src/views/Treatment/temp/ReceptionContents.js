@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { Tab } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { createSetPatient } from "redux/patient-reducer";
@@ -14,10 +15,14 @@ function ReceptionContents(props) {
     dispatch(createSetPatient(patient));
   }
 
+  useEffect(() => {
+    console.log("리렌더링ㅇ")
+  }, [props]);
 
   return (
     <Tab.Pane eventKey={props.eventKey} className="pt-1">
-      {patientList.map (patient => {
+      {
+      patientList.map (patient => {
         return (
           <Item onClick={loadPatient} item={patient} property={property}></Item>
         );

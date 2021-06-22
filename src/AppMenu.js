@@ -30,7 +30,7 @@ function AppMenu() {
         <NavLink to="/treatment" className="nav-link pt-2 pb-2 mt-3 mb-3" style={{color:"black"}} activeStyle={{color:"#000000", backgroundColor:"#9ACAA1"}}>
           <div className="row">
             <div className="col-5 text-right"><i className="bi bi-calendar-plus"></i></div>
-            <div className="col-7 pl-0">Treatemnt</div>
+            <div className="col-7 pl-0">Treatment</div>
           </div>
         </NavLink>
         <NavLink to="/test" className="nav-link pt-2 pb-2 mt-3 mb-3" style={{color:"black"}} activeStyle={{color:"#000000", backgroundColor:"#9ACAA1"}}>
