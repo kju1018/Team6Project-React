@@ -13,7 +13,6 @@ function ReceptionList(props) {
   console.log("ReceptionList");
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-
   const property = ["patientid", "patientname", "sex", "state"];
 
   const [waitingPatientList, setWaitingPatientList] = useState(null);
@@ -32,7 +31,6 @@ function ReceptionList(props) {
     <>
       <ButtonHeader headertitle="접수 리스트" iclassName="bi bi-list-task " color="#9ACAA1" buttonname="환자 검색" onclick={handleShow}/>
       <SearchPatient show={show} handleClose={handleClose} selectPatient={selectPatient}></SearchPatient>
-
       <Tab.Container id="left-tabs-example" defaultActiveKey="wait">
         <Nav fill variant="tabs" className="flex-column">
           <Row className="ml-0 mr-0">
@@ -64,7 +62,6 @@ function ReceptionList(props) {
           </Tab.Pane>
         </Tab.Content>
       </Tab.Container>
-
     </>
   );
 }

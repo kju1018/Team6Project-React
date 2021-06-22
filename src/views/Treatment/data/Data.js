@@ -8,7 +8,7 @@ let testData = [];
 
 for(var i=1; i<=lastbno; i++) {
   data.push({
-    treatmentid:i%100 + 21, 
+  treatmentid:i%100 + 21, 
     drugid: "G" + i,
     drugname: "약 " + i,
     drugtype: Math.random() > 0.5 ? "내복약" : "외용약"
@@ -53,4 +53,3 @@ const set = new Set(dupArr);
 
 const uniqueArr = [...set];
 }
-

@@ -5,7 +5,6 @@ import ReceptionList from "./ReceptionList";
 import PatientTreatment from "./PatientTreatment";
 import TestList from "./TestList";
 import TreatmentMemo from "./TreatmentMemo";
-import { Button, Modal } from "react-bootstrap";
 import { useCallback, useState } from "react";
 
 
