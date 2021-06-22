@@ -1,29 +1,38 @@
 
-import { useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Button, ButtonGroup, Nav, Row, Tab, TabContent, Tabs, ToggleButton } from "react-bootstrap";
 import ButtonHeader from "./components/ButtonHeader";
 import "views/style/patientWaiting.css";
-import ReceptionContents from "./components/ReceptionContents";
 import SearchPatient from "./components/SearchPatient";
 import { useDispatch } from "react-redux";
 import { createSetPatient } from "redux/patient-reducer";
+import { getPatients } from "./data/PatientData";
+import Item from "views/components/Item";
 function ReceptionList(props) {
   const [show, setShow] = useState(false);
-
+  console.log("ReceptionList");
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+  const property = ["patientid", "patientname", "sex", "state"];
 
-  const dispatch = useDispatch();
-  const loadPatient = (patient) => {
-    dispatch(createSetPatient(patient));
-  }
+  const [waitingPatientList, setWaitingPatientList] = useState(null);
+  const [completePatientList, setCompletePatientList] = useState(null);
 
+  useEffect(() => {
+    setWaitingPatientList(getPatients("대기"));
+    setCompletePatientList(getPatients("완료"));
+    console.log(waitingPatientList);
+  }, [])//마운트 될 때 로딩
 
+  const selectPatient = useCallback((patient) => {
+    props.selectPatient(patient);
+  }, [props]);
   return (
     <>
-      <ButtonHeader headertitle="접수 리스트" iclassName="bi bi-list-task mr-1" buttonname="환자 검색" onclick={handleShow}/>
+      <ButtonHeader headertitle="접수 리스트" iclassName="bi bi-list-task " color="#9ACAA1" buttonname="환자 검색" onclick={handleShow}/>
+      <SearchPatient show={show} handleClose={handleClose} selectPatient={selectPatient}></SearchPatient>
       <Tab.Container id="left-tabs-example" defaultActiveKey="wait">
-        <Nav fill variant="tabs" className="flex-column mb-2">
+        <Nav fill variant="tabs" className="flex-column">
           <Row className="ml-0 mr-0">
             <Nav.Item>
               <Nav.Link eventKey="wait">대기</Nav.Link>
@@ -33,18 +42,32 @@ function ReceptionList(props) {
             </Nav.Item>
           </Row>
         </Nav>
-        <Tab.Content className={`overflow-auto`} style={{height:"calc(100% - 90px)"}}>
-          <ReceptionContents eventKey="wait" type="대기"/>
-          <ReceptionContents eventKey="complete" type="완료"/>
+        <Tab.Content className="overflow-auto pt-2" style={{height:"calc(100% - 95px)"}}>
+          <Tab.Pane eventKey= "wait" className="pt-1">
+            {waitingPatientList !=null &&
+            waitingPatientList.map (patient => {
+              return (
+                <Item key={patient.patientid} item={patient} property={property} onClick={selectPatient}></Item>
+              );
+            })}
+          </Tab.Pane>
+
+          <Tab.Pane eventKey="complete" className="pt-1">
+            {completePatientList !=null &&
+            completePatientList.map (patient => {
+              return (
+                <Item key={patient.patientid} item={patient} property={property} onClick={selectPatient}></Item>
+              );
+            })}
+          </Tab.Pane>
         </Tab.Content>
       </Tab.Container>
-
-      <SearchPatient show={show} handleClose={handleClose} loadPatient={loadPatient}></SearchPatient>
     </>
   );
 }
 
 export default ReceptionList;
+//TODO: React.memo사용 생각해보기
 
 
 
