@@ -4,6 +4,7 @@ import Chart from "./Chart";
 import PeriodSearch from "./PeriodSearch";
 import TestGroup from "./TestGroup";
 import TestResult from "./TestResult";
+import TestWaitingHeader from "./TestWaitingHeader";
 import TestWaitingList from "./TestWaitingList";
 
 function TestPage(props) { 
@@ -19,16 +20,16 @@ function TestPage(props) {
     console.log("hi2")
     console.log(state)
   },[state])
-  const handleStart = (e) => {
-    const { value } = e.target;
-    if (value === "검사시작") {
-      console.log("vv", value)
-      let change = 
-        {label:"primary", state: "진행중"}
-      ;
-      setState(change);
-    }
-  };
+  // const handleStart = (e) => {
+  //   const { value } = e.target;
+  //   if (value === "검사시작") {
+  //     console.log("vv", value)
+  //     let change = 
+  //       {label:"primary", state: "진행중"}
+  //     ;
+  //     setState(change);
+  //   }
+  // };
   const handlePrint = (e) => {
     const { value } = e.target;
     if (value === "바코드출력") {
@@ -60,40 +61,35 @@ function TestPage(props) {
   return (
     <div className="100vh" style={{minWidth:"1000px"}}>
       <div className="row m-0">
-        <div className="col-6 mt-5">
+      <div className="col-3 mt-5" style={{borderRight:"1px solid #dadada"}}>
+          <div className="row pl-2" style={{backgroundColor: "#ffffff", width:"85%"}}><div className="pr-3 pl-3 pt-2 pb-2" style={{ backgroundColor:"#FF8C64"}}><i class="bi bi-calendar4-week" style={{ fontSize:"22px"}}></i></div><div className="ml-4 pt-2">검사 대기 목록</div></div>
+          <div style={{height:"88vh"}}>
           <PeriodSearch/>
-          <Chart/>
-          <div className="text-right"><button className="btn btn-sm btn-dark mb-2 mt-4" onClick={handleShow}>검사 이력 조회 및 결과 입력</button></div>
-          <TestResult show={show} handleClose={handleClose} />
-          <div>
-          <div  className="pt-2 pb-2 mb-1 d-flex align-items-center" style={{fontSize:"13px"}}>
-            <div className="col p-0 text-center">순서</div>
-            <div className="col p-0 text-center" style={{borderLeft:"solid 1px gray"}}>번호</div>
-            <div className="col p-0 text-center" style={{borderLeft:"solid 1px gray"}}>이름</div>
-            <div className="col p-0 text-center" style={{borderLeft:"solid 1px gray"}}>성별/나이</div>
-            <div className="col p-0 text-center" style={{borderLeft:"solid 1px gray"}}>생년월일</div>
-            <div className="col p-0 text-center" style={{borderLeft:"solid 1px gray"}}>검사시간</div>
-            <div className="col p-0 text-center" style={{borderLeft:"solid 1px gray"}}>상태</div>
-            <div className="col p-0 text-center" style={{borderLeft:"solid 1px gray"}}>입력상태</div>
-          </div>
-            <TestWaitingList/>
+          <TestWaitingHeader/>
+          <TestWaitingList/>
           </div>
         </div>
-        <div className="col-6">
-          <div style={{height:"660px"}}>
-            <div className="mt-5 mb-1 text-right">
-              <button type="button" className="btn btn-dark btn-sm mr-1" onClick={ handleStart } value="검사시작">검사시작</button>
+        <div className="col-4 mt-5" style={{borderRight:"1px solid #dadada"}}>
+          <div>
+          <div className="row pl-2" style={{backgroundColor: "#ffffff", width:"85%"}}><div className="pr-3 pl-3 pt-2 pb-2" style={{ backgroundColor:"#F2E18D"}}><i class="bi bi-droplet" style={{ fontSize:"22px"}}></i></div><div className="ml-4 pt-2">검사 처방 목록</div></div>
+            <div className="mt-4 mb-2 text-right">
               <button type="button" className="btn btn-dark btn-sm mr-1" onClick={ handlePrint } value="바코드출력">바코드출력</button>
               <button type="button" className="btn btn-dark btn-sm mr-1" onClick={ handleCancel } value="접수취소">접수취소</button>
               <button type="button" className="btn btn-dark btn-sm mr-1">엑셀저장</button>
               <button type="button" className="btn btn-dark btn-sm mr-1" onClick={ handleFinish } value="검사완료">검사완료</button>
             </div>
-            <div className="overflow-auto" style={{height:"600px"}}>
+            <div>
               <TestGroup state={state}/>
             </div>
           </div>
-        <div className="text-center" style={{border: "solid 1px #BDBDBD", height:"205px", marginBottom:"5px"}}><Banner/></div>
         </div>
+        <div className="col-5 mt-5">
+          <div>
+          <div className="row pl-2" style={{backgroundColor: "#ffffff", width:"85%"}}><div className="pr-3 pl-3 pt-2 pb-2" style={{ backgroundColor:"#3EB2A2"}}><i class="bi bi-display" style={{ fontSize:"22px"}}></i></div><div className="ml-4 pt-2">과거 검사 및 결과 입력</div></div>
+
+          </div>
+        </div>
+
       </div> 
     </div>
   );
