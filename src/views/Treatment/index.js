@@ -6,7 +6,7 @@ import PatientTreatment from "./PatientTreatment";
 import TestList from "./TestList";
 import TreatmentMemo from "./TreatmentMemo";
 import { useCallback, useEffect, useState } from "react";
-import { getDiagnoses, getDrugs, getTreatemntDrugs } from "./data/Data";
+import { getDiagnoses, getDiagnosis, getDrugs, getTreatemntDrugs } from "./data/Data";
 
 
 function Treatment(props) {
@@ -33,10 +33,11 @@ function Treatment(props) {
   const [treatmentDiagnoses, setTreatmentDiagnoses] = useState([]);
 
   const [staticDrugs, setStaticDrugs] = useState([]);
+  const [staticDignosis, setStaticDignosis] = useState([]);
 
   useEffect(() => {
     setStaticDrugs(getDrugs());
-
+    setStaticDignosis(getDiagnosis());
   },[])//정적 데이터 불러오기
 
   useEffect(() => {
