@@ -1,6 +1,6 @@
 
 import React, { useCallback, useEffect, useState } from "react";
-import { Button, ButtonGroup, Nav, Row, Tab, TabContent, Tabs, ToggleButton } from "react-bootstrap";
+import { Badge, Button, ButtonGroup, Nav, Row, Tab, TabContent, Tabs, ToggleButton } from "react-bootstrap";
 import ButtonHeader from "./components/ButtonHeader";
 import "views/style/patientWaiting.css";
 import SearchPatient from "./components/SearchPatient";
@@ -29,16 +29,16 @@ function ReceptionList(props) {
   }, [props]);
   return (
     <>
-      <ButtonHeader headertitle="접수 리스트" iclassName="bi bi-list-task " color="#9ACAA1" buttonname="환자 검색" onclick={handleShow}/>
+      <ButtonHeader headertitle="접수 리스트" iclassName="bi bi-list-task " color="#9ACAA1" btnicon="bi bi-search" buttonname="환자 검색" onclick={handleShow}/>
       <SearchPatient show={show} handleClose={handleClose} selectPatient={selectPatient}></SearchPatient>
       <Tab.Container id="left-tabs-example" defaultActiveKey="wait">
         <Nav fill variant="tabs" className="flex-column">
           <Row className="ml-0 mr-0">
             <Nav.Item>
-              <Nav.Link eventKey="wait">대기</Nav.Link>
+              <Nav.Link eventKey="wait">대기<Badge pill variant="secondary" className="ml-1">{waitingPatientList != null && waitingPatientList.length}</Badge></Nav.Link>
             </Nav.Item>
             <Nav.Item>
-              <Nav.Link eventKey="complete">완료</Nav.Link>
+              <Nav.Link eventKey="complete">완료<Badge pill variant="secondary" className="ml-1">{completePatientList != null && completePatientList.length}</Badge></Nav.Link>
             </Nav.Item>
           </Row>
         </Nav>

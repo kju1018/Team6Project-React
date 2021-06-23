@@ -21,8 +21,8 @@ function PatientTreatment(props) {
   return (
     <>
       <div className="d-flex justify-content-between">
-        <div className="d-flex align-items-center" style={{height:"50px"}}><i className="bi bi-calendar2-check mr-1"></i>진료 내역</div>
-        <div className="d-flex align-items-center" style={{height:"50px"}}>선택한 진료: {props.selectedTreatment.treatmentdate}</div>
+        <div className="d-flex row pb-1" style={{height:"50px"}}><div className="p-2 ml-3 mr-2 text-center" style={{ backgroundColor:"#887BD2", width:"40px", color:"#FFFFFF"}}><i className="bi bi-calendar2-check"></i></div><div className="d-flex align-items-center">진료 내역</div></div>
+        <div className="d-flex align-items-center pb-1" style={{height:"50px", width:"250px"}}>선택한 진료: {props.selectedTreatment.treatmentdate}</div>
       </div>
       <div className="overflow-auto p-3" style={{height:"calc(100% - 50px)"}}>
         {
