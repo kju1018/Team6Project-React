@@ -1,13 +1,12 @@
 
 import React, { useCallback, useEffect, useState } from "react";
-import { Badge, Button, ButtonGroup, Nav, Row, Tab, TabContent, Tabs, ToggleButton } from "react-bootstrap";
-import ButtonHeader from "./components/ButtonHeader";
+import { Badge, Nav, Row, Tab } from "react-bootstrap";
+
 import "views/style/patientWaiting.css";
 import SearchPatient from "./components/SearchPatient";
-import { useDispatch } from "react-redux";
-import { createSetPatient } from "redux/patient-reducer";
 import { getPatients } from "./data/PatientData";
 import Item from "views/components/Item";
+import ButtonHeader from "./components/ButtonHeader";
 function ReceptionList(props) {
   const [show, setShow] = useState(false);
   console.log("ReceptionList");
@@ -31,7 +30,7 @@ function ReceptionList(props) {
     <>
       <ButtonHeader headertitle="접수 리스트" iclassName="bi bi-list-task " color="#9ACAA1" btnicon="bi bi-search" buttonname="환자 검색" onclick={handleShow}/>
       <SearchPatient show={show} handleClose={handleClose} selectPatient={selectPatient}></SearchPatient>
-      <Tab.Container id="left-tabs-example" defaultActiveKey="wait">
+      <Tab.Container defaultActiveKey="wait">
         <Nav fill variant="tabs" className="flex-column">
           <Row className="ml-0 mr-0">
             <Nav.Item>
@@ -42,7 +41,13 @@ function ReceptionList(props) {
             </Nav.Item>
           </Row>
         </Nav>
-        <Tab.Content className="overflow-auto pt-2" style={{height:"calc(100% - 95px)"}}>
+        <div className="row border border-top-0 ml-0 mr-0 pt-1 pb-1">
+          <div className="col ml-2 pl-0 pr-0 text-center">환자 번호</div>
+          <div className="col pl-0 pr-0 text-center">환자 이름</div>
+          <div className="col pl-0 pr-0 text-center">성별</div>
+          <div className="col mr-2 pl-0 pr-0 text-center">상태</div>
+        </div>
+        <Tab.Content className="pt-2 overflow-auto" style={{height:"calc(100% - 130px)"}}>
           <Tab.Pane eventKey= "wait" className="pt-1">
             {waitingPatientList !=null &&
             waitingPatientList.map (patient => {
