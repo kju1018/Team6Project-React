@@ -5,7 +5,7 @@ import TestCode from "./TestCode";
 
 const intitState = () =>{
   let states= []
-  for(var i=0; i<6; i++) {
+  for(var i=0; i<10; i++) {
     states.push({label:"success", state:"대기중", code:"묶음코드", ischeck:false})
   }
   return states;
@@ -55,7 +55,7 @@ function TestGroup(props) {
      
   },[state.state])
   return (
-    <div>
+    <div className="overflow-auto" style={{height:"750px", backgroundColor:"#ffffff"}}>
     <Accordion defaultActiveKey="0">
     {state.map((item,index)=>{return(
       <Card>

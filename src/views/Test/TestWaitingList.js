@@ -1,15 +1,21 @@
+import { Badge } from "react-bootstrap";
+import { useRef, useState } from "react";
+import { Button, Overlay } from "react-bootstrap";
+
 function TestWaitingList() {
+  const [show, setShow] = useState(false);
+  const target = useRef(null);
+
   return (
-    <div className="pt-2 pb-2 mb-2 d-flex align-items-center" style={{ boxShadow:"rgb(0 0 0 / 8%) 0px 0px 5px 2px", borderRadius:"15px", fontSize:"13px"}}>
-      <div className="col p-0 pt-1 pb-1 text-center">순서</div>
-      <div className="col p-0 text-center">번호</div>
-      <div className="col p-0 text-center">이름</div>
-      <div className="col p-0 text-center">성별/나이</div>
-      <div className="col p-0 text-center">예약시간</div>
-      <div className="col p-0 text-center">검사실</div>
-      <div className="col p-0 text-center">상태</div>
-      <div className="col p-0 text-center">입력상태</div>
-    </div>
+    <>
+      <div className="pt-2 pb-2 mb-2 d-flex align-items-center" style={{ fontSize:"13px", borderBottom:"1px solid #a6a6a6"}}>
+        <div className="col-2 p-0 pt-1 pb-1 text-center">1</div>
+              <div className="col-3 p-0 text-center">13232</div>
+              <div className="col-2 p-0 text-center">F/29</div>
+              <div className="col-2 p-0 text-center">이연정</div>
+              <div className="col-3 p-0 text-center"><Badge className="mr-1" variant="primary">진행중</Badge><Badge variant="danger">미입력</Badge></div>
+        </div>
+    </>
   );
 }
 export default TestWaitingList;
