@@ -5,6 +5,7 @@ import TestSelectorModal from "./TestSelectorModal";
 import RegisterPatientModal from "./RegisterPatientModal";
 import RegisterReservationModal from "./RegisterReservationModal";
 import PatientProfile from "views/Treatment/PatientProfile";
+import ReceptionHeader from "../components/ReceptionHeader";
 function SearchPatient(props){
     const [searchModalshow, setSearchModalshow] = useState(false);
     const [reservationRegisterhModalshow, setreservationRegisterhModalshow] = useState(false);
@@ -19,7 +20,9 @@ function SearchPatient(props){
       age:"-",
       phonenumber: "-", 
     });
-    
+    const [buttonList, setButtonList] = useState([
+    {name:"예약", onClick:()=>{console.log(" 예약")}}
+    ])
     // 검색창에 해당 환자 선택했을때 - 변수저장 및 모달창 닫기
     const setSelectedPatient = (Patient)=>{
       SelectedPatient = Patient
@@ -28,17 +31,15 @@ function SearchPatient(props){
     }
     console.log("render!!")
     return(
-    <div className="d-flex flex-column" style={{height:"316px"}} >
-        <div>
-                <label style={{marginRight:"10px"}}><i class="bi bi-person-square mr-2"/>환자정보</label>
+    <div className="pl-3 pr-3 pb-3" style={{height:"316px", backgroundColor:"white"}} >
+      
+        <ReceptionHeader headertitle="환자정보" iclassName="bi bi-person-square " color="#9ACAA1">
                 <button  style={{marginRight:"10px"}} className="btn btn-outline-dark btn-sm" onClick={()=>{setSearchModalshow(true)}}>환자검색</button>
                  <button style={{marginRight:"10px"}} className="btn btn-outline-dark btn-sm" onClick={()=>{setreservationRegisterhModalshow(true)}}>예약</button>
                  <button style={{marginRight:"10px"}} className="btn btn-outline-dark btn-sm" onClick={()=>{setPatientRegisterhModalshow(true)}}>신규등록</button>
                  <button style={{marginRight:"10px"}} className="btn btn-outline-dark btn-sm" onClick={()=>{setTestSelectorModalshow(true)}}>검사접수</button>
                  <button style={{marginRight:"10px"}} className="btn btn-outline-dark btn-sm" >진료접수</button>
-   
-        </div>
-        
+        </ReceptionHeader>
         <PatientProfile selectedPatient={patient}/>
         
         

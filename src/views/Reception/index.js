@@ -4,6 +4,7 @@ import SearchPatient from"./SearchPatient";
 import TreatmentReception from "./TreatmentReception";
 import { useEffect, useState } from "react";
 import "./font.css"
+import Menus from "./components/Menu";
 const InitPatientList = () =>{
     let patientlist=[];
     for(var i=1; i<12; i++){
@@ -24,8 +25,10 @@ function Reception(props){
 
     return( 
     <>
-    <div className="container-fluid  d-flex mt-2" style={{minWidth:"1200px", fontFamily:"Noto Sans KR"}}>
-        <div className=" col-6 " style={{height:"100%"}}>
+    
+    <Menus></Menus>
+    <div className="container-fluid  d-flex p-0 " style={{minWidth:"1200px", fontFamily:"Noto Sans KR"}}>
+        <div className=" col-6 border-right p-1 pt-3" style={{height:"100%"}}>
             <div style={{padding:"10px"}} >
                 <SearchPatient patientList ={patientList}/>
             </div>
@@ -34,7 +37,8 @@ function Reception(props){
             </div>
            
         </div>
-        <div className=" col-6 " style={{height:"100%"}}>
+        <div className=" col-6 p-1 pt-3" style={{height:"100%"}}>
+            
             <div style={{padding:"10px"}}>
                 <TreatmentReception patientList ={patientList}/>
             </div>
