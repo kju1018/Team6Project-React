@@ -1,11 +1,8 @@
 
-import { useEffect, useState } from "react";
-import { Modal } from "react-bootstrap";
-import { useSelector } from "react-redux";
+import { useState } from "react";
 import Item from "views/components/Item";
-import ButtonHeader from "views/Treatment/components/ButtonHeader";
-import { getTreatemntDrugs } from "./data/Data";
 import PrescriptionModal from "./components/PrescriptionModal"
+import ButtonHeader from "./components/ButtonHeader";
 
 function DrugList(props) {
 
@@ -13,20 +10,21 @@ function DrugList(props) {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  const [drugs, setDrugs] = useState([]);
-  useEffect(() => {
-    setDrugs(getTreatemntDrugs(props.selectedTreatment.treatmentid));
-    console.log("DrugList 데이터 가져옴")
-  }, [props])
 
+  const info = () => {
+    alert("대기중인 진료를 선택해주세요.");
+  }
 
-
+  const prescribeDrugs = (prescriptionItems) => {
+    props.prescribeDrugs(prescriptionItems);
+  }
   return (
     <>
-    <ButtonHeader headertitle="처방약 목록" iclassName="bi bi-bag-plus" color="#FFCD82" btnicon="bi bi-plus-square" buttonname="검색" onclick={handleShow}/>
-    <PrescriptionModal show={show} handleClose={handleClose}></PrescriptionModal>
+    <ButtonHeader headertitle="처방약 목록" iclassName="bi bi-bag-plus" color="#FFCD82" btnicon="bi bi-plus-square" buttonname="검색" onclick={props.treatment.state==="진료 대기"? handleShow : info}/>
+    <PrescriptionModal show={show} handleClose={handleClose} staticItemList={props.staticDrugs} itemList={props.treatmentDrugs} prescribe={prescribeDrugs}></PrescriptionModal>
     <div className="overflow-auto p-3" style={{height:"calc(100% - 50px"}}>
-      {drugs.map (drug => {
+      {props.treatmentDrugs !=null &&
+      props.treatmentDrugs.map (drug => {
           return (
             <Item key={drug.drugid} item={drug}></Item>
           );
