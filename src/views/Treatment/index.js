@@ -40,7 +40,7 @@ function Treatment(props) {
         </div>
 
         <div className="p-3" style={{height:"35vh", backgroundColor:"#FFFFFF"}}>
-          <div className="d-flex align-items-center" style={{height:"50px"}}><i className="bi bi-person-square mr-1"></i>환자 프로필</div>
+          <div className="d-flex row pb-1" style={{height:"50px"}}><div className="p-2 ml-3 mr-2 text-center" style={{ backgroundColor:"#E89677", width:"40px", color:"#FFFFFF"}}><i className="bi bi-person-square"></i></div><div className="d-flex align-items-center">환자프로필</div></div>
           <PatientProfile selectedPatient={patient}/>
         </div>
 
@@ -61,7 +61,7 @@ function Treatment(props) {
         </div>                
       </div>
       <div className="col-4 h-100">
-        <div style={{height:"5vh"}}></div>
+        <div className="text-right pt-2 pr-2" style={{height:"5vh"}}><button className="btn btn-sm btn-success">저장</button></div>
         <div className="pl-3 pr-3 pb-3 pt-0" style={{height:"95vh", backgroundColor:"#FFFFFF"}}>
           <TestList selectedTreatment={treatment}/>
         </div>                
