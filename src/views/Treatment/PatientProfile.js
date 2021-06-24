@@ -1,6 +1,3 @@
-import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-
 function PatientProfile(props) {
 
   return (
