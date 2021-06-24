@@ -6,12 +6,13 @@ import ReceptionHeader from "../components/ReceptionHeader";
 function Reservation(props){
     const property = ["id","name","rstate","reservationtype","registerday"]
     const [selectDate,setSelectDate] = useState(new Date().toLocaleDateString());
+    console.log("reservation!!!!!");
     useEffect(()=>{
-        console.log("adsf")
         console.log(selectDate);
     },[selectDate])
     const click = (item) =>{
-        console.log(item)
+        console.log("reser click!")
+        props.setSelectedPatient(item)
     }
     return(
     <div className="pl-3 pr-3 pb-3" style={{height:"554px", backgroundColor:"white"}}>
@@ -31,8 +32,6 @@ function Reservation(props){
                 <div style={{width:"20%"}}>상태</div>
                 <div style={{width:"20%"}}>예약타입</div>
                 <div style={{width:"20%"}}>예약시간</div>
-        
-        
             </div>
             <div className="overflow-auto  justify-content-center" style={{height:"350px"}} >
                

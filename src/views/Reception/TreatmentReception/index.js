@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { ToggleButton } from "react-bootstrap";
 import { ButtonGroup } from "react-bootstrap";
 import Item from "views/components/Item";
+import Menus from "views/components/Menu";
 import TreatmentButtonHeader from "views/Treatment/components/ButtonHeader";
 import ReceptionHeader from "../components/ReceptionHeader";
 
@@ -22,6 +23,7 @@ function TreatmentReception(props){
    
     return(
         <div className="pl-3 pr-3 pb-3" style={{height:"435px", backgroundColor:"white"}}>
+            
             <ReceptionHeader headertitle="진료접수" iclassName="bi bi-clipboard-plus "color="#e89677">
                 <button style={{marginRight:"10px"}} className="btn btn-outline-dark btn-sm">접수취소</button>
             </ReceptionHeader>

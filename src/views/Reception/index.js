@@ -4,7 +4,6 @@ import SearchPatient from"./SearchPatient";
 import TreatmentReception from "./TreatmentReception";
 import { useEffect, useState } from "react";
 import "./font.css"
-import Menus from "./components/Menu";
 const InitPatientList = () =>{
     let patientlist=[];
     for(var i=1; i<12; i++){
@@ -17,33 +16,27 @@ const InitPatientList = () =>{
 }
 function Reception(props){
     const [patientList,setpatientList] = useState(InitPatientList);
-    useEffect(()=>{
-        console.log(patientList);
-    },[patientList])
-    
-
+    // 선택된 환자 상태
+    const [selectedPatient,setSelectedPatient] = useState(null);
+    // 자식컴포넌트에서 선택된 환자 상태 가져오는 함수
+    const SetFocusPatient=(patient)=>{
+        setSelectedPatient(patient)
+    }
 
     return( 
     <>
-    
-    <Menus></Menus>
     <div className="container-fluid  d-flex p-0 " style={{minWidth:"1200px", fontFamily:"Noto Sans KR"}}>
         <div className=" col-6 border-right p-1 pt-3" style={{height:"100%"}}>
             <div style={{padding:"10px"}} >
-                <SearchPatient patientList ={patientList}/>
+                <SearchPatient selectedPatient ={selectedPatient} patientList ={patientList}/>
             </div>
-            <div style={{padding:"10px"}}>
-                <Reservation patientList ={patientList}/>
-            </div>
+            
            
         </div>
         <div className=" col-6 p-1 pt-3" style={{height:"100%"}}>
             
-            <div style={{padding:"10px"}}>
-                <TreatmentReception patientList ={patientList}/>
-            </div>
-            <div style={{padding:"10px"}}>
-                <TestReception patientList ={patientList}/>
+        <div style={{padding:"10px"}}>
+                <Reservation setSelectedPatient={SetFocusPatient} patientList ={patientList}/>
             </div>
         </div>
         
