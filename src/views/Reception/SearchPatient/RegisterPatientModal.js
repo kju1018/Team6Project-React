@@ -1,5 +1,5 @@
 import Item from "views/components/Item";
-import PatientProfile from "views/Treatment/temp/PatientProfile";
+import PatientProfile from "views/Treatment/components/PatientProfile";
 function RegisterPatientModal(props){
 
     return(
