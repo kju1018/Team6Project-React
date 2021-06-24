@@ -8,7 +8,7 @@ let testData = [];
 
 for(var i=1; i<=lastbno; i++) {
   data.push({
-  treatmentid:i%100 + 21, 
+    treatmentid:i%100 + 21, 
     drugid: "G" + i,
     drugname: "약 " + i,
     drugtype: Math.random() > 0.5 ? "내복약" : "외용약"
@@ -27,6 +27,22 @@ for(var i=1; i<=lastbno; i++) {
     testname:"검사 이름" + i,
     groupcode:"그룹코드" + (i%50),
     groupname:"그룹 이름" + (i%50)
+  })
+}
+
+let drugData = [];
+let diagnosisData = [];
+for(var i=0; i< 100; i++) {
+  drugData.push({
+    drugid: "G" + i,
+    drugname: "약 " + i,
+    drugtype: Math.random() > 0.5 ? "내복약" : "외용약",
+    drugunit: Math.random() > 0.5 ? "BT" : "TU"
+  })
+
+  diagnoseData.push({
+    diagnosesdataid: "D" + i,
+    diagnosisData: "상병명 " + i
   })
 }
 
@@ -52,4 +68,13 @@ export function getPackageTests(treatmentid) {
 const set = new Set(dupArr);
 
 const uniqueArr = [...set];
+}
+
+
+export function getDrugs() {
+  return drugData;
+}
+
+export function getDiagnosis() {
+  return diagnosisData;
 }
