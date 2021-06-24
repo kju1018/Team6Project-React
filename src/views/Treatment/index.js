@@ -1,7 +1,5 @@
 import DiagnosisList from "./DignosisList";
 import DrugList from "./DrugList";
-import PatientProfile from "./PatientProfile";
-import ReceptionList from "./ReceptionList";
 import PatientTreatment from "./PatientTreatment";
 import TestList from "./TestList";
 import TreatmentMemo from "./TreatmentMemo";

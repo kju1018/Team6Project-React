@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Button, Modal } from "react-bootstrap";
 import Item from "views/components/Item";
 
-function PrescriptionModal(props) {
+function PrescriptionDrugsModal(props) {
 
   const [searchName, setSearchName] = useState("");
   const handleSearchName = (event) => {
@@ -79,7 +79,7 @@ function PrescriptionModal(props) {
             <i className="bi bi-arrow-left-square" style={{fontSize:"30px"}}></i>
           </div>
           <div className="col pl-0 pr-0 border mr-2">
-            <div className="overflow-auto" style={{height:"260px"}}>
+            <div className="overflow-auto" style={{height:"300px"}}>
             {props.staticItemList != null &&
             props.staticItemList.map ((item, index) => {
               return (
@@ -87,7 +87,7 @@ function PrescriptionModal(props) {
                   <div className="col pl-0 pr-0 text-center">{item.drugid}</div>
                   <div className="col pl-0 pr-0 text-center">{item.drugname}</div>
                   <div className="col pl-0 pr-0 text-center">{item.drugtype}</div>
-                  <div className="col pl-0 pr-0 text-center d-flex"><input type="number" style={{width:"40px"}}></input>{item.drugunit}</div>
+                  <div className="col pl-0 pr-0 text-center d-flex"><input type="number" style={{width:"40px", marginRight:"2px"}}></input>{item.drugunit}</div>
                   <div className="col pl-0 pr-0 text-center"><button className="btn btn-success btn-sm" onClick={() => {addItme(item)}}>추가</button></div>
                 </div>
               );
@@ -108,4 +108,4 @@ function PrescriptionModal(props) {
   );
 }
 
-export default PrescriptionModal;
+export default PrescriptionDrugsModal;
