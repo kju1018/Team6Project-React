@@ -11,6 +11,8 @@ for(var i=1; i<=lastbno; i++) {
     treatmentid:i%100 + 21, 
     drugid: "G" + i,
     drugname: "약 " + i,
+    drugquantity: i % 5,
+    drugunit: Math.random() > 0.5 ? "BT" : "TU",
     drugtype: Math.random() > 0.5 ? "내복약" : "외용약"
   });
 
@@ -40,9 +42,9 @@ for(var i=0; i< 100; i++) {
     drugunit: Math.random() > 0.5 ? "BT" : "TU"
   })
 
-  diagnoseData.push({
+  diagnosisData.push({
     diagnosesdataid: "D" + i,
-    diagnosisData: "상병명 " + i
+    diagnosisdataname: "상병명 " + i
   })
 }
 
@@ -51,7 +53,7 @@ export function getTreatemntDrugs(treatmentid) {
   return drugs;
 }
 
-export function getDiagnoses(treatmentid) {
+export function getTretmentDiagnoses(treatmentid) {
   const diagnoses = diagnoseData.filter(diagnose => diagnose.treatmentid === treatmentid);
   return diagnoses;
 }
@@ -75,6 +77,7 @@ export function getDrugs() {
   return drugData;
 }
 
-export function getDiagnosis() {
+export function getDiagnoses() {
+  console.log("data");
   return diagnosisData;
 }

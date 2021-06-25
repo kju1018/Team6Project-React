@@ -1,7 +1,7 @@
 
 import { useState } from "react";
 import Item from "views/components/Item";
-import PrescriptionModal from "./components/PrescriptionModal"
+import PrescriptionModal from "./components/PrescriptionDrugsModal"
 import ButtonHeader from "./components/ButtonHeader";
 
 function DrugList(props) {
@@ -20,7 +20,7 @@ function DrugList(props) {
   }
   return (
     <>
-    <ButtonHeader headertitle="처방약 목록" iclassName="bi bi-bag-plus" color="#FFCD82" btnicon="bi bi-plus-square" buttonname="검색" onclick={props.treatment.state==="진료 대기"? handleShow : info}/>
+    <ButtonHeader headertitle="처방약 목록" iclassName="bi bi-bag-plus" color="#FFCD82" btnicon="bi bi-plus-square" onclick={props.treatment.state==="진료 대기"? handleShow : info}/>
     <PrescriptionModal show={show} handleClose={handleClose} staticItemList={props.staticDrugs} itemList={props.treatmentDrugs} prescribe={prescribeDrugs}></PrescriptionModal>
     <div className="overflow-auto p-3" style={{height:"calc(100% - 50px"}}>
       {props.treatmentDrugs !=null &&

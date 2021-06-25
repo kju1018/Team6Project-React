@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getTreatments } from "./data/TreatmentData";
 import { createSetTreatment } from "redux/treatment-reducer";
-import Item from "./components/Item";
+import TreatmentItem from "./components/TreatmentItem";
 
 function PatientTreatment(props) {
 
@@ -29,14 +29,7 @@ function PatientTreatment(props) {
         patientTreatments !=null &&
         patientTreatments.map (treatment => {
         return (
-          <Item key={treatment.treatmentid} item={treatment} property={["treatmentdate", "state"]} onClick={selectTreatment}></Item>
-        );
-        })}
-         {
-        patientTreatments !=null &&
-        patientTreatments.map (treatment => {
-        return (
-          <Item key={treatment.treatmentid} item={treatment} property={["treatmentdate", "state"]} onClick={selectTreatment}></Item>
+          <TreatmentItem key={treatment.treatmentid} item={treatment} property={["treatmentdate", "state"]} onClick={selectTreatment}></TreatmentItem>
         );
         })}
       </div>
