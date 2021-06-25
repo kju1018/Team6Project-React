@@ -2,10 +2,11 @@ import { Badge } from "react-bootstrap";
 import { useRef, useState } from "react";
 import { Button, Overlay } from "react-bootstrap";
 
-function TestWaitingList() {
+function TestWaitingList(props) {
+  console.log(props)
   const [show, setShow] = useState(false);
   const target = useRef(null);
-
+  const [state, setState] = useState();
   return (
     <>
       <div className="pt-2 pb-2 mb-2 d-flex align-items-center" style={{ fontSize:"13px", borderBottom:"1px solid #a6a6a6"}}>

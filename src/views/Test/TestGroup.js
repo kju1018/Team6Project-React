@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
-import { Badge, Button } from "react-bootstrap";
+import { Badge, Button, FormControl, InputGroup, Modal } from "react-bootstrap";
 import { Accordion, Card } from "react-bootstrap";
 import TestCode from "./TestCode";
 
-const intitState = () =>{
+const intitState = (props) =>{
   let states= []
-  for(var i=0; i<10; i++) {
-    states.push({label:"success", state:"대기중", code:"묶음코드", ischeck:false})
+  for(var i=0; i<4; i++) {
+    states.push({label:"", state:"", code:"묶음코드", ischeck:false})
   }
   return states;
 }
@@ -25,99 +25,76 @@ function TestGroup(props) {
     setState(modify)
   }
 
-  const handleStart = (e) => {
-    console.log("클릭")
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false);
+  //const handleShow = () => setShow(true);
+
+  const handleShow = (e) => {
+    setShow(true);
+    let checkItems = [];
     for(var i=0; i<state.length; i++){
-    if(state[i].ischeck === true) {
-      
+      if(state[i].ischeck === true) {
+        const item = {...state[i], state:"진행중", label:"primary", ischeck:false};
+        checkItems.push(item);
+      }else {
+        const item = {...state[i]}
+        checkItems.push(item);
       }
     }
+    setState(checkItems);
   };
   const handlePrint = (e) => {
-    // const value = e.target.value;
-    // if (value === "바코드출력") {
-    //   console.log("vv", value)
-    //   let change = 
-    //     {label:"primary", state: "진행중", code:"묶음코드", ischeck:false}
-    //   ;
-    //   setState(change);
-    //   console.log("ss", state)
-    // }
+    
   };
   const handleCancel = (e) => {
-    // const value = e.target.value;
-    // if (value === "접수취소") {
-    //   console.log("vv", value)
-    //   let change = 
-    //     {label:"success", state: "대기중", code:"묶음코드", ischeck:false}
-    //   ;
-    //   setState(change);
-    //   console.log("ss", state)
-    // }
-  };
+    alert("검사를 취소 하시겠습니까?")
+    let checkItems = [];
+    for(var i=0; i<state.length; i++){
+    if(state[i].ischeck === true) {
+      const item = {...state[i], state:"대기중", label:"success", ischeck:false};
+      checkItems.push(item);
+    }else {
+      const item = {...state[i]}
+      checkItems.push(item);
+    }
+  }
+  setState(checkItems);
+};
   const handleFinish = (e) => {
-    // const value = e.target.value;
-    // if (value === "검사완료") {
-    //   console.log("vv", value)
-    //   let change = 
-    //     {label:"danger", state: "완료", code:"묶음코드", ischeck:false}
-    //   ;
-    //   setState(change);
-    //   console.log("ss", state)
-    // }
-  };
-
-  useEffect(() => {
-    let tmp = intitState();
-    let item;
-      for(var i=0; i<state.length; i++){
-          if(state[i].ischeck === true){
-            //console.log(i)
-            if(state==="진행중"){
-              item = {
-                label: 'primary',
-                state: '진행중'
-              };
-            }
-            else if(state==="대기중"){
-              item =  {
-                label: 'success',
-                state: '대기중'
-              };
-            }
-            else{
-              item = {
-                label: 'danger',
-                state: '완료'
-              };
-            }
-          tmp[i] = item;         
-      } else {
-        tmp[i] = state[i];
+    alert("검사를 완료 하시겠습니까?")
+    let checkItems = [];
+    for(var i=0; i<state.length; i++){
+    if(state[i].ischeck === true) {
+      const item = {...state[i], state:"검사완료", label:"danger", ischeck:false};
+        checkItems.push(item);
+      }else {
+        const item = {...state[i]}
+        checkItems.push(item);
       }
     }
-    //setState(tmp)
-},[state])
-
-
+    setState(checkItems);
+  };
 
   return (
     <>
     <div className="mt-4 mb-2 text-right">
-      <button type="button" className="btn btn-dark btn-sm mr-1" onClick={ handleStart } value="검사시작">검사시작</button>
+      <button type="button" className="btn btn-dark btn-sm mr-1" onClick={ handleShow } value="검사시작">검사시작</button>
       <button type="button" className="btn btn-dark btn-sm mr-1" onClick={ handlePrint } value="바코드출력">바코드출력</button>
       <button type="button" className="btn btn-dark btn-sm mr-1" onClick={ handleCancel } value="접수취소">접수취소</button>
       <button type="button" className="btn btn-dark btn-sm mr-1">엑셀저장</button>
       <button type="button" className="btn btn-dark btn-sm mr-1" onClick={ handleFinish } value="검사완료">검사완료</button>
     </div>
-    <div className="overflow-auto" style={{height:"750px", backgroundColor:"#ffffff"}}>
+    <div className="overflow-auto" style={{height:"750px"}}>
     <Accordion defaultActiveKey="0">
     {state.map((item,index)=>{return(
       <Card>
-      <Card.Header>
+      <Card.Header className="row" style={{backgroundColor:"#D5D5D5", height:"60px", alignItems:"center"}}>
         <Accordion.Toggle as={Button} variant="link" eventKey={index.toString()}>
-          <input type="checkbox" onChange={e => {changeHandler(e, index)}} value={item.ischeck}/>{item.code} <Badge variant={item.label}>{item.state}</Badge>
+          {/* checked: 체크박스 체크 유무 */}
+          <div><input className="mr-2" type="checkbox" onChange={e => {changeHandler(e, index)}} checked={item.ischeck}/>{item.code} <Badge variant={item.label}>{item.state}</Badge></div>
         </Accordion.Toggle>
+        <div className="mr-5">검사자: 홍길동</div>
       </Card.Header>
       <Accordion.Collapse eventKey={index.toString()}>
         <Card.Body><TestCode/></Card.Body>
@@ -128,6 +105,28 @@ function TestGroup(props) {
     })}
    </Accordion>
     </div>
+
+    <Modal show={show} onHide={handleClose}>
+      <Modal.Header closeButton>
+        <Modal.Title>검사를 시작하시겠습니까?</Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+      <InputGroup className="mb-3">
+        <FormControl
+          placeholder="검사자ID를 입력하세요"
+        />
+      </InputGroup>
+      </Modal.Body>
+      <Modal.Footer>
+        <Button variant="secondary" onClick={handleClose}>
+          Close
+        </Button>
+        <Button variant="primary" onClick={handleClose}>
+          Save Changes
+        </Button>
+      </Modal.Footer>
+    </Modal>
+
   </>
   );
 }
