@@ -50,7 +50,7 @@ function Chart() {
                         <div className="row mb-1" style={{height:"16px"}}><div className="mt-1 mr-1" style={{backgroundColor:"#ff6b6b", width:"32px", height:"16px"}}></div><div style={{height:"16px"}}>대기</div></div>
                         <div className="row mb-1" style={{height:"16px"}}><div className="mt-1 mr-1" style={{backgroundColor:"rgba(98, 181, 229, 1)", width:"32px", height:"16px"}}></div><div style={{height:"16px"}}>진행중</div></div>
                         <div className="row" style={{height:"16px"}}><div className="mt-1 mr-1" style={{backgroundColor:"#ffe66d", width:"32px", height:"16px"}}></div><div style={{height:"16px"}}>완료</div></div>
-                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
