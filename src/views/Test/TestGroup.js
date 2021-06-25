@@ -2,6 +2,10 @@ import { useEffect, useState } from "react";
 import { Badge, Button, FormControl, InputGroup, Modal } from "react-bootstrap";
 import { Accordion, Card } from "react-bootstrap";
 import TestCode from "./TestCode";
+import xlsx from 'xlsx';
+import React from 'react';
+import Print from "./Print";
+
 
 const intitState = (props) =>{
   let states= []
@@ -11,7 +15,25 @@ const intitState = (props) =>{
   return states;
 }
 function TestGroup(props) {
-  
+  const arr = 
+  [{age:10, gender:'Male', name:'홍길동'},
+  {age:20, gender:'Female', name:'심청'},
+  {age:30, gender:'Male', name:'곰돌이'}];
+
+  const handleExcel =() => {
+    const ws = xlsx.utils.json_to_sheet(arr);
+
+    const wb = xlsx.utils.book_new();
+    
+    xlsx.utils.book_append_sheet(wb, ws, "Sheet1");
+    
+    xlsx.writeFile(wb, "Test.xlsx");
+  }
+
+  const handlePrint = () => {
+    setOpen(true);
+  }
+
   const [state, setState] = useState(intitState);
   
   const changeHandler = (e, index) => { 
@@ -26,11 +48,12 @@ function TestGroup(props) {
   }
 
   const [show, setShow] = useState(false);
+  const [open, setOpen] = useState(false);
 
   const handleClose = () => setShow(false);
-  //const handleShow = () => setShow(true);
+  const handleExit = () => setOpen(false);
 
-  const handleShow = (e) => {
+  const handleStart = (e) => {
     setShow(true);
     let checkItems = [];
     for(var i=0; i<state.length; i++){
@@ -44,9 +67,7 @@ function TestGroup(props) {
     }
     setState(checkItems);
   };
-  const handlePrint = (e) => {
-    
-  };
+
   const handleCancel = (e) => {
     alert("검사를 취소 하시겠습니까?")
     let checkItems = [];
@@ -79,10 +100,10 @@ function TestGroup(props) {
   return (
     <>
     <div className="mt-4 mb-2 text-right">
-      <button type="button" className="btn btn-dark btn-sm mr-1" onClick={ handleShow } value="검사시작">검사시작</button>
+      <button type="button" className="btn btn-dark btn-sm mr-1" onClick={ handleStart } value="검사시작">검사시작</button>
       <button type="button" className="btn btn-dark btn-sm mr-1" onClick={ handlePrint } value="바코드출력">바코드출력</button>
       <button type="button" className="btn btn-dark btn-sm mr-1" onClick={ handleCancel } value="접수취소">접수취소</button>
-      <button type="button" className="btn btn-dark btn-sm mr-1">엑셀저장</button>
+      <button type="button" className="btn btn-dark btn-sm mr-1" onClick={ handleExcel }>엑셀저장</button>
       <button type="button" className="btn btn-dark btn-sm mr-1" onClick={ handleFinish } value="검사완료">검사완료</button>
     </div>
     <div className="overflow-auto" style={{height:"750px"}}>
@@ -123,6 +144,20 @@ function TestGroup(props) {
         </Button>
         <Button variant="primary" onClick={handleClose}>
           Save Changes
+        </Button>
+      </Modal.Footer>
+    </Modal>
+
+    <Modal show={open} onHide={handleExit}>
+      <Modal.Header closeButton>
+        <Modal.Title>바코드 생성</Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+      <Print/>
+      </Modal.Body>
+      <Modal.Footer>
+        <Button variant="secondary" onClick={handleExit}>
+          Close
         </Button>
       </Modal.Footer>
     </Modal>
