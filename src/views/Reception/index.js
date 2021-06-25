@@ -9,7 +9,7 @@ const InitPatientList = () =>{
     for(var i=1; i<12; i++){
         const TR = {id:i, name:"name"+i, sex:i%2,age:i,ssn1:"950328",ssn2:"111111",rstate:i%2?"대기":"접수완료",state:i%2?"wait":"complete",
         phone:"010-2496-7236",registerday:new Date().toLocaleDateString(), reservationtype:i%2?"진료":"검사",
-        lasttreatment:new Date().toLocaleDateString(),room:"room"+i,ssn1:new Date().toLocaleDateString()  } 
+        lasttreatment:new Date().toLocaleDateString(),room:"room"+i  } 
         patientlist.push(TR);
     }
     return patientlist;
