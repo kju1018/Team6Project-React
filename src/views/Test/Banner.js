@@ -6,16 +6,16 @@ function Banner() {
       <Carousel.Item>
         <img
           className="d-block w-100"
-          src="banner.png"
-          alt="First slide"
+          src="process.png"
+          alt="Second slide"
           height="227px"
         />
       </Carousel.Item>
       <Carousel.Item>
         <img
           className="d-block w-100"
-          src="process.png"
-          alt="Second slide"
+          src="banner.png"
+          alt="First slide"
           height="227px"
         />
       </Carousel.Item>
