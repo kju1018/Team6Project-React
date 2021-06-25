@@ -49,14 +49,7 @@ function Hospital() {
           <div>
             <div className="row" style={{width:"70%", marginLeft:"15%", marginTop:"30px"}}>
               <div className="col" style={{height:"300px", border:"1px solid gray"}}>공지사항</div>
-              <div className="col">
-                <div className="col" style={{height:"140px", border:"1px solid gray"}}>원격 A/S</div>
-                <div className="col" style={{height:"140px", marginTop:"20px", border:"1px solid gray"}}>온라인 고객센터</div>
-              </div>
             </div>
-          </div>
-          <div style={{width:"68.2%", marginLeft:"15%", marginTop:"20px"}}>
-            <div className="col" style={{height:"120px", border:"1px solid gray"}}>교육동영상</div>
           </div>
           <div className="pt-5 p-0" style={{width:"90%", marginLeft:"30px"}}>
           <Carousel>

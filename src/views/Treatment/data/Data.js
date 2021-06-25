@@ -6,6 +6,8 @@ let diagnoseData = [];
 
 let testData = [];
 
+let packageTestData = [];
+
 for(var i=1; i<=lastbno; i++) {
   data.push({
     treatmentid:i%100 + 21, 
@@ -27,6 +29,13 @@ for(var i=1; i<=lastbno; i++) {
     result:"검사 결과" + i,
     testdataid: "처방 코드" + i,
     testname:"검사 이름" + i,
+    testcontainer: i%2===0? "EDTA" : "SST",
+    groupcode:"그룹코드" + (i%50),
+    groupname:"그룹 이름" + (i%50)
+  });
+
+  packageTestData.push({
+    treatmentid:i%100 + 21,
     groupcode:"그룹코드" + (i%50),
     groupname:"그룹 이름" + (i%50)
   })
@@ -34,7 +43,8 @@ for(var i=1; i<=lastbno; i++) {
 
 let drugData = [];
 let diagnosisData = [];
-for(var i=0; i< 100; i++) {
+let staticTestData=[];
+for(i=0; i< 100; i++) {
   drugData.push({
     drugid: "G" + i,
     drugname: "약 " + i,
@@ -45,6 +55,15 @@ for(var i=0; i< 100; i++) {
   diagnosisData.push({
     diagnosesdataid: "D" + i,
     diagnosisdataname: "상병명 " + i
+  })
+
+  staticTestData.push({
+    result:"",
+    testdataid: "처방 코드" + i,
+    testname:"검사 이름" + i,
+    testcontainer: i%2===0? "EDTA" : "SST",
+    groupcode:"그룹코드" + (i%50),
+    groupname:"그룹 이름" + (i%50)
   })
 }
 
@@ -58,18 +77,18 @@ export function getTretmentDiagnoses(treatmentid) {
   return diagnoses;
 }
 
-export function getTests(treatmentid) {
+export function getTreatmentTests(treatmentid) {
   const tests = testData.filter(test => test.treatmentid === treatmentid);
   return tests;
 }
 
 export function getPackageTests(treatmentid) {
   const tests = testData.filter(test => test.treatmentid === treatmentid);
-  const dupArr = [1, 2, 3, 1, 2];
+  console.log(tests);
+  const set = new Set();
 
-const set = new Set(dupArr);
+  const uniqueArr = [...set];
 
-const uniqueArr = [...set];
 }
 
 
@@ -78,6 +97,9 @@ export function getDrugs() {
 }
 
 export function getDiagnoses() {
-  console.log("data");
   return diagnosisData;
+}
+
+export function getTests() {
+  return staticTestData;
 }

@@ -68,8 +68,8 @@ function PrescriptionDrugsModal(props) {
                   <div className="col pl-0 pr-0 text-center">{item.drugid}</div>
                   <div className="col pl-0 pr-0 text-center">{item.drugname}</div>
                   <div className="col pl-0 pr-0 text-center">{item.drugtype}</div>
-                  <div className="col pl-0 pr-0 text-center">코드</div>
-                  <div className="col pl-0 pr-0 text-center"><button className="btn btn-success btn-sm">추가</button></div>
+                  <div className="col pl-0 pr-0 text-center">개수</div>
+                  <div className="col pl-0 pr-0 text-center"><button className="btn btn-danger btn-sm">제거</button></div>
                 </div>
               );
             })} 
