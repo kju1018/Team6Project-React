@@ -1,7 +1,7 @@
 import Notice from "./Notice";
 import User from "./User";
 import Photo from "./Photo";
-import Calendar from "./Calender";
+import Calendar from "./Calendar";
 import Weekly from "./Weekly";
 
 function Home(props) {
