@@ -3,14 +3,14 @@ import { Table } from "react-bootstrap";
 import WeeklyForm from "./WeeklyForm";
 
 function Weekly(props) {
-  // test
-  const click = (item) =>{
-    window.open("/home","test","width=500,height=600");
-  }
+  // // test
+  // const click = (item) =>{
+  //   window.open("/home","test","width=500,height=600");
+  // }
   return(
     <>
     <h5>WEEKLY <img src="/weekly.png"width="30"height="30"/></h5>
-      <Table striped bordered hover variant="dark">
+      <Table striped bordered hover>
   <thead>
     <tr className="text-center">
       <th><img src="/speed.png"width="20"height="20"/></th>
