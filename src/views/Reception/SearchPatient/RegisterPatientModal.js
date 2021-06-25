@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Item from "views/components/Item";
-import PatientProfile from "views/Treatment/PatientProfile";
+import PatientProfile from "../components/PatientProfile";
 function RegisterPatientModal(props){
 
     const [patient, setPatient] = useState({name:"",age:"",ssn1:"",ssn2:"",sex:"",phone:""});

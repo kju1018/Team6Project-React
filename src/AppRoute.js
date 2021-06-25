@@ -4,6 +4,7 @@ import Login from "views/Login";
 import Reception from "views/Reception";
 import Treatment from "views/Treatment";
 import Test from "views/Test";
+import Hospital from "views/hospital";
 
 
 //jsconfig로 하면 src가 기본 경로로 되어있음
@@ -16,6 +17,7 @@ function AppRoute(props) {
       <Route path="/reception" exact component={Reception}/>
       <Route path="/treatment" exact component={Treatment}/>
       <Route path="/test" exact component={Test}/>
+      <Route path="/hospital" exact component={Hospital}/>
       <Redirect to="/" />
       {/* 어느 누구도 해당하지 않으면 home으로 감  */}
     </Switch>

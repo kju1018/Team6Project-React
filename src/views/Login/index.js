@@ -9,8 +9,8 @@ function Login() { //컴포넌트 이름
   const handleShow = () => setShow(true);
   
   return (
-    <div style={{backgroundColor:"#CDDFDB"}}>
-      <div><img src="logo.png" className="mt-3 ml-4" /></div>
+    <div style={{backgroundColor:"#F9F7F9"}}>
+      <div className="row" style={{alignItems:"center"}}><img src="logo.png" className="mt-3 ml-4" style={{width: "50px"}}/><div className="mt-3 ml-2" style={{fontSize:"26px"}}>더조은 병원</div></div>
       <div>
       <div className="row ml-0 mr-0 mt-2">
         <div className="col-6">
@@ -28,7 +28,7 @@ function Login() { //컴포넌트 이름
           </div>
         </div>
       <div className="col-6 loginimg">
-        <img src="Doctors-pana.png" width="90%"/>
+        <img src="Doctors-rafiki.png" width="90%"/>
       </div>
       </div>
       </div>
