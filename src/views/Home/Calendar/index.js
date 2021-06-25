@@ -9,7 +9,6 @@ function Calendar(props) {
     <DatePicker
       selected={startDate}
       onChange={(date) => setStartDate(date)}
-      monthsShown={2}
       inline
       
     />

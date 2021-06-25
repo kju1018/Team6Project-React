@@ -160,6 +160,7 @@
 
 .react-datepicker__header--time:not(.react-datepicker__header--time--only) {
   border-top-left-radius: 0;
+
 }
 
 .react-datepicker__header:not(.react-datepicker__header--has-time-select) {
@@ -267,7 +268,7 @@
 
 .react-datepicker__month-container {
   float: left;
- 
+  width: auto;
 }
 
 .react-datepicker__year {
