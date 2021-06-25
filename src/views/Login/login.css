@@ -9,9 +9,12 @@
   width: 100%;
   height: 220px;
   text-align: center;
+  font-size: 21px;
 }
 .banner:hover{
- background: rgb(27, 151, 145);
+ background: rgb(18, 60, 114);
+ color:rgb(202, 202, 202);
+ font-weight: bold;
 }
 
 .loginimg {

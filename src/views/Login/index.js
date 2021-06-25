@@ -28,7 +28,7 @@ function Login() { //컴포넌트 이름
           </div>
         </div>
       <div className="col-6 loginimg">
-        <img src="Doctors-pana.png" width="90%"/>
+        <img src="Doctors-rafiki.png" width="90%"/>
       </div>
       </div>
       </div>
