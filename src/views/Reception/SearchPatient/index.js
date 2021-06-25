@@ -4,7 +4,7 @@ import SearchPatientModal from "./SearchPatientModal";
 import TestSelectorModal from "./TestSelectorModal";
 import RegisterPatientModal from "./RegisterPatientModal";
 import RegisterReservationModal from "./RegisterReservationModal";
-import PatientProfile from "views/Treatment/PatientProfile";
+import PatientProfile from "../components/PatientProfile";
 import ReceptionHeader from "../components/ReceptionHeader";
 function SearchPatient(props){
     const [searchModalshow, setSearchModalshow] = useState(false);
