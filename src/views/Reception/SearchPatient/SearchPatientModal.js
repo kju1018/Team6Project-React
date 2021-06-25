@@ -22,6 +22,7 @@ function SearchPatientModal(props){
     // 환자 div 포커스 선택
     const click = (item) =>{
         focusItem = item;
+        console.log(item)
        
     }
     return(

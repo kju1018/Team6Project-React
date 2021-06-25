@@ -44,8 +44,8 @@ function SearchPatient(props){
      if(patient){
       const tmpPatient = {
         patientname:patient.name, 
-        ssn1:patient.ss1, 
-        ssn2:patient.ss2, 
+        ssn1:patient.ssn1, 
+        ssn2:patient.ssn2, 
         sex: patient.sex,
         age:patient.age,
         phonenumber: patient.phone, 
