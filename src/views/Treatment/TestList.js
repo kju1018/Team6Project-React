@@ -6,18 +6,18 @@ import { getTests } from "./data/Data";
 
 function TestList(props) {
 
-  const selectedTreatment = useSelector((state) => {
-    return state.treatmentReducer.treatment;
-  });
 
-  const tests = getTests(selectedTreatment.treatmentid);
-  console.log(tests);
   return (
     <>
       <ButtonHeader headertitle="검사 목록" iclassName="bi bi-droplet" color="#E89677" btnicon="bi bi-plus-square" buttonname="검색"/>
-      <div className="overflow-auto p-3" style={{height:"calc(100% - 50px)"}}>
-        <PackageTest/>
-      </div>
+      {props.treatment.treatmentid != null && props.treatment.state==="진료 완료"?  
+        <div className="overflow-auto p-3" style={{height:"calc(100% - 50px)"}}>
+          <PackageTest/>
+        </div>
+      :
+      null
+      }
+
     </>
   );
 }

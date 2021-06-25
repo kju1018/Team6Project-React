@@ -1,4 +1,15 @@
+import { useState } from "react";
+
+const { default: SearchPatient } = require("./SearchPatient");
+
 function PatientProfile(props) {
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
+  const selectPatient = (patient) => {
+    props.selectPatient(patient);
+  }
 
   return (
     <>
@@ -22,11 +33,12 @@ function PatientProfile(props) {
             <div className="text-center pt-1 pb-1 pl-0 pr-0 ml-0 mr-0 col-6" style={{boxShadow:"rgb(0 0 0 / 8%) 0px 0px 5px 2px", borderRadius:"7px", fontSize:"14px", backgroundColor:"#FFFFFF"}}>{props.selectedPatient.ssn1} - {props.selectedPatient.ssn2}</div>
           </div>
           <div className="col-2 pl-3 pr-0  text-right">
-              <button className="btn btn-dark btn-sm">환자 검색</button>
+              <button className="btn btn-dark btn-sm" onClick={handleShow}>환자 검색</button>
               <button className="btn btn-dark btn-sm ml-2 mr-5">저장</button>
           </div>
         </div>
       </div>
+      <SearchPatient show={show} handleClose={handleClose} selectPatient={selectPatient}></SearchPatient>
     </>
   );
 }

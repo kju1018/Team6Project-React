@@ -67,7 +67,7 @@ function PrescriptionDignosesModal(props) {
                 <div key={index} className="d-flex pt-2 pb-2">
                   <div className="col pl-0 pr-0 text-center">{item.diagnosesdataid}</div>
                   <div className="col pl-0 pr-0 text-center">{item.diagnosisdataname}</div>
-                  <div className="col pl-0 pr-0 text-center"><button className="btn btn-success btn-sm">추가</button></div>
+                  <div className="col pl-0 pr-0 text-center"><button className="btn btn-danger btn-sm">제거</button></div>
                 </div>
               );
             })} 
