@@ -39,6 +39,12 @@ function AppMenu() {
             <div className="col-7 pl-0">Test</div>
           </div>
         </NavLink>
+        <NavLink to="/hospital" className="nav-link pt-2 pb-2 mt-3 mb-3" style={{color:"black"}} activeStyle={{color:"#FFFFFF", backgroundColor:"#2F4273"}}>
+          <div className="row">
+            <div className="col-5 text-right"><i className="bi bi-eyedropper"></i></div>
+            <div className="col-7 pl-0">Hospital</div>
+          </div>
+        </NavLink>
       </li>
     </ul>
     </div>
