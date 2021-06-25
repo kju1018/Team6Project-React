@@ -1,5 +1,6 @@
 import { forwardRef, useState } from "react";
 import { Table } from "react-bootstrap";
+import WeeklyForm from "./WeeklyForm";
 
 function Weekly(props) {
   // test
@@ -24,8 +25,8 @@ function Weekly(props) {
   </thead>
   <tbody>
     <tr className="text-center">
-      <td>09:00</td>
-      <td onClick={click}></td>
+      <td><strong>09:00</strong></td>
+      <td><WeeklyForm/></td>
       <td></td>
       <td></td>
       <td></td>
@@ -34,17 +35,7 @@ function Weekly(props) {
       <td></td>
     </tr>
     <tr className="text-center">
-    <td>10:00</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-    </tr>
-    <tr className="text-center">
-    <td>11:00</td>
+    <td><strong>10:00</strong></td>
       <td></td>
       <td></td>
       <td></td>
@@ -54,7 +45,7 @@ function Weekly(props) {
       <td></td>
     </tr>
     <tr className="text-center">
-    <td>12:00</td>
+    <td><strong>11:00</strong></td>
       <td></td>
       <td></td>
       <td></td>
@@ -64,11 +55,7 @@ function Weekly(props) {
       <td></td>
     </tr>
     <tr className="text-center">
-    <td>13:00</td>
-      <td colSpan="7">LUNCH TIME</td>
-    </tr>
-    <tr className="text-center">
-    <td>14:00</td>
+    <td><strong>12:00</strong></td>
       <td></td>
       <td></td>
       <td></td>
@@ -78,7 +65,11 @@ function Weekly(props) {
       <td></td>
     </tr>
     <tr className="text-center">
-    <td>15:00</td>
+    <td><strong>13:00</strong></td>
+      <td colSpan="7"><strong>LUNCH TIME</strong></td>
+    </tr>
+    <tr className="text-center">
+    <td><strong>14:00</strong></td>
       <td></td>
       <td></td>
       <td></td>
@@ -88,7 +79,7 @@ function Weekly(props) {
       <td></td>
     </tr>
     <tr className="text-center">
-    <td>16:00</td>
+    <td><strong>15:00</strong></td>
       <td></td>
       <td></td>
       <td></td>
@@ -98,11 +89,7 @@ function Weekly(props) {
       <td></td>
     </tr>
     <tr className="text-center">
-    <td>17:00</td>
-      <td colSpan="7">DINNER TIME</td>
-    </tr>
-    <tr className="text-center">
-    <td>18:00</td>
+    <td><strong>16:00</strong></td>
       <td></td>
       <td></td>
       <td></td>
@@ -112,7 +99,21 @@ function Weekly(props) {
       <td></td>
     </tr>
     <tr className="text-center">
-    <td>19:00</td>
+    <td><strong>17:00</strong></td>
+      <td colSpan="7"><strong>DINNER TIME</strong></td>
+    </tr>
+    <tr className="text-center">
+    <td><strong>18:00</strong></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr className="text-center">
+    <td><strong>19:00</strong></td>
       <td></td>
       <td></td>
       <td></td>

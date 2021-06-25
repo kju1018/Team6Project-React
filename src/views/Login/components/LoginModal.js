@@ -10,7 +10,7 @@ function LoginModal(props) {
         </Modal.Header>
         <Modal.Body>
           <Row>
-          <Col md={6} className="pr-0 pl-0"><img src="Online Doctor-pana.png" width="90%"/></Col>
+          <Col md={6} className="pr-0 pl-0"><img src="Online Doctor-rafiki.png" width="90%"/></Col>
           <Col md={6} className="mt-auto mb-5 pl-0">
             <Form>
               <Form.Group controlId="formBasicEmail">
