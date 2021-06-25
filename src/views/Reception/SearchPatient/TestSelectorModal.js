@@ -21,17 +21,25 @@ function TestSelectorModal(props){
         })
         setTestList(modify);
     }
+    const ResisterTest = () =>{
+        console.log(props)
+        props.closeModal("TestSelectorModal")
+    }
     return(
     <div className="conatainer" style={{height:"400px"}}>
       <div className="col border" style={{overflow:"auto" ,borderRadius:"15px",  marginTop:"15px", height:"70%"}}> 
                         {testList.map((item,index)=>{return(
                                 <div>
                                 <input type="checkbox" onChange={(e)=>{handleTestList(e,index)}} value={testList[index].ischeck}/>
+                                <label style={{marginLeft:"5px"}}>{item.testid}</label>
                                 <label style={{marginLeft:"5px"}}>{item.testname}</label>
                                 </div>
                             )})
                         }
-                   </div>
+        </div>
+        <div className="col d-flex justify-content-end" style={{borderRadius:"15px",  marginTop:"10px"}}> 
+            <button className="btn btn-outline-dark btn-sm" onClick={ResisterTest}>검사접수</button>
+        </div>
     </div>
     )
 }

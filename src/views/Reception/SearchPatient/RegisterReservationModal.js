@@ -39,7 +39,7 @@ function RegisterReservationModal(props){
     const handleReservation = (type) =>{
         setReservationType(type)
     }
-    //처방된 검사리스트
+    //선택된 검사리스트 (초기값으로 DB에서 불러온 처방검사리스트 들어감)
     const [testList,setTestList] = useState(InitTestList);
     //처방된 검사 선택
     const handleTestList = (event, index) =>{
@@ -55,8 +55,7 @@ function RegisterReservationModal(props){
 
     //초기화 함수
     useEffect(()=>{
-        console.log("saef")
-        console.log(props.patient)
+        console.log("this is reservaiton!")
     },[props.patient]) 
     useEffect(()=>{
     },[startDate])
@@ -77,6 +76,18 @@ function RegisterReservationModal(props){
             return "시간을 선택해 주세요"
         }
        
+    }
+    //예약 등록함수
+    const ResisterReservation=()=>{
+        //reservationType이 true가 진료 / false가 검사
+        if(reservationType){
+            //DB에 해당 patient, startDate로 해당 시간에 진료예약
+        }
+        else{
+            //DB에 해당 patient, startDate, testList로 해당 시간에 검사예약
+        }
+        //모달 닫기
+        props.closeModal("RegisterReservationModal")
     }
     return(
         <div className="conatainer" style={{height:"60vh"}}>
@@ -132,13 +143,14 @@ function RegisterReservationModal(props){
                             testList.map((item,index)=>{return(
                                 <div >
                                 <input type="checkbox" onChange={(e)=>{handleTestList(e,index)}} value={testList[index].ischeck}/>
+                                <label style={{marginLeft:"5px"}}>{item.testid}</label>
                                 <label style={{marginLeft:"5px"}}>{item.testname}</label>
                                 </div>
                             )})
                         }
                    </div>
                    <div className="col d-flex justify-content-end" style={{borderRadius:"15px",  marginTop:"10px"}}> 
-                        <button className="btn btn-outline-dark btn-sm">예약등록</button>
+                        <button className="btn btn-outline-dark btn-sm" onClick={ResisterReservation}>예약등록</button>
                    </div>
                 </div>
 
