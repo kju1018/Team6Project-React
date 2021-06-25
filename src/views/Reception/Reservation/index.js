@@ -6,13 +6,11 @@ import ReceptionHeader from "../components/ReceptionHeader";
 function Reservation(props){
     const property = ["id","name","rstate","reservationtype","registerday"]
     const [selectDate,setSelectDate] = useState(new Date().toLocaleDateString());
-    console.log("reservation!!!!!");
     useEffect(()=>{
         console.log(selectDate);
     },[selectDate])
     const click = (item) =>{
         console.log("reser click!")
-        props.setSelectedPatient(item)
     }
     return(
     <div className="pl-3 pr-3 pb-3" style={{height:"554px", backgroundColor:"white"}}>

@@ -1,7 +1,7 @@
 import "../style/menu.css"
+import DrawerTestReception from "./DrawerTestReception"
+import DrawerTreatmentReception from "./DrawerTreatmentReception"
 import {slide as Menu}  from "react-burger-menu";
-import TestReception from "views/Reception/TestReception";
-import TreatmentReception from "views/Reception/TreatmentReception";
 import { useHistory } from "react-router";
 import { useEffect } from "react";
 function Menus(props){
@@ -15,9 +15,9 @@ function Menus(props){
   
   return (
     
- <Menu right noOverlay  width={"30%"}>
-     <TreatmentReception></TreatmentReception>
-     <TestReception></TestReception>
+ <Menu right noOverlay  width={"50%"}>
+     <DrawerTestReception></DrawerTestReception>
+     <DrawerTreatmentReception></DrawerTreatmentReception>
   </Menu>
   );
 }
