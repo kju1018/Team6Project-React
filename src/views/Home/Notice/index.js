@@ -1,17 +1,52 @@
-import { Modal } from "react-bootstrap";
+import { Form, Modal } from "react-bootstrap";
 import React, { useState } from "react";
 import { Button } from 'react-bootstrap';
+import Item from "views/components/Item";
 function Notice(props){
   const [show, setShow] = useState(false);
+  const [selectedNotice, setSelectedNotice] = useState({});
+  //공지사항을 가져올 list 
+
+
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
+  const selectNotice = (notice) => {
+    setSelectedNotice(notice);
+    handleShow();
+  }
+
 return(
   <>
-  <h5>NOTICE</h5>
+  <h5>NOTICE <img src="/pencil.png"width="25"height="25"/>
+      <Button variant="outline-primary" style={{float: "right"}} onClick={handleShow}>
+      <img src="/pen.png"width="25"height="25"/></Button>
+    </h5> 
+    <Modal show={show} onHide={handleClose}>
+              <Form>
+                <h4 className="text-center">NOTICE<img src="/pencil.png"width="25"height="25"/></h4>
+                <hr></hr>
+                <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+                  <Form.Label>작성자</Form.Label>
+                  <Form.Control type="text"/>
+                </Form.Group>
+                <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
+                  <Form.Label>내용</Form.Label>
+                  <Form.Control as="textarea" rows={3} />
+                </Form.Group>
+              </Form>
+              <Modal.Footer>
+              <Button variant="primary" onClick={handleClose}>
+                  ADD
+                </Button>
+                <Button variant="danger" onClick={handleClose}>
+                  CLOSE
+                </Button>
+              </Modal.Footer>
+            </Modal>
   <div className="overflow-auto">
    <table className="table table-hover">
-     <thead className="thead">
+     <thead className="card-header">
        <tr>
          <th scope="col">#</th>
          <th scope="col">작성자</th>
@@ -20,89 +55,30 @@ return(
        </tr>
      </thead>
      <tbody>
-       <tr>
-         <th scope="row">1</th>
-         <th>신용권</th>
-         <th>병원내 휴무일 안내<button  variant="primary" type="button" class="btn btn-outline-success btn-sm" onClick={handleShow}>
+      {/* <tr>
+        <th scope="row">1</th>
+        <th>{item.}</th>
+        <th>{item.}<button  variant="primary" type="button" class="btn btn-outline-success btn-sm" onClick={() => {selectNotice(item)}} style={{float: "right"}}>
             자세히
           </button>
-            <Modal show={show} onHide={handleClose}>
-              <Modal.Header closeButton>
-                <Modal.Title>병원내 휴무일 안내</Modal.Title>
-              </Modal.Header>
-              <Modal.Body>다들 집가라 오늘은 휴무다.</Modal.Body>
-              <Modal.Footer>
-                <Button variant="primary" onClick={handleClose}>
-                  CLOSE
-                </Button>
-              </Modal.Footer>
-            </Modal>
-            </th>
-          <th>2021-06-16</th>
-       </tr>
-       <tr>
-         <th scope="row">1</th>
-         <th>신용권</th>
-         <th>병원내 휴무일 안내<button  variant="primary" type="button" class="btn btn-outline-success btn-sm" onClick={handleShow}>
-            자세히
-          </button>
-            <Modal show={show} onHide={handleClose}>
-              <Modal.Header closeButton>
-                <Modal.Title>병원내 휴무일 안내</Modal.Title>
-              </Modal.Header>
-              <Modal.Body>다들 집가라 오늘은 휴무다.</Modal.Body>
-              <Modal.Footer>
-                <Button variant="primary" onClick={handleClose}>
-                  CLOSE
-                </Button>
-              </Modal.Footer>
-            </Modal>
-            </th>
-          <th>2021-06-16</th>
-       </tr>
-       <tr>
-         <th scope="row">1</th>
-         <th>신용권</th>
-         <th>병원내 휴무일 안내<button  variant="primary" type="button" class="btn btn-outline-success btn-sm" onClick={handleShow}>
-            자세히
-          </button>
-            <Modal show={show} onHide={handleClose}>
-              <Modal.Header closeButton>
-                <Modal.Title>병원내 휴무일 안내</Modal.Title>
-              </Modal.Header>
-              <Modal.Body>다들 집가라 오늘은 휴무다.</Modal.Body>
-              <Modal.Footer>
-                <Button variant="primary" onClick={handleClose}>
-                  CLOSE
-                </Button>
-              </Modal.Footer>
-            </Modal>
-            </th>
-          <th>2021-06-16</th>
-       </tr>
-       <tr>
-         <th scope="row">1</th>
-         <th>신용권</th>
-         <th>병원내 휴무일 안내<button  variant="primary" type="button" class="btn btn-outline-success btn-sm" onClick={handleShow}>
-            자세히
-          </button>
-            <Modal show={show} onHide={handleClose}>
-              <Modal.Header closeButton>
-                <Modal.Title>병원내 휴무일 안내</Modal.Title>
-              </Modal.Header>
-              <Modal.Body>다들 집가라 오늘은 휴무다.</Modal.Body>
-              <Modal.Footer>
-                <Button variant="primary" onClick={handleClose}>
-                  CLOSE
-                </Button>
-              </Modal.Footer>
-            </Modal>
-            </th>
-          <th>2021-06-16</th>
-       </tr>
+        </th>
+        <th>2021-06-16</th>
+       </tr> */}
      </tbody>
    </table>
    </div>
+
+   {/* <Modal show={show} onHide={handleClose}>
+      <Modal.Header closeButton>
+        <Modal.Title>{selectedNotice.}</Modal.Title>
+      </Modal.Header>
+      <Modal.Body>{selectedNotice.}</Modal.Body>
+      <Modal.Footer>
+        <Button variant="primary" onClick={handleClose}>
+          CLOSE
+        </Button>
+      </Modal.Footer>
+    </Modal> */}
   </>
 )
 }

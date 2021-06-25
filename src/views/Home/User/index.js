@@ -3,7 +3,7 @@ function User(props){
     <>
     <div className="overflow-auto">
       <table className="table table-hover">
-        <thead className="thead">
+        <thead className="card-header">
         <tr class="text-center">
           <th scope="col">PHOTO</th>
           <th scope="col">DOCTOR</th>

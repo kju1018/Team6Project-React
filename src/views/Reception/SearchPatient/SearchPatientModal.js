@@ -4,7 +4,7 @@ function SearchPatientModal(props){
     const property = ["id","name","room","state","registerday"]
     const [keyword, setKeyword] = useState("");
     const [select, setSelect] = useState(property[0]);
-    let SelectedItem;
+    let focusItem;
     // keyword 적을때 불리는 함수
     const ChangeKeyword = (event) =>{
         setKeyword(event.target.value)
@@ -15,12 +15,13 @@ function SearchPatientModal(props){
     }
     // 선택 버튼 누를떄 불리는 함수
     const SelectPatient = () =>{
-        props.setSelectedPatient(SelectedItem)
+       props.setSelectedPatient(focusItem)
+       props.closeModal("SearchPatientModal")
        
     }
     // 환자 div 포커스 선택
     const click = (item) =>{
-        SelectedItem = item;
+        focusItem = item;
        
     }
     return(

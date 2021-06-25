@@ -1,15 +1,19 @@
 import DiagnosisList from "./DignosisList";
 import DrugList from "./DrugList";
-import PatientProfile from "./PatientProfile";
-import ReceptionList from "./ReceptionList";
 import PatientTreatment from "./PatientTreatment";
 import TestList from "./TestList";
 import TreatmentMemo from "./TreatmentMemo";
 import { useCallback, useEffect, useState } from "react";
-import { getDiagnoses, getDiagnosis, getDrugs, getTreatemntDrugs } from "./data/Data";
+import { getTretmentDiagnoses, getDiagnoses, getDrugs, getTreatemntDrugs } from "./data/Data";
+import { useSelector } from "react-redux";
+import PatientProfile from "./components/PatientProfile";
 
 
 function Treatment(props) {
+
+  const globalPatient = useSelector((state) => {
+    return state.patientReducer.patient;
+  })
 
   const [patient, setPatient] = useState({
     // patientname:"환자이름", 
@@ -22,17 +26,21 @@ function Treatment(props) {
     patientname:"환자이름", 
     ssn1:"951018", 
     ssn2:"1111111", 
-    sex: "여",
+    sex: "남",
     age:10,
     phonenumber: "010-1234-1234", 
     lasttreatment:(new Date).toLocaleDateString(),
     registerday:(new Date).toLocaleDateString(),
     state: "대기"
   });
-  const selectPatient = useCallback((patient) => {
-    setPatient(patient);
-    setTreatment({});
-  }, []);
+  // const selectPatient = useCallback((patient) => {
+  //   setPatient(patient);
+  //   setTreatment({});
+  // }, []);
+
+  // useEffect(() => {
+  //globalPatient가 변경될 때 patient 변경
+  // }, [globalPatient]) 
 
   const [treatment, setTreatment] = useState({})
   const selectTreatment = useCallback((treatment) => {
@@ -43,17 +51,17 @@ function Treatment(props) {
   const [treatmentDiagnoses, setTreatmentDiagnoses] = useState([]);
 
   const [staticDrugs, setStaticDrugs] = useState([]);
-  const [staticDignosis, setStaticDignosis] = useState([]);
+  const [staticDignoses, setStaticDignoses] = useState([]);
 
   useEffect(() => {
     setStaticDrugs(getDrugs());
-    setStaticDignosis(getDiagnosis());
+    setStaticDignoses(getDiagnoses());
   },[])//정적 데이터 불러오기
 
   useEffect(() => {
     if(treatment.state==="진료 완료"){
       setTreatmentDrugs(getTreatemntDrugs(treatment.treatmentid));
-      setTreatmentDiagnoses(getDiagnoses(treatment.treatmentid));
+      setTreatmentDiagnoses(getTretmentDiagnoses(treatment.treatmentid));
     }
     return (() => {
       setTreatmentDrugs([]);
@@ -63,36 +71,16 @@ function Treatment(props) {
 
   const prescribeDrugs = (prescriptionItems) => {
     setTreatmentDrugs(prescriptionItems);
+  }//약 처방 함수
+
+  const prescripbeDiagnoses = (prescriptionItems) => {
+    setTreatmentDiagnoses(prescriptionItems);
   }
-  console.log(treatmentDrugs);
+
   return (
     <>
       <div style={{height:"5vh", marginBottom:"2vh",  marginTop:"1vh"}}>
-        <div className="h-100 pl-3 pr-3 d-flex align-items-center" style={{backgroundColor:"#15367B", marginRight:"15px", marginLeft:"15px"}}>
-          {/* 8vh */}
-          <div className="d-flex col">
-            <div className="col-2 pl-0 pr-0 d-flex align-items-center text-center" >
-              <div className="col-4 pl-0 pr-0" style={{fontWeight:"bold", color:"#FBFBFB"}}>이름</div>
-              <div className="text-center pl-0 pr-0 pt-1 pb-1 ml-0 mr-0 col-8" style={{boxShadow:"rgb(0 0 0 / 8%) 0px 0px 5px 2px", borderRadius:"7px", fontSize:"14px", backgroundColor:"#FFFFFF"}}>김민석</div>
-            </div>
-            <div className="col-2 pl-3 pr-0 d-flex align-items-center text-center">
-              <div className="col-4 pl-0 pr-0" style={{fontWeight:"bold", color:"#FBFBFB"}}>나이</div>
-              <div className="text-center pl-0 pr-0 pt-1 pb-1 ml-0 mr-0 col-8" style={{boxShadow:"rgb(0 0 0 / 8%) 0px 0px 5px 2px", borderRadius:"7px", fontSize:"14px", backgroundColor:"#FFFFFF"}}>27세</div>
-            </div>
-            <div className="col-2 pl-3 pr-0 d-flex align-items-center text-center">
-              <div className="col-4 pl-0 pr-0" style={{fontWeight:"bold", color:"#FBFBFB"}}>성별</div>
-              <div className="text-center pl-0 pr-0 pt-1 pb-1 ml-0 mr-0 col-8" style={{boxShadow:"rgb(0 0 0 / 8%) 0px 0px 5px 2px", borderRadius:"7px", fontSize:"14px", backgroundColor:"#FFFFFF"}}>남</div>
-            </div>
-            <div className="col-4 pl-3 pr-0 d-flex align-items-center text-center">
-              <div className="col-3 pl-0 pr-0" style={{fontWeight:"bold", color:"#FBFBFB"}}>주민등록번호</div>
-              <div className="text-center pt-1 pb-1 pl-0 pr-0 ml-0 mr-0 col-6" style={{boxShadow:"rgb(0 0 0 / 8%) 0px 0px 5px 2px", borderRadius:"7px", fontSize:"14px", backgroundColor:"#FFFFFF"}}>951018 - 1234567</div>
-            </div>
-            <div className="col-2 pl-3 pr-0  text-right">
-                <button className="btn btn-dark btn-sm">환자 검색</button>
-                <button className="btn btn-dark btn-sm ml-2 mr-5">저장</button>
-            </div>
-          </div>
-        </div>
+        <PatientProfile selectedPatient={patient}></PatientProfile>
       </div>
       <div className="row ml-0 mr-0" style={{heighn:"92vh"}}>
         <div className="col-3 h-100 border-right">
@@ -105,7 +93,8 @@ function Treatment(props) {
         </div>
         <div className="col-5 h-100 border-right">
           <div className="pl-3 pr-3 pb-3 pt-0" style={{height:"46vh", backgroundColor:"#FFFFFF", marginBottom:"2vh"}}>
-            <DiagnosisList diagnoses={treatmentDiagnoses}/>
+            <DiagnosisList treatment={treatment} treatmentDiagnoses={treatmentDiagnoses}
+                  staticDignoses={staticDignoses} prescripbeDiagnoses={prescripbeDiagnoses}/>
           </div>
           <div className="pl-3 pr-3 pt-0 pb-1" style={{height:"44vh", backgroundColor:"#FFFFFF"}}>
             <DrugList treatment={treatment} treatmentDrugs={treatmentDrugs} 

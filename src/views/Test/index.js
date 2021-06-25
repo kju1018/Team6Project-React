@@ -33,10 +33,12 @@ function TestPage(props) {
         </div>
         <div className="col-4 pt-3" style={{borderLeft:"1px solid #dadada"}}>
           <div className="row pl-3 10vh ml-0" style={{backgroundColor: "#ffffff", width:"85%"}}><div className="pr-3 pl-3 pt-2 pb-2" style={{ backgroundColor:"#3EB2A2"}}><i class="bi bi-display" style={{ fontSize:"22px"}}></i></div><div className="ml-4 pt-2">결과 입력</div></div>
+
           <div className="row" style={{height:"5%"}}>      
             <div className="col-9 pt-3"><div>검사 결과: </div></div>
           </div>
           <div style={{height:"65%"}}><TestResult/></div>
+
           <div style={{height:"10%"}}>
             <Banner/>
           </div>
