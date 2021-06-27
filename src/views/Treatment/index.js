@@ -35,6 +35,7 @@ function Treatment(props) {
   const [treatment, setTreatment] = useState({})
   const selectTreatment = useCallback((treatment) => {
     setTreatment(treatment);
+    console.log("treatment변경");
   }, [])
 
   const [treatmentDrugs, setTreatmentDrugs] = useState([]);
@@ -56,6 +57,7 @@ function Treatment(props) {
       setTreatmentDrugs(getTreatemntDrugs(treatment.treatmentid));
       setTreatmentDiagnoses(getTretmentDiagnoses(treatment.treatmentid));
       setTreatmentTests(getTreatmentTests(treatment.treatmentid));
+      console.log("데이터 변경");
     }
     return (() => {
       setTreatmentDrugs([]);
