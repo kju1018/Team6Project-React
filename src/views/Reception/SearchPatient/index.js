@@ -5,9 +5,9 @@ import TestSelectorModal from "./TestSelectorModal";
 import RegisterPatientModal from "./RegisterPatientModal";
 import UpdatePatientModal from "./UpdatePatientModal";
 import RegisterReservationModal from "./RegisterReservationModal";
-import PatientProfile from "../components/PatientProfile";
+import PatientProfile from "./PatientProfile";
 import ReceptionHeader from "../components/ReceptionHeader";
-import PatientHistory from "../components/PatientHistory";
+import PatientHistory from "./PatientHistory";
 function SearchPatient(props){
     const [searchModalshow, setSearchModalshow] = useState(false);
     const [reservationRegisterhModalshow, setreservationRegisterhModalshow] = useState(false);

@@ -4,7 +4,7 @@ function PatientProfile(props) {
     
   return (
     <>
-      <div className="" style={{height:"calc(35%-50px)", overflowX:"auto"}}>
+      <div className="" style={{height:"calc(35%-50px)"}}>
         <div className="d-flex ml-0 mr-0" style={{height:"25%", minWidth:"200px"}}>
           <div className="col d-flex flex-column justify-content-center">
             <div className="mb-1" style={{fontSize:"15px", fontWeight:"bold"}}><span>이름</span></div>

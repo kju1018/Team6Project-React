@@ -1,9 +1,8 @@
 import Reservation from "./Reservation";
-import TestReception from "./TestReception";
 import SearchPatient from"./SearchPatient";
-import TreatmentReception from "./TreatmentReception";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import "./font.css"
+import PatientReception from "./PatientReception";
 const InitPatientList = () =>{
     let patientlist=[];
     for(var i=1; i<12; i++){
@@ -28,14 +27,8 @@ function Reception(props){
             <div className="row-6 p-2">
                 <Reservation/>         
             </div>
-            <div className="row-6 p-2 d-flex ">
-                <div className="col-6">
-                <TreatmentReception patientList ={patientList}/>
-                </div>
-                <div className="col-6">
-                <TestReception patientList ={patientList}/>
-                </div>
-                
+            <div className="row-6 p-2 ">
+                <PatientReception patientList ={patientList}/>
             </div>
     </div>
         
