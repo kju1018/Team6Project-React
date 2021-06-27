@@ -1,11 +1,18 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Item from "views/components/Item";
 import {getAllPatientsData} from "views/Reception/BackEnd/index"
 function SearchPatientModal(props){
     const property = ["patientid","patientname","ssn1","lasttreatment","registerday"]
     const [keyword, setKeyword] = useState("");
     const [select, setSelect] = useState(property[0]);
+    const [patientList,setPatientList] = useState([]);
     let focusItem;
+
+    //처음 컴포넌트 시작시 목록 불러옴
+    useEffect(()=>{
+        var patientlist = getAllPatientsData();
+        setPatientList(patientlist)
+    },[])
     // keyword 적을때 불리는 함수
     const ChangeKeyword = (event) =>{
         setKeyword(event.target.value)
@@ -53,7 +60,7 @@ function SearchPatientModal(props){
                 <div style={{width:"20%"}}>등록일</div>
             </div>
             <div className="overflow-auto  justify-content-center" style={{height:"300px"}} >
-                 {getAllPatientsData().map((item,index)=>{
+                 {patientList.map((item,index)=>{
                      if(item[select].toString().indexOf(keyword)!=-1){
                         return(
                             <div key={index}>

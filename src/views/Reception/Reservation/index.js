@@ -30,7 +30,7 @@ function Reservation(props){
                 <div style={{width:"20%"}}>예약타입</div>
                 <div style={{width:"20%"}}>예약시간</div>
             </div>
-            <div className="overflow-auto  justify-content-center" style={{height:"350px"}} >
+            <div className="overflow-auto  justify-content-center" style={{height:"300px"}} >
                 
                  {reservationList.map((item,index)=>{
                      const rdate = item.reservationdate.toLocaleDateString() 
