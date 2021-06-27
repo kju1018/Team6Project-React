@@ -25,103 +25,28 @@ function Weekly(props) {
   </thead>
   <tbody>
     <tr className="text-center">
-      <td><strong>09:00</strong></td>
-      <td><WeeklyForm/></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
+      <td ><WeeklyForm/></td>
     </tr>
     <tr className="text-center">
-    <td><strong>10:00</strong></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
+      <td rowSpan="7"><WeeklyForm/></td>
     </tr>
     <tr className="text-center">
-    <td><strong>11:00</strong></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
+      <td rowSpan="6"><WeeklyForm/></td>
     </tr>
     <tr className="text-center">
-    <td><strong>12:00</strong></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
+     <td rowSpan="5"><WeeklyForm/></td>
     </tr>
     <tr className="text-center">
-    <td><strong>13:00</strong></td>
-      <td colSpan="7"><strong>LUNCH TIME</strong></td>
+      <td rowSpan="7"><WeeklyForm/></td>
     </tr>
     <tr className="text-center">
-    <td><strong>14:00</strong></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
+     <td rowSpan="6"><WeeklyForm/></td>
     </tr>
     <tr className="text-center">
-    <td><strong>15:00</strong></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
+     <td rowSpan="5"><WeeklyForm/></td>
     </tr>
-    <tr className="text-center">
-    <td><strong>16:00</strong></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-    </tr>
-    <tr className="text-center">
-    <td><strong>17:00</strong></td>
-      <td colSpan="7"><strong>DINNER TIME</strong></td>
-    </tr>
-    <tr className="text-center">
-    <td><strong>18:00</strong></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-    </tr>
-    <tr className="text-center">
-    <td><strong>19:00</strong></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-    </tr>
+
+    <td rowSpan="4"><WeeklyForm/></td>
   </tbody>
 </Table>
     </>
