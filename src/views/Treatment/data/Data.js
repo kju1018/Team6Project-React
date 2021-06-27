@@ -27,10 +27,10 @@ for(var i=1; i<=lastbno; i++) {
 
   testData.push({
     treatmentid:i%100 + 21,
-    result:"검사 결과" + i,
+    result:Math.random() > 0.5 ? "검사 결과" + i : null,
     testdataid: "처방 코드" + i,
     testname:"검사 이름" + i,
-    testcontainer: i%2===0? "EDTA" : "SST",
+    testcontainer: Math.random() > 0.5? "EDTA" : "SST",
     groupcode:"그룹코드" + (i%50),
     groupname:"그룹 이름" + (i%50)
   });

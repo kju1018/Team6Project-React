@@ -21,8 +21,8 @@ function TestList(props) {
     const group = props.treatmentTests.reduce((gt, t) => {
       if(!gt[t.groupcode]){
         gt[t.groupcode] = {};
-        gt[t.groupcode][t.groupcode] = t.groupcode;
-        gt[t.groupcode][t.groupname] = t.groupname;
+        gt[t.groupcode].groupcode = t.groupcode;
+        gt[t.groupcode].groupname = t.groupname;
         gt[t.groupcode].tests = [];
         gt[t.groupcode].tests.push(t);
       } else {
@@ -42,7 +42,7 @@ function TestList(props) {
         {Object.values(groupTests).map(groupTest => {
           console.log(groupTest);
           return (
-            <PackageTest/>
+            <PackageTest key={groupTest.groupcode}  groupTest={groupTest}/>
             );
         })
         }

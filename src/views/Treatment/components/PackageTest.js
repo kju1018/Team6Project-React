@@ -1,17 +1,20 @@
-import { Accordion, Card } from "react-bootstrap";
+import { Accordion, Alert, Card } from "react-bootstrap";
 import Test from "./Test";
 
 function PackageTest(props) {
   return (
     <Accordion>
       <Card>
-        <Accordion.Toggle as={Card.Header} eventKey="0">
-        L2001 CBC (CBC,PLT,DIFF)
+        <Accordion.Toggle as={Alert} variant="secondary" className="mb-0" eventKey="0">
+        {props.groupTest.groupcode}&nbsp;&nbsp;{props.groupTest.groupname}
         </Accordion.Toggle>
         <Accordion.Collapse eventKey="0">
           <Card.Body>
-            <Test/>
-            <Test/>
+            {props.groupTest.tests.map(test => {
+              return (
+                <Test test={test}/>
+              );
+            })}
           </Card.Body>
         </Accordion.Collapse>
       </Card>
