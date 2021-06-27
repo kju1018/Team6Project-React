@@ -18,12 +18,12 @@ function Reception(props){
     return( 
     <>
     <div className="container-fluid  d-flex p-0 " style={{minWidth:"1200px", fontFamily:"Noto Sans KR"}}>
-    <div className=" col-6 " style={{height:"100%"}}>
+    <div className=" col-6 " style={{height:"100vh"}}>
             <div className="p-2" >
                 <SearchPatient />
             </div>           
     </div>
-    <div className=" col-6 " style={{height:"100%"}}>
+    <div className=" col-6 " style={{height:"100vh"}}>
             <div className="row-6 p-2">
                 <Reservation/>         
             </div>

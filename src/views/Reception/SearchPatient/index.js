@@ -73,7 +73,7 @@ function SearchPatient(props){
 
 
     return(
-    <div className="pl-3 pr-3 pb-3" style={{height:"1000px", backgroundColor:"white"}} >
+    <div className="pl-3 pr-3 pb-3" style={{height:"95vh", backgroundColor:"white"}} >
       
         <ReceptionHeader headertitle="환자정보" iclassName="bi bi-person-square " color="#9ACAA1">
                 <button  style={{marginRight:"10px"}} className="btn btn-outline-dark btn-sm" onClick={()=>{setSearchModalshow(true)}}>환자검색</button>

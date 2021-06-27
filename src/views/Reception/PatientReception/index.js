@@ -13,7 +13,7 @@ function PatientReception(props){
     const [testsData, setTestsData] = useState(getAllTestsReceptionData)
  
     return(
-        <div className="pl-3 pr-3 pb-3" style={{height:"500px", backgroundColor:"white"}}>    
+        <div className="pl-3 pr-3 pb-3" style={{height:"calc(45vh - 15px)", backgroundColor:"white"}}>    
             <ReceptionHeader headertitle="접수" iclassName="bi bi-droplet " color="#E89677">
                 <select onChange={onChangeSelect} className="ml-2" name="reception" >
                     <option value="treatmentreception">진료접수</option>
