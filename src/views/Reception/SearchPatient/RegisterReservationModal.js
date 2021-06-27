@@ -1,35 +1,13 @@
 import { useEffect, useState } from "react";
 import ReactDatePicker, {} from "react-datepicker";
-import Calendar from "./Calendar";
 import "./datepickerReservation.css";
+import {getAllReservationsData, getAllTestsGroupData, insertReservationData} from "views/Reception/BackEnd/index"
 
-const InitTestList = () =>{
-    let testlist = [];
-    for(var i=0; i<20; i++){
-        let test = {testid:i, testname:"test"+i, ischeck:false}
-        testlist.push(test);
-    }
-    return testlist;
-
-}
-const InitReservationList = () =>{
-    let reservationlist = [];
-    
-    let initdate1 = new Date(new Date().getFullYear(),new Date().getMonth(),new Date().getDate(),9,30)
-    let initdate2 = new Date(new Date().getFullYear(),new Date().getMonth(),new Date().getDate(),10,0)
-    
-        let reservation = {id:1, patientid:1, type:"진료",date:initdate1 }
-        let reservation2 = {id:2, patientid:2, type:"검사",date:initdate2 }
-        reservationlist.push(reservation);
-        reservationlist.push(reservation2); 
-     
-    return reservationlist;
-}
 
 function RegisterReservationModal(props){
-    const patient = props.patientList[0];
+    const patient = props.selectedPatient;
     //예약 리스트
-    const [reservationList, setReservationList] = useState(InitReservationList);
+    const [reservationList, setReservationList] = useState(()=>(getAllReservationsData()));
     //선택된 날짜 상태
     const [startDate, setStartDate] = useState(new Date(new Date().getFullYear(),new Date().getMonth(),new Date().getDate(),8,0))
 
@@ -40,7 +18,7 @@ function RegisterReservationModal(props){
         setReservationType(type)
     }
     //선택된 검사리스트 (초기값으로 DB에서 불러온 처방검사리스트 들어감)
-    const [testList,setTestList] = useState(InitTestList);
+    const [testList,setTestList] = useState(()=>{return getAllTestsGroupData(patient.patientid)});
     //처방된 검사 선택
     const handleTestList = (event, index) =>{
         const modify = testList.map((item,i)=>{
@@ -53,10 +31,6 @@ function RegisterReservationModal(props){
     }
     
 
-    //초기화 함수
-    useEffect(()=>{
-        console.log("this is reservaiton!")
-    },[props.patient]) 
     useEffect(()=>{
     },[startDate])
     const getReservationDate= () =>{
@@ -79,13 +53,23 @@ function RegisterReservationModal(props){
     }
     //예약 등록함수
     const ResisterReservation=()=>{
+        let newreservation;
         //reservationType이 true가 진료 / false가 검사
         if(reservationType){
             //DB에 해당 patient, startDate로 해당 시간에 진료예약
+            newreservation = {reservationdate:startDate
+            ,patientid:patient.patientid,status:"대기",type:"진료" }
+            insertReservationData(newreservation)
         }
         else{
             //DB에 해당 patient, startDate, testList로 해당 시간에 검사예약
+            const checkedtestlist = testList.filter((test)=>(test.ischeck===true))
+            newreservation = {reservationdate:startDate
+                ,patientid:patient.patientid,status:"대기",type:"검사" }
+                insertReservationData(newreservation, checkedtestlist)
         }
+        //redux 저장
+        
         //모달 닫기
         props.closeModal("RegisterReservationModal")
     }
@@ -102,12 +86,13 @@ function RegisterReservationModal(props){
                 </div>
                 
                 <div className="row d-flex justify-content-between text-center  " style={{borderRadius:"15px",width:"100%",marginLeft:"5px"}}>
-                    <div style={{width:"10%"}}>{patient.id}</div>
-                    <div style={{width:"10%"}}>{patient.name}</div>
-                    <div style={{width:"10%"}}>{patient.sex===0?"남자":"여자"}</div>
+                  
+                    <div style={{width:"10%"}}>{patient.patientid}</div>
+                    <div style={{width:"10%"}}>{patient.patientname}</div>
+                    <div style={{width:"10%"}}>{patient.sex}</div>
                     <div style={{width:"10%"}}>{patient.age}</div>
-                    <div style={{width:"35%"}}>{patient.ssn}</div>
-                    <div style={{width:"25%"}}>{patient.phone}</div>
+                    <div style={{width:"35%"}}>{patient.ssn1 + " - " + patient.ssn2}</div>
+                    <div style={{width:"25%"}}>{patient.phonenumber}</div>
                 </div>
             </div>
             <div className="row" style={{height:"80%"}}>
@@ -122,12 +107,12 @@ function RegisterReservationModal(props){
                     maxTime={new Date(startDate.getFullYear(),startDate.getMonth(),startDate.getDate(),17,30)}
                     excludeTimes={
                         reservationList.map((item)=>{return(
-                            item.date
+                            item.reservationdate
                         )
                         })
                     }
                     inline
-                    dateFormat="MMMM d, yyyy h:mm aa"
+                    dateFormat="MMMM d, yyyy h:mm"
                     />
                     <div className="border text-center" style={{borderRadius:"15px"}}> 
                         예약날짜<br/>{getReservationDate()}
@@ -139,12 +124,14 @@ function RegisterReservationModal(props){
                         <button onClick={()=>{handleReservation(false)}}  style={{backgroundColor:!reservationType? "green":"white",borderRadius:"15px",marginRight:"10px", marginTop:"5px"}} className="btn btn-outline-dark btn-sm border">검사</button>
                     </div>
                     <div className="col border" style={{overflow:"auto" ,borderRadius:"15px",  marginTop:"15px", height:"70%"}}> 
+                        
+             
                         {!reservationType&&
                             testList.map((item,index)=>{return(
-                                <div >
+                                <div key={index}>
                                 <input type="checkbox" onChange={(e)=>{handleTestList(e,index)}} value={testList[index].ischeck}/>
-                                <label style={{marginLeft:"5px"}}>{item.testid}</label>
-                                <label style={{marginLeft:"5px"}}>{item.testname}</label>
+                                <label style={{marginLeft:"5px"}}>{item.groupcode}</label>
+                                <label style={{marginLeft:"5px"}}>{item.groupname}</label>
                                 </div>
                             )})
                         }
