@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import ReactDatePicker, {} from "react-datepicker";
 import "./datepickerReservation.css";
 import {getAllReservationsData, getAllTestsGroupData, insertReservationData} from "views/Reception/BackEnd/index"
+import { useDispatch } from "react-redux";
+import { createSetReservation } from "redux/reservation-reducer";
 
 
 function RegisterReservationModal(props){
@@ -16,6 +18,7 @@ function RegisterReservationModal(props){
     const handleReservation = (type) =>{
         setReservationType(type)
     }
+    const dispatch = useDispatch();
     //선택된 검사리스트 (초기값으로 DB에서 불러온 처방검사리스트 들어감)
     const [testList,setTestList] = useState([]);
     //처방된 검사 선택
@@ -34,11 +37,11 @@ function RegisterReservationModal(props){
         setTestList(testlist);
     },[props.selectedPatient])
 
-    //선택한 날짜가 바뀔때마다 예약목록 불러오기
+    //처음 한번 예약목록 불러오기
     useEffect(()=>{
         var reservationlist = getAllReservationsData();
         setReservationList(reservationlist);
-    },[startDate])
+    },[])
 
     const getReservationDate= () =>{
         var newDateOptions = {
@@ -76,7 +79,7 @@ function RegisterReservationModal(props){
                 insertReservationData(newreservation, checkedtestlist)
         }
         //redux 저장
-
+        dispatch(createSetReservation(newreservation))
         //모달 닫기
         props.closeModal("RegisterReservationModal")
     }
@@ -134,7 +137,7 @@ function RegisterReservationModal(props){
                         
              
                         {!reservationType&&
-                            testList.map((item,index)=>{return(
+                            testList&&testList.map((item,index)=>{return(
                                 <div key={index}>
                                 <input type="checkbox" onChange={(e)=>{handleTestList(e,index)}} value={testList[index].ischeck}/>
                                 <label style={{marginLeft:"5px"}}>{item.groupcode}</label>

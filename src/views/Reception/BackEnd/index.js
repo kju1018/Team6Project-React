@@ -46,9 +46,22 @@ for(var i=1; i<10; i++){
     const TR = {treatmentid:"treatmentid"+i, memo:"memo"+i,treatmentdate:new Date().toLocaleDateString(),patientid:"patientid"+i,userid:"userid"+i,status:"대기" } 
     treatmentslist.push(TR);
 }
-//예약 가져오기
+//진료정보 가져오기
 export function getAllTreatmentsData(){
     return treatmentslist;
+}
+
+//약데이터
+let drugslist=[];
+for(var i=1; i<10; i++){
+    const TR = {treatmentid:"treatmentid"+i,drugid:"drugid"+i,description:"description"+i } 
+    drugslist.push(TR);
+}
+drugslist.push({treatmentid:"treatmentid"+1,drugid:"drugid"+2,description:"description"+1 });
+//해당 진료의 처방된 약데이터 가져오기
+export function getDrugsData(treatment_id){
+    var prescriptionlist = drugslist.filter((drugs)=>(drugs.treatmentid===treatment_id))
+    return prescriptionlist;
 }
 
 

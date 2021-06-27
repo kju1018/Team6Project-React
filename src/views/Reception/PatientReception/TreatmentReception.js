@@ -13,7 +13,7 @@ function TreatmentReception(props){
     }
     const treatmentProperty = ["treatmentid","patientid","userid","status","treatmentdate"]  
     return(
-        <div className="pl-3 pr-3 pb-3" style={{height:"500px", backgroundColor:"white"}}>
+        <div className="pl-3 pr-3 pb-3" style={{ backgroundColor:"white"}}>
         <div className="mt-3 d-flex justify-content-between">
             <ButtonGroup toggle>
                 <ToggleButton type="radio" variant={`${listtype === "all" ? "secondary" : "light" }`} name="type"  checked={listtype==="all"} value="all" onChange={handleChange}><div className="ml-5 mr-5">전체</div></ToggleButton>
@@ -35,7 +35,7 @@ function TreatmentReception(props){
         
         
             </div>
-            <div className="overflow-auto  justify-content-center" style={{height:"294px"}} >
+            <div className="overflow-auto  justify-content-center" style={{height:"calc(40vh - 200px)"}} >
                
                  {props.patientList&&props.patientList.map((item,index)=>{
                       if(listtype==="all"||item.status===listtype){
