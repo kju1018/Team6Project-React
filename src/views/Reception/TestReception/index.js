@@ -15,7 +15,7 @@ function TestReception(props){
     }
     const property = ["id","name","room","state","registerday"]
     return(
-        <div className="pl-3 pr-3 pb-3" style={{height:"435px", backgroundColor:"white"}}>
+        <div className="pl-3 pr-3 pb-3" style={{height:"500px", backgroundColor:"white"}}>
             
             <ReceptionHeader headertitle="검사접수" iclassName="bi bi-droplet " color="#E89677">
                 <button style={{marginRight:"10px"}} className="btn btn-outline-dark btn-sm">검사취소</button>
