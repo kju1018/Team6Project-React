@@ -81,13 +81,9 @@ export function getTretmentDiagnoses(treatmentid) {
 
 export function getTreatmentTests(treatmentid) {
   const tests = testData.filter(test => test.treatmentid === treatmentid);
-  return tests;
-}
-
-export function getPackageTests(treatmentid) {
   
   let grouped = Object.values(
-    staticTestData.reduce((r, o) => {
+    tests.reduce((r, o) => {
         if(!r[o.groupcode]){
           r[o.groupcode] = {};
           r[o.groupcode][o.groupcode] = o.groupcode;
@@ -101,9 +97,12 @@ export function getPackageTests(treatmentid) {
       }, {})
   );
   console.log(grouped);
-
+  return "";
 }
 
+export function getTests() {
+  return staticTestData;
+}
 
 export function getDrugs() {
   return drugData;
@@ -111,8 +110,4 @@ export function getDrugs() {
 
 export function getDiagnoses() {
   return diagnosisData;
-}
-
-export function getTests() {
-  return staticTestData;
 }

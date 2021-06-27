@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { Tab } from "react-bootstrap";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { createSetPatient } from "redux/patient-reducer";
 import Item from "views/components/Item";
 import { getPatients } from "../data/PatientData";

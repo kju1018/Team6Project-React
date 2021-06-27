@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { Button, Modal } from "react-bootstrap";
 import Item from "views/components/Item";
-import { getAllPatients, getPatients, getSearchPatients } from "../data/PatientData";
+import { getAllPatients, getSearchPatients } from "../data/PatientData";
 function SearchPatient(props) {
   const property = ["patientid", "patientname", "age", "sex", "phonenumber", "lasttreatment", "registerday"];
 

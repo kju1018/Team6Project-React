@@ -1,4 +1,3 @@
-import { useEffect, useRef, useState } from "react";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
 
 function DrugsItem(props) {

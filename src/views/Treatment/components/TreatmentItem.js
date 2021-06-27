@@ -1,4 +1,3 @@
-import { useEffect, useRef, useState } from "react";
 import { Badge } from "react-bootstrap";
 
 function TreatmentItem(props) {
