@@ -1,7 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { getTreatments } from "./data/TreatmentData";
-import { createSetTreatment } from "redux/treatment-reducer";
 import TreatmentItem from "./components/TreatmentItem";
 
 function PatientTreatment(props) {

@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { Button, Modal, OverlayTrigger, Tooltip } from "react-bootstrap";
-import Item from "views/components/Item";
 
 function PrescriptionDrugsModal(props) {
 
@@ -75,8 +74,8 @@ function PrescriptionDrugsModal(props) {
             </div>
           </div>
         </div>
-        <div style={{height:"500px"}} className="row ml-0 mr-0">
-          <div className="col pl-0 pr-0 ml-2">
+        <div style={{height:"500px"}} className="d-flex">
+          <div className="pl-0 pr-0" style={{width:"506px"}}>
             <div className="d-flex text-center align-items-center" style={{height:"40px", color:"#88888D", fontWeight:"bold"}}>
               <div style={{width:"25%"}}>약품코드</div>
               <div style={{width:"25%"}}>약품명</div>
@@ -104,7 +103,7 @@ function PrescriptionDrugsModal(props) {
             <i className="bi bi-arrow-left-square" style={{fontSize:"30px"}}></i>
           </div>
 
-          <div className="col pl-0 pr-0 mr-2">
+          <div className="pl-0 pr-0" style={{width:"506px"}}>
             <div className="d-flex text-center align-items-center" style={{height:"40px", color:"#88888D", fontWeight:"bold"}}>
               <div style={{width:"25%"}}>질병코드</div>
               <div style={{width:"25%"}}>약품명</div>
