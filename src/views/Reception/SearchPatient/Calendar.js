@@ -64,7 +64,6 @@ function Calendar(props){
   //현재 날짜의 슬라이드로 이동 초기화
   useEffect(()=>{
     const today = new Date().getDate()
-    console.log(today)
     setSlideIndex(parseInt(today/7));
   },[])
 
@@ -100,11 +99,11 @@ function Calendar(props){
                 {
                     CItem.map((citem,index)=>{
                         return(
-                            <Carousel.Item>
-                                    <div className={index<4?"row d-flex justify-content-between":"row d-flex"}  style={{padding:"0px 130px"}}>
+                            <Carousel.Item key={index}>
+                                    <div  className={index<4?"row d-flex justify-content-between":"row d-flex"}  style={{padding:"0px 130px"}}>
                                 
                                  {citem.map((day,index)=>{return(
-                                       <button onClick={()=>{onChangeDaySelect(index)}} style={{backgroundColor:dayIndex!==index?"white":"#F6FCFA",border:dayIndex!==index?"none":"2px solid skyblue", borderRadius:"15px",marginLeft:"5px", width:"50px", textAlign:"center"}}>
+                                       <button key={index} onClick={()=>{onChangeDaySelect(index)}} style={{backgroundColor:dayIndex!==index?"white":"#F6FCFA",border:dayIndex!==index?"none":"2px solid skyblue", borderRadius:"15px",marginLeft:"5px", width:"50px", textAlign:"center"}}>
                                         {day}<br/>
                                        {week[new Date(new Date().getFullYear()+"-"+month+"-"+day).getDay()]}
                                         </button>       

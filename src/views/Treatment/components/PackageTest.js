@@ -6,7 +6,7 @@ function PackageTest(props) {
     <Accordion>
       <Card>
         <Accordion.Toggle as={Card.Header} eventKey="0">
-          묶음 코드 그룹명
+        L2001 CBC (CBC,PLT,DIFF)
         </Accordion.Toggle>
         <Accordion.Collapse eventKey="0">
           <Card.Body>
