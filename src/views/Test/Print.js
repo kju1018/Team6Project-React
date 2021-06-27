@@ -1,15 +1,13 @@
 import React from 'react';
 import { useBarcode } from 'react-barcodes';
+
 function Print() {
-  
   const { inputRef } = useBarcode({
-    value: 'createnextapp',
+    value: 'barcodeNo',
     options: {
-      background: '#ffff00',
+      background: '#ffffff',
     }
   });
-
-  
 
   return (
     <img ref={inputRef} />
