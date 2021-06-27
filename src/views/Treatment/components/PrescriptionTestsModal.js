@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Button, Modal, OverlayTrigger, Tooltip } from "react-bootstrap";
 
-function PrescriptionDignosesModal(props) {
+function PrescriptionTestsModal(props) {
 
   const [searchName, setSearchName] = useState("");
   const handleSearchName = (event) => {
@@ -38,14 +38,14 @@ function PrescriptionDignosesModal(props) {
 
   const removeItem = (item) => {
     setPrescriptionItems((prevItems) => {
-      const newItems = prevItems.filter(prevItem => prevItem.diagnosesdataid != item.diagnosesdataid);
+      const newItems = prevItems.filter(prevItem => prevItem.testdataid !== item.testdataid);
       return newItems;
     })
   }
   return (
     <Modal show={props.show} onHide={props.handleClose} size="xl" centered>
       <Modal.Header closeButton style={{backgroundColor:"#1B296D"} }>
-        <Modal.Title style={{color:"#FFFFFF"}}>병명 입력</Modal.Title>
+        <Modal.Title style={{color:"#FFFFFF"}}>검사 처방</Modal.Title>
       </Modal.Header>
       <Modal.Body >
         <div className="input-group d-flex pb-2 justify-content-end border-bottom">
@@ -100,19 +100,19 @@ function PrescriptionDignosesModal(props) {
 
             {props.staticItemList != null &&
             props.staticItemList.map ((item, index) => {
-              if((item.diagnosisdataname.indexOf(searchName) != -1) 
-                  || (item.diagnosisdataename.indexOf(searchName) != -1)
-                  || (item.diagnosesdataid.indexOf(searchName) != -1)){
+              if((item.testdataid.indexOf(searchName) != -1) 
+                  || (item.testname.indexOf(searchName) != -1)
+                  || (item.groupcode.indexOf(searchName) != -1)){
                 return (
                   <div key={index} className="d-flex text-center pt-1 pb-1 align-items-center border-bottom" style={{height:"50px", fontWeight:"bold"}}>
-                    <div style={{width:"25%"}}>{item.diagnosesdataid}</div>
+                    <div style={{width:"25%"}}>{item.groupcode}</div>
                     <OverlayTrigger placement="right"
-                        overlay={<Tooltip>{item.diagnosisdataname}</Tooltip>}>
-                      <div style={{width:"25%", whiteSpace: "nowrap",overflow:"hidden", textOverflow:"ellipsis"}}>{item.diagnosisdataname}</div>
+                        overlay={<Tooltip>{item.groupname}</Tooltip>}>
+                      <div style={{width:"25%", whiteSpace: "nowrap",overflow:"hidden", textOverflow:"ellipsis"}}>{item.groupname}</div>
                     </OverlayTrigger>
                     <OverlayTrigger placement="right"
-                        overlay={<Tooltip>{item.diagnosisdataename}</Tooltip>}>
-                      <div style={{width:"25%", whiteSpace: "nowrap",overflow:"hidden", textOverflow:"ellipsis"}}>{item.diagnosisdataename}</div>
+                        overlay={<Tooltip>{item.testdataid}</Tooltip>}>
+                      <div style={{width:"25%", whiteSpace: "nowrap",overflow:"hidden", textOverflow:"ellipsis"}}>{item.testdataid}</div>
                     </OverlayTrigger>
                     <div style={{width:"25%"}}><button className="btn btn-success btn-sm" onClick={() => {addItme(item)}}>추가</button></div>
                   </div>
@@ -135,4 +135,4 @@ function PrescriptionDignosesModal(props) {
   );
 }
 
-export default PrescriptionDignosesModal;
+export default PrescriptionTestsModal;
