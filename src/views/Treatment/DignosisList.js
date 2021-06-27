@@ -1,6 +1,6 @@
 import { useState } from "react";
-import Item from "views/components/Item";
 import ButtonHeader from "./components/ButtonHeader";
+import DignosesItem from "./components/DignosesItem";
 import PrescriptionDignosesModal from "./components/PrescriptionDignosesModal";
 
 
@@ -25,7 +25,7 @@ function DiagnosisList(props) {
       <div className="overflow-auto p-3" style={{height:"calc(100% - 50px"}}>
       {props.treatmentDiagnoses.map (diagnosis => {
           return (
-            <Item key={diagnosis.diagnosesdataid} item={diagnosis}></Item>
+            <DignosesItem key={diagnosis.diagnosesdataid} item={diagnosis}></DignosesItem>
           );
       })}
       </div>

@@ -1,8 +1,9 @@
 
 import { useState } from "react";
-import Item from "views/components/Item";
+
 import PrescriptionModal from "./components/PrescriptionDrugsModal"
 import ButtonHeader from "./components/ButtonHeader";
+import DrugsItem from "./components/DrugsItem";
 
 function DrugList(props) {
 
@@ -26,7 +27,7 @@ function DrugList(props) {
       {props.treatmentDrugs !=null &&
       props.treatmentDrugs.map (drug => {
           return (
-            <Item key={drug.drugid} item={drug}></Item>
+            <DrugsItem key={drug.drugid} item={drug}></DrugsItem>
           );
       })}
     </div>
