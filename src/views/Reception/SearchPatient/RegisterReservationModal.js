@@ -5,9 +5,8 @@ import {getAllReservationsData, getAllTestsGroupData, insertReservationData} fro
 
 
 function RegisterReservationModal(props){
-    const patient = props.selectedPatient;
     //예약 리스트
-    const [reservationList, setReservationList] = useState(()=>(getAllReservationsData()));
+    const [reservationList, setReservationList] = useState([]);
     //선택된 날짜 상태
     const [startDate, setStartDate] = useState(new Date(new Date().getFullYear(),new Date().getMonth(),new Date().getDate(),8,0))
 
@@ -18,7 +17,7 @@ function RegisterReservationModal(props){
         setReservationType(type)
     }
     //선택된 검사리스트 (초기값으로 DB에서 불러온 처방검사리스트 들어감)
-    const [testList,setTestList] = useState(()=>{return getAllTestsGroupData(patient.patientid)});
+    const [testList,setTestList] = useState([]);
     //처방된 검사 선택
     const handleTestList = (event, index) =>{
         const modify = testList.map((item,i)=>{
@@ -29,10 +28,18 @@ function RegisterReservationModal(props){
         })
         setTestList(modify);
     }
-    
-
+    //선택한 환자가 바뀔때마다 처방검사 목록 불러오기
     useEffect(()=>{
+        var testlist = getAllTestsGroupData(props.selectedPatient.patientid);
+        setTestList(testlist);
+    },[props.selectedPatient])
+
+    //선택한 날짜가 바뀔때마다 예약목록 불러오기
+    useEffect(()=>{
+        var reservationlist = getAllReservationsData();
+        setReservationList(reservationlist);
     },[startDate])
+
     const getReservationDate= () =>{
         var newDateOptions = {
             month: "2-digit",
@@ -58,18 +65,18 @@ function RegisterReservationModal(props){
         if(reservationType){
             //DB에 해당 patient, startDate로 해당 시간에 진료예약
             newreservation = {reservationdate:startDate
-            ,patientid:patient.patientid,status:"대기",type:"진료" }
+            ,patientid:props.selectedPatient.patientid,status:"대기",type:"진료" }
             insertReservationData(newreservation)
         }
         else{
             //DB에 해당 patient, startDate, testList로 해당 시간에 검사예약
             const checkedtestlist = testList.filter((test)=>(test.ischeck===true))
             newreservation = {reservationdate:startDate
-                ,patientid:patient.patientid,status:"대기",type:"검사" }
+                ,patientid:props.selectedPatient.patientid,status:"대기",type:"검사" }
                 insertReservationData(newreservation, checkedtestlist)
         }
         //redux 저장
-        
+
         //모달 닫기
         props.closeModal("RegisterReservationModal")
     }
@@ -87,12 +94,12 @@ function RegisterReservationModal(props){
                 
                 <div className="row d-flex justify-content-between text-center  " style={{borderRadius:"15px",width:"100%",marginLeft:"5px"}}>
                   
-                    <div style={{width:"10%"}}>{patient.patientid}</div>
-                    <div style={{width:"10%"}}>{patient.patientname}</div>
-                    <div style={{width:"10%"}}>{patient.sex}</div>
-                    <div style={{width:"10%"}}>{patient.age}</div>
-                    <div style={{width:"35%"}}>{patient.ssn1 + " - " + patient.ssn2}</div>
-                    <div style={{width:"25%"}}>{patient.phonenumber}</div>
+                    <div style={{width:"10%"}}>{props.selectedPatient.patientid}</div>
+                    <div style={{width:"10%"}}>{props.selectedPatient.patientname}</div>
+                    <div style={{width:"10%"}}>{props.selectedPatient.sex}</div>
+                    <div style={{width:"10%"}}>{props.selectedPatient.age}</div>
+                    <div style={{width:"35%"}}>{props.selectedPatient.ssn1 + " - " + props.selectedPatient.ssn2}</div>
+                    <div style={{width:"25%"}}>{props.selectedPatient.phonenumber}</div>
                 </div>
             </div>
             <div className="row" style={{height:"80%"}}>

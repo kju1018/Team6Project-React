@@ -2,12 +2,16 @@ import { useEffect, useState } from "react";
 import { getAllTestsGroupData} from "views/Reception/BackEnd/index"
 
 function TestSelectorModal(props){
-    //선택된 환자
-    const patient = props.selectedPatient;
     //처방된 검사리스트
-    const [testList,setTestList] = useState(()=>(getAllTestsGroupData(patient.patientid)));
+    const [testList,setTestList] = useState([]);
     //체크된 테스트카운트
     let checkedTestCount=0;
+
+    //처음 컴포넌트 시작시 처방검사 목록 불러오기
+    useEffect(()=>{
+        var testlist = getAllTestsGroupData(props.selectedPatient.patientid);
+        setTestList(testlist);
+    },[])
     //처방된 검사 선택
     const handleTestList = (event, index) =>{
    
@@ -27,7 +31,7 @@ function TestSelectorModal(props){
     return(
     <div className="conatainer" style={{height:"400px"}}>
       <div className="col border" style={{overflow:"auto" ,borderRadius:"15px",  marginTop:"15px", height:"70%"}}> 
-                        {testList && testList.map((item,index)=>{return(
+                        {testList.map((item,index)=>{return(
                                 <div key={index}>
                                 <input type="checkbox" onChange={(e)=>{handleTestList(e,index)}} value={testList[index].ischeck}/>
                                 <label style={{marginLeft:"5px"}}>{item.groupcode}</label>
