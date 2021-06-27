@@ -10,19 +10,18 @@ import ReceptionHeader from "../components/ReceptionHeader";
 function TreatmentReception(props){
     const [listtype, setListtype] = useState("all");
     useEffect(()=>{
-        console.log(props.patientList)
         
     },[props.patientList])
     const handleChange = (event) => {
         setListtype(event.target.value);
       }
       const click = (item) =>{
-        console.log(item)
+
     }
     const property = ["id","name","room","state","registerday"]
    
     return(
-        <div className="pl-3 pr-3 pb-3" style={{height:"435px", backgroundColor:"white"}}>
+        <div className="pl-3 pr-3 pb-3" style={{height:"500px", backgroundColor:"white"}}>
             
             <ReceptionHeader headertitle="진료접수" iclassName="bi bi-clipboard-plus "color="#e89677">
                 <button style={{marginRight:"10px"}} className="btn btn-outline-dark btn-sm">접수취소</button>
