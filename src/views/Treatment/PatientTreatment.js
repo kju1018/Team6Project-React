@@ -4,7 +4,7 @@ import TreatmentItem from "./components/TreatmentItem";
 
 function PatientTreatment(props) {
 
-  console.log("PatientTreatment");
+  // console.log("PatientTreatment");
   const [patientTreatments, setPatientTreatments] = useState([]);
 
   useEffect(() => {

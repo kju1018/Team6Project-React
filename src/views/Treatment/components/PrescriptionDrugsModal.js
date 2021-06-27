@@ -60,7 +60,7 @@ function PrescriptionDrugsModal(props) {
   }
 
   return (
-    <Modal show={props.show} onHide={props.handleClose} size="xl" centered>
+    <Modal animation={false} show={props.show} onHide={props.handleClose} size="xl" centered>
       <Modal.Header closeButton style={{backgroundColor:"#1B296D"} }>
         <Modal.Title style={{color:"#FFFFFF"}}>약 처방</Modal.Title>
       </Modal.Header>
