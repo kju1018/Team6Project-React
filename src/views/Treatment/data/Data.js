@@ -13,7 +13,7 @@ for(var i=1; i<=lastbno; i++) {
     treatmentid:i%100 + 21, 
     drugid: "G" + i,
     drugname: "약 " + i,
-    drugquantity: i % 5,
+    drugquantity: Math.floor(Math.random() * 10),
     drugunit: Math.random() > 0.5 ? "BT" : "TU",
     drugtype: Math.random() > 0.5 ? "내복약" : "외용약"
   });
@@ -21,7 +21,8 @@ for(var i=1; i<=lastbno; i++) {
   diagnoseData.push({
     treatmentid:i%100 + 21,
     diagnosesdataid: "D" + i,
-    diagnosedataname: "상병명 " + i
+    diagnosisdataname: "상병명 " + i,
+    diagnosisdataename: "Other nontraumatic intracranial haemorrhage " + i
   });
 
   testData.push({
@@ -44,7 +45,7 @@ for(var i=1; i<=lastbno; i++) {
 let drugData = [];
 let diagnosisData = [];
 let staticTestData=[];
-for(i=0; i< 100; i++) {
+for(i=0; i< 300; i++) {
   drugData.push({
     drugid: "G" + i,
     drugname: "약 " + i,
@@ -54,14 +55,15 @@ for(i=0; i< 100; i++) {
 
   diagnosisData.push({
     diagnosesdataid: "D" + i,
-    diagnosisdataname: "상병명 " + i
+    diagnosisdataname: "상병명 " + i,
+    diagnosisdataename: "Other nontraumatic intracranial haemorrhage " + i
   })
 
   staticTestData.push({
     result:"",
     testdataid: "처방 코드" + i,
     testname:"검사 이름" + i,
-    testcontainer: i%2===0? "EDTA" : "SST",
+    testcontainer: Math.random() > 0.5? "EDTA" : "SST",
     groupcode:"그룹코드" + (i%50),
     groupname:"그룹 이름" + (i%50)
   })
@@ -83,11 +85,22 @@ export function getTreatmentTests(treatmentid) {
 }
 
 export function getPackageTests(treatmentid) {
-  const tests = testData.filter(test => test.treatmentid === treatmentid);
-  console.log(tests);
-  const set = new Set();
-
-  const uniqueArr = [...set];
+  
+  let grouped = Object.values(
+    staticTestData.reduce((r, o) => {
+        if(!r[o.groupcode]){
+          r[o.groupcode] = {};
+          r[o.groupcode][o.groupcode] = o.groupcode;
+          r[o.groupcode][o.groupname] = o.groupname;
+          r[o.groupcode].tests = []
+          r[o.groupcode].tests.push(o)
+        } else {
+          r[o.groupcode].tests.push(o);
+        }
+          return r;
+      }, {})
+  );
+  console.log(grouped);
 
 }
 

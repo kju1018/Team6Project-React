@@ -95,7 +95,7 @@ function Treatment(props) {
             <TreatmentMemo treatment={treatment}/>
           </div> 
         </div>
-        <div className="col-5 h-100 border-right">
+        <div className="col-4 h-100 border-right">
           <div className="pl-3 pr-3 pb-3 pt-0" style={{height:"46vh", backgroundColor:"#FFFFFF", marginBottom:"2vh"}}>
             <DiagnosisList treatment={treatment} treatmentDiagnoses={treatmentDiagnoses}
                   staticDignoses={staticDignoses} prescripbeDiagnoses={prescripbeDiagnoses}/>
@@ -105,7 +105,7 @@ function Treatment(props) {
                   staticDrugs={staticDrugs} prescribeDrugs={prescribeDrugs}/>
           </div>             
         </div>
-        <div className="col-4 h-100">
+        <div className="col-5 h-100">
           <div className="pl-3 pr-3 pb-3 pt-0" style={{height:"89vh", backgroundColor:"#FFFFFF"}}>
             <TestList treatment={treatment} 
                   staticTests={staticTests}/>

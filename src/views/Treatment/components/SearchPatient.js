@@ -6,7 +6,7 @@ function SearchPatient(props) {
   const property = ["patientid", "patientname", "age", "sex", "phonenumber", "lasttreatment", "registerday"];
 
   const [checkedPatient, setCheckedPatient] = useState({
-    patientname:"환자이름", 
+    patientname:"", 
     ssn1:"-", 
     ssn2:"-", 
     sex: "성별",
@@ -19,6 +19,17 @@ function SearchPatient(props) {
   useEffect(() => {
     setPatientList(getAllPatients());
   }, [])
+
+  useEffect(() => {
+    setCheckedPatient({
+      patientname:"", 
+      ssn1:"-", 
+      ssn2:"-", 
+      sex: "성별",
+      age:"-",
+      phonenumber: "-", 
+    })
+  }, [props.show])
 
   const checkPatient = (patient) => {
     setCheckedPatient(patient);
@@ -42,7 +53,7 @@ function SearchPatient(props) {
 
   return (
     <>
-      <Modal show={props.show} onHide={props.handleClose}>
+      <Modal show={props.show} onHide={props.handleClose} size="lg">
         <Modal.Header closeButton>
           <Modal.Title>환자 검색</Modal.Title>
         </Modal.Header>
@@ -52,6 +63,10 @@ function SearchPatient(props) {
             <div className="input-group-append">
               <button className="btn btn-outline-secondary btn-sm" type="button" onClick={ () => search(searchName)}>검색</button>
             </div>
+          </div>
+          <div className="d-flex">
+            <div style={{fontWeight:"bold"}}>현재 선택한 환자: </div>
+            {checkedPatient.patientname}
           </div>
           <div style={{height:"400px"}} className="overflow-auto pt-1">
             {patientList.map ( patient => {
