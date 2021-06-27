@@ -8,7 +8,7 @@ function Menus(props){
   
   return (
     
- <Menu right noOverlay  width={"50%"}>
+ <Menu right  customBurgerIcon={<img src="menu.svg" />} width={"50%"}>
      <DrawerTestReception></DrawerTestReception>
      <DrawerTreatmentReception></DrawerTreatmentReception>
   </Menu>
