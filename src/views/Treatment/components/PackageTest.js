@@ -13,7 +13,7 @@ function PackageTest(props) {
           <Card.Body>
             {props.groupTest.tests.map(test => {
               return (
-                <Test test={test}/>
+                <Test key={test.testdataid} test={test}/>
               );
             })}
           </Card.Body>

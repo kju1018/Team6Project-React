@@ -38,15 +38,15 @@ for(var i=1; i<=lastbno; i++) {
 
   packageTestData.push({
     treatmentid:i%100 + 21,
-    groupcode:"그룹코드" + (i%50),
-    groupname:"그룹 이름" + (i%50)
+    groupcode:"묵음코드" + (i%50),
+    groupname:"묵음코드 이름" + (i%50)
   })
 }
 
 let drugData = [];
 let diagnosisData = [];
 let staticTestData=[];
-for(i=0; i< 300; i++) {
+for(i=0; i< 100; i++) {
   drugData.push({
     drugid: "G" + i,
     drugname: "약 " + i,
