@@ -8,10 +8,6 @@ function PrescriptionTestsModal(props) {
     setSearchName(event.target.value);
   };
 
-  const search = () => {
-
-  }
-
   const [prescriptionItems, setPrescriptionItems] = useState([]);
   useEffect(() => {
     if(props.show === true){
@@ -25,12 +21,14 @@ function PrescriptionTestsModal(props) {
   }
 
   const addItme = (item) => {
-    const compare = prescriptionItems.findIndex((obj) => obj.diagnosesdataid === item.diagnosesdataid);
+    const compare = prescriptionItems.findIndex((obj) => obj.testdataid === item.testdataid);
     if(compare >= 0){
       alert("이미 처방받았습니다.");
     } else {
       setPrescriptionItems((prevItems) => {
+        const tempItems = {...prevItems};
         const newItems = prevItems.concat(item);
+        console.log(tempItems);
         return newItems;
       });
     }
@@ -43,7 +41,7 @@ function PrescriptionTestsModal(props) {
     })
   }
   return (
-    <Modal show={props.show} onHide={props.handleClose} size="xl" centered>
+    <Modal animation={false} show={props.show} onHide={props.handleClose} size="xl" centered>
       <Modal.Header closeButton style={{backgroundColor:"#1B296D"} }>
         <Modal.Title style={{color:"#FFFFFF"}}>검사 처방</Modal.Title>
       </Modal.Header>
@@ -59,26 +57,28 @@ function PrescriptionTestsModal(props) {
         <div style={{height:"500px"}} className="d-flex">
           <div className="pl-0 pr-0" style={{width:"506px"}}>
             <div className="d-flex text-center align-items-center" style={{height:"40px", color:"#88888D", fontWeight:"bold"}}>
-              <div style={{width:"25%"}}>질병코드</div>
-              <div style={{width:"25%"}}>질병명(한글)</div>
-              <div style={{width:"25%"}}>질병명(영어)</div>
-              <div style={{width:"25%"}}></div>
+              <div style={{width:"20%"}}>그룹코드</div>
+              <div style={{width:"20%"}}>그룹명</div>
+              <div style={{width:"20%"}}>처방코드</div>
+              <div style={{width:"20%"}}>처방명</div>
+              <div style={{width:"20%"}}></div>
             </div>
             <div className="overflow-auto border" style={{height:"450px"}}>
             {prescriptionItems != null &&
             prescriptionItems.map ((item, index) => {
               return (
-                <div key={item.diagnosesdataid} className="d-flex text-center pt-1 pb-1 align-items-center border-bottom" style={{height:"50px", fontWeight:"bold"}}>
-                  <div style={{width:"25%"}}>{item.diagnosesdataid}</div>
+                <div key={item.testdataid} className="d-flex text-center pt-1 pb-1 align-items-center border-bottom" style={{height:"50px", fontWeight:"bold"}}>
+                  <div style={{width:"20%"}}>{item.groupcode}</div>
                   <OverlayTrigger placement="right"
-                      overlay={<Tooltip>{item.diagnosisdataname}</Tooltip>}>
-                    <div style={{width:"25%", whiteSpace: "nowrap",overflow:"hidden", textOverflow:"ellipsis"}}>{item.diagnosisdataname}</div>
+                      overlay={<Tooltip>{item.groupname}</Tooltip>}>
+                    <div style={{width:"20%", whiteSpace: "nowrap",overflow:"hidden", textOverflow:"ellipsis"}}>{item.groupname}</div>
                   </OverlayTrigger>
+                  <div style={{width:"20%"}}>{item.testdataid}</div>
                   <OverlayTrigger placement="right"
-                      overlay={<Tooltip>{item.diagnosisdataename}</Tooltip>}>
-                    <div style={{width:"25%", whiteSpace: "nowrap",overflow:"hidden", textOverflow:"ellipsis"}}>{item.diagnosisdataename}</div>
+                      overlay={<Tooltip>{item.testname}</Tooltip>}>
+                    <div style={{width:"20%", whiteSpace: "nowrap",overflow:"hidden", textOverflow:"ellipsis"}}>{item.testname}</div>
                   </OverlayTrigger>
-                  <div style={{width:"25%"}}><button className="btn btn-danger btn-sm" onClick={() => {removeItem(item)}}>제거</button></div>
+                  <div style={{width:"20%"}}><button className="btn btn-danger btn-sm" onClick={() => {removeItem(item)}}>제거</button></div>
                 </div>
               );
             })} 
@@ -91,10 +91,11 @@ function PrescriptionTestsModal(props) {
 
           <div className="pl-0 pr-0" style={{width:"506px"}}>
             <div className="d-flex text-center align-items-center" style={{height:"40px", color:"#88888D", fontWeight:"bold"}}>
-              <div style={{width:"25%"}}>질병코드</div>
-              <div style={{width:"25%"}}>질병명(한글)</div>
-              <div style={{width:"25%"}}>질병명(영어)</div>
-              <div style={{width:"25%"}}></div>
+              <div style={{width:"20%"}}>그룹코드</div>
+              <div style={{width:"20%"}}>그룹명</div>
+              <div style={{width:"20%"}}>처방코드</div>
+              <div style={{width:"20%"}}>처방명</div>
+              <div style={{width:"20%"}}></div>
             </div>
             <div className="overflow-auto border" style={{height:"450px"}}>
 
@@ -104,17 +105,18 @@ function PrescriptionTestsModal(props) {
                   || (item.testname.indexOf(searchName) != -1)
                   || (item.groupcode.indexOf(searchName) != -1)){
                 return (
-                  <div key={index} className="d-flex text-center pt-1 pb-1 align-items-center border-bottom" style={{height:"50px", fontWeight:"bold"}}>
-                    <div style={{width:"25%"}}>{item.groupcode}</div>
+                  <div key={item.testdataid} className="d-flex text-center pt-1 pb-1 align-items-center border-bottom" style={{height:"50px", fontWeight:"bold"}}>
+                    <div style={{width:"20%"}}>{item.groupcode}</div>
                     <OverlayTrigger placement="right"
                         overlay={<Tooltip>{item.groupname}</Tooltip>}>
-                      <div style={{width:"25%", whiteSpace: "nowrap",overflow:"hidden", textOverflow:"ellipsis"}}>{item.groupname}</div>
+                      <div style={{width:"20%", whiteSpace: "nowrap",overflow:"hidden", textOverflow:"ellipsis"}}>{item.groupname}</div>
                     </OverlayTrigger>
+                    <div style={{width:"20%"}}>{item.testdataid}</div>
                     <OverlayTrigger placement="right"
-                        overlay={<Tooltip>{item.testdataid}</Tooltip>}>
-                      <div style={{width:"25%", whiteSpace: "nowrap",overflow:"hidden", textOverflow:"ellipsis"}}>{item.testdataid}</div>
+                        overlay={<Tooltip>{item.testname}</Tooltip>}>
+                      <div style={{width:"20%", whiteSpace: "nowrap",overflow:"hidden", textOverflow:"ellipsis"}}>{item.testname}</div>
                     </OverlayTrigger>
-                    <div style={{width:"25%"}}><button className="btn btn-success btn-sm" onClick={() => {addItme(item)}}>추가</button></div>
+                    <div style={{width:"20%"}}><button className="btn btn-success btn-sm" onClick={() => {addItme(item)}}>추가</button></div>
                   </div>
                 );
               }

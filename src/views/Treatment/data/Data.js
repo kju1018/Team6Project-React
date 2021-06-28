@@ -27,12 +27,13 @@ for(var i=1; i<=lastbno; i++) {
 
   testData.push({
     treatmentid:i%100 + 21,
-    result:"검사 결과" + i,
+    result:Math.random() > 0.5 ? Math.random() * 10 : null,
     testdataid: "처방 코드" + i,
     testname:"검사 이름" + i,
-    testcontainer: i%2===0? "EDTA" : "SST",
+    testcontainer: Math.random() > 0.5? "EDTA" : "SST",
     groupcode:"그룹코드" + (i%50),
-    groupname:"그룹 이름" + (i%50)
+    groupname:"그룹 이름" + (i%50),
+    testunit: Math.random() > 0.5 ? "x10^3/mm3" : "%"
   });
 
   packageTestData.push({
@@ -82,22 +83,30 @@ export function getTretmentDiagnoses(treatmentid) {
 export function getTreatmentTests(treatmentid) {
   const tests = testData.filter(test => test.treatmentid === treatmentid);
   
-  let grouped = Object.values(
-    tests.reduce((r, o) => {
-        if(!r[o.groupcode]){
-          r[o.groupcode] = {};
-          r[o.groupcode][o.groupcode] = o.groupcode;
-          r[o.groupcode][o.groupname] = o.groupname;
-          r[o.groupcode].tests = []
-          r[o.groupcode].tests.push(o)
-        } else {
-          r[o.groupcode].tests.push(o);
-        }
-          return r;
-      }, {})
-  );
-  console.log(grouped);
-  return "";
+  // let grouped = Object.values(
+  //   tests.reduce((r, o) => {
+  //       if(!r[o.groupcode]){
+  //         r[o.groupcode] = {};
+  //         r[o.groupcode][o.groupcode] = o.groupcode;
+  //         r[o.groupcode][o.groupname] = o.groupname;
+  //         r[o.groupcode].tests = []
+  //         r[o.groupcode].tests.push(o)
+  //       } else {
+  //         r[o.groupcode].tests.push(o);
+  //       }
+  //         return r;
+  //     }, {})
+  // );
+  // grouped.map((item) => {
+  //   item.tests.map((test) => {
+  //     console.log(test);
+  //     return test;
+  //   });
+  //   console.log(item);
+  //   return item;
+  // });
+  // console.log(grouped);
+  return tests;
 }
 
 export function getTests() {
