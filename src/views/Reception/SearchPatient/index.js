@@ -5,9 +5,9 @@ import TestSelectorModal from "./TestSelectorModal";
 import RegisterPatientModal from "./RegisterPatientModal";
 import UpdatePatientModal from "./UpdatePatientModal";
 import RegisterReservationModal from "./RegisterReservationModal";
-import PatientProfile from "../components/PatientProfile";
+import PatientProfile from "./PatientProfile";
 import ReceptionHeader from "../components/ReceptionHeader";
-import PatientHistory from "../components/PatientHistory";
+import PatientHistory from "./PatientHistory";
 function SearchPatient(props){
     const [searchModalshow, setSearchModalshow] = useState(false);
     const [reservationRegisterhModalshow, setreservationRegisterhModalshow] = useState(false);
@@ -73,7 +73,7 @@ function SearchPatient(props){
 
 
     return(
-    <div className="pl-3 pr-3 pb-3" style={{height:"1000px", backgroundColor:"white"}} >
+    <div className="pl-3 pr-3 pb-3" style={{height:"95vh", backgroundColor:"white"}} >
       
         <ReceptionHeader headertitle="환자정보" iclassName="bi bi-person-square " color="#9ACAA1">
                 <button  style={{marginRight:"10px"}} className="btn btn-outline-dark btn-sm" onClick={()=>{setSearchModalshow(true)}}>환자검색</button>
