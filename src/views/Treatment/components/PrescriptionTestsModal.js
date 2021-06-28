@@ -54,8 +54,8 @@ function PrescriptionTestsModal(props) {
             </div>
           </div>
         </div>
-        <div style={{height:"500px"}} className="d-flex">
-          <div className="pl-0 pr-0" style={{width:"506px"}}>
+        <div style={{height:"550px"}} className="d-flex">
+          <div className="pl-0 pr-0" style={{width:"506px", marginTop:"50px"}}>
             <div className="d-flex text-center align-items-center" style={{height:"40px", color:"#88888D", fontWeight:"bold"}}>
               <div style={{width:"20%"}}>그룹코드</div>
               <div style={{width:"20%"}}>그룹명</div>
@@ -90,6 +90,7 @@ function PrescriptionTestsModal(props) {
           </div>
 
           <div className="pl-0 pr-0" style={{width:"506px"}}>
+            <div style={{height:"50px"}}>ss</div>
             <div className="d-flex text-center align-items-center" style={{height:"40px", color:"#88888D", fontWeight:"bold"}}>
               <div style={{width:"20%"}}>그룹코드</div>
               <div style={{width:"20%"}}>그룹명</div>
