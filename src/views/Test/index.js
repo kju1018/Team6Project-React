@@ -5,7 +5,7 @@ import TestResult from "./TestResult";
 import { Nav, Row, Tab, Badge } from "react-bootstrap";
 import {getAllPatient, waitingPatient, progressPatient, completePatient, testDate } from "./data/patient"
 
-function TestPage(props) { 
+function TestPage(props) {  
   let list=[];
   const [show, setShow] = useState(false);
   const [testreceptions, setTestReception] = useState(testDate())
