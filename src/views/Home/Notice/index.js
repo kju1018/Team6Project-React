@@ -45,7 +45,7 @@ return(
               </Modal.Footer>
             </Modal>
   <div className="overflow-auto">
-   <table className="table table-hover">
+   <table className="table table-hover" style={{backgroundColor:"rgb(18, 60, 114)", color:"white"}}>
      <thead className="card-header">
        <tr>
          <th scope="col">#</th>
