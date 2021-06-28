@@ -26,7 +26,7 @@ function Test(props) {
                 </tr>
                 <tr>
                   <td>0</td>
-                  <td className={(props.test.result < 0 || props.test.result > 5) ? "table-danger" : "table-primary"}>{props.test.result}</td>
+                  <td className={(props.test.result < 0 || props.test.result > 5) ? "table-danger" : "table-primary"}>{props.test.result}&nbsp;&nbsp;{props.test.testunit}</td>
                   <td>5</td>
                 </tr>
               </tbody>

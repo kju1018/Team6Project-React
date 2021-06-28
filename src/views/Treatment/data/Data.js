@@ -27,7 +27,7 @@ for(var i=1; i<=lastbno; i++) {
 
   testData.push({
     treatmentid:i%100 + 21,
-    result:Math.random() > 0.5 ? Math.random() * 10 : null,
+    result:Math.random() > 0.5 ? (Math.random() * 10).toFixed(2) : null,
     testdataid: "처방 코드" + i,
     testname:"검사 이름" + i,
     testcontainer: Math.random() > 0.5? "EDTA" : "SST",

@@ -3,7 +3,7 @@ import Test from "./Test";
 
 function PackageTest(props) {
   return (
-    <Accordion>
+    <Accordion className="mb-3">
       <Card >
         <Accordion.Toggle as={Alert} variant="dark" className="mb-0" eventKey="0">
         <span style={{fontWeight:"bold"}}>
