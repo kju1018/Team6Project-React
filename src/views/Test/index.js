@@ -3,7 +3,7 @@ import PeriodSearch from "./PeriodSearch";
 import TestGroup from "./TestGroup";
 import TestResult from "./TestResult";
 import { Nav, Row, Tab, Badge } from "react-bootstrap";
-import {getAllPatient, waitingPatient, progressPatient, completePatient, testDate } from "./data/patient"
+import {getAllPatient, waitingPatient, progressPatient, completePatient, testDate, testList } from "./data/patient"
 
 function TestPage(props) {  
   let list=[];
@@ -15,27 +15,32 @@ function TestPage(props) {
   const [waiting, setWaiting] = useState(waitingPatient())
   const [progress, setProgress] = useState(progressPatient())
   const [complete, setComplete] = useState(completePatient())
+  const [groupshow, setGroupShow] = useState(false)
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-  console.log(profile)
-  const ClickPatient = (e, index, item) => {
 
+ 
+  const ClickPatient = (e, index, item) => {
+    const reset = false;
+    setGroupShow(reset)
     const lists = [];
     for(var i=0; i<testreceptions.length; i++){
       const newpatientid = testreceptions[i];
       if(newpatientid.patientid === item.patientid){
-        lists.push(newpatientid.testdate);  
+        lists.push(newpatientid);  
       }
     }  
-      
     setClickDate(lists)
     setProfile(item)
   }
 
-  const ClickDate = () => {
+  
+  const ClickDate = (e, index, item) => {  
     
+    const value = !groupshow
+    setGroupShow(value)
   }
-
+  
   return (
     <div className="vh-100" style={{minWidth:"1000px"}}>
       <div className="row m-0">
@@ -121,24 +126,28 @@ function TestPage(props) {
         </div>
         <div className="col-5 pt-3">
           <div className="d-flex pl-3 ml-0 mb-3 p-0" style={{backgroundColor: "#ffffff", width:"85%"}}><div className="pr-3 pl-3 pt-2 pb-2" style={{ backgroundColor:"#F2E18D"}}><i class="bi bi-droplet" style={{ fontSize:"22px"}}></i></div><div className="ml-4 pt-2">검사 처방 목록</div></div>
-          <div className="d-flex align-items-center" style={{ backgroundColor:"#ffffff", boxShadow:"rgb(0 0 0 / 8%) 0px 0px 5px 2px", borderRadius:"15px", fontSize:"13px", height:"40px"}}>
-            <div className="col p-0 pt-1 pb-1 text-center">{profile.patientid}</div>
-            <div className="col p-0 text-center">{profile.ssn1}</div>
-            <div className="col p-0 text-center">{profile.sex}</div>
-            <div className="col p-0 text-center">{profile.patientname}</div>
+          <div className="d-flex align-items-center pl-3 pr-3" style={{ backgroundColor:"#ffffff", boxShadow:"rgb(0 0 0 / 8%) 0px 0px 5px 2px", borderRadius:"15px", fontSize:"13px", height:"40px"}}>
+            <div className="col p-0 pt-1 pb-1 text-center">차트번호 :</div>
+            <div className="col p-0 pt-1 pb-1 text-center border-right">{profile.patientid}</div>
+            <div className="col p-0 pt-1 pb-1 text-center">생년월일 :</div>
+            <div className="col p-0 pt-1 pb-1 text-center border-right">{profile.ssn1}</div>
+            <div className="col p-0 pt-1 pb-1 text-center">성별 :</div>
+            <div className="col p-0 pt-1 pb-1 text-center border-right">{profile.sex}</div>
+            <div className="col p-0 pt-1 pb-1 text-center">이름 :</div>
+            <div className="col p-0 pt-1 pb-1 text-center">{profile.patientname}</div>
           </div>
             <div className="d-flex pt-3">
               <div style={{width:"18%", marginRight:"3%", marginLeft:"2%"}}>
                 <div className="mb-3">검사 날짜: </div>
                 <div>   
                   {clickdate.map((item,index)=>{return(   
-                  <div className="pt-2 pb-2 mb-2 align-items-center" onClick={ ClickDate } style={{border:"1px solid #dadada", borderRadius:"15px", textAlign:"center", backgroundColor:"#ffffff"}}>
-                  <div>{clickdate[index]}</div>
+                  <div className="pt-2 pb-2 mb-2 align-items-center" onClick={ e => { ClickDate(e, index, item) }} style={{border:"1px solid #dadada", borderRadius:"15px", textAlign:"center", backgroundColor:"#ffffff"}}>
+                  <div>{clickdate[index].testdate}</div>
                   </div>
                   )})}
                 </div>
               </div>
-              <div style={{width:"75%", marginRight:"2%"}}><div>검사 목록: </div><TestGroup/></div>
+              <div style={{width:"75%", marginRight:"2%"}}><div>검사 목록: </div>{groupshow?<TestGroup/>:""}</div>
             </div>
         </div>
         <div className="col-4 pt-3" style={{borderLeft:"1px solid #dadada"}}>

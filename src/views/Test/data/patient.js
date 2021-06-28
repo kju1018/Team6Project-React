@@ -73,19 +73,35 @@ for(var i=1; i<=2; i++) {
   })
 }
 
-let test =[];  //-------------------------------test
+let tests =[];  //-------------------------------test
 for(var i=1; i<=10; i++) {
-  test.push({
-    treatmentid:30+i,
+  tests.push({
+    testreceptionid:10+i,
+    treatmentid:50+i,
     patientid: i,
+    groupcode:"WDES14"+i,
+    testcode:"처방코드"+i,
     state:"",
-    userid:"1423",
-    groupcode:"WDE"+i,
-    testcode:"sdfs"+i
+    userid:"1423"
+  })
+}
+
+let testdata = [];
+for(var i=0; i<=300; i++) {
+  testdata.push({
+    testdataid: "test"+i,
+    testdataname: "검사명"+i,
+    testcontainer: "검사용기"+i,
+    groupcode: "그룹코드"+(i%50),
+    groupname: "그룹코드명",
+    result: ""
   })
 }
 
 
+export function testList() {
+  return tests;
+}
 
 export function testDate() {
   

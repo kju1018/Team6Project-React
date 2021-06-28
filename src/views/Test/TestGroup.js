@@ -3,18 +3,12 @@ import { Badge, Button, Modal, Accordion, Card  } from "react-bootstrap";
 import xlsx from 'xlsx';
 import React from 'react';
 import Print from "./Print";
-
-const intitState = (props) =>{
-  let states= []
-  for(var i=0; i<4; i++) {
-    states.push({label:"", state:"", code:"묶음코드", ischeck:false, tester:"", saveBtn:true})
-  }
-  return states;
-}
+import { testList } from "./data/patient"
 
 function TestGroup(props) {
-  const [state, setState] = useState(intitState); //묶음 코드 객체
+  const [state, setState] = useState(testList()); //묶음 코드 객체
   const [open, setOpen] = useState(false); //모달 열림/닫힘 상태
+  const [sub, setSub] = useState({label:"", state:"", ischeck:false, tester:"", saveBtn:true});
 
   const handleExcel =() => { //엑셀 버튼 클릭 시, 동작하는 함수
     const ws = xlsx.utils.json_to_sheet(state); //안에 배열의 객체 넣으면 그대로 출력
@@ -56,7 +50,7 @@ function TestGroup(props) {
         let checkItems = [];
         for(var i=0; i<state.length; i++){
           if(state[i].ischeck === true) {
-            const item = {...state[i], state:"진행중", label:"primary", ischeck:false, tester:"이연정", saveBtn:true}
+            const item = {...state[i], state:"진행중", tester:"이연정", label:"primary", ischeck:false, saveBtn:true}
             checkItems.push(item);
           }else {
             const item = {...state[i]}
@@ -74,7 +68,7 @@ function TestGroup(props) {
         let checkItems = [];
         for(var i=0; i<state.length; i++){
           if(state[i].ischeck === true) {
-            const item = {...state[i], state:"대기중", label:"success", ischeck:false, tester:"", saveBtn:true};
+            const item = {...state[i], state:"대기중", tester:"", label:"success", ischeck:false, saveBtn:true};
             checkItems.push(item);
           }else {
             const item = {...state[i]}
@@ -92,7 +86,7 @@ function TestGroup(props) {
         let checkItems = [];
         for(var i=0; i<state.length; i++){
         if(state[i].ischeck === true) {
-          const item = {...state[i], state:"검사완료", label:"danger", ischeck:false, tester:"이연정", saveBtn:false};
+          const item = {...state[i], state:"검사완료", tester:"이연정", label:"danger", ischeck:false, saveBtn:false};
             checkItems.push(item);
           }else {
             const item = {...state[i]}
@@ -126,7 +120,7 @@ function TestGroup(props) {
           <Card.Header className="row" style={{backgroundColor:"#D5D5D5", height:"60px", alignItems:"center"}}>
             <Accordion.Toggle as={Button} variant="link" eventKey={index.toString()}>
               {/* checked: 체크박스 체크 유무 */}
-              <div><input className="mr-2" type="checkbox" onChange={e => {changeHandler(e, index)}} checked={item.ischeck}/>{item.code}<Badge variant={item.label}>{item.state}</Badge></div>
+              <div><input className="mr-2" type="checkbox" onChange={e => {changeHandler(e, index)}} checked={item.ischeck}/>{item.groupcode}<Badge variant={item.label}>{item.state}</Badge></div>
             </Accordion.Toggle>
             <div className="mr-5">검사자: {item.tester}</div>
           </Card.Header>
