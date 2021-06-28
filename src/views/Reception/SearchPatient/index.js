@@ -73,7 +73,7 @@ function SearchPatient(props){
 
 
     return(
-    <div className="pl-3 pr-3 pb-3" style={{height:"95vh", backgroundColor:"white"}} >
+    <div className="pl-3 pr-3 pb-3 border border-dark" style={{height:"96vh", backgroundColor:"white"}} >
       
         <ReceptionHeader headertitle="환자정보" iclassName="bi bi-person-square " color="#9ACAA1">
                 <button  style={{marginRight:"10px"}} className="btn btn-outline-dark btn-sm" onClick={()=>{setSearchModalshow(true)}}>환자검색</button>
@@ -83,7 +83,7 @@ function SearchPatient(props){
                 <button disabled={selectedPatient.patientname!=="-"?false:true} style={{marginRight:"10px"}} className="btn btn-outline-dark btn-sm" onClick={()=>{setTestSelectorModalshow(true)}}>검사접수</button>
                  <button disabled={selectedPatient.patientname!=="-"?false:true} style={{marginRight:"10px"}} className="btn btn-outline-dark btn-sm" >진료접수</button>
         </ReceptionHeader>
-        <PatientProfile selectedPatient={selectedPatient}/>
+        <PatientProfile className="mt-1" selectedPatient={selectedPatient}/>
         <PatientHistory selectedPatient={selectedPatient}/> 
         
       <Modal backdrop="static" size="lg" show={searchModalshow}  onHide={()=>{setSearchModalshow(false)}}>
