@@ -27,12 +27,13 @@ for(var i=1; i<=lastbno; i++) {
 
   testData.push({
     treatmentid:i%100 + 21,
-    result:Math.random() > 0.5 ? "검사 결과" + i : null,
+    result:Math.random() > 0.5 ? Math.random() * 10 : null,
     testdataid: "처방 코드" + i,
     testname:"검사 이름" + i,
     testcontainer: Math.random() > 0.5? "EDTA" : "SST",
     groupcode:"그룹코드" + (i%50),
-    groupname:"그룹 이름" + (i%50)
+    groupname:"그룹 이름" + (i%50),
+    testunit: Math.random() > 0.5 ? "x10^3/mm3" : "%"
   });
 
   packageTestData.push({
