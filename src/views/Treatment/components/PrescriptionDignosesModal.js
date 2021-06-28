@@ -7,11 +7,7 @@ function PrescriptionDignosesModal(props) {
   const handleSearchName = (event) => {
     setSearchName(event.target.value);
   };
-
-  const search = () => {
-
-  }
-
+  console.log("상병목록 리렌더링");
   const [prescriptionItems, setPrescriptionItems] = useState([]);
   useEffect(() => {
     if(props.show === true){
@@ -43,7 +39,7 @@ function PrescriptionDignosesModal(props) {
     })
   }
   return (
-    <Modal show={props.show} onHide={props.handleClose} size="xl" centered>
+    <Modal animation={false} show={props.show} onHide={props.handleClose} size="xl" centered>
       <Modal.Header closeButton style={{backgroundColor:"#1B296D"} }>
         <Modal.Title style={{color:"#FFFFFF"}}>병명 입력</Modal.Title>
       </Modal.Header>
@@ -104,7 +100,7 @@ function PrescriptionDignosesModal(props) {
                   || (item.diagnosisdataename.indexOf(searchName) != -1)
                   || (item.diagnosesdataid.indexOf(searchName) != -1)){
                 return (
-                  <div key={index} className="d-flex text-center pt-1 pb-1 align-items-center border-bottom" style={{height:"50px", fontWeight:"bold"}}>
+                  <div key={item.diagnosesdataid} className="d-flex text-center pt-1 pb-1 align-items-center border-bottom" style={{height:"50px", fontWeight:"bold"}}>
                     <div style={{width:"25%"}}>{item.diagnosesdataid}</div>
                     <OverlayTrigger placement="right"
                         overlay={<Tooltip>{item.diagnosisdataname}</Tooltip>}>
