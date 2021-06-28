@@ -18,7 +18,7 @@ for(var i=1; i<=4; i++) {
     state: "대기중"
   });
 }
- 
+
 for(var i=1; i<=3; i++) {
   date.setDate(date.getDate()-i);
   data.push({
