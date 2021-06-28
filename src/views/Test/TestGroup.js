@@ -119,7 +119,7 @@ function TestGroup(props) {
     </div>
 
 
-    <div className="overflow-auto" style={{height:"750px"}}>
+    <div className="overflow-auto" style={{height:"550px"}}>
       <Accordion defaultActiveKey="0">
         {state.map((item,index)=>{return(
           <Card>
@@ -169,7 +169,7 @@ function TestGroup(props) {
       </Accordion>
     </div>
 
-    <Modal show={open} onHide={handleExit}>
+    <Modal show={open} onHide={handleExit} animation={false}>
       <Modal.Header closeButton>
         <Modal.Title>바코드 생성</Modal.Title>
       </Modal.Header>
