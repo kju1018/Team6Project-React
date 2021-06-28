@@ -3,7 +3,7 @@ import PeriodSearch from "./PeriodSearch";
 import TestGroup from "./TestGroup";
 import TestResult from "./TestResult";
 import { Nav, Row, Tab, Badge } from "react-bootstrap";
-import {getAllPatient, waitingPatient, progressPatient, completePatient, testDate } from "./data/Patient"
+import {getAllPatient, waitingPatient, progressPatient, completePatient, testDate } from "./data/patient"
 
 function TestPage(props) { 
   let list=[];
