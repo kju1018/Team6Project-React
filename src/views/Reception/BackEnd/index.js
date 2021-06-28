@@ -1,4 +1,4 @@
-// 정적 데이터 모음
+
 
 
 
@@ -42,19 +42,32 @@ for(var i=1; i<3; i++){
 }
 //진료정보
 let treatmentslist=[];
-for(var i=1; i<1; i++){
+for(var i=1; i<10; i++){
     const TR = {treatmentid:"treatmentid"+i, memo:"memo"+i,treatmentdate:new Date().toLocaleDateString(),patientid:"patientid"+i,userid:"userid"+i,status:"대기" } 
     treatmentslist.push(TR);
 }
-//예약 가져오기
+//진료정보 가져오기
 export function getAllTreatmentsData(){
     return treatmentslist;
+}
+
+//약데이터
+let drugslist=[];
+for(var i=1; i<10; i++){
+    const TR = {treatmentid:"treatmentid"+i,drugid:"drugid"+i,description:"description"+i } 
+    drugslist.push(TR);
+}
+drugslist.push({treatmentid:"treatmentid"+1,drugid:"drugid"+2,description:"description"+1 });
+//해당 진료의 처방된 약데이터 가져오기
+export function getDrugsData(treatment_id){
+    var prescriptionlist = drugslist.filter((drugs)=>(drugs.treatmentid===treatment_id))
+    return prescriptionlist;
 }
 
 
 //예약정보
 let reservationslist=[];
-for(var i=1; i<4; i++){
+for(var i=1; i<10; i++){
     const TR = {reservationid:"reservationid"+i,
      reservationdate:new Date(new Date().getFullYear(),new Date().getMonth(),new Date().getDate(),8+i,0),
     patientid:"patientid"+i,status:"대기",type:i%2===0?"진료":"검사" } 
@@ -99,10 +112,15 @@ export function updateReservationData(reservation){
 
 //검사 접수 정보
 let testreceptionslist=[];
-for(var i=1; i<1; i++){
+for(var i=1; i<5; i++){
     const TR = {testreceptionid:"testreceptionid"+i, testdate:new Date().toLocaleDateString(),patientid:"patientid"+i,status:"대기"} 
     testreceptionslist.push(TR);
 }
+//검사 접수 가져오기
+export function getAllTestsReceptionData(){
+    return testreceptionslist;
+}
+
 
 //검사 정보
 let testslist=[];
@@ -129,11 +147,11 @@ export function getAllTestsGroupData(patient_id){
     var grouplist=[]
     const testslist2 = testslist.filter((test)=>(test.patientid===patient_id))
     if(testslist2.length===0){return null}
-    var tmp = {groupcode:testslist2[0].groupcode, groupname:testslist2[0].groupname };
+    var tmp = {groupcode:testslist2[0].groupcode, groupname:testslist2[0].groupname,treatmentid:testslist2[0].treatmentid };
     grouplist.push(tmp);
     for(var i=1; i<testslist2.length; i++){
         if(testslist2[i].groupcode!==tmp.groupcode){
-            var tmps = {groupcode:testslist2[i].groupcode, groupname:testslist2[i].groupname}
+            var tmps = {groupcode:testslist2[i].groupcode, groupname:testslist2[i].groupname,treatmentid:testslist2[i].treatmentid}
             grouplist.push(tmps)
         }
     }
