@@ -1,7 +1,5 @@
 import { useState } from "react";
-import Banner from "./Banner";
 import PeriodSearch from "./PeriodSearch";
-import TestDateList from "./TestDateList";
 import TestGroup from "./TestGroup";
 import TestResult from "./TestResult";
 import { Nav, Row, Tab, Badge } from "react-bootstrap";
