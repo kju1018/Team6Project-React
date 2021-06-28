@@ -30,7 +30,6 @@ function TestList(props) {
       }
       return gt;
     }, {});
-    console.log(group)
     setGroupTests(group);
   }, [props.treatmentTests])
 
@@ -40,7 +39,6 @@ function TestList(props) {
       <PrescriptionTestsModal show={show} handleClose={handleClose} staticItemList={props.staticTests} itemList={props.treatmentTests} prescribe={prescribeTests}></PrescriptionTestsModal>
       <div className="overflow-auto p-3" style={{height:"calc(100% - 50px)"}}>
         {Object.values(groupTests).map(groupTest => {
-          console.log(groupTest);
           return (
             <PackageTest key={groupTest.groupcode}  groupTest={groupTest}/>
             );
