@@ -1,18 +1,16 @@
 import { useEffect, useState } from "react";
 import ReactDatePicker, {} from "react-datepicker";
-import {getAllReservationsData, getAllTestsGroupData, insertReservationData, getPatientData} from "views/Reception/BackEnd/index"
-import { useDispatch } from "react-redux";
-import { createSetReservation } from "redux/reservation-reducer";
+import {getAllReservationsData, getAllTestsGroupData,  getPatientData,updateReservationData, getCheckedTestsGroupData} from "views/Reception/BackEnd/index"
 
 
 function ReservationUpdateModal(props){
     //예약 리스트
     const [reservationList, setReservationList] = useState([]);
     //선택된 날짜 상태
-    const [startDate, setStartDate] = useState(new Date(props.selectedReservation.reservationdate))
+    const [startDate, setStartDate] = useState(new Date())
 
     //진료인지 날짜인지 예약 타입상태
-    const [reservationType, setReservationType] = useState(props.selectedReservation.type)
+    const [reservationType, setReservationType] = useState()
     //해당 patientid에 해당하는 환자정보
     const [patient, setPatient] = useState();
     
@@ -20,9 +18,8 @@ function ReservationUpdateModal(props){
     const handleReservation = (type) =>{
         setReservationType(type)
     }
-    const dispatch = useDispatch();
     //선택된 검사리스트
-    const [testList,setTestList] = useState([]);
+    const [testList,setTestList] = useState(()=>(getCheckedTestsGroupData(props.selectedReservation.patientid,props.selectedReservation.reservationid)));
     //처방된 검사 선택
     const handleTestList = (event, index) =>{
         const modify = testList.map((item,i)=>{
@@ -35,13 +32,14 @@ function ReservationUpdateModal(props){
     }
     //선택한 예약환자가 바뀔때마다 처방검사 목록 불러오기
     useEffect(()=>{
-        var testlist = getAllTestsGroupData(props.selectedReservation.patientid);
-        setTestList(testlist);
+        setStartDate(props.selectedReservation.rdate)
+        setReservationType(props.selectedReservation.type)
+        var testlist = getCheckedTestsGroupData(props.selectedReservation.patientid,props.selectedReservation.reservationid)
+        setTestList(testlist)
     },[props.selectedReservation])
 
     //처음 한번 예약목록 불러오기
     useEffect(()=>{
-        console.log(startDate)
         var reservationlist = getAllReservationsData();
         var patient = getPatientData(props.selectedReservation.patientid)
         setReservationList(reservationlist);
@@ -66,27 +64,26 @@ function ReservationUpdateModal(props){
         }
        
     }
-    //예약 등록함수
+    //예약 수정함수
     const ResisterReservation=()=>{
         let newreservation;
         //reservationType이 true가 진료 / false가 검사
-        if(reservationType){
+        if(reservationType==="진료"){
             //DB에 해당 patient, startDate로 해당 시간에 진료예약
-            newreservation = {reservationdate:startDate
-            ,patientid:props.selectedPatient.patientid,status:"대기",type:"진료" }
-            insertReservationData(newreservation)
+            newreservation = {reservationid:props.selectedReservation.reservationid,reservationdate:startDate
+            ,patientid:props.selectedReservation.patientid,status:"대기",type:"진료" }
+            updateReservationData(newreservation)
         }
         else{
             //DB에 해당 patient, startDate, testList로 해당 시간에 검사예약
             const checkedtestlist = testList.filter((test)=>(test.ischeck===true))
-            newreservation = {reservationdate:startDate
-                ,patientid:props.selectedPatient.patientid,status:"대기",type:"검사" }
-                insertReservationData(newreservation, checkedtestlist)
+            newreservation = {reservationid:props.selectedReservation.reservationid,reservationdate:startDate
+                ,patientid:props.selectedReservation.patientid,status:"대기",type:"검사" }
+                updateReservationData(newreservation, checkedtestlist)
         }
-        //redux 저장
-        dispatch(createSetReservation(newreservation))
+        props.setReservation(newreservation)
         //모달 닫기
-        props.closeModal("RegisterReservationModal")
+        props.closeModal("ReservationUpdateModal")
     }
     return(
         <div className="conatainer" style={{height:"60vh"}}>
@@ -135,12 +132,10 @@ function ReservationUpdateModal(props){
                 </div>                
                 <div className="col-5" style={{margin:"10px", height:"100%"}}>
                     <div style={{height:"10%"}}>
-                        <button onClick={()=>{handleReservation(true)}}  style={{backgroundColor:reservationType? "green":"white", borderRadius:"15px",marginRight:"10px", marginTop:"5px"}} className="btn btn-outline-dark btn-sm border">진료</button>
-                        <button onClick={()=>{handleReservation(false)}}  style={{backgroundColor:!reservationType? "green":"white",borderRadius:"15px",marginRight:"10px", marginTop:"5px"}} className="btn btn-outline-dark btn-sm border">검사</button>
+                        <button onClick={()=>{handleReservation(true)}}  style={{backgroundColor:reservationType==="진료"? "green":"white", borderRadius:"15px",marginRight:"10px", marginTop:"5px"}} className="btn btn-outline-dark btn-sm border">진료</button>
+                        <button onClick={()=>{handleReservation(false)}}  style={{backgroundColor:reservationType==="검사"? "green":"white",borderRadius:"15px",marginRight:"10px", marginTop:"5px"}} className="btn btn-outline-dark btn-sm border">검사</button>
                     </div>
                     <div className="col border" style={{overflow:"auto" ,borderRadius:"15px",  marginTop:"15px", height:"70%"}}> 
-                        
-             
                         {!reservationType&&
                             testList&&testList.map((item,index)=>{return(
                                 <div key={index}>
@@ -152,7 +147,7 @@ function ReservationUpdateModal(props){
                         }
                    </div>
                    <div className="col d-flex justify-content-end" style={{borderRadius:"15px",  marginTop:"10px"}}> 
-                        <button className="btn btn-outline-dark btn-sm" onClick={ResisterReservation}>예약등록</button>
+                        <button className="btn btn-outline-dark btn-sm" onClick={ResisterReservation}>예약수정</button>
                    </div>
                 </div>
 
