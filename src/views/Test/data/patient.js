@@ -74,30 +74,103 @@ for(var i=1; i<=2; i++) {
 }
 
 let tests =[];  //-------------------------------test
-for(var i=1; i<=10; i++) {
-  tests.push({
-    testreceptionid:10+i,
-    treatmentid:50+i,
-    patientid: i,
-    groupcode:"WDES14"+i,
-    testcode:"처방코드"+i,
-    state:"",
-    userid:"1423"
-  })
+for(var i=1; i<=20; i++) {
+    tests.push({
+      testreceptionid:11,
+      treatmentid:51,
+      patientid: 1,
+      testdataid:"처방코드"+j,
+      state:"",
+      userid:"신용권"
+    })
 }
+
+for(var i=2; i<=30; i++) {
+
+    tests.push({
+      testreceptionid:21,
+      treatmentid:53,
+      patientid: 1,
+      testdataid:"처방코드"+j,
+      state:"",
+      userid:"신용권"
+    })
+
+}
+
+// for(var i=1; i<=10; i++) {
+//   tests.push({
+//     testreceptionid:11,
+//     treatmentid:50,
+//     patientid: 1,
+//     groupcode:"그룹코드"+i,
+//     testdataid:"처방코드"+i,
+//     state:"",
+//     userid:"1423"
+//   })
+// }
+// for(var i=1; i<=3; i++) {
+//   tests.push({
+//     testreceptionid:12,
+//     treatmentid:50,
+//     patientid: 1,
+//     groupcode:"그룹코드"+i,
+//     testdataid:"처방코드"+i,
+//     state:"",
+//     userid:"1423"
+//   })
+// }
+// for(var i=1; i<=4; i++) {
+//   tests.push({
+//     testreceptionid:13,
+//     treatmentid:50,
+//     patientid: 1,
+//     groupcode:"그룹코드"+i,
+//     testdataid:"처방코드"+i,
+//     state:"",
+//     userid:"1423"
+//   })
+// }
+// for(var i=1; i<=4; i++) {
+//   tests.push({
+//     testreceptionid:21,
+//     treatmentid:50,
+//     patientid: 1,
+//     groupcode:"그룹코드"+i,
+//     testdataid:"처방코드"+i,
+//     state:"",
+//     userid:"1423"
+//   })
+// }
+// for(var i=1; i<=1; i++) {
+//   tests.push({
+//     testreceptionid:22,
+//     treatmentid:50,
+//     patientid: 1,
+//     groupcode:"그룹코드"+i,
+//     testdataid:"처방코드"+i,
+//     state:"",
+//     userid:"1423"
+//   })
+// }
 
 let testdata = [];
-for(var i=0; i<=300; i++) {
-  testdata.push({
-    testdataid: "test"+i,
-    testdataname: "검사명"+i,
-    testcontainer: "검사용기"+i,
-    groupcode: "그룹코드"+(i%50),
-    groupname: "그룹코드명",
-    result: ""
-  })
+for(var i=1; i<=8; i++) {
+  for(var j=1; j<=30; j++){
+    testdata.push({
+      testdataid: "처방코드"+i,
+      testdataname: "처방코드명"+i,
+      testcontainer: "검사용기",
+      groupcode: "그룹코드"+j,
+      groupname: "그룹코드명"+j,
+      result: ""
+    })
+  }
 }
 
+export function testData() {
+  return testdata
+}
 
 export function testList() {
   return tests;
