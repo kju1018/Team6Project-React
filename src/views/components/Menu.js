@@ -6,7 +6,7 @@ function Menus(props){
   
   return (
   
- <Menu right  customBurgerIcon={<img src="menu.svg" />} width={"50%"}>
+ <Menu right  customBurgerIcon={<img src="/menu.svg" />} width={"50%"}>
      <DrawerReceptions/>
   </Menu>
   

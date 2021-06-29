@@ -2,13 +2,18 @@ import { Carousel } from "react-bootstrap";
 import { useState } from "react";
 import { Button } from "react-bootstrap";
 import { Form } from "react-bootstrap";
+import { Redirect, Route, Switch, useHistory } from "react-router";
 
 function Hospital() {
   const [index, setIndex] = useState(0);
-
+  const history = useHistory();
   const handleSelect = (selectedIndex, e) => {
     setIndex(selectedIndex);
   };
+
+  const handleLogin = () => {
+    history.push('/login');
+  }
   
   return (
     <div style={{height:"100vh"}}>
@@ -36,7 +41,7 @@ function Hospital() {
                       <Form.Control type="password" placeholder="Password" />
                     </Form.Group>
                     <div className="text-center mt-4">
-                      <Button variant="secondary" type="submit" block>
+                      <Button variant="secondary" onClick={handleLogin} >
                         Submit
                       </Button>
                     </div>

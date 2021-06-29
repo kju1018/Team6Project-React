@@ -1,7 +1,14 @@
 import { Button, Col, Form, Row } from "react-bootstrap";
 import { Modal } from "react-bootstrap";
+import { useHistory } from "react-router";
 
 function LoginModal(props) {
+  const history = useHistory();
+  const handleLogin = () => {
+    history.push('/main/home');
+    props.handleClose();
+  }
+  
   return (
     <>
       <Modal centered size="lg" show={props.show} onHide={props.handleClose} animation={false}>
@@ -30,7 +37,7 @@ function LoginModal(props) {
           </Row>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="dark" size="lg" block onClick={props.handleClose}>
+          <Button variant="dark" size="lg" block onClick={handleLogin}>
             <i className="bi bi-lock mr-1"></i>Login
           </Button>
         </Modal.Footer>
