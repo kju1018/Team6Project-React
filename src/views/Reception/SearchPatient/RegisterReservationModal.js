@@ -10,7 +10,10 @@ function RegisterReservationModal(props){
     //예약 리스트
     const [reservationList, setReservationList] = useState([]);
     //선택된 날짜 상태
-    const [startDate, setStartDate] = useState(new Date(new Date().getFullYear(),new Date().getMonth(),new Date().getDate(),8,0))
+    const [startDate, setStartDate] = useState(new Date())
+
+    //예약된 시간상태
+    const [reservatedTimes,setReservatedTimes] = useState([]); 
 
     //진료인지 날짜인지 예약 타입상태 -> true이면 진료, false이면 예약
     const [reservationType, setReservationType] = useState(true)
@@ -31,17 +34,66 @@ function RegisterReservationModal(props){
         })
         setTestList(modify);
     }
-    //선택한 환자가 바뀔때마다 처방검사 목록 불러오기
-    useEffect(()=>{
-        var testlist = getAllTestsGroupData(props.selectedPatient.patientid);
-        setTestList(testlist);
-    },[props.selectedPatient])
 
-    //처음 한번 예약목록 불러오기
+    const GetTimeIndex=(date)=>{
+        let hour = date.getHours()*10
+        let minute = date.getMinutes()
+        if(minute===0){
+            minute = 0;
+        }else if(minute===30){
+            minute = 5;
+        }
+        const Index = (hour+minute)/5-18
+        return Index
+    }
+    const GetTime=(Index)=>{
+        let num = (Index+18)*5
+        console.log(num)
+        let hour = num/10
+        let minute = num%10===5?30:0
+        const date = new Date(new Date().getFullYear(),new Date().getMonth(),new Date().getDate(),hour,minute)
+        return date;
+    }
     useEffect(()=>{
         var reservationlist = getAllReservationsData();
-        setReservationList(reservationlist);
+        setReservationList(reservationlist)
+        var testlist = getAllTestsGroupData(props.selectedPatient.patientid);
+        setTestList(testlist);
+        console.log(GetTime(GetTimeIndex(new Date(new Date().getFullYear(),new Date().getMonth(),new Date().getDate(),15,30))))
+         let Times=new Array(18);
+         Times[GetTimeIndex(new Date(new Date().getFullYear(),new Date().getMonth(),new Date().getDate(),13,0))] = true;
+         Times[GetTimeIndex(new Date(new Date().getFullYear(),new Date().getMonth(),new Date().getDate(),13,30))] = true;
+         for(var i=0; i<reservationlist.length; i++){
+             if(reservationlist[i].reservationdate){
+                 Times[GetTimeIndex(reservationlist[i].reservationdate)] = true;
+             }
+         }
+
+         let excludeTime = [];
+         //첫번째 들어갈 시간 구하기
+         for(var i=0; i<Times.length; i++){
+             if(!Times[i]){
+                 setStartDate(GetTime(i))
+                 break;
+             }
+             //만약 모든 시간이 차있으면 예외처리
+             if(i===Times.length-1){
+                
+             }
+         }
+
+         //exclude에 들어갈 시간 구하기
+         for(var i=0; i<Times.length; i++){
+             if(Times[i]){
+                 excludeTime.push(GetTime(i))
+             }
+         }
+        
+        setReservatedTimes(excludeTime)  
+      
+      
     },[])
+
 
     const getReservationDate= () =>{
         var newDateOptions = {
@@ -61,6 +113,7 @@ function RegisterReservationModal(props){
         }
        
     }
+    
     //예약 등록함수
     const ResisterReservation=()=>{
         let newreservation;
@@ -84,7 +137,11 @@ function RegisterReservationModal(props){
             //예약 객체를 redux로 보낼때 안에 검사리스트도 같이 보냄
             resultreservationobj = {testList,...reservationobj}
         }
-        console.log()
+        //해당시간에 예약된 시간 추가
+       
+        // const modify = reservatedTimes.concat(startDate)
+    
+        // setReservatedTimes(modify)
         //redux 저장
         dispatch(createSetReservation(resultreservationobj))
         //모달 닫기
@@ -114,20 +171,16 @@ function RegisterReservationModal(props){
             </div>
             <div className="row" style={{height:"80%"}}>
                 <div className="col-6 text-center" style={{margin:"10px",marginTop:"5%", height:"100%"}} >
+                    
                     <ReactDatePicker 
                     selected={startDate}
                     onChange={(date) => setStartDate(date)}
                     showTimeSelect
                     timeFormat="HH:mm"
                     popperPlacement="bottom" 
-                    minTime={new Date(startDate.getFullYear(),startDate.getMonth(),startDate.getDate(),8,0)}
+                    minTime={new Date(startDate.getFullYear(),startDate.getMonth(),startDate.getDate(),9,0)}
                     maxTime={new Date(startDate.getFullYear(),startDate.getMonth(),startDate.getDate(),17,30)}
-                    excludeTimes={
-                        reservationList.map((item)=>{return(
-                            item.reservationdate
-                        )
-                        })
-                    }
+                    excludeTimes={reservatedTimes}
                     inline
                     dateFormat="MMMM d, yyyy h:mm"
                     />

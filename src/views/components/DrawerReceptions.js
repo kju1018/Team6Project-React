@@ -4,6 +4,7 @@ import {getAllTreatmentsData, getAllTestsReceptionData,DeleteReceptionTreatment,
 import { useSelector } from "react-redux";
 import TestReception from "views/Reception/PatientReception/TestReception";
 import TreatmentReception from "views/Reception/PatientReception/TreatmentReception";
+import ChattingMenu from "./Messenger/ChattingMenu";
 function DrawerReceptions(props){
     const treatmentReception = useSelector((state)=>(state.receptionReducer.treatmentreception)) 
     const testReception = useSelector((state)=>(state.receptionReducer.testreception))
@@ -33,17 +34,25 @@ function DrawerReceptions(props){
         setTestsData(modify)
     }
     return(
-        <>
-        <div className="pl-3 pr-3 pb-3 border border-dark" style={{height:"45vh", backgroundColor:"white"}}>   
-            진료접수
-          <TreatmentReception isDrawer={true} deleteTreatmentReception={deleteTreatmentsData} patientList={treatementsData}/> 
+        <div className="bg-white row p-2" style={{height:"100%"}}>
+            <div className="col" style={{height:"92vh", backgroundColor:"white"}}>
+                <div className="pl-3 pr-1  border border-dark" style={{height:"calc(48vh - 8px)"}}>   
+                    진료접수
+                <TreatmentReception isDrawer={true} deleteTreatmentReception={deleteTreatmentsData} patientList={treatementsData}/> 
+                </div>
+                <div className="mt-3 pl-3 pr-1  border border-dark" style={{height:"calc(48vh - 8px)"}}>    
+                    검사접수
+                <TestReception isDrawer={true} deleteTestReception={deleteTestsData} patientList={testsData}/>
+                </div>
+            </div>
+            <div className="col "style={{height:"96vh", backgroundColor:"white"}}>
+                <div className="pl-1 pr-1 pb-3 border border-dark" style={{height:"100%"}}>    
+                    메신저
+                    <ChattingMenu/>
+                </div>
+            </div>
            
         </div>
-        <div className="mt-3 pl-3 pr-3 pb-3 border border-dark" style={{height:"45vh", backgroundColor:"white"}}>    
-            검사접수
-         <TestReception isDrawer={true} deleteTestReception={deleteTestsData} patientList={testsData}/>
-        </div>
-        </>
         
     )
 }

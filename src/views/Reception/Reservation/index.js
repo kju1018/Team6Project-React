@@ -39,8 +39,6 @@ function Reservation(props){
        var reservationlist = getAllReservationsData();
        
         setReservationList(reservationlist)
-        
-       console.log(reservationlist)
     },[])
 
     useEffect(()=>{
@@ -50,6 +48,10 @@ function Reservation(props){
         }
        
     },[reservationReducer])
+
+    useEffect(()=>{
+        setSelectedReservation(null);
+    },[reservationList])
 
 /////////////////////////////////////////////////////////////////////////////////////
 //이부분 수정해야함! 수정된 예약이 목록에서 안바뀜!!
@@ -74,18 +76,16 @@ const setReservation = (reservation)=>{
 
 const CancelReservation=()=>{
 
-    // //DB변경
-    // cancelReservationData(selectedReservation.reservationid)
+    //DB변경
+    cancelReservationData(selectedReservation.reservationid)
     
-    // //ui변경
-    // const modify = reservationList.map((item)=>{
-    //     if(item.reservationid===selectedReservation.reservationid){
-    //         item.status="취소"
-    //     }
-    //     return item;      
-        
-    // })
-    //  setReservationList(modify)
+    //ui변경
+    const index = reservationList.findIndex((item)=>(item.reservationid===selectedReservation.reservationid))
+    let tmplist = [...reservationList]
+    if(index>=0){
+        tmplist.splice(index,1);
+    }
+     setReservationList(tmplist)
 
 }
 
@@ -117,31 +117,29 @@ const CancelReservation=()=>{
     
     const modify = reservationList.map((item)=>{
         
-      if(item.reservationid===selectedReservation.reservation_id){
+      if(item.reservationid===selectedReservation.reservationid){
           item.status="접수완료"
       }
       return item;      
       
-  })
-  //상태변경된 예약 수정
-   setReservationList(modify)
+    })
+    //상태변경된 예약 수정
+    setReservationList(modify)
   }
     //진료접수하기
     const ResisterTreatment = () =>{
-
              //모달창 open
              setDoctorSelectorModalshow(true)
-        
-        
     }
+
 
     return(
     <div className="pl-3 pr-3 pb-3 border border-dark" style={{height:"50vh", backgroundColor:"white"}}>
         <ReceptionHeader headertitle="예약" iclassName="bi bi-calendar-event " color="#ffcd82">
             <button style={{margin:"0px 10px"}} disabled={!(selectedReservation)}onClick={()=>{setReservationUpdateModalshow(true)}} className="btn btn-outline-dark btn-sm">예약수정</button>
-            <button style={{margin:"0px 10px"}} disabled={!(selectedReservation&&selectedReservation.type==="검사")} onClick={ResisterTest} className="btn btn-outline-dark btn-sm">검사접수</button>
-            <button style={{margin:"0px 10px"}} disabled={!(selectedReservation&&selectedReservation.type==="진료")} onClick={ResisterTreatment} className="btn btn-outline-dark btn-sm">진료접수</button>
-            <button style={{margin:"0px 10px"}} disabled={!(selectedReservation)}onClick={CancelReservation} className="btn btn-outline-dark btn-sm">예약 및 취소접수</button>
+            <button style={{margin:"0px 10px"}} disabled={!(selectedReservation&&selectedReservation.type==="검사" &&selectedReservation.status==="대기" )} onClick={ResisterTest} className="btn btn-outline-dark btn-sm">검사접수</button>
+            <button style={{margin:"0px 10px"}} disabled={!(selectedReservation&&selectedReservation.type==="진료"&&selectedReservation.status==="대기" )} onClick={ResisterTreatment} className="btn btn-outline-dark btn-sm">진료접수</button>
+            <button style={{margin:"0px 10px"}} disabled={!(selectedReservation)}onClick={CancelReservation} className="btn btn-outline-dark btn-sm">예약취소</button>
         </ReceptionHeader>
         <Calendar setSelectDate = {(date)=>{setSelectDate(date)}}/>
         <div className="rounded-lg justify-content-center">
@@ -154,7 +152,6 @@ const CancelReservation=()=>{
                 <div style={{width:"20%"}}>예약시간</div>
             </div>
             <div className="overflow-auto  justify-content-center" style={{height:"calc(50vh - 230px)"}} >
-            {console.log(reservationList)}
                  {reservationList&&reservationList.map((item,index)=>{
                      
                      let rdate = item.reservationdate; 
