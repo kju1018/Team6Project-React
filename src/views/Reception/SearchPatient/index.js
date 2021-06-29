@@ -8,12 +8,16 @@ import RegisterReservationModal from "./RegisterReservationModal";
 import PatientProfile from "./PatientProfile";
 import ReceptionHeader from "../components/ReceptionHeader";
 import PatientHistory from "./PatientHistory";
+import { useDispatch } from "react-redux";
+import DoctorSelectorModal from "./DoctorSelectorModal";
 function SearchPatient(props){
     const [searchModalshow, setSearchModalshow] = useState(false);
     const [reservationRegisterhModalshow, setreservationRegisterhModalshow] = useState(false);
     const [patientRegisterhModalshow, setPatientRegisterhModalshow] = useState(false);
     const [patientUpdateModalshow, setPatientUpdateModalshow] = useState(false);
     const [testSelectorModalshow, setTestSelectorModalshow] = useState(false);
+    const [doctorSelectorModalshow, setDoctorSelectorModalshow] = useState(false);
+    const dispatch = useDispatch();
     // 모달창에서 선택된 환자 상태
     const [selectedPatient, setSelectedPatient] = useState({
       patientname:"-", 
@@ -42,6 +46,8 @@ function SearchPatient(props){
       }
       else if(modalname==="TestSelectorModal"){
         setTestSelectorModalshow(false)
+      } else if(modalname==="DoctorSelectorModal"){
+        setDoctorSelectorModalshow(false)
       }
     
     }
@@ -63,17 +69,10 @@ function SearchPatient(props){
       setSelectedPatient(tmpPatient)
      }
   }
-    //props(외부 - 예약컴포넌트에서 선택한 환자)를 상태에 세팅
-    useEffect(()=>{
-      if(props.selectedPatient){
-        setPatient(props.selectedPatient)
-      }
-     
-    },[props.selectedPatient])
 
-
+   
     return(
-    <div className="pl-3 pr-3 pb-3" style={{height:"95vh", backgroundColor:"white"}} >
+    <div className="pl-3 pr-3 pb-3 border border-dark" style={{height:"96vh", backgroundColor:"white"}} >
       
         <ReceptionHeader headertitle="환자정보" iclassName="bi bi-person-square " color="#9ACAA1">
                 <button  style={{marginRight:"10px"}} className="btn btn-outline-dark btn-sm" onClick={()=>{setSearchModalshow(true)}}>환자검색</button>
@@ -81,9 +80,9 @@ function SearchPatient(props){
                  <button style={{marginRight:"10px"}} className="btn btn-outline-dark btn-sm" onClick={()=>{setPatientRegisterhModalshow(true)}}>신규등록</button>
                <button disabled={selectedPatient.patientname!=="-"?false:true} style={{marginRight:"10px"}} className="btn btn-outline-dark btn-sm" onClick={()=>{setPatientUpdateModalshow(true)}}>환자수정</button>
                 <button disabled={selectedPatient.patientname!=="-"?false:true} style={{marginRight:"10px"}} className="btn btn-outline-dark btn-sm" onClick={()=>{setTestSelectorModalshow(true)}}>검사접수</button>
-                 <button disabled={selectedPatient.patientname!=="-"?false:true} style={{marginRight:"10px"}} className="btn btn-outline-dark btn-sm" >진료접수</button>
+                 <button disabled={selectedPatient.patientname!=="-"?false:true} style={{marginRight:"10px"}} className="btn btn-outline-dark btn-sm" onClick={()=>{setDoctorSelectorModalshow(true)}}>진료접수</button>
         </ReceptionHeader>
-        <PatientProfile selectedPatient={selectedPatient}/>
+        <PatientProfile className="mt-1" selectedPatient={selectedPatient}/>
         <PatientHistory selectedPatient={selectedPatient}/> 
         
       <Modal backdrop="static" size="lg" show={searchModalshow}  onHide={()=>{setSearchModalshow(false)}}>
@@ -118,6 +117,12 @@ function SearchPatient(props){
           <Modal.Title>검사선택</Modal.Title>
         </Modal.Header>
         <Modal.Body><TestSelectorModal closeModal={closeModal} selectedPatient={selectedPatient}/></Modal.Body>
+      </Modal>
+      <Modal  backdrop="static" show={doctorSelectorModalshow} onHide={()=>{setDoctorSelectorModalshow(false)}}>
+        <Modal.Header closeButton>
+          <Modal.Title>의사선택</Modal.Title>
+        </Modal.Header>
+        <Modal.Body><DoctorSelectorModal closeModal={closeModal} selectedPatient={selectedPatient}/></Modal.Body>
       </Modal>
         
     </div>

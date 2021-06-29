@@ -65,7 +65,7 @@ function PatientHistory(props) {
             </div>
         </div>
 
-        <div className="d-flex border mt-4" style={{height:"calc(35vh - 70px)"}}>
+        <div className="d-flex border mt-4" style={{height:"calc(35vh - 65px)"}}>
            <div className="col-4">
            진료기록
            

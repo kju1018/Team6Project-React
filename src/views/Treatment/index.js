@@ -35,6 +35,7 @@ function Treatment(props) {
   const [treatment, setTreatment] = useState({})
   const selectTreatment = useCallback((treatment) => {
     setTreatment(treatment);
+    console.log("treatment변경");
   }, [])
 
   const [treatmentDrugs, setTreatmentDrugs] = useState([]);
@@ -56,6 +57,7 @@ function Treatment(props) {
       setTreatmentDrugs(getTreatemntDrugs(treatment.treatmentid));
       setTreatmentDiagnoses(getTretmentDiagnoses(treatment.treatmentid));
       setTreatmentTests(getTreatmentTests(treatment.treatmentid));
+      console.log("데이터 변경");
     }
     return (() => {
       setTreatmentDrugs([]);
@@ -83,25 +85,25 @@ function Treatment(props) {
       </div>
       <div className="row ml-0 mr-0" style={{heighn:"92vh"}}>
         <div className="col-3 h-100 border-right">
-          <div className="pl-3 pr-3 pt-0 pb-1" style={{height:"46vh", marginBottom:"2vh", backgroundColor:"#FFFFFF"}}>
+          <div className="pl-3 pr-3 pt-0 pb-1 border border-dark" style={{height:"46vh", marginBottom:"2vh", backgroundColor:"#FFFFFF"}}>
             <PatientTreatment selectedPatient={patient} treatment={treatment} selectTreatment={selectTreatment}/>
           </div>
-          <div className="pl-3 pr-3 pt-0 pb-1" style={{height:"44vh", backgroundColor:"#FFFFFF"}}>
+          <div className="pl-3 pr-3 pt-0 pb-1 border border-dark" style={{height:"42vh",marginBottom:"2vh", backgroundColor:"#FFFFFF"}}>
             <TreatmentMemo treatment={treatment}/>
           </div> 
         </div>
         <div className="col-4 h-100 border-right">
-          <div className="pl-3 pr-3 pb-3 pt-0" style={{height:"46vh", backgroundColor:"#FFFFFF", marginBottom:"2vh"}}>
+          <div className="pl-3 pr-3 pb-3 pt-0 border border-dark" style={{height:"46vh", backgroundColor:"#FFFFFF", marginBottom:"2vh"}}>
             <DiagnosisList treatment={treatment} treatmentDiagnoses={treatmentDiagnoses}
                   staticDignoses={staticDignoses} prescribeDiagnoses={prescribeDiagnoses}/>
           </div>
-          <div className="pl-3 pr-3 pt-0 pb-1" style={{height:"44vh", backgroundColor:"#FFFFFF"}}>
+          <div className="pl-3 pr-3 pt-0 pb-1 border border-dark" style={{height:"42vh",marginBottom:"2vh",  backgroundColor:"#FFFFFF"}}>
             <DrugList treatment={treatment} treatmentDrugs={treatmentDrugs} 
                   staticDrugs={staticDrugs} prescribeDrugs={prescribeDrugs}/>
           </div>             
         </div>
         <div className="col-5 h-100">
-          <div className="pl-3 pr-3 pb-3 pt-0" style={{height:"89vh", backgroundColor:"#FFFFFF"}}>
+          <div className="pl-3 pr-3 pb-3 pt-0 border border-dark" style={{height:"90vh",marginBottom:"2vh", backgroundColor:"#FFFFFF"}}>
             <TestList treatment={treatment} treatmentTests = {treatmentTests}
                   staticTests={staticTests} prescribeTests={prescribeTests}/>
           </div>                

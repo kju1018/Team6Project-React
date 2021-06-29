@@ -4,7 +4,10 @@ import React, { useEffect, useState } from "react";
 const CalcDayIndex =(month) =>{
     let today = new Date().getDate();
     
-    const DayIndex = (today%7) -1
+    let DayIndex = (today%7) -1
+    if(DayIndex<0){
+        DayIndex = DayIndex+7
+    }
     return DayIndex;
 }
 
@@ -64,7 +67,11 @@ function Calendar(props){
   //현재 날짜의 슬라이드로 이동 초기화
   useEffect(()=>{
     const today = new Date().getDate()
-    setSlideIndex(parseInt(today/7));
+    let tmpSlideindex =parseInt(today/7)
+    if(today%7===0){
+        tmpSlideindex = parseInt(today/7)-1;
+    } 
+    setSlideIndex(tmpSlideindex);
   },[])
 
   //달이 바뀔때 해당 달의 날짜배열 상태 변경
@@ -86,7 +93,7 @@ function Calendar(props){
             setMonth(newMonth)
         }
     }
-
+  
 
     return(
         <div className="container">
