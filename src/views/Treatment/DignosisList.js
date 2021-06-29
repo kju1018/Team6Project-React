@@ -5,7 +5,7 @@ import PrescriptionDignosesModal from "./components/PrescriptionDignosesModal";
 
 
 function DiagnosisList(props) {
-  // console.log("DiagnosisList");
+  console.log("DiagnosisList");
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);

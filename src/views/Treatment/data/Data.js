@@ -83,29 +83,6 @@ export function getTretmentDiagnoses(treatmentid) {
 export function getTreatmentTests(treatmentid) {
   const tests = testData.filter(test => test.treatmentid === treatmentid);
   
-  // let grouped = Object.values(
-  //   tests.reduce((r, o) => {
-  //       if(!r[o.groupcode]){
-  //         r[o.groupcode] = {};
-  //         r[o.groupcode][o.groupcode] = o.groupcode;
-  //         r[o.groupcode][o.groupname] = o.groupname;
-  //         r[o.groupcode].tests = []
-  //         r[o.groupcode].tests.push(o)
-  //       } else {
-  //         r[o.groupcode].tests.push(o);
-  //       }
-  //         return r;
-  //     }, {})
-  // );
-  // grouped.map((item) => {
-  //   item.tests.map((test) => {
-  //     console.log(test);
-  //     return test;
-  //   });
-  //   console.log(item);
-  //   return item;
-  // });
-  // console.log(grouped);
   return tests;
 }
 
