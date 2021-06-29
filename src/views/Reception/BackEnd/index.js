@@ -94,7 +94,7 @@ export function getDrugsData(treatment_id){
 
 //예약정보
 let reservationslist=[];
-for(var i=1; i<5; i++){
+for(var i=1; i<1; i++){
     const TR = {reservationid:"reservationid"+i,
      reservationdate:new Date(new Date().getFullYear(),new Date().getMonth(),new Date().getDate(),8+i,0),
     patientid:"patientid"+i,status:"대기",type:i%2===0?"진료":"검사",testList:[] } 
@@ -137,7 +137,7 @@ export function insertReservationData(reservation,selectedtestlist){
             }
         }
     }
-    return i;
+    return "reservationid"+i;
 }
 //예약 수정
 export function updateReservationData(reservation){
