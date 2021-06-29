@@ -21,6 +21,7 @@ function Reservation(props){
     const [selectedReservation, setSelectedReservation] = useState();
     const [updatedReservation,setUpdatedReservation] = useState(null);
     const click = (focusItem) =>{
+        console.log(focusItem)
         setSelectedReservation(focusItem)
     }
     const dispatch = useDispatch();
@@ -36,12 +37,15 @@ function Reservation(props){
 
     useEffect(()=>{
        var reservationlist = getAllReservationsData();
+       
         setReservationList(reservationlist)
+        
+       console.log(reservationlist)
     },[])
 
     useEffect(()=>{
-        if(reservationReducer){
-            const newreservationlist = reservationList.concat(reservationReducer.reservation)
+        if(reservationReducer.reservation.reservationid){
+            const newreservationlist = reservationList.concat(reservationReducer.reservation)          
             setReservationList(newreservationlist)
         }
        
@@ -107,13 +111,37 @@ const CancelReservation=()=>{
         
     }
 
+  //모달에서 예약 리스트 수정할수있는 함수
+  const modifyReservationList = () =>{
+      
+    
+    const modify = reservationList.map((item)=>{
+        
+      if(item.reservationid===selectedReservation.reservation_id){
+          item.status="접수완료"
+      }
+      return item;      
+      
+  })
+  //상태변경된 예약 수정
+   setReservationList(modify)
+  }
+    //진료접수하기
+    const ResisterTreatment = () =>{
+
+             //모달창 open
+             setDoctorSelectorModalshow(true)
+        
+        
+    }
+
     return(
     <div className="pl-3 pr-3 pb-3 border border-dark" style={{height:"50vh", backgroundColor:"white"}}>
         <ReceptionHeader headertitle="예약" iclassName="bi bi-calendar-event " color="#ffcd82">
-            <button style={{margin:"0px 10px"}} onClick={()=>{setReservationUpdateModalshow(true)}} className="btn btn-outline-dark btn-sm">예약수정</button>
-            <button style={{margin:"0px 10px"}} onClick={ResisterTest} className="btn btn-outline-dark btn-sm">검사접수</button>
-            <button style={{margin:"0px 10px"}} onClick={()=>{setDoctorSelectorModalshow(true)}} className="btn btn-outline-dark btn-sm">진료접수</button>
-            <button style={{margin:"0px 10px"}} onClick={CancelReservation} className="btn btn-outline-dark btn-sm">예약 및 취소접수</button>
+            <button style={{margin:"0px 10px"}} disabled={!(selectedReservation)}onClick={()=>{setReservationUpdateModalshow(true)}} className="btn btn-outline-dark btn-sm">예약수정</button>
+            <button style={{margin:"0px 10px"}} disabled={!(selectedReservation&&selectedReservation.type==="검사")} onClick={ResisterTest} className="btn btn-outline-dark btn-sm">검사접수</button>
+            <button style={{margin:"0px 10px"}} disabled={!(selectedReservation&&selectedReservation.type==="진료")} onClick={ResisterTreatment} className="btn btn-outline-dark btn-sm">진료접수</button>
+            <button style={{margin:"0px 10px"}} disabled={!(selectedReservation)}onClick={CancelReservation} className="btn btn-outline-dark btn-sm">예약 및 취소접수</button>
         </ReceptionHeader>
         <Calendar setSelectDate = {(date)=>{setSelectDate(date)}}/>
         <div className="rounded-lg justify-content-center">
@@ -126,7 +154,9 @@ const CancelReservation=()=>{
                 <div style={{width:"20%"}}>예약시간</div>
             </div>
             <div className="overflow-auto  justify-content-center" style={{height:"calc(50vh - 230px)"}} >
+            {console.log(reservationList)}
                  {reservationList&&reservationList.map((item,index)=>{
+                     
                      let rdate = item.reservationdate; 
                      if(item.reservationdate instanceof Date){
                          rdate = item.reservationdate.toLocaleDateString()
@@ -156,7 +186,7 @@ const CancelReservation=()=>{
         <Modal.Header closeButton>
           <Modal.Title>의사선택</Modal.Title>
         </Modal.Header>
-        <Modal.Body><DoctorSelectorModal closeModal={closeModal} selectedPatient={selectedReservation}/></Modal.Body>
+        <Modal.Body><DoctorSelectorModal closeModal={closeModal} modifyReservationList={modifyReservationList} selectedPatient={selectedReservation}/></Modal.Body>
       </Modal>
     </div>
     )

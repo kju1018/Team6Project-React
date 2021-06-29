@@ -65,27 +65,28 @@ function RegisterReservationModal(props){
     const ResisterReservation=()=>{
         let newreservation;
         let reservationobj;
+        let resultreservationobj;
         //reservationType이 true가 진료 / false가 검사
         if(reservationType){
             //DB에 해당 patient, startDate로 해당 시간에 진료예약
             newreservation = {reservationdate:startDate
             ,patientid:props.selectedPatient.patientid,status:"대기",type:"진료" }
-            insertReservationData(newreservation)
-            reservationobj = {...newreservation}
+            const newreservationid = insertReservationData(newreservation)
+            resultreservationobj = {reservationid:newreservationid,...newreservation}
         }
         else{
             //DB에 해당 patient, startDate, testList로 해당 시간에 검사예약
             const checkedtestlist = testList.filter((test)=>(test.ischeck===true))
             newreservation = {reservationdate:startDate
             ,patientid:props.selectedPatient.patientid,status:"대기",type:"검사" }
-            insertReservationData(newreservation, checkedtestlist)
-
+            const newreservationid = insertReservationData(newreservation, checkedtestlist)
+            reservationobj = {reservationid:newreservationid,...newreservation}
             //예약 객체를 redux로 보낼때 안에 검사리스트도 같이 보냄
-            reservationobj = {testList,...newreservation}
+            resultreservationobj = {testList,...reservationobj}
         }
-        
+        console.log()
         //redux 저장
-        dispatch(createSetReservation(reservationobj))
+        dispatch(createSetReservation(resultreservationobj))
         //모달 닫기
         props.closeModal("RegisterReservationModal")
     }
