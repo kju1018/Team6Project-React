@@ -1,7 +1,7 @@
 function User(props){
   return(
     <>
-    <div className="overflow-auto" >
+    <div className="overflow-auto">
       <table className="table table-hover">
         <thead className="card-header" style={{backgroundColor:"rgb(18, 60, 114)", color:"white"}}>
         <tr class="text-center">
