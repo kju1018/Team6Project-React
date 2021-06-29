@@ -1,7 +1,8 @@
 function User(props){
   return(
     <>
-    <div className="overflow-auto">
+    <div className="scrollbar" id="style-7">
+      <div className="force-overflow-auto">
       <table className="table table-hover">
         <thead className="card-header" style={{backgroundColor:"rgb(18, 60, 114)", color:"white"}}>
         <tr class="text-center">
@@ -38,7 +39,8 @@ function User(props){
           </tr>
         </tbody>
       </table>
-    </div>
+      </div>
+  </div>
     </>
   )
 }
