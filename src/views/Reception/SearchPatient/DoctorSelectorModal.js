@@ -48,7 +48,7 @@ function DoctorSelectorModal(props){
                         }
         </div>
         <div className="col d-flex justify-content-end" style={{borderRadius:"15px",  marginTop:"10px"}}> 
-            <button disabled={!isReceptionTreatment(props.selectedPatient.patientid)} className="btn btn-outline-dark btn-sm" onClick={ResisterTreatment}>진료접수</button>
+            <button disabled={props.selectedPatient&&!isReceptionTreatment(props.selectedPatient.patientid)} className="btn btn-outline-dark btn-sm" onClick={ResisterTreatment}>진료접수</button>
         </div>
     </div>
     )

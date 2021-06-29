@@ -101,8 +101,9 @@ for(var i=1; i<5; i++){
     reservationslist.push(TR);
 }
 //예약 가져오기
-export function getAllReservationsData(){
-    return reservationslist;
+export function getAllReservationsData(){   
+    const newreservationlist = reservationslist.map((item)=>(item))
+    return newreservationlist;
 }
 //특정 예약 가져오기
 export function getReservationData(reservation_id){
@@ -188,7 +189,7 @@ export function ReceptionTest(patient_id,grouplist){
         }    
         
     } 
-    return tmpTestReceptiondata;
+    return {...tmpTestReceptiondata};
 }
 
 

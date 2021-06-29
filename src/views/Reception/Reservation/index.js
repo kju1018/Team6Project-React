@@ -38,10 +38,9 @@ function Reservation(props){
        var reservationlist = getAllReservationsData();
         setReservationList(reservationlist)
     },[])
+
     useEffect(()=>{
-        console.log("hi!!")
-        console.log(reservationReducer)
-        if(reservationReducer.reservation){
+        if(reservationReducer){
             const newreservationlist = reservationList.concat(reservationReducer.reservation)
             setReservationList(newreservationlist)
         }
@@ -51,38 +50,38 @@ function Reservation(props){
 /////////////////////////////////////////////////////////////////////////////////////
 //이부분 수정해야함! 수정된 예약이 목록에서 안바뀜!!
 useEffect(()=>{
-    if(updatedReservation){
-        const modify = reservationList.map((item)=>{
-            if(item.reservationid===updatedReservation.reservationid){
-                item = updatedReservation
-            }
-            return item;      
+    // if(updatedReservation){
+    //     const modify = reservationList.map((item)=>{
+    //         if(item.reservationid===updatedReservation.reservationid){
+    //             item = updatedReservation
+    //         }
+    //         return item;      
             
-        })
-         setReservationList(modify)
+    //     })
+    //      setReservationList(modify)
     
-    }
+    // }
     
 },[updatedReservation])
 // 수정된 예약을 목록에 추가 
 const setReservation = (reservation)=>{
-    setUpdatedReservation(reservation)     
+   // setUpdatedReservation(reservation)     
 }
 
 const CancelReservation=()=>{
 
-    //DB변경
-    cancelReservationData(selectedReservation.reservationid)
+    // //DB변경
+    // cancelReservationData(selectedReservation.reservationid)
     
-    //ui변경
-    const modify = reservationList.map((item)=>{
-        if(item.reservationid===selectedReservation.reservationid){
-            item.status="취소"
-        }
-        return item;      
+    // //ui변경
+    // const modify = reservationList.map((item)=>{
+    //     if(item.reservationid===selectedReservation.reservationid){
+    //         item.status="취소"
+    //     }
+    //     return item;      
         
-    })
-     setReservationList(modify)
+    // })
+    //  setReservationList(modify)
 
 }
 
@@ -127,7 +126,6 @@ const CancelReservation=()=>{
                 <div style={{width:"20%"}}>예약시간</div>
             </div>
             <div className="overflow-auto  justify-content-center" style={{height:"calc(50vh - 230px)"}} >
-                {console.log(reservationList)}
                  {reservationList&&reservationList.map((item,index)=>{
                      let rdate = item.reservationdate; 
                      if(item.reservationdate instanceof Date){
