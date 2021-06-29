@@ -12,13 +12,11 @@ import Hospital from "views/hospital";
 function AppRoute(props) {
   return (
     <Switch>
-      <Route path="/" exact component={Login}/>
-      <Route path="/home" exact component={Home}/>
-      <Route path="/reception" exact component={Reception}/>
-      <Route path="/treatment" exact component={Treatment}/>
-      <Route path="/test" exact component={Test}/>
-      <Route path="/hospital" exact component={Hospital}/>
-      <Redirect to="/" />
+      <Route path={`${props.match.url}/home`} exact component={Home}/>
+      <Route path={`${props.match.url}/reception`} exact component={Reception}/>
+      <Route path={`${props.match.url}/treatment`} exact component={Treatment}/>
+      <Route path={`${props.match.url}/test`} exact component={Test}/>
+      <Redirect to={`${props.match.url}/home`} />
       {/* 어느 누구도 해당하지 않으면 home으로 감  */}
     </Switch>
   );
