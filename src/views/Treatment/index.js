@@ -7,6 +7,10 @@ import { useCallback, useEffect, useState } from "react";
 import { getTretmentDiagnoses, getDiagnoses, getDrugs, getTreatemntDrugs, getTests, getPackageTests, getTreatmentTests } from "./data/Data";
 import { useSelector } from "react-redux";
 import PatientProfile from "./components/PatientProfile";
+import { Col, Row, Toast } from "react-bootstrap";
+import { updateTreatment } from "./data/TreatmentData";
+import { getPatient } from "./data/PatientData";
+
 
 
 function Treatment(props) {
@@ -28,9 +32,13 @@ function Treatment(props) {
     setTreatment({});
   }, []);
 
-  // useEffect(() => {
-  //globalPatient가 변경될 때 patient 변경
-  // }, [globalPatient]) 
+  useEffect(() => {
+    const newPatient = getPatient(globalPatient.patientid);
+    if(newPatient){
+      setPatient(newPatient);
+    }
+    // 
+  }, [globalPatient]) 
 
   const [treatment, setTreatment] = useState({})
   const selectTreatment = useCallback((treatment) => {
@@ -45,13 +53,13 @@ function Treatment(props) {
   const [staticDrugs, setStaticDrugs] = useState([]);
   const [staticDignoses, setStaticDignoses] = useState([]);
   const [staticTests, setStaticTests] = useState([]);
+  const [show, setShow] = useState(false);
 
   useEffect(() => {
     setStaticDrugs(getDrugs());
     setStaticDignoses(getDiagnoses());
     setStaticTests(getTests());
   },[])//정적 데이터 불러오기
-
   useEffect(() => {
     if(treatment.state==="진료 완료"){
       setTreatmentDrugs(getTreatemntDrugs(treatment.treatmentid));
@@ -78,10 +86,23 @@ function Treatment(props) {
     setTreatmentTests(prescriptionItems);
   }//검사 처방 함수
 
+  const saveTreatment = (patient, treatmentDrugs, treatmentDiagnoses, treatmentTests) => {
+    if(window.confirm("처방을 완료 하시겠습니까?") === true){
+      setShow(true);
+      // setTreatment({
+      //   ...treatment,
+      //   state:"진료 완료"
+      // })
+      updateTreatment(treatment.treatmentid);
+    }
+  }
+  const closeShow = () => {
+    setShow(false)
+  }
   return (
-    <>
+    <>        
       <div style={{height:"5vh", marginBottom:"2vh",  marginTop:"1vh"}}>
-        <PatientProfile selectedPatient={patient} selectPatient={selectPatient}></PatientProfile>
+        <PatientProfile selectedPatient={patient} treatment={treatment} selectPatient={selectPatient} saveTreatment={saveTreatment}  ></PatientProfile>
       </div>
       <div className="row ml-0 mr-0" style={{heighn:"92vh"}}>
         <div className="col-3 h-100 border-right">
@@ -105,10 +126,10 @@ function Treatment(props) {
         <div className="col-5 h-100">
           <div className="pl-3 pr-3 pb-3 pt-0 border border-dark" style={{height:"90vh",marginBottom:"2vh", backgroundColor:"#FFFFFF"}}>
             <TestList treatment={treatment} treatmentTests = {treatmentTests}
-                  staticTests={staticTests} prescribeTests={prescribeTests}/>
+                  staticTests={staticTests} prescribeTests={prescribeTests} closeShow={closeShow} toastShow={show}></TestList>
+
           </div>                
         </div>
-
       </div>
     </>
   );

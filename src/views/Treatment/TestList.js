@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Accordion, Alert, Badge, Button, Card, Carousel, Col, Container, Image, Row } from "react-bootstrap";
+import { Accordion, Alert, Badge, Button, Card, Carousel, Col, Container, Image, Row, Toast } from "react-bootstrap";
 import ButtonHeader from "./components/ButtonHeader";
 import PackageTest from "./components/PackageTest";
 import PrescriptionTestsModal from "./components/PrescriptionTestsModal";
@@ -12,6 +12,10 @@ function TestList(props) {
 
   const info = () => {
     alert("대기중인 진료를 선택해주세요.");
+  }
+
+  const toastClose = () => {
+    props.closeShow();
   }
 
   const prescribeTests = (prescriptionItems) => {
@@ -45,60 +49,79 @@ function TestList(props) {
             );
         })
         }
+        {console.log(props.treatment)}
         {props.treatment.state==="진료 완료" ? 
         <Accordion className="mb-3">
-        <Card>
-          <Accordion.Toggle as={Alert} variant="dark" className="mb-0" eventKey="0">
-          <span style={{fontWeight:"bold"}}>
-          123&nbsp;&nbsp;묶음 처방</span>
-          </Accordion.Toggle>
-          <Accordion.Collapse eventKey="0">
-            <Card.Body>
-            <Accordion className="mb-3">
-                <Card border="secondary">
-                  <Card.Header>
-                    <Accordion.Toggle block as={Button} size="sm" variant="outline-light" eventKey="0">
-                      <span style={{fontSize:"14px", fontWeight:"bold", color:"black"}}>RWS123	&nbsp;&nbsp;엑스레이<Badge variant="primary">입력완료</Badge>
-                      </span>
-                    </Accordion.Toggle>
-                  </Card.Header>
-                  <Accordion.Collapse eventKey="0">
-                    <Card.Body>
-                      <Carousel interval={null} prevIcon={<span className="carousel-control-prev-icon bg-dark"/>} nextIcon={<span className="carousel-control-next-icon bg-dark"/>}>
-                        <Carousel.Item>
-                          <img
-                            className="d-block w-100"
-                            src="/doctor1.png"
-                            alt="First slide"
-                            width="100%"
-                          />
-                        </Carousel.Item>
-                        <Carousel.Item>
-                          <img
-                            className="d-block w-100"
-                            src="/doctor1.png"
-                            alt="Second slide"
-                          />
-                        </Carousel.Item>
-                        <Carousel.Item>
-                          <img
-                            className="d-block w-100"
-                            src="/doctor1.png"
-                            alt="Third slide"
-                          />
-                        </Carousel.Item>
-                      </Carousel>
-                    </Card.Body>
-                  </Accordion.Collapse>
-                </Card>
-                </Accordion>
-            </Card.Body>
-          </Accordion.Collapse>
-        </Card>
-      </Accordion>
+          <Card>
+            <Accordion.Toggle as={Alert} variant="dark" className="mb-0" eventKey="0">
+            <span style={{fontWeight:"bold"}}>
+            123&nbsp;&nbsp;묶음 처방</span>
+            </Accordion.Toggle>
+            <Accordion.Collapse eventKey="0">
+              <Card.Body>
+              <Accordion className="mb-3">
+                  <Card border="secondary">
+                    <Card.Header>
+                      <Accordion.Toggle block as={Button} size="sm" variant="outline-light" eventKey="0">
+                        <span style={{fontSize:"14px", fontWeight:"bold", color:"black"}}>RWS123	&nbsp;&nbsp;엑스레이<Badge variant="primary">입력완료</Badge>
+                        </span>
+                      </Accordion.Toggle>
+                    </Card.Header>
+                    <Accordion.Collapse eventKey="0">
+                      <Card.Body>
+                        <Carousel interval={null} prevIcon={<span className="carousel-control-prev-icon bg-dark"/>} nextIcon={<span className="carousel-control-next-icon bg-dark"/>}>
+                          <Carousel.Item>
+                            <img
+                              className="d-block"
+                              src="/xray01.jpg"
+                              alt="First slide"
+                              width="536px"
+                              height="536px"
+                            />
+                          </Carousel.Item>
+                          <Carousel.Item>
+                            <img
+                              className="d-block w-100"
+                              src="/xray02.jpg"
+                              alt="Second slide"
+                              width="536px"
+                              height="536px"
+                            />
+                          </Carousel.Item>
+                          <Carousel.Item>
+                            <img
+                              className="d-block w-100"
+                              src="/xray03.jpg"
+                              alt="Third slide"
+                              width="536px"
+                              height="536px"
+                            />
+                          </Carousel.Item>
+                        </Carousel>
+                      </Card.Body>
+                    </Accordion.Collapse>
+                  </Card>
+                  </Accordion>
+              </Card.Body>
+            </Accordion.Collapse>
+          </Card>
+        </Accordion>
           :
           ""
         }
+        <div style={{position: "absolute", bottom: "40px", right: "30px"}}>
+          <Row>
+            <Col style={{width:"400px"}}>
+              <Toast onClose={toastClose} show={props.toastShow} delay={3000} autohide>
+                <Toast.Header style={{backgroundColor:"#1B296D"}}>
+                  <strong className="mr-auto" style={{color:"white"}}>Message</strong>
+                  <small>11 mins ago</small>
+                </Toast.Header>
+                <Toast.Body>진료 완료!</Toast.Body>
+              </Toast>
+            </Col>
+          </Row>
+        </div>
       </div>
     </>
   );
