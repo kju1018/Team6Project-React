@@ -3,7 +3,7 @@ import Test from "./Test";
 
 function PackageTest(props) {
   return (
-    <Accordion>
+    <Accordion className="mb-3">
       <Card >
         <Accordion.Toggle as={Alert} variant="dark" className="mb-0" eventKey="0">
         <span style={{fontWeight:"bold"}}>
@@ -13,7 +13,7 @@ function PackageTest(props) {
           <Card.Body>
             {props.groupTest.tests.map(test => {
               return (
-                <Test test={test}/>
+                <Test key={test.testdataid} test={test}/>
               );
             })}
           </Card.Body>

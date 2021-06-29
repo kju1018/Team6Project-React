@@ -27,7 +27,7 @@ for(var i=1; i<=lastbno; i++) {
 
   testData.push({
     treatmentid:i%100 + 21,
-    result:Math.random() > 0.5 ? Math.random() * 10 : null,
+    result:Math.random() > 0.5 ? (Math.random() * 10).toFixed(2) : null,
     testdataid: "처방 코드" + i,
     testname:"검사 이름" + i,
     testcontainer: Math.random() > 0.5? "EDTA" : "SST",
@@ -38,15 +38,15 @@ for(var i=1; i<=lastbno; i++) {
 
   packageTestData.push({
     treatmentid:i%100 + 21,
-    groupcode:"그룹코드" + (i%50),
-    groupname:"그룹 이름" + (i%50)
+    groupcode:"묵음코드" + (i%50),
+    groupname:"묵음코드 이름" + (i%50)
   })
 }
 
 let drugData = [];
 let diagnosisData = [];
 let staticTestData=[];
-for(i=0; i< 300; i++) {
+for(i=0; i< 100; i++) {
   drugData.push({
     drugid: "G" + i,
     drugname: "약 " + i,

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Button, Modal, OverlayTrigger, Tooltip } from "react-bootstrap";
+import { Accordion, Button, Card, Modal, Nav, OverlayTrigger, Row, Tab, Tooltip } from "react-bootstrap";
 
 function PrescriptionTestsModal(props) {
 
@@ -9,29 +9,54 @@ function PrescriptionTestsModal(props) {
   };
 
   const [prescriptionItems, setPrescriptionItems] = useState([]);
+  const [groupTests, setGroupTests] = useState([]);
   useEffect(() => {
     if(props.show === true){
       setPrescriptionItems(props.itemList);
     }
   },[props]);
 
+  useEffect(() => {
+    const group = props.staticItemList.reduce((gt, t) => {
+      if(!gt[t.groupcode]){
+        gt[t.groupcode] = {};
+        gt[t.groupcode].groupcode = t.groupcode;
+        gt[t.groupcode].groupname = t.groupname;
+        gt[t.groupcode].tests = [];
+        gt[t.groupcode].tests.push(t);
+      } else {
+        gt[t.groupcode].tests.push(t);
+      }
+      return gt;
+    }, {});
+    console.log(group);
+    setGroupTests(group);
+  }, [props.staticItemList])
+
   const prescribe = (items) => {
     props.prescribe(items);
     props.handleClose();
   }
 
-  const addItme = (item) => {
+  const addItem = (item) => {
     const compare = prescriptionItems.findIndex((obj) => obj.testdataid === item.testdataid);
     if(compare >= 0){
       alert("이미 처방받았습니다.");
     } else {
       setPrescriptionItems((prevItems) => {
-        const tempItems = {...prevItems};
         const newItems = prevItems.concat(item);
-        console.log(tempItems);
         return newItems;
       });
     }
+  }
+
+  const addPackage = (item) => {
+    // console.log(item);
+    setPrescriptionItems((prevItems) => {
+      let newItems = prevItems.filter(prevItem => prevItem.groupcode !== item.groupcode);
+      newItems = newItems.concat(item.tests);
+      return newItems;
+    })
   }
 
   const removeItem = (item) => {
@@ -54,16 +79,16 @@ function PrescriptionTestsModal(props) {
             </div>
           </div>
         </div>
-        <div style={{height:"500px"}} className="d-flex">
-          <div className="pl-0 pr-0" style={{width:"506px"}}>
+        <div style={{height:"550px"}} className="d-flex">
+          <div className="pl-0 pr-0" style={{width:"506px", marginTop:"50px"}}>
             <div className="d-flex text-center align-items-center" style={{height:"40px", color:"#88888D", fontWeight:"bold"}}>
-              <div style={{width:"20%"}}>그룹코드</div>
-              <div style={{width:"20%"}}>그룹명</div>
+              <div style={{width:"20%"}}>묶음코드</div>
+              <div style={{width:"20%"}}>묶음명</div>
               <div style={{width:"20%"}}>처방코드</div>
               <div style={{width:"20%"}}>처방명</div>
               <div style={{width:"20%"}}></div>
             </div>
-            <div className="overflow-auto border" style={{height:"450px"}}>
+            <div className="overflow-auto border" style={{height:"460px"}}>
             {prescriptionItems != null &&
             prescriptionItems.map ((item, index) => {
               return (
@@ -90,37 +115,77 @@ function PrescriptionTestsModal(props) {
           </div>
 
           <div className="pl-0 pr-0" style={{width:"506px"}}>
-            <div className="d-flex text-center align-items-center" style={{height:"40px", color:"#88888D", fontWeight:"bold"}}>
-              <div style={{width:"20%"}}>그룹코드</div>
-              <div style={{width:"20%"}}>그룹명</div>
-              <div style={{width:"20%"}}>처방코드</div>
-              <div style={{width:"20%"}}>처방명</div>
-              <div style={{width:"20%"}}></div>
-            </div>
-            <div className="overflow-auto border" style={{height:"450px"}}>
-
-            {props.staticItemList != null &&
-            props.staticItemList.map ((item, index) => {
-              if((item.testdataid.indexOf(searchName) != -1) 
-                  || (item.testname.indexOf(searchName) != -1)
-                  || (item.groupcode.indexOf(searchName) != -1)){
-                return (
-                  <div key={item.testdataid} className="d-flex text-center pt-1 pb-1 align-items-center border-bottom" style={{height:"50px", fontWeight:"bold"}}>
-                    <div style={{width:"20%"}}>{item.groupcode}</div>
-                    <OverlayTrigger placement="right"
-                        overlay={<Tooltip>{item.groupname}</Tooltip>}>
-                      <div style={{width:"20%", whiteSpace: "nowrap",overflow:"hidden", textOverflow:"ellipsis"}}>{item.groupname}</div>
-                    </OverlayTrigger>
-                    <div style={{width:"20%"}}>{item.testdataid}</div>
-                    <OverlayTrigger placement="right"
-                        overlay={<Tooltip>{item.testname}</Tooltip>}>
-                      <div style={{width:"20%", whiteSpace: "nowrap",overflow:"hidden", textOverflow:"ellipsis"}}>{item.testname}</div>
-                    </OverlayTrigger>
-                    <div style={{width:"20%"}}><button className="btn btn-success btn-sm" onClick={() => {addItme(item)}}>추가</button></div>
+            <div style={{height:"550px"}}>
+              <Tab.Container defaultActiveKey="wait">
+                <Nav fill variant="tabs" className="flex-column">
+                  <Row className="ml-0 mr-0 pt-1">
+                    <Nav.Item>
+                      <Nav.Link eventKey="wait">개별 처방</Nav.Link>
+                    </Nav.Item>
+                    <Nav.Item>
+                      <Nav.Link eventKey="complete">묶음 처방</Nav.Link>
+                    </Nav.Item>
+                  </Row>
+                </Nav>
+                <Tab.Content  style={{height:"500px"}}>
+                  <Tab.Pane eventKey= "wait" className="pt-1">
+                  <div className="d-flex text-center align-items-center" style={{height:"40px", color:"#88888D", fontWeight:"bold"}}>
+                    <div style={{width:"20%"}}>묶음코드</div>
+                    <div style={{width:"20%"}}>묶음명</div>
+                    <div style={{width:"20%"}}>처방코드</div>
+                    <div style={{width:"20%"}}>처방명</div>
+                    <div style={{width:"20%"}}></div>
                   </div>
-                );
-              }
-            })} 
+                  <div className="overflow-auto border" style={{height:"460px"}}>
+                    {props.staticItemList != null &&
+                    props.staticItemList.map ((item, index) => {
+                      if((item.testdataid.indexOf(searchName) != -1) 
+                          || (item.testname.indexOf(searchName) != -1)
+                          || (item.groupcode.indexOf(searchName) != -1)){
+                        return (
+                          <div key={item.testdataid} className="d-flex text-center pt-1 pb-1 align-items-center border-bottom" style={{height:"50px", fontWeight:"bold"}}>
+                            <div style={{width:"20%"}}>{item.groupcode}</div>
+                            <OverlayTrigger placement="right"
+                                overlay={<Tooltip>{item.groupname}</Tooltip>}>
+                              <div style={{width:"20%", whiteSpace: "nowrap",overflow:"hidden", textOverflow:"ellipsis"}}>{item.groupname}</div>
+                            </OverlayTrigger>
+                            <div style={{width:"20%"}}>{item.testdataid}</div>
+                            <OverlayTrigger placement="right"
+                                overlay={<Tooltip>{item.testname}</Tooltip>}>
+                              <div style={{width:"20%", whiteSpace: "nowrap",overflow:"hidden", textOverflow:"ellipsis"}}>{item.testname}</div>
+                            </OverlayTrigger>
+                            <div style={{width:"20%"}}><button className="btn btn-success btn-sm" onClick={() => {addItem(item)}}>추가</button></div>
+                          </div>
+                        );
+                      }
+                    })} 
+                  </div>
+                  </Tab.Pane>
+
+                  <Tab.Pane eventKey="complete" className="pt-1">
+                    <div className="d-flex text-center align-items-center" style={{height:"40px", color:"#88888D", fontWeight:"bold"}}>
+                      <div style={{width:"40%"}}>묶음코드</div>
+                      <div style={{width:"40%"}}>묶음명</div>
+                      <div style={{width:"20%"}}></div>
+                    </div>
+                    <div className="overflow-auto border" style={{height:"460px"}}>
+                      {groupTests != null &&
+                      Object.values(groupTests).map ((item, index) => {
+                          return (
+                            <div key={item.groupcode} className="d-flex text-center pt-1 pb-1 align-items-center border-bottom" style={{height:"50px", fontWeight:"bold"}}>
+                              <div style={{width:"40%"}}>{item.groupcode}</div>
+                              <OverlayTrigger placement="right"
+                                  overlay={<Tooltip>{item.groupname}</Tooltip>}>
+                                <div style={{width:"40%", whiteSpace: "nowrap",overflow:"hidden", textOverflow:"ellipsis"}}>{item.groupname}</div>
+                              </OverlayTrigger>
+                              <div style={{width:"20%"}}><button className="btn btn-success btn-sm" onClick={() => {addPackage(item)}}>추가</button></div>
+                            </div>
+                          );
+                      })}
+                    </div>
+                  </Tab.Pane>
+                </Tab.Content>
+              </Tab.Container>
             </div>
           </div> 
         </div>
