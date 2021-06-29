@@ -30,13 +30,12 @@ function TestPage(props) {
       if(newpatientid.patientid === item.patientid){
         lists.push(newpatientid);  
       }
-    }  
+    } 
     setClickDate(lists)
     setProfile(item)
   }
   
   const ClickDate = (e, index, item) => {  
-    //console.log(item)
     setPassData(item);
     const value = true;
     setGroupShow(value)
@@ -142,8 +141,8 @@ function TestPage(props) {
                 <div className="mb-3">검사 날짜: </div>
                 <div className="overflow-auto">   
                   {clickdate.map((item,index)=>{return(   
-                  <div className="pt-2 pb-2 mb-2 align-items-center" onClick={ e => { ClickDate(e, index, item) }} style={{border:"1px solid #dadada", borderRadius:"15px", textAlign:"center", backgroundColor:"#ffffff"}}>
-                  <div>{clickdate[index].testdate}</div>
+                  <div key={item.testreceptionid} className="pt-2 pb-2 mb-2 align-items-center" onClick={ e => { ClickDate(e, index, item) }} style={{border:"1px solid #dadada", borderRadius:"15px", textAlign:"center", backgroundColor:"#ffffff"}}>
+                    <div>{clickdate[index].testdate}</div>
                   </div>
                   )})}
                 </div>

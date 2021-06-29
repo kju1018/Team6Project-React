@@ -74,15 +74,26 @@ for(var i=1; i<=2; i++) {
 }
 
 let tests =[];  //-------------------------------test
-for(var i=1; i<=20; i++) {
+for(var i=1; i<=7; i++) {
     tests.push({
       testreceptionid:11,
       treatmentid:51,
       patientid: 1,
       testdataid:"처방코드"+i,
-      state:"",
+      state:"대기중",
       userid:"신용권"
     })
+}
+
+for(var i=1; i<=3; i++) {
+  tests.push({
+    testreceptionid:21,
+    treatmentid:51,
+    patientid: 1,
+    testdataid:"처방코드"+i,
+    state:"대기중",
+    userid:"신용권"
+  })
 }
 
 
@@ -143,7 +154,7 @@ for(var i=1; i<=20; i++) {
 // }
 
 let testdata = [];
-for(var i=1; i<=100; i++) {
+for(var i=0; i<=100; i++) {
   
   testdata.push({
     testdataid: "처방코드"+i,
@@ -151,6 +162,7 @@ for(var i=1; i<=100; i++) {
     testcontainer: "검사용기",
     groupcode: "그룹코드"+(i%5),
     groupname: "그룹코드명"+(i%5),
+    userid:"신용권",
     result: ""
   })
  
