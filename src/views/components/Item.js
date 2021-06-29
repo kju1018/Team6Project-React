@@ -21,13 +21,11 @@ function Item(props) {
         itemarray.push(item[property[i]]); 
        }
     }
-  
       setItemArray(itemarray);
-},[])
+},[item])
   
   return (
     <>
-
      <style jsx="true">{`
      
         .test:focus {
