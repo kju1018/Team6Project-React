@@ -26,7 +26,7 @@ function RegisterPatientModal(props){
       <div className="mb-2">
         <label>이름 : </label>
         <input className="ml-2" name="patientname" defaultValue={props.selectedPatient.patientname} ref={register({ required: true })} />
-        {errors.name && <span>이름을 입력해 주세요</span>}
+        {errors.patientname && <span>이름을 입력해 주세요</span>}
       </div>
 
       <div className="mb-2">

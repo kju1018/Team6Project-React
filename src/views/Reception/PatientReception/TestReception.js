@@ -17,7 +17,10 @@ function TestReception(props){
     }
     //검사접수삭제
     const deleteReceptionTest = () =>{
-        props.deleteTestReception(selectedTestReception.testreceptionid)
+        if(selectedTestReception){
+            props.deleteTestReception(selectedTestReception.testreceptionid)
+        }
+       
     }
     const testProperty = ["testreceptionid","patientid","status","testdate",]
     return(

@@ -17,7 +17,9 @@ function TreatmentReception(props){
     }
     //진료접수삭제
     const deleteReceptionTreatment = () =>{
-        props.deleteTreatmentReception(selectedTreatmetReception.treatmentid)
+        if(selectedTreatmetReception){
+            props.deleteTreatmentReception(selectedTreatmetReception.treatmentid)
+        }
     }
  
     const treatmentProperty = ["treatmentid","patientid","userid","status","treatmentdate"]  

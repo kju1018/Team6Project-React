@@ -35,7 +35,7 @@ function DrawerReceptions(props){
     }
     return(
         <div className="bg-white row p-2" style={{height:"100%"}}>
-            <div className="col" style={{height:"92vh", backgroundColor:"white"}}>
+            <div className="col-8" style={{height:"92vh", backgroundColor:"white"}}>
                 <div className="pl-3 pr-1  border border-dark" style={{height:"calc(48vh - 8px)"}}>   
                     진료접수
                 <TreatmentReception isDrawer={true} deleteTreatmentReception={deleteTreatmentsData} patientList={treatementsData}/> 
@@ -45,7 +45,7 @@ function DrawerReceptions(props){
                 <TestReception isDrawer={true} deleteTestReception={deleteTestsData} patientList={testsData}/>
                 </div>
             </div>
-            <div className="col "style={{height:"96vh", backgroundColor:"white"}}>
+            <div className="col-4 "style={{height:"96vh", backgroundColor:"white"}}>
                 <div className="pl-1 pr-1 pb-3 border border-dark" style={{height:"100%"}}>    
                     메신저
                     <ChattingMenu/>
