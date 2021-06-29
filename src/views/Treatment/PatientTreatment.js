@@ -16,6 +16,9 @@ function PatientTreatment(props) {
     props.selectTreatment(treatment);
   }, [props])
 
+  useEffect(() => {
+  }, [props.treatment])
+
   return (
     <>
       <div className="row d-flex justify-content-between"style={{backgroundColor:"#FFFFFF", paddingLeft:"15px", paddingRight:"15px"}}>
