@@ -1,35 +1,76 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Badge, Button, Modal, Accordion, Card  } from "react-bootstrap";
 import xlsx from 'xlsx';
 import React from 'react';
 import Print from "./Print";
-import { testList } from "./data/patient"
+import { testList, testData } from "./data/patient"
 
 function TestGroup(props) {
   const [state, setState] = useState(testList()); //묶음 코드 객체
   const [open, setOpen] = useState(false); //모달 열림/닫힘 상태
-  const [sub, setSub] = useState({label:"", state:"", ischeck:false, tester:"", saveBtn:true});
+  const [test, setTest] = useState([]);
+  const [testdata, setTestData] = useState(testData());
+  const [list, setList] = useState([]);
+  var pass = props.clickdate
+  var id = props.passdata
+
+  useEffect(()=>{
+    const lists=[]
+    const testlist=[]
+    for(var i=0; i<state.length; i++){
+      if(id.testreceptionid === state[i].testreceptionid){
+         
+        for(var j=0; j<testdata.length; j++){
+          if(state[i].testdataid === testdata[j].testdataid){
+            testlist.push(testdata[j])
+            console.log(testdata[j])
+          }
+        }
+        
+      }
+    }
+    setTest(lists)
+    setList(testlist)
+  }, [id])
+
+
 
   const handleExcel =() => { //엑셀 버튼 클릭 시, 동작하는 함수
-    const ws = xlsx.utils.json_to_sheet(state); //안에 배열의 객체 넣으면 그대로 출력
+    const ws = xlsx.utils.json_to_sheet(test); //안에 배열의 객체 넣으면 그대로 출력
     const wb = xlsx.utils.book_new();
     xlsx.utils.book_append_sheet(wb, ws, "Sheet1");
     xlsx.writeFile(wb, "Test.xlsx");
   }
 
   const handlePrint = () => { //바코드 생성 버튼
+    let checkItems = [];
+    let flag = 0;
     for(var i=0; i<state.length; i++){
-      if(state[i].ischeck !== false){ //체크박스 미 선택 시, 바코드 생성 안됨 
-        setOpen(true); //모달 생성, 모달 안에 바코드 컴포넌트 있음
-        let checkItems = [];
-        for(var i=0; i<state.length; i++){     
+      if(state[i].ischeck === true){ //체크박스 선택 시, 
+        if(state[i].state === "진행중") {
+          alert("이미 검사가 진행중입니다.")
           const item = {...state[i], ischeck:false}
           checkItems.push(item);
+          flag = 1;
+        } else if(state[i].state === "검사완료"){
+          alert("이미 검사가 완료되었습니다.");
+          const item = {...state[i], ischeck:false}
+          checkItems.push(item);
+          flag = 1;
+        } else {//대기중
+          const item = {...state[i], state:"진행중", tester:"이연정", label:"primary", ischeck:false, saveBtn:true}
+          checkItems.push(item);
         }
-        setState(checkItems); //체크하고 버튼 누르면 자동으로 체크 해제
-      } 
+      } else {
+        checkItems.push(state[i]);
+      }
+    }
+    setState(checkItems); //체크하고 버튼 누르면 자동으로 체크 해제
+    if(flag === 0) {
+      setOpen(true); 
     }
   }
+
   const handleExit = () => setOpen(false); //바코드 모달 닫힘
 
 
@@ -45,57 +86,75 @@ function TestGroup(props) {
   }
 
   const handleStart = (e) => { //검사 시작
-    for(var i=0; i<state.length; i++){
-      if(state[i].ischeck !== false){
-        let checkItems = [];
-        for(var i=0; i<state.length; i++){
-          if(state[i].ischeck === true) {
-            const item = {...state[i], state:"진행중", tester:"이연정", label:"primary", ischeck:false, saveBtn:true}
-            checkItems.push(item);
-          }else {
-            const item = {...state[i]}
-            checkItems.push(item);
-          }
+    let checkItem = [];
+    
+    for(var i=0; i<state.length; i++) {
+      if(state[i].ischeck === true){
+        if(state[i].state === "진행중"){
+          alert("이미 검사가 진행중입니다.")
+          const item = {...state[i], ischeck:false}
+          checkItem.push(item)
+        } else if (state[i].state === "검사완료") {
+          alert("이미 검사가 완료되었습니다.")
+          const item = {...state[i], ischeck:false}
+          checkItem.push(item)
+        } else {
+          const item = {...state[i], state:"진행중", tester:"이연정", label:"primary", ischeck:false, saveBtn:true}
+          checkItem.push(item)
         }
-      setState(checkItems);  
-      } 
+      } else {
+        checkItem.push(state[i]);
+      }
     }
+    setState(checkItem)
   };
   
   const handleCancel = (e) => { //검사 취소
-    for(var i=0; i<state.length; i++){
-      if(state[i].ischeck !== false){
-        let checkItems = [];
-        for(var i=0; i<state.length; i++){
-          if(state[i].ischeck === true) {
-            const item = {...state[i], state:"대기중", tester:"", label:"success", ischeck:false, saveBtn:true};
-            checkItems.push(item);
-          }else {
-            const item = {...state[i]}
-            checkItems.push(item);
-          }
+    let checkItem = [];
+    
+    for(var i=0; i<state.length; i++) {
+      if(state[i].ischeck === true){
+        if(state[i].state === "대기중"){
+          alert("검사가 대기중입니다.")
+          const item = {...state[i], ischeck:false}
+          checkItem.push(item)
+        } else if (state[i].state === "검사완료") {
+          alert("이미 검사가 완료되었습니다.")
+          const item = {...state[i], ischeck:false}
+          checkItem.push(item)
+        } else {
+          const item = {...state[i], state:"대기중", tester:"이연정", label:"success", ischeck:false, saveBtn:true}
+          checkItem.push(item)
         }
-      setState(checkItems);
+      } else {
+        checkItem.push(state[i]);
       }
     }
+    setState(checkItem)
   };
 
   const handleFinish = (e) => { //검사 완료
-    for(var i=0; i<state.length; i++){
-      if(state[i].ischeck !== false){
-        let checkItems = [];
-        for(var i=0; i<state.length; i++){
-        if(state[i].ischeck === true) {
-          const item = {...state[i], state:"검사완료", tester:"이연정", label:"danger", ischeck:false, saveBtn:false};
-            checkItems.push(item);
-          }else {
-            const item = {...state[i]}
-            checkItems.push(item);
-          }
+    let checkItem = [];
+    
+    for(var i=0; i<state.length; i++) {
+      if(state[i].ischeck === true){
+        if(state[i].state === "대기중"){
+          alert("먼저 검사를 진행해주세요.")
+          const item = {...state[i], ischeck:false}
+          checkItem.push(item)
+        } else if (state[i].state === "검사완료") {
+          alert("이미 검사가 완료되었습니다.")
+          const item = {...state[i], ischeck:false}
+          checkItem.push(item)
+        } else {
+          const item = {...state[i], state:"검사완료", tester:"이연정", label:"danger", ischeck:false, saveBtn:true}
+          checkItem.push(item)
         }
-        setState(checkItems);
+      } else {
+        checkItem.push(state[i]);
       }
     }
+    setState(checkItem)
   };
 
   const Save = () => {
@@ -113,16 +172,16 @@ function TestGroup(props) {
     </div>
 
 
-    <div className="overflow-auto" style={{height:"550px"}}>
+    <div className="overflow-auto" style={{height:"700px"}}>
       <Accordion defaultActiveKey="0">
-        {state.map((item,index)=>{return(
+        {test.map((item,index)=>{return(
           <Card>
           <Card.Header className="row" style={{backgroundColor:"#D5D5D5", height:"60px", alignItems:"center"}}>
-            <Accordion.Toggle as={Button} variant="link" eventKey={index.toString()}>
+            <Accordion.Toggle as={Card.Header} eventKey={index.toString()}>
               {/* checked: 체크박스 체크 유무 */}
-              <div><input className="mr-2" type="checkbox" onChange={e => {changeHandler(e, index)}} checked={item.ischeck}/>{item.groupcode}<Badge variant={item.label}>{item.state}</Badge></div>
+              <div><input className="mr-2" type="checkbox" onChange={e => {changeHandler(e, index)}} checked={item.ischeck}/>{item.groupcode}<Badge className="ml-3" variant={item.label}>{item.state}</Badge></div>
             </Accordion.Toggle>
-            <div className="mr-5">검사자: {item.tester}</div>
+            <div>검사자: {item.tester}</div>
           </Card.Header>
           <Accordion.Collapse eventKey={index.toString()}>
             <Card.Body>
@@ -135,6 +194,17 @@ function TestGroup(props) {
                 <div className="col-2 p-0 text-center">결과값</div>
               </div>
 
+              {list.map((item,index)=>{return(
+                <div className="pt-2 pb-2 mb-2 d-flex align-items-center" style={{ fontSize:"13px", borderBottom:"1px solid #a6a6a6"}}>
+                <div className="col-2 p-0 pt-1 pb-1 text-center">{index}</div>
+                <div className="col-2 p-0 text-center">{item.testdataid}</div>
+                <div className="col-2 p-0 text-center">{item.testdataname}</div>
+                <div className="col-2 p-0 text-center">EDTA</div>
+                <div className="col-2 p-0 text-center">신용권</div>
+                <div className="col-2 p-0 text-center"> <input type="text" style={{width:"100%"}} ></input></div>
+               
+              </div>
+              )})}
               <div className="pt-2 pb-2 mb-2 d-flex align-items-center" style={{ fontSize:"13px", borderBottom:"1px solid #a6a6a6"}}>
                 <div className="col-2 p-0 pt-1 pb-1 text-center">1</div>
                 <div className="col-2 p-0 text-center">E7401</div>

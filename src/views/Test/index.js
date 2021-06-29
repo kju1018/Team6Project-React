@@ -16,6 +16,7 @@ function TestPage(props) {
   const [progress, setProgress] = useState(progressPatient())
   const [complete, setComplete] = useState(completePatient())
   const [groupshow, setGroupShow] = useState(false)
+  const [passdata, setPassData] = useState({})
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
@@ -33,11 +34,11 @@ function TestPage(props) {
     setClickDate(lists)
     setProfile(item)
   }
-
   
   const ClickDate = (e, index, item) => {  
-    
-    const value = !groupshow
+    //console.log(item)
+    setPassData(item);
+    const value = true;
     setGroupShow(value)
   }
   
@@ -65,7 +66,7 @@ function TestPage(props) {
                 </Nav.Item>
               </Row>
             </Nav>
-
+          
           <div className="pt-2 pb-2 mb-2 d-flex align-items-center" style={{ backgroundColor:"#ffffff", boxShadow:"rgb(0 0 0 / 8%) 0px 0px 5px 2px", borderRadius:"15px", fontSize:"13px"}}>
             <div className="col-2 p-0 pt-1 pb-1 text-center">차트번호</div>
             <div className="col-3 p-0 text-center">생년월일</div>
@@ -139,7 +140,7 @@ function TestPage(props) {
             <div className="d-flex pt-3">
               <div style={{width:"18%", marginRight:"3%", marginLeft:"2%"}}>
                 <div className="mb-3">검사 날짜: </div>
-                <div>   
+                <div className="overflow-auto">   
                   {clickdate.map((item,index)=>{return(   
                   <div className="pt-2 pb-2 mb-2 align-items-center" onClick={ e => { ClickDate(e, index, item) }} style={{border:"1px solid #dadada", borderRadius:"15px", textAlign:"center", backgroundColor:"#ffffff"}}>
                   <div>{clickdate[index].testdate}</div>
@@ -147,7 +148,7 @@ function TestPage(props) {
                   )})}
                 </div>
               </div>
-              <div style={{width:"75%", marginRight:"2%"}}><div>검사 목록: </div>{groupshow?<TestGroup/>:""}</div>
+              <div style={{width:"75%", marginRight:"2%"}}><div>검사 목록: </div>{groupshow?<TestGroup passdata={passdata}/>:""}</div>
             </div>
         </div>
         <div className="col-4 pt-3" style={{borderLeft:"1px solid #dadada"}}>
