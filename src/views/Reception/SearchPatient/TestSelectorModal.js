@@ -1,9 +1,13 @@
 import { useEffect, useState } from "react";
-import { getAllTestsGroupData} from "views/Reception/BackEnd/index"
+import { useDispatch } from "react-redux";
+import { createSetTestReception } from "redux/reception-reducer";
+import { getAllTestsGroupData, ReceptionTest} from "views/Reception/BackEnd/index"
 
 function TestSelectorModal(props){
     //처방된 검사리스트
     const [testList,setTestList] = useState([]);
+
+    const dispatch = useDispatch();
 
     //처음 컴포넌트 시작시 처방검사 목록 불러오기
     useEffect(()=>{
@@ -23,7 +27,11 @@ function TestSelectorModal(props){
     }
 
     const ResisterTest = () =>{
-        console.log(testList)
+        //DB에 검사 생성
+        const testreception=ReceptionTest(props.selectedPatient.patientid,testList)
+        const testreceptionredux = {testList,...testreception}
+        //redux에 접수된 검사넘기기
+        dispatch(createSetTestReception(testreceptionredux))
         props.closeModal("TestSelectorModal")
     }
     return(
