@@ -94,7 +94,7 @@ export function getDrugsData(treatment_id){
 
 //예약정보
 let reservationslist=[];
-for(var i=1; i<5; i++){
+for(var i=1; i<1; i++){
     const TR = {reservationid:"reservationid"+i,
      reservationdate:new Date(new Date().getFullYear(),new Date().getMonth(),new Date().getDate(),8+i,0),
     patientid:"patientid"+i,status:"대기",type:i%2===0?"진료":"검사",testList:[] } 
@@ -112,10 +112,9 @@ export function getReservationData(reservation_id){
 }
 //예약 취소
 export function cancelReservationData(reservation_id){
-    for(var i=0; i<reservationslist.length; i++){
-        if(reservationslist[i].reservationid ===reservation_id ){
-            reservationslist[i].status = "취소"
-        }
+    const index = reservationslist.findIndex((item)=>(item.reservationid===reservation_id))
+    if(index>=0){
+        reservationslist.splice(index,1);
     }
    
 }
@@ -137,7 +136,7 @@ export function insertReservationData(reservation,selectedtestlist){
             }
         }
     }
-    return i;
+    return "reservationid"+i;
 }
 //예약 수정
 export function updateReservationData(reservation){
