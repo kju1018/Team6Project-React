@@ -112,10 +112,9 @@ export function getReservationData(reservation_id){
 }
 //예약 취소
 export function cancelReservationData(reservation_id){
-    for(var i=0; i<reservationslist.length; i++){
-        if(reservationslist[i].reservationid ===reservation_id ){
-            reservationslist[i].status = "취소"
-        }
+    const index = reservationslist.findIndex((item)=>(item.reservationid===reservation_id))
+    if(index>=0){
+        reservationslist.splice(index,1);
     }
    
 }

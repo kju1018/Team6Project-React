@@ -1,4 +1,5 @@
 
+import { AppContextProvider } from "AppContext";
 import AppRoute from "AppRoute";
 import Main from "Main";
 import { Redirect, Route, Switch } from "react-router-dom";
@@ -13,7 +14,9 @@ function App(props) {
       <Switch>
         <Route path="/" exact component={Hospital}/>
         <Route path="/login" exact component={Login}/>
+        <AppContextProvider>
         <Route path="/main" component={Main}/>
+        </AppContextProvider>
         <Redirect to="/" />
         {/* 어느 누구도 해당하지 않으면 home으로 감  */}
       </Switch>
