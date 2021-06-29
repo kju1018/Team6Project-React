@@ -8,31 +8,24 @@ import { testList, testData } from "./data/patient"
 function TestGroup(props) {
   const [state, setState] = useState(testList()); //묶음 코드 객체
   const [open, setOpen] = useState(false); //모달 열림/닫힘 상태
-  const [test, setTest] = useState([]);
-  const [testdata, setTestData] = useState(testData());
-  const [list, setList] = useState([]);
+  const [testdata, setTestData] = useState(testList());
   var pass = props.clickdate
   var id = props.passdata
-
-  useEffect(()=>{
-    const lists=[]
-    const testlist=[]
+  
+  useEffect(()=>{ 
     for(var i=0; i<state.length; i++){
-      if(id.testreceptionid === state[i].testreceptionid){
-         
+      if(id.testreceptionid === state[i].testreceptionid){ 
         for(var j=0; j<testdata.length; j++){
           if(state[i].testdataid === testdata[j].testdataid){
-            testlist.push(testdata[j])
-            console.log(testdata[j])
-          }
-        }
-        
-      }
-    }
-    setTest(lists)
-    setList(testlist)
-  }, [id])
+            console.log(state[i])
+            
 
+          }
+        } 
+      }    
+    }
+    console.log(id.testreceptionid)
+  }, [id.testreceptionid])
 
 
   const handleExcel =() => { //엑셀 버튼 클릭 시, 동작하는 함수
@@ -174,7 +167,7 @@ function TestGroup(props) {
 
     <div className="overflow-auto" style={{height:"700px"}}>
       <Accordion defaultActiveKey="0">
-        {test.map((item,index)=>{return(
+        {state.map((item,index)=>{return(
           <Card>
           <Card.Header className="row" style={{backgroundColor:"#D5D5D5", height:"60px", alignItems:"center"}}>
             <Accordion.Toggle as={Card.Header} eventKey={index.toString()}>
@@ -194,17 +187,6 @@ function TestGroup(props) {
                 <div className="col-2 p-0 text-center">결과값</div>
               </div>
 
-              {list.map((item,index)=>{return(
-                <div className="pt-2 pb-2 mb-2 d-flex align-items-center" style={{ fontSize:"13px", borderBottom:"1px solid #a6a6a6"}}>
-                <div className="col-2 p-0 pt-1 pb-1 text-center">{index}</div>
-                <div className="col-2 p-0 text-center">{item.testdataid}</div>
-                <div className="col-2 p-0 text-center">{item.testdataname}</div>
-                <div className="col-2 p-0 text-center">EDTA</div>
-                <div className="col-2 p-0 text-center">신용권</div>
-                <div className="col-2 p-0 text-center"> <input type="text" style={{width:"100%"}} ></input></div>
-               
-              </div>
-              )})}
               <div className="pt-2 pb-2 mb-2 d-flex align-items-center" style={{ fontSize:"13px", borderBottom:"1px solid #a6a6a6"}}>
                 <div className="col-2 p-0 pt-1 pb-1 text-center">1</div>
                 <div className="col-2 p-0 text-center">E7401</div>

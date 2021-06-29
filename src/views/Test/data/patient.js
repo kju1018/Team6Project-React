@@ -79,24 +79,12 @@ for(var i=1; i<=20; i++) {
       testreceptionid:11,
       treatmentid:51,
       patientid: 1,
-      testdataid:"처방코드"+j,
+      testdataid:"처방코드"+i,
       state:"",
       userid:"신용권"
     })
 }
 
-for(var i=2; i<=30; i++) {
-
-    tests.push({
-      testreceptionid:21,
-      treatmentid:53,
-      patientid: 1,
-      testdataid:"처방코드"+j,
-      state:"",
-      userid:"신용권"
-    })
-
-}
 
 // for(var i=1; i<=10; i++) {
 //   tests.push({
@@ -155,17 +143,17 @@ for(var i=2; i<=30; i++) {
 // }
 
 let testdata = [];
-for(var i=1; i<=8; i++) {
-  for(var j=1; j<=30; j++){
-    testdata.push({
-      testdataid: "처방코드"+i,
-      testdataname: "처방코드명"+i,
-      testcontainer: "검사용기",
-      groupcode: "그룹코드"+j,
-      groupname: "그룹코드명"+j,
-      result: ""
-    })
-  }
+for(var i=1; i<=100; i++) {
+  
+  testdata.push({
+    testdataid: "처방코드"+i,
+    testdataname: "처방코드명"+i,
+    testcontainer: "검사용기",
+    groupcode: "그룹코드"+(i%5),
+    groupname: "그룹코드명"+(i%5),
+    result: ""
+  })
+ 
 }
 
 export function testData() {
