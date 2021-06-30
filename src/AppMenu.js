@@ -7,22 +7,6 @@ function AppMenu() {
     return (
     <>
     <div style={{backgroundColor:"#1B296D", height:"58vh", marginRight:"-15px"}}>
-      <div className="text-center pt-3">
-        <div className="photo">
-          <img src="/user.png" width="80" height="80"></img>
-        </div>
-        <div>
-          <div class="form-group pl-2 pr-2">
-            <label style={{color:"white"}}>이름</label>
-            <input className="form-control text-center" value="김민석" readOnly/>
-          </div>
-          <div className="form-group pl-2 pr-2">
-            <label style={{color:"white"}}>직책:</label>
-            <input className="form-control text-center" value="의사" readOnly/>
-          </div>
-        </div>
-        <Button variant="outline-light">로그아웃</Button>
-      </div>
     </div>
     <div style={{marginTop:"3vh"}}>
     <ul className="nav flex-column" >
@@ -52,6 +36,7 @@ function AppMenu() {
             <div className="col-7 pl-0">Test</div>
           </div>
         </NavLink>
+        <Button style={{marginTop:"100px", marginLeft:"35px"}} variant="outline-dark">로그아웃</Button>
       </li>
     </ul>
     </div>

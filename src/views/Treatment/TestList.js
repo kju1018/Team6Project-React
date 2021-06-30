@@ -8,7 +8,7 @@ function TestList(props) {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-  const [groupTests, setGroupTests] = useState([]);
+  const [groupTests, setGroupTests] = useState({});
 
   const info = () => {
     alert("대기중인 진료를 선택해주세요.");
@@ -50,12 +50,12 @@ function TestList(props) {
         })
         }
         {console.log(props.treatment)}
-        {props.treatment.state==="진료 완료" ? 
+        {(props.treatment.state==="진료 완료" && props.treatment.treatmentdate !=="2021. 6. 30. 진료" ) ? 
         <Accordion className="mb-3">
           <Card>
             <Accordion.Toggle as={Alert} variant="dark" className="mb-0" eventKey="0">
             <span style={{fontWeight:"bold"}}>
-            123&nbsp;&nbsp;묶음 처방</span>
+            A1233&nbsp;&nbsp;</span>
             </Accordion.Toggle>
             <Accordion.Collapse eventKey="0">
               <Card.Body>

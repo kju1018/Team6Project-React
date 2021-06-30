@@ -127,7 +127,6 @@ function Treatment(props) {
           <div className="pl-3 pr-3 pb-3 pt-0 border border-dark" style={{height:"90vh",marginBottom:"2vh", backgroundColor:"#FFFFFF"}}>
             <TestList treatment={treatment} treatmentTests = {treatmentTests}
                   staticTests={staticTests} prescribeTests={prescribeTests} closeShow={closeShow} toastShow={show}></TestList>
-
           </div>                
         </div>
       </div>
