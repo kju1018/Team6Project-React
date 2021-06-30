@@ -8,7 +8,7 @@ let date = new Date();
 for(var i=1; i<=lastbno; i++) {
   date.setDate(date.getDate()-i);
   data.push({
-    patientid:i, 
+    patientid:"patientid"+i, 
     patientname:"환자이름"+i, 
     ssn1:"951018", 
     ssn2:"1111111", 
@@ -34,4 +34,9 @@ export function getAllPatients(state) {
 export function getSearchPatients(searchName) {
   const patients = data.filter(patient => patient.patientname.includes(searchName))
   return patients;
+}
+
+export function getPatient(patientid) {
+  const newPatient = data.find(row => row.patientid === patientid);
+  return newPatient;
 }

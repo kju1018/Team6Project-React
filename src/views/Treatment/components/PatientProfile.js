@@ -1,5 +1,4 @@
 import { useState } from "react";
-
 const { default: SearchPatient } = require("./SearchPatient");
 
 function PatientProfile(props) {
@@ -10,6 +9,8 @@ function PatientProfile(props) {
   const selectPatient = (patient) => {
     props.selectPatient(patient);
   }
+
+
 
   return (
     <>
@@ -34,7 +35,7 @@ function PatientProfile(props) {
           </div>
           <div className="col-2 pl-3 pr-0  text-right">
               <button className="btn btn-dark btn-sm" onClick={handleShow}>환자 검색</button>
-              <button className="btn btn-dark btn-sm ml-2 mr-5">저장</button>
+              <button className={`btn btn-dark btn-sm ml-2 mr-5`} disabled={props.treatment.state === "진료 대기"? false : true} onClick={props.saveTreatment}>저장</button>
           </div>
         </div>
       </div>

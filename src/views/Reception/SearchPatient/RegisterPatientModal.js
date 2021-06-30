@@ -25,14 +25,14 @@ function RegisterPatientModal(props){
       <div className="mb-2">
         <label>이름 : </label>
         <input className="ml-2" name="patientname" ref={register({ required: true })} />
-        {errors.name && <span>이름을 입력해 주세요</span>}
+        {errors.patientname && <span>이름을 입력해 주세요</span>}
       </div>
 
       <div className="mb-2">
       <label>성별 : </label>
       <select className="ml-2" name="sex" ref={register({ required: true })}>
-        <option value="male">남자</option>
-        <option value="female">여자</option>
+        <option value="남자">남자</option>
+        <option value="여자">여자</option>
       </select>
       </div>
 
