@@ -13,7 +13,7 @@ for(var i=1; i<=lastbno; i++) {
     treatmentid:i%100 + 21, 
     drugid: "G" + i,
     drugname: "약 " + i,
-    drugquantity: Math.floor(Math.random() * 10),
+    drugquantity: Math.floor(Math.random() * 10)+1,
     drugunit: Math.random() > 0.5 ? "BT" : "TU",
     drugtype: Math.random() > 0.5 ? "내복약" : "외용약"
   });
