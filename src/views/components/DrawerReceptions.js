@@ -45,7 +45,7 @@ function DrawerReceptions(props){
                 <TestReception isDrawer={true} deleteTestReception={deleteTestsData} patientList={testsData}/>
                 </div>
             </div>
-            <div className="col-4 "style={{height:"96vh", backgroundColor:"white"}}>
+            <div className="col-4  pl-0"style={{height:"96vh", backgroundColor:"white"}}>
                 <div className="pl-1 pr-1 pb-3 border border-dark" style={{height:"100%"}}>    
                     메신저
                     <ChattingMenu/>

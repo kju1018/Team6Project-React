@@ -213,7 +213,7 @@ function RegisterReservationModal(props){
                         }
                    </div>
                    <div className="col d-flex justify-content-end" style={{borderRadius:"15px",  marginTop:"10px"}}> 
-                        <button className="btn btn-outline-dark btn-sm" onClick={ResisterReservation}>예약등록</button>
+                        <button className="btn btn-outline-dark btn-sm" disabled={reservationType===false&&(testList==null || (testList.filter((item)=>(item.ischeck===true)).length<1)) }  onClick={ResisterReservation}>예약등록</button>
                    </div>
                 </div>
 
