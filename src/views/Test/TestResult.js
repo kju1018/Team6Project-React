@@ -1,6 +1,7 @@
 function TestResult() {
   return (
-    <div className="card">
+    <>
+  <div className="card">
     <div className="card-header">
       X-Ray
     </div>
@@ -21,6 +22,7 @@ function TestResult() {
       </form>
     </div>
   </div>
+  </>
   );
 }
 export default TestResult;
