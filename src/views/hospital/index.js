@@ -1,11 +1,11 @@
-import { Carousel } from "react-bootstrap";
 import { useState } from "react";
 import { Button } from "react-bootstrap";
 import { Form } from "react-bootstrap";
-import { Redirect, Route, Switch, useHistory } from "react-router";
-import Notice from "views/Home/Notice";
-
-function Hospital() {
+import {  Route, Switch, useHistory } from "react-router-dom";
+import Treatment from "views/Treatment";
+import HospitalNotice from "./HospitalNotice";
+import HospitalNoticeDetail from "./HospitalNoticeDetail";
+function Hospital(props) {
   const [index, setIndex] = useState(0);
   const history = useHistory();
   const handleSelect = (selectedIndex, e) => {
@@ -56,7 +56,11 @@ function Hospital() {
             <div>
               <div className="row" style={{width:"70%"}}>
                 <div className="col card p-3" style={{height:"790px", border:"1px solid gray"}}>
-                  <Notice/>
+                  <Switch>
+                    <Route path="/" exact component={HospitalNotice}/>
+                    <Route path={`/detail/:bno`} exact component={HospitalNoticeDetail}/>
+                  </Switch>
+
                 </div>
               </div>
             </div>
