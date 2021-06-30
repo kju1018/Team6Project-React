@@ -46,26 +46,27 @@ function Weekly(props) {
     <tr className="text-center">
       <td style={{height:"400px"}}><WeeklyForm/></td>
       <td style={{width:"150px"}}>
-        <div className="banner1">ㅇㅂㅇㅈㅂㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅂㅈㅈㅈㅈㅈㅈ22112ㄹ12ㄹ12ㄹ12ㄹ12ㄹ12ㄹ1ㄹㅈ픚ㅇㅍㅈ우패ㅑㅈㅍ줖ㅈㄷ페ㅐㄷㅈㅍㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㅊㅊㅊㅊㅊㅊㅊㅊㅊㅊㅊㅊㅊㅊㅊㅊㅊㅊㅊㅊㅊㅊㅊㅊㅊㅊㅊㅊㅊㅊㅊㅊㅊㅊㅊㅊㅊㅊㅊㅊ</div>
+        <div className="banner1">신용권 원장님<div style={{float: "inline-end"}}><hr></hr>휴식 시간 오전 09:00 ~ 오전11:00</div></div>
       </td>
-      <td>
-      <div className="banner" style={{weight:"200px", height:"100px", backgroundColor:"#e407e4", color:"white", fontSize:"15px"}}>진료</div>
-      <div className="banner" style={{weight:"200px", height:"100px", backgroundColor:"#07e446", color:"white", fontSize:"15px"}}>뿌잉</div>
+      <td style={{width:"150px"}}>
+
       </td>
-      <td>
-      <div className="banner" style={{weight:"200px", height:"200px", backgroundColor:"#9c7bee", color:"white", fontSize:"15px"}}>빠잉</div>  
+      <td style={{width:"150px"}}>
+      <div className="banner2">홍미경 원장님<div style={{float: "inline-end"}}><hr></hr>휴식 시간 오전 09:00 ~ 오전11:00</div></div>
+      <div className="banner1">신용권 원장님<div style={{float: "inline-end"}}><hr></hr>외근 시간 오후 13:00 ~ 오후15:00</div></div>
       </td>
-      <td>
-      <div className="banner" style={{weight:"200px", height:"100px", backgroundColor:"#65bafa", color:"white", fontSize:"15px"}}>뿌잉</div>
-      <div className="banner" style={{weight:"200px", height:"200px", backgroundColor:"#047581", color:"white", fontSize:"15px"}}>빠잉</div>     
+      <td style={{width:"150px"}}>
+      
       </td>
-      <td>
-      <div className="banner" style={{weight:"200px", height:"300px", backgroundColor:"#f55f74", color:"white", fontSize:"15px"}}>빠잉</div>  
+      <td style={{width:"150px"}}>
+      <div className="banner3">최은지 원장님<div style={{float: "inline-end"}}><hr></hr>휴식 시간 오전 09:00 ~ 오전11:00</div></div>
       </td>
-      <td>
-      <div className="banner" style={{weight:"200px", height:"300px", backgroundColor:"#76068d", color:"white", fontSize:"15px"}}>빵빵</div>  
+      <td style={{width:"150px"}}>
+      
       </td>
-      <td></td>
+      <td style={{width:"150px"}}>
+      <div className="banner2">홍미경 원장님<div style={{float: "inline-end"}}><hr></hr>근무시간 오후13:00 ~ 오후18:00</div></div>
+      </td>
     </tr>
   </tbody>
 </Table>

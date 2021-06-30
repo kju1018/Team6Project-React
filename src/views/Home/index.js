@@ -12,12 +12,12 @@ function Home(props) {
       <Notice/>
       </div>
       <div className="p-2"></div>
-      <div className="col card p-3"style={{height:"70vh"}}>
+      <div className="col card p-3"style={{height:"65vh"}}>
       <Weekly/>
       </div>
    </div>
    <div className="col-4">
-   <div className="col card p-1" style={{height:"37vh"}}>
+   <div className="col card p-1" style={{height:"30vh"}}>
       <Calendar/>
       </div>
       <div className="p-2"></div>
@@ -25,7 +25,7 @@ function Home(props) {
       <User/>
       </div>
       <div className="p-2"></div>
-      <div className="col card"style={{height:"31vh"}}>
+      <div className="col card"style={{height:"33vh"}}>
       <Photo/>
       </div>
    </div>
