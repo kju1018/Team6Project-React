@@ -53,43 +53,39 @@ function Reservation(props){
         setSelectedReservation(null);
     },[reservationList])
 
-/////////////////////////////////////////////////////////////////////////////////////
-//이부분 수정해야함! 수정된 예약이 목록에서 안바뀜!!
-useEffect(()=>{
-    // if(updatedReservation){
-    //     const modify = reservationList.map((item)=>{
-    //         if(item.reservationid===updatedReservation.reservationid){
-    //             item = updatedReservation
-    //         }
-    //         return item;      
-            
-    //     })
-    //      setReservationList(modify)
+const UpdateReservation=(newreservation)=>{
+    if(selectedReservation){
+        //DB에서 해당 예약 삭제
+        cancelReservationData(selectedReservation.reservationid)
+        //UI에서 해당 예약 삭제
+        const index = reservationList.findIndex((item)=>(item.reservationid===selectedReservation.reservationid))
+        let tmplist = [...reservationList]
+        if(index>=0){
+            tmplist.splice(index,1);
+        }
+        //UI에 추가
+        tmplist.push(newreservation)          
+        setReservationList(tmplist)
+    }
     
-    // }
-    
-},[updatedReservation])
-// 수정된 예약을 목록에 추가 
-const setReservation = (reservation)=>{
-   // setUpdatedReservation(reservation)     
 }
 
 const CancelReservation=()=>{
-
-    //DB변경
-    cancelReservationData(selectedReservation.reservationid)
-    
-    //ui변경
-    const index = reservationList.findIndex((item)=>(item.reservationid===selectedReservation.reservationid))
-    let tmplist = [...reservationList]
-    if(index>=0){
-        tmplist.splice(index,1);
+    if(selectedReservation){
+        //DB변경
+        cancelReservationData(selectedReservation.reservationid)
+            
+        //ui변경
+        const index = reservationList.findIndex((item)=>(item.reservationid===selectedReservation.reservationid))
+        let tmplist = [...reservationList]
+        if(index>=0){
+            tmplist.splice(index,1);
+        }
+        setReservationList(tmplist)
     }
-     setReservationList(tmplist)
+    
 
 }
-
-//////////////////////////////////////////////////////////////////////
 
     //검사접수하기
     const ResisterTest = () =>{
@@ -176,7 +172,7 @@ const CancelReservation=()=>{
         <Modal.Header closeButton>
         <Modal.Title>예약수정</Modal.Title>
         </Modal.Header>
-        <Modal.Body><ReservationUpdateModal closeModal={closeModal} selectedReservation={selectedReservation} setReservation={setReservation}/></Modal.Body>
+        <Modal.Body><ReservationUpdateModal closeModal={closeModal} selectedReservation={selectedReservation} UpdateReservation={UpdateReservation}/></Modal.Body>
         </Modal>
 
         <Modal  backdrop="static" show={doctorSelectorModalshow} onHide={()=>{setDoctorSelectorModalshow(false)}}>
