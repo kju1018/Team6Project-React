@@ -10,3 +10,29 @@
 .banner1:hover{
  font-weight: bold;
 }
+
+.banner2 {
+  background: rgb(33, 96, 244);
+  border-radius: 20px;
+  width: 124px;
+  height: auto;
+  text-align: center;
+  font-size: 15px;
+  color: white;
+}
+.banner2:hover{
+ font-weight: bold;
+}
+
+.banner3 {
+  background: rgb(51, 165, 49);
+  border-radius: 20px;
+  width: 124px;
+  height: auto;
+  text-align: center;
+  font-size: 15px;
+  color: white;
+}
+.banner3:hover{
+ font-weight: bold;
+}
