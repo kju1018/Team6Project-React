@@ -153,7 +153,7 @@ function TestPage(props) {
 
           <div className="row" style={{height:"2%"}}>      
           </div>
-          <div style={{height:"65%"}}><TestResult/></div>
+          <div style={{height:"65%"}}><TestResult/> </div>
 
           <div style={{height:"10%"}}>
           
