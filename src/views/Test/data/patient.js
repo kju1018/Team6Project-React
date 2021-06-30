@@ -80,7 +80,7 @@ for(var i=1; i<=7; i++) {
       treatmentid:51,
       patientid: 1,
       testdataid:"처방코드"+i,
-      state:"대기중",
+      state: i%5 ===1 ? "대기중" : "진행중",
       userid:"신용권"
     })
 }
@@ -91,67 +91,11 @@ for(var i=1; i<=3; i++) {
     treatmentid:51,
     patientid: 1,
     testdataid:"처방코드"+i,
-    state:"대기중",
+    state:"검사완료",
     userid:"신용권"
   })
 }
 
-
-// for(var i=1; i<=10; i++) {
-//   tests.push({
-//     testreceptionid:11,
-//     treatmentid:50,
-//     patientid: 1,
-//     groupcode:"그룹코드"+i,
-//     testdataid:"처방코드"+i,
-//     state:"",
-//     userid:"1423"
-//   })
-// }
-// for(var i=1; i<=3; i++) {
-//   tests.push({
-//     testreceptionid:12,
-//     treatmentid:50,
-//     patientid: 1,
-//     groupcode:"그룹코드"+i,
-//     testdataid:"처방코드"+i,
-//     state:"",
-//     userid:"1423"
-//   })
-// }
-// for(var i=1; i<=4; i++) {
-//   tests.push({
-//     testreceptionid:13,
-//     treatmentid:50,
-//     patientid: 1,
-//     groupcode:"그룹코드"+i,
-//     testdataid:"처방코드"+i,
-//     state:"",
-//     userid:"1423"
-//   })
-// }
-// for(var i=1; i<=4; i++) {
-//   tests.push({
-//     testreceptionid:21,
-//     treatmentid:50,
-//     patientid: 1,
-//     groupcode:"그룹코드"+i,
-//     testdataid:"처방코드"+i,
-//     state:"",
-//     userid:"1423"
-//   })
-// }
-// for(var i=1; i<=1; i++) {
-//   tests.push({
-//     testreceptionid:22,
-//     treatmentid:50,
-//     patientid: 1,
-//     groupcode:"그룹코드"+i,
-//     testdataid:"처방코드"+i,
-//     state:"",
-//     userid:"1423"
-//   })
-// }
 
 let testdata = [];
 for(var i=0; i<=100; i++) {
@@ -168,15 +112,15 @@ for(var i=0; i<=100; i++) {
  
 }
 
-export function testData() {
+export function AlltestData() {
   return testdata
 }
 
-export function testList() {
+export function AlltestList() {
   return tests;
 }
 
-export function testDate() {
+export function testReceptions() {
   
   return testreceptions;
 }
@@ -194,6 +138,17 @@ export function completePatient() {
   return patients;
 }
 
+export function startTests(checkedList) {
+  for(let i = 0; i < checkedList.length; i++){
+    for(let j  = 0 ; j < checkedList[i].tests.length; j++){
+      let newTest = tests.find((test) => {
+        return checkedList[i].tests[j].testdataid === test.testdataid;
+      })
+      newTest.state = "진행중";
+    }
+  }
+  console.log(tests)
+}
 
 export function getAllPatient() {
   return data;
