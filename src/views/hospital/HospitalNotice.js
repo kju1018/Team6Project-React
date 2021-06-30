@@ -4,15 +4,27 @@ import { Button } from 'react-bootstrap';
 import Item from "views/components/Item";
 import { Link } from "react-router-dom";
 import { getBoardList } from "./data/Data";
+import HospitalNoticeDetail from "./HospitalNoticeDetail";
 function HospitalNotice(props){
   const [show, setShow] = useState(false);
   const [selectedNotice, setSelectedNotice] = useState([]);
   //공지사항을 가져올 list 
+  const [board, setBoard] = useState({});
+
 
   useEffect(() => {
     setSelectedNotice(getBoardList());
     console.log(selectedNotice);
   }, [])
+
+  const handleShow = (board) => {
+    setShow(true);
+    setBoard(board);
+  }
+
+  const handleClose = () => {
+    setShow(false);
+  }
 
 return(
   <>
@@ -32,19 +44,18 @@ return(
     {selectedNotice.length != 0 &&
     selectedNotice.map((board, index) => {
       return (
-        <div key={board.bno} className="border-bottom d-flex text-center" style={{heght:"40px"}}>
+        <div key={board.bno} onClick={() => {handleShow(board)}} className="border-bottom d-flex text-center" style={{heght:"40px", cursor:"pointer"}}>
           <div style={{width:"90px", fontWeight:"bold", padding:"12px"}}>{index}</div>
           <div style={{width:"153px", padding:"12px"}}>{board.bwriter}</div>
-          <div style={{width:"170px", padding:"12px"}}><Link to={`/detail/${board.bno}`}>{board.btitle}</Link></div>
+          <div style={{width:"170px", padding:"12px"}}>{board.btitle}</div>
           <div style={{width:"170px", padding:"12px"}}>{board.bdate}</div>
         </div>
       )
     })
     }
-
   </div>
 
-  
+  <HospitalNoticeDetail board={board} show={show} handleClose={handleClose}></HospitalNoticeDetail>
   </>
 )
 }

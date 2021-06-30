@@ -17,7 +17,8 @@ function App(props) {
         <AppContextProvider>
         <Route path="/main" component={Main}/>
         </AppContextProvider>
-        <Redirect to="/" />
+ 
+        <Redirect to="/"/>
         {/* 어느 누구도 해당하지 않으면 home으로 감  */}
       </Switch>
     </div>
