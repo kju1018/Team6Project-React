@@ -56,11 +56,11 @@ function Hospital(props) {
             <div>
               <div className="row" style={{width:"70%"}}>
                 <div className="col card p-3" style={{height:"790px", border:"1px solid gray"}}>
-                  <Switch>
+                  {/* <Switch>
                     <Route path="/" exact component={HospitalNotice}/>
                     <Route path={`/detail/:bno`} exact component={HospitalNoticeDetail}/>
-                  </Switch>
-
+                  </Switch> */}
+                  <HospitalNotice></HospitalNotice>
                 </div>
               </div>
             </div>
