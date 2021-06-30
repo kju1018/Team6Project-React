@@ -81,18 +81,8 @@ function UpdateReservationModal(props){
             }
          
         
-
-         //첫번째 들어갈 시간 구하기
-         for(var i=0; i<Times.length; i++){
-             if(!Times[i]){
-                 setStartDate(GetTime(i))
-                 break;
-             }
-             //만약 모든 시간이 차있으면 예외처리
-             if(i===Times.length-1){
-                
-             }
-         }
+            //처음 들어갈시간 넣기
+         setStartDate(props.selectedReservation.rdate);
 
          let excludeTime = new Array(12)
          for(var i=0; i<12; i++){
