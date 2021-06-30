@@ -1,10 +1,11 @@
-import { Carousel } from "react-bootstrap";
 import { useState } from "react";
 import { Button } from "react-bootstrap";
 import { Form } from "react-bootstrap";
-import { Redirect, Route, Switch, useHistory } from "react-router";
-
-function Hospital() {
+import {  Route, Switch, useHistory } from "react-router-dom";
+import Treatment from "views/Treatment";
+import HospitalNotice from "./HospitalNotice";
+import HospitalNoticeDetail from "./HospitalNoticeDetail";
+function Hospital(props) {
   const [index, setIndex] = useState(0);
   const history = useHistory();
   const handleSelect = (selectedIndex, e) => {
@@ -51,36 +52,18 @@ function Hospital() {
           </div>
         </div>
         <div className="col-6">
-          <div>
-            <div className="row" style={{width:"70%", marginLeft:"15%", marginTop:"30px"}}>
-              <div className="col" style={{height:"300px", border:"1px solid gray"}}>공지사항</div>
-            </div>
-          </div>
-          <div className="pt-5 p-0" style={{width:"90%", marginLeft:"30px"}}>
-          <Carousel>
-            <Carousel.Item>
-              <img
-                className="d-block w-100"
-                src="mainSlide1.png"
-                height="360px"
-              />
-            </Carousel.Item>
-            <Carousel.Item>
-              <img
-                className="d-block w-100"
-                src="mainSlide2.png"
-                height="360px"
-              />
-            </Carousel.Item>
-            <Carousel.Item>
-              <img
-                className="d-block w-100"
-                src="mainSlide4.png"
-                height="360px"
-              />
-            </Carousel.Item>
-          </Carousel>
+          <div className="pt-5 pl-5">
+            <div>
+              <div className="row" style={{width:"70%"}}>
+                <div className="col card p-3" style={{height:"790px", border:"1px solid gray"}}>
+                  <Switch>
+                    <Route path="/" exact component={HospitalNotice}/>
+                    <Route path={`/detail/:bno`} exact component={HospitalNoticeDetail}/>
+                  </Switch>
 
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>

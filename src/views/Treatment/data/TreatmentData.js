@@ -9,7 +9,7 @@ for(var i=1; i<=20; i++) {
     memo: "", 
     treatmentdate:date.toLocaleDateString() + " 진료", 
     userid: i%3 + 1,
-    patientid: i%20 + 1,
+    patientid:"patientid"+(i%20+1), 
     state: "진료 대기"
   });
 }
@@ -21,7 +21,7 @@ for(var i=21; i<=lastbno; i++) {
     memo: i%3 ? "메모"+i :"", 
     treatmentdate:date.toLocaleDateString() + " 진료", 
     userid: i%3 + 1,
-    patientid: i%20 + 1,
+    patientid:"patientid"+(i%20+1), 
     state: "진료 완료"
   });
 }
@@ -31,4 +31,9 @@ for(var i=21; i<=lastbno; i++) {
 export function getTreatments(patientid) {
   const treatments = data.filter(treatment => treatment.patientid === patientid);
   return treatments;
+}
+
+export function updateTreatment(treatmentid) {
+  const treatment = data.find(row => row.treatmentid === treatmentid);
+  treatment.state = "진료 완료";
 }

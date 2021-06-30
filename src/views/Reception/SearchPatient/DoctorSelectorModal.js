@@ -29,6 +29,9 @@ function DoctorSelectorModal(props){
     //DB에 진료생성
     const treatmentreception=ReceptionTreatment(props.selectedPatient.patientid,selectedDoctor.userid)
     const treatmentreceptionredux = {selectedDoctor,...treatmentreception}
+    if(props.modifyReservationList){
+        props.modifyReservationList()
+    }
     //redux에 접수된 진료넘기기
     dispatch(createSetTreatmentReception(treatmentreceptionredux))
 

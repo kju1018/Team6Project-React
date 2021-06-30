@@ -16,21 +16,33 @@ function PatientTreatment(props) {
     props.selectTreatment(treatment);
   }, [props])
 
+  useEffect(() => {
+  }, [props.treatment])
   return (
     <>
       <div className="row d-flex justify-content-between"style={{backgroundColor:"#FFFFFF", paddingLeft:"15px", paddingRight:"15px"}}>
         <div className="d-flex row pb-1" style={{height:"50px"}}><div className="p-2 ml-3 mr-2 text-center" style={{ backgroundColor:"#887BD2", width:"40px", color:"#FFFFFF"}}><i className="bi bi-calendar2-check"></i></div><div className="d-flex align-items-center">진료 내역</div></div>
       </div>
       <div className="d-flex align-items-center pb-1" style={{height:"50px", width:"250px"}}>선택한 진료: {props.treatment.treatmentdate}</div>
-      <div className="overflow-auto p-3" style={{height:"calc(100% - 100px)"}}>
-        {
-        patientTreatments !=null &&
-        patientTreatments.map (treatment => {
-        return (
-          <TreatmentItem key={treatment.treatmentid} item={treatment} property={["treatmentdate", "state"]} onClick={selectTreatment}></TreatmentItem>
-        );
-        })}
+      {
+      props.selectedPatient.patientid != null ? 
+      <>
+        <div className="overflow-auto p-3" style={{height:"calc(100% - 100px)"}}>
+          {
+          patientTreatments !=null &&
+          patientTreatments.map (treatment => {
+          return (
+            <TreatmentItem key={treatment.treatmentid} item={treatment} property={["treatmentdate", "state"]} onClick={selectTreatment}></TreatmentItem>
+          );
+          })}
+        </div>
+      </>
+      :
+      <div className="overflow-auto p-3 border-top justify-content-center d-flex align-items-center" style={{height:"calc(100% - 100px)"}}>
+        <span><i className="bi bi-file-person mr-1"></i>환자를 선택해주세요.</span>
       </div>
+      }
+
     </>
   );
 }

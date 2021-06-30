@@ -23,15 +23,15 @@ return(
       <img src="/pen.png"width="25"height="25"/></Button>
     </h5> 
     <Modal show={show} onHide={handleClose}>
-              <Form>
-                <h4 className="text-center">NOTICE<img src="/pencil.png"width="25"height="25"/></h4>
+              <Form className="text-center">
+                <h4>NOTICE<img src="/pencil.png"width="25"height="25"/></h4>
                 <hr></hr>
                 <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                  <Form.Label>작성자</Form.Label>
+                  <Form.Label><strong>작성자</strong></Form.Label>
                   <Form.Control type="text"/>
                 </Form.Group>
                 <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
-                  <Form.Label>내용</Form.Label>
+                  <Form.Label><strong>내용</strong></Form.Label>
                   <Form.Control as="textarea" rows={3} />
                 </Form.Group>
               </Form>
@@ -45,7 +45,7 @@ return(
               </Modal.Footer>
             </Modal>
   <div className="overflow-auto">
-   <table className="table table-hover">
+   <table className="table table-hover" style={{backgroundColor:"rgb(18, 60, 114)", color:"white"}}>
      <thead className="card-header">
        <tr>
          <th scope="col">#</th>

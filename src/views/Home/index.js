@@ -6,23 +6,26 @@ import Weekly from "./Weekly";
 
 function Home(props) {
   return (
-    <div className="container-fluid row vh-100">
+    <div className="container-fluid row vh-100 p-3">
    <div className="col-8">
-      <div className="col card" style={{height:"30vh"}}>
+      <div className="col card p-3" style={{height:"30vh"}}>
       <Notice/>
       </div>
-      <div className="col card"style={{height:"70vh"}}>
+      <div className="p-2"></div>
+      <div className="col card p-3"style={{height:"70vh"}}>
       <Weekly/>
       </div>
    </div>
    <div className="col-4">
-   <div className="col card" style={{height:"40vh"}}>
+   <div className="col card p-1" style={{height:"37vh"}}>
       <Calendar/>
       </div>
+      <div className="p-2"></div>
       <div className="col card"style={{height:"30vh"}}>
       <User/>
       </div>
-      <div className="col card"style={{height:"30vh"}}>
+      <div className="p-2"></div>
+      <div className="col card"style={{height:"31vh"}}>
       <Photo/>
       </div>
    </div>

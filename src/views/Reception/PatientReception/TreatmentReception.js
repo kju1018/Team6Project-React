@@ -1,21 +1,25 @@
 import { useEffect, useState } from "react";
 import { ToggleButton } from "react-bootstrap";
 import { ButtonGroup } from "react-bootstrap";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Item from "views/components/Item";
-
+import {createSetPatient} from"redux/patient-reducer"
 function TreatmentReception(props){
     const [listtype, setListtype] = useState("all");
     const [selectedTreatmetReception,setSelectedTreatmetReception] = useState()
+    const dispatch = useDispatch();
     const handleChange = (event) => {
         setListtype(event.target.value);
       }
       const click = (item) =>{
+        dispatch(createSetPatient({patientid:item.patientid}))
         setSelectedTreatmetReception(item)
     }
     //진료접수삭제
     const deleteReceptionTreatment = () =>{
-        props.deleteTreatmentReception(selectedTreatmetReception.treatmentid)
+        if(selectedTreatmetReception){
+            props.deleteTreatmentReception(selectedTreatmetReception.treatmentid)
+        }
     }
  
     const treatmentProperty = ["treatmentid","patientid","userid","status","treatmentdate"]  
