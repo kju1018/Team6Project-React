@@ -49,20 +49,20 @@ function Weekly(props) {
         <div className="banner1">신용권 원장님<div style={{float: "inline-end"}}><hr></hr>휴식 시간 오전 09:00 ~ 오전11:00</div></div>
       </td>
       <td style={{width:"150px"}}>
-
+      <WeeklyForm/>
       </td>
       <td style={{width:"150px"}}>
       <div className="banner2">홍미경 원장님<div style={{float: "inline-end"}}><hr></hr>휴식 시간 오전 09:00 ~ 오전11:00</div></div>
       <div className="banner1">신용권 원장님<div style={{float: "inline-end"}}><hr></hr>외근 시간 오후 13:00 ~ 오후15:00</div></div>
       </td>
       <td style={{width:"150px"}}>
-      
+      <WeeklyForm/>
       </td>
       <td style={{width:"150px"}}>
       <div className="banner3">최은지 원장님<div style={{float: "inline-end"}}><hr></hr>휴식 시간 오전 09:00 ~ 오전11:00</div></div>
       </td>
       <td style={{width:"150px"}}>
-      
+      <WeeklyForm/>
       </td>
       <td style={{width:"150px"}}>
       <div className="banner2">홍미경 원장님<div style={{float: "inline-end"}}><hr></hr>근무시간 오후13:00 ~ 오후18:00</div></div>
