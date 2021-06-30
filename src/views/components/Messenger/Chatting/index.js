@@ -15,7 +15,7 @@ function Chatting(props){
     const chatObj = {username:"", pic:null,message:"", dateTime:null,isMe:false, enabled:false}
     const [chatArray, setChatArray] = useState(initChatArray);
     const [message, setMessage] = useState("");
-    const globalUid = "원재"//useSelector((state)=>(state.authReducer.uid))
+    const globalUid = "내아이디"//useSelector((state)=>(state.authReducer.uid))
     const scrollRef = useRef();
     useEffect(()=>{
         setMessage("");
@@ -66,13 +66,13 @@ function Chatting(props){
             {chatArray.map((chat)=>{return(
                 <div ref={scrollRef} className={chat.isMe?"row p-1 justify-content-end":"row  p-1  justify-content-start"}>
                     <div>
-                        <div>
+                        <div style={{color:"white"}}>
                             {chat.isMe?globalUid:chat.username}
                         </div>
                         <div className="border" style={chat.isMe?{backgroundColor:"yellow"} : {backgroundColor:"gray"}}>
                             {chat.message}
                         </div>
-                        <div style={{fontSize:"0.5em"}}>
+                        <div style={{fontSize:"0.5em",color:"white"}}>
                            {chat.dateTime.toLocaleString()}
                         </div>
                     </div>
@@ -81,7 +81,7 @@ function Chatting(props){
         </div>
         <div className="align-items-end d-flex" >
             <input type="text" className="col-10 form-control" name="message" onKeyPress={onKeyPress} value={message} onChange={onChangeMessage} />
-            <button className="col-2 btn btn-warning btn-sm"style={{height:"2.5rem"}}  onClick={sendMsg}>보내기</button>
+            <button className="col-2 btn btn-warning btn-sm p-0"style={{height:"2.5rem", fontSize:"0.9rem"}}  onClick={sendMsg}>보내기</button>
         </div>
         </div>
     );

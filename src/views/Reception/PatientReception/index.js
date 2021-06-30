@@ -39,7 +39,7 @@ function PatientReception(props){
         setTestsData(modify)
     }
     return(
-        <div className="pl-3 pr-3 pb-3 border border-dark" style={{height:"calc(45vh - 15px)", backgroundColor:"white"}}>    
+        <div className="pl-3 pr-3 pb-3 border border-dark" style={{height:"calc(45vh - 10px)", backgroundColor:"white"}}>    
             <ReceptionHeader headertitle="접수" iclassName="bi bi-droplet " color="#E89677">
                 <select onChange={onChangeSelect} className="ml-2" name="reception" >
                     <option value="treatmentreception">진료접수</option>
