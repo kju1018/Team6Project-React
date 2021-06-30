@@ -22,7 +22,7 @@ function PeriodSearch() {
   const handleBtnClicked = (e) => {
     const { value } = e.target;
     setBtnClicked(value);
-    const currentDate = new Date();
+    const currentDate = new Date(); 
     // 오늘 날짜
     if (value === "당일") {
       setStartDate(new Date());

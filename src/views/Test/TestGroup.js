@@ -37,14 +37,14 @@ function TestGroup(props) {
     const title = [...set]; //묶음 코드 중복 제거
 
 
-    let obj = {};//나중에 groupList가 될 친구 데이터 가공후 리스트에 추가
+    let obj = {};//나중에 groupList가 데이터 가공후 리스트에 추가
     for(var i=0; i<title.length; i++){
         for(var j=0; j<temp.length; j++){
           if(title[i] === temp[j].groupcode) {
             if(obj[title[i]]){ //그룹코드이름으로 된 속성이 있을 때
               obj[title[i]].tests.push(temp[j]);
             } else {
-              obj[title[i]]={};
+              obj[title[i]]={}; //묶음코드 하나하나 객체
               obj[title[i]].groupcode=temp[j].groupcode;
               obj[title[i]].groupname=temp[j].groupname;
               obj[title[i]].state=temp[j].state;
