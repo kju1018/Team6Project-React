@@ -8,10 +8,7 @@ function PrescriptionDrugsModal(props) {
   const handleSearchName = (event) => {
     setSearchName(event.target.value);
   };
-  const search = () => {
-
-  }
-
+  
   const onChangeQuantity = (e) => {
     setQuantityArr({
       ...quantityArr,
