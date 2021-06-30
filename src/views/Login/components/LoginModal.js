@@ -22,7 +22,7 @@ function LoginModal(props) {
             <Form>
               <Form.Group controlId="formBasicEmail">
                 <Form.Label>User ID</Form.Label>
-                <Form.Control type="email" placeholder="Enter email" />
+                <Form.Control type="email" placeholder="User ID" />
                 <Form.Text className="text-muted">
                   We'll never share your email with anyone else.
                 </Form.Text>

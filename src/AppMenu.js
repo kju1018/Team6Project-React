@@ -12,7 +12,7 @@ function AppMenu() {
           <img src="/user.png" width="80" height="80"></img>
         </div>
         <div>
-          <div class="form-group pl-2 pr-2">
+          <div className="form-group pl-2 pr-2">
             <label style={{color:"white"}}>이름</label>
             <input className="form-control text-center" value="김민석" readOnly/>
           </div>
