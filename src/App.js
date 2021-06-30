@@ -12,7 +12,7 @@ function App(props) {
   return (
     <div className="d-flex flex-column vh-100" style={{width:"1920px", backgroundColor:"#F9F7F9"}}>
       <Switch>
-        <Route path="/" component={Hospital}/>
+        <Route path="/" exact component={Hospital}/>
         <Route path="/login" exact component={Login}/>
         <AppContextProvider>
         <Route path="/main" component={Main}/>
