@@ -34,13 +34,13 @@ function Reservation(props){
                 setDoctorSelectorModalshow(false)
             }
         }
-
+    //예약정보가져옴
     useEffect(()=>{
        var reservationlist = getAllReservationsData();
        
         setReservationList(reservationlist)
     },[])
-
+    //리듀서로 가져온 예약정보를 ui에 추가해줌
     useEffect(()=>{
         if(reservationReducer.reservation.reservationid){
             const newreservationlist = reservationList.concat(reservationReducer.reservation)          
@@ -53,6 +53,7 @@ function Reservation(props){
         setSelectedReservation(null);
     },[reservationList])
 
+    //자식인 예약수정 컴포넌트에 넘길 예약수정함수
 const UpdateReservation=(newreservation)=>{
     if(selectedReservation){
         //DB에서 해당 예약 삭제
@@ -70,6 +71,7 @@ const UpdateReservation=(newreservation)=>{
     
 }
 
+//예약 취소
 const CancelReservation=()=>{
     if(selectedReservation){
         //DB변경
@@ -107,10 +109,8 @@ const CancelReservation=()=>{
         
     }
 
-  //모달에서 예약 리스트 수정할수있는 함수
+  //진료접수시 상태변경함수
   const modifyReservationList = () =>{
-      
-    
     const modify = reservationList.map((item)=>{
         
       if(item.reservationid===selectedReservation.reservationid){

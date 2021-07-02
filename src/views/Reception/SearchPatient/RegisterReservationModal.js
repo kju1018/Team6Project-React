@@ -35,6 +35,7 @@ function RegisterReservationModal(props){
         setTestList(modify);
     }
 
+    //날짜를 넣으면 인데스 나옴
     const GetTimeIndex=(date)=>{
         let hour = date.getHours()*10
         let minute = date.getMinutes()
@@ -46,6 +47,7 @@ function RegisterReservationModal(props){
         const Index = (hour+minute)/5-18
         return Index
     }
+    //인덱스를 넣으면 날짜가 나오는 함수
     const GetTime=(Index)=>{
         let num = (Index+18)*5
         let hour = num/10
@@ -54,12 +56,15 @@ function RegisterReservationModal(props){
         return date;
     }
     useEffect(()=>{
+        //예약정보불러오기
         var reservationlist = getAllReservationsData();
         setReservationList(reservationlist)
         var testlist = getAllTestsGroupData(props.selectedPatient.patientid);
         setTestList(testlist);
         console.log(GetTime(GetTimeIndex(new Date(new Date().getFullYear(),new Date().getMonth(),29,15,30))))
-         let Times=new Array(18);
+         
+       //첫번째로 가능한 예약시간을 구하기위해 datepicker의 Time테이블 형식(30분단위)에 맞춰서 해당 날짜의 1차원배열구성
+        let Times=new Array(18);
             Times[GetTimeIndex(new Date(startDate.getFullYear(),startDate.getMonth(),startDate.getDate(),13,0))] = true;
             Times[GetTimeIndex(new Date(startDate.getFullYear(),startDate.getMonth(),startDate.getDate(),13,30))] = true;
             for(var i=0; i<reservationlist.length; i++){
@@ -82,6 +87,7 @@ function RegisterReservationModal(props){
              }
          }
 
+          //예약된 정보를  일,시간,분 3차원배열구성
          let excludeTime = new Array(12)
          for(var i=0; i<12; i++){
              var lastday = new Date(new Date().getFullYear(),i+1,0).getDate();
@@ -90,7 +96,6 @@ function RegisterReservationModal(props){
                 excludeTime[i][j] = new Array();
             }
          }
-         //exclude에 들어갈 월별 시간 구하기
         
             for(var i=0; i<reservationlist.length; i++){
                 var month = reservationlist[i].reservationdate.getMonth()+1
@@ -105,6 +110,8 @@ function RegisterReservationModal(props){
       
       
     },[])
+
+    //선택된 날짜~ +30분 가져오기
     const getReservationDate= () =>{
         var newDateOptions = {
             month: "2-digit",
