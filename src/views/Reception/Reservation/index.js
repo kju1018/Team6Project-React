@@ -8,6 +8,7 @@ import { Modal } from "react-bootstrap";
 import ReservationUpdateModal from "./ReservationUpdateModal";
 import { createSetTestReception } from "redux/reception-reducer";
 import DoctorSelectorModal from "../SearchPatient/DoctorSelectorModal";
+import { GetReservationList } from "apis/Reception";
 function Reservation(props){
     const [reservationUpdateModalshow, setReservationUpdateModalshow] = useState(false);
     const [doctorSelectorModalshow, setDoctorSelectorModalshow] = useState(false);
@@ -36,9 +37,12 @@ function Reservation(props){
         }
     //예약정보가져옴
     useEffect(()=>{
-       var reservationlist = getAllReservationsData();
-       
-        setReservationList(reservationlist)
+      GetReservationList().then((result)=>{
+          result.data.forEach(element => {
+              element.reservationdate = new Date(element.reservationdate)
+          });
+        setReservationList(result.data)
+       });
     },[])
     //리듀서로 가져온 예약정보를 ui에 추가해줌
     useEffect(()=>{
@@ -148,6 +152,7 @@ const CancelReservation=()=>{
                 <div style={{width:"20%"}}>예약시간</div>
             </div>
             <div className="overflow-auto  justify-content-center" style={{height:"calc(50vh - 230px)"}} >
+                {console.log(reservationList)}
                  {reservationList&&reservationList.map((item,index)=>{
                      
                      let rdate = item.reservationdate; 
