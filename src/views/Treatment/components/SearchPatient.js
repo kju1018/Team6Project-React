@@ -1,7 +1,7 @@
+import { getPatientList } from "apis/Treatment";
 import { useCallback, useEffect, useState } from "react";
 import { Button, Modal } from "react-bootstrap";
 import Item from "views/components/Item";
-import { getAllPatients, getSearchPatients } from "../data/PatientData";
 function SearchPatient(props) {
   const property = ["patientid", "patientname", "age", "sex", "phonenumber", "lasttreatment", "registerday"];
 
@@ -17,7 +17,11 @@ function SearchPatient(props) {
   const [patientList, setPatientList] = useState([]);
 
   useEffect(() => {
-    setPatientList(getAllPatients());
+    const work = async() => {
+      const response = await getPatientList();
+      setPatientList(response.data);
+    }
+    work();
   }, [])
 
   useEffect(() => {
@@ -46,8 +50,8 @@ function SearchPatient(props) {
   };
 
   const search = useCallback((name) => {
-    const loadPatient = getSearchPatients(name);
-    setPatientList(loadPatient);
+    // const loadPatient = getSearchPatients(name);
+    // setPatientList(loadPatient);
     console.log(name);
   }, []);//useCallback로 받으면 () =>      ()괄호안에 매개변수를 받아야함
 

@@ -118,8 +118,11 @@ function PrescriptionDrugsModal(props) {
                         overlay={<Tooltip>{item.drugname}</Tooltip>}>
                       <div style={{width:"25%", whiteSpace: "nowrap",overflow:"hidden", textOverflow:"ellipsis"}}>{item.drugname}</div>
                     </OverlayTrigger>
-                    <div style={{width:"25%"}}>
-                      <input min={1} type="number" name={item.drugid} value={quantityArr[item.drugid] || 1} onChange={onChangeQuantity} className="form-control" style={{width:"60%", marginRight:"3px", display:"inline"}}></input>{item.drugunit}
+                    <div className="d-flex" style={{width:"25%"}}>
+                      <div style={{width:"60%", marginRight:"3px"}}>
+                        <input min={1} type="number" name={item.drugid} value={quantityArr[item.drugid] || 1} onChange={onChangeQuantity} className="form-control"></input>
+                      </div>
+                      <div style={{width:"40%"}}>{item.drugunit}</div>
                     </div>
                     <div style={{width:"25%"}}><button className="btn btn-success btn-sm" onClick={() => {addItem(item, quantityArr[item.drugid])}}>추가</button></div>
                   </div>
