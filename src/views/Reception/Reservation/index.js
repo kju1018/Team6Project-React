@@ -2,13 +2,13 @@ import Calendar from "../SearchPatient/Calendar"
 import Item from "views/components/Item";
 import { useEffect, useState } from "react";
 import ReceptionHeader from "../components/ReceptionHeader";
-import {getAllReservationsData, cancelReservationData, ReceptionTest} from "views/Reception/BackEnd/index"
+import { ReceptionTest,cancelReservationData} from "views/Reception/BackEnd/index"
 import { useDispatch, useSelector } from "react-redux";
 import { Modal } from "react-bootstrap";
 import ReservationUpdateModal from "./ReservationUpdateModal";
 import { createSetTestReception } from "redux/reception-reducer";
 import DoctorSelectorModal from "../SearchPatient/DoctorSelectorModal";
-import { GetReservationList } from "apis/Reception";
+import { GetReservationList,RemoveReservation } from "apis/Reception";
 function Reservation(props){
     const [reservationUpdateModalshow, setReservationUpdateModalshow] = useState(false);
     const [doctorSelectorModalshow, setDoctorSelectorModalshow] = useState(false);
@@ -22,7 +22,6 @@ function Reservation(props){
     const [selectedReservation, setSelectedReservation] = useState();
     const [updatedReservation,setUpdatedReservation] = useState(null);
     const click = (focusItem) =>{
-        console.log(focusItem)
         setSelectedReservation(focusItem)
     }
     const dispatch = useDispatch();
@@ -38,9 +37,6 @@ function Reservation(props){
     //예약정보가져옴
     useEffect(()=>{
       GetReservationList().then((result)=>{
-          result.data.forEach(element => {
-              element.reservationdate = new Date(element.reservationdate)
-          });
         setReservationList(result.data)
        });
     },[])
@@ -53,23 +49,17 @@ function Reservation(props){
        
     },[reservationReducer])
 
-    useEffect(()=>{
-        setSelectedReservation(null);
-    },[reservationList])
+    
 
-    //자식인 예약수정 컴포넌트에 넘길 예약수정함수
+    //자식인 예약수정 컴포넌트에 넘길 예약수정함수(부모의 예약 리스트를 바꿔야하기에 부모컴포넌트에서 수행해줌) 
 const UpdateReservation=(newreservation)=>{
     if(selectedReservation){
-        //DB에서 해당 예약 삭제
-        cancelReservationData(selectedReservation.reservationid)
-        //UI에서 해당 예약 삭제
+        //UI에서 해당 예약을 새로운 예약으로 교체
         const index = reservationList.findIndex((item)=>(item.reservationid===selectedReservation.reservationid))
         let tmplist = [...reservationList]
         if(index>=0){
-            tmplist.splice(index,1);
+            tmplist.splice(index,1,newreservation);
         }
-        //UI에 추가
-        tmplist.push(newreservation)          
         setReservationList(tmplist)
     }
     
@@ -78,16 +68,19 @@ const UpdateReservation=(newreservation)=>{
 //예약 취소
 const CancelReservation=()=>{
     if(selectedReservation){
+        console.log(selectedReservation.reservationid)
         //DB변경
-        cancelReservationData(selectedReservation.reservationid)
+        RemoveReservation(selectedReservation.reservationid).then((result)=>{
+            //ui변경
+            const index = reservationList.findIndex((item)=>(item.reservationid===selectedReservation.reservationid))
+            let tmplist = [...reservationList]
+            if(index>=0){
+                tmplist.splice(index,1);
+            }
+            setReservationList(tmplist)
+        })
             
-        //ui변경
-        const index = reservationList.findIndex((item)=>(item.reservationid===selectedReservation.reservationid))
-        let tmplist = [...reservationList]
-        if(index>=0){
-            tmplist.splice(index,1);
-        }
-        setReservationList(tmplist)
+        
     }
     
 
@@ -152,21 +145,13 @@ const CancelReservation=()=>{
                 <div style={{width:"20%"}}>예약시간</div>
             </div>
             <div className="overflow-auto  justify-content-center" style={{height:"calc(50vh - 230px)"}} >
-                {console.log(reservationList)}
                  {reservationList&&reservationList.map((item,index)=>{
                      
-                     let rdate = item.reservationdate; 
-                     if(item.reservationdate instanceof Date){
-                         rdate = item.reservationdate.toLocaleDateString()
-                     }
+                     let rdate = new Date(item.reservationdate).toLocaleDateString() 
                      if(rdate===selectDate){
-                         const item2 = {...item}
-                         item2["rdate"] = item.reservationdate
-                         item2["reservationdate"] = item.reservationdate.toLocaleString()
-                
                         return(
                             <div key={index}>
-                                    <Item onClick={click} item ={item2} property={property} order={index}/>
+                                    <Item onClick={click} item ={item} property={property} order={index}/>
                             </div>                         
                             )
                         }
