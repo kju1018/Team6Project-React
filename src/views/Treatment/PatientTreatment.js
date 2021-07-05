@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
-import { getTreatments } from "./data/TreatmentData";
 import TreatmentItem from "./components/TreatmentItem";
+import { getAllTreatments } from "apis/Treatment"
 
 function PatientTreatment(props) {
 
@@ -8,11 +8,23 @@ function PatientTreatment(props) {
   const [patientTreatments, setPatientTreatments] = useState([]);
 
   useEffect(() => {
-    setPatientTreatments(getTreatments(props.selectedPatient.patientid));
-    console.log("PatientTreatment 데이터 가져옴")
+    const work = async() => {
+      try {
+        const response = await getAllTreatments(props.selectedPatient.patientid);
+        console.log(response.data);
+        if(response.data){
+          setPatientTreatments(response.data);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    work();
+
   }, [props.selectedPatient])
 
   const selectTreatment = useCallback((treatment) => {
+    console.log(treatment);
     props.selectTreatment(treatment);
   }, [props])
 
@@ -29,10 +41,14 @@ function PatientTreatment(props) {
       <>
         <div className="overflow-auto p-3" style={{height:"calc(100% - 100px)"}}>
           {
-          patientTreatments !=null &&
+          (patientTreatments === null || patientTreatments.length === 0) ?  
+          <div className="overflow-auto p-3 border-top justify-content-center d-flex align-items-center" style={{height:"100%"}}>
+            <span><i className="bi bi-clipboard-x mr-1"></i>선택한 환자의 진료내역이 없습니다.</span>
+          </div>
+          : 
           patientTreatments.map (treatment => {
           return (
-            <TreatmentItem key={treatment.treatmentid} item={treatment} property={["treatmentdate", "state"]} onClick={selectTreatment}></TreatmentItem>
+            <TreatmentItem key={treatment.treatmentid} item={treatment} property={["treatmentdate", "status"]} onClick={selectTreatment}></TreatmentItem>
           );
           })}
         </div>

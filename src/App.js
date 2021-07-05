@@ -6,6 +6,7 @@ import { Redirect, Route, Switch } from "react-router-dom";
 import Hospital from "views/hospital";
 import Login from "views/Login";
 import './App.css';
+import axiosConfig from "apis/axiosConfig"
 
 
 function App(props) {

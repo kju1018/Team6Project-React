@@ -4,12 +4,10 @@ import PatientTreatment from "./PatientTreatment";
 import TestList from "./TestList";
 import TreatmentMemo from "./TreatmentMemo";
 import { useCallback, useEffect, useState } from "react";
-import { getTretmentDiagnoses, getDiagnoses, getDrugs, getTreatemntDrugs, getTests, getPackageTests, getTreatmentTests } from "./data/Data";
 import { useSelector } from "react-redux";
 import PatientProfile from "./components/PatientProfile";
 import { Col, Row, Toast } from "react-bootstrap";
-import { updateTreatment } from "./data/TreatmentData";
-import { getPatient } from "./data/PatientData";
+import { getStaticDiagnoses, getStaticDrugs, getPrescriptionList } from "apis/Treatment";
 
 
 
@@ -20,6 +18,7 @@ function Treatment(props) {
   })
 
   const [patient, setPatient] = useState({
+
     patientname:"환자이름", 
     ssn1:"", 
     ssn2:"", 
@@ -33,9 +32,9 @@ function Treatment(props) {
   }, []);
 
   useEffect(() => {
-    const newPatient = getPatient(globalPatient.patientid);
-    if(newPatient){
-      setPatient(newPatient);
+    if(globalPatient.patientid != null){
+      console.log("safsdfsda");
+      setPatient(globalPatient);
     }
     // 
   }, [globalPatient]) 
@@ -56,16 +55,33 @@ function Treatment(props) {
   const [show, setShow] = useState(false);
 
   useEffect(() => {
-    setStaticDrugs(getDrugs());
-    setStaticDignoses(getDiagnoses());
-    setStaticTests(getTests());
+    const work = async() => {
+      try {
+        const drugResponse = await getStaticDrugs();
+        const diagnosesResponse = await getStaticDiagnoses();
+        console.log(diagnosesResponse.data);
+        setStaticDrugs(drugResponse.data);
+        setStaticDignoses(diagnosesResponse.data);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    work();
+    
+    // setStaticTests(getTests());
   },[])//정적 데이터 불러오기
   useEffect(() => {
-    if(treatment.state==="진료 완료"){
-      setTreatmentDrugs(getTreatemntDrugs(treatment.treatmentid));
-      setTreatmentDiagnoses(getTretmentDiagnoses(treatment.treatmentid));
-      setTreatmentTests(getTreatmentTests(treatment.treatmentid));
-      console.log("데이터 변경");
+    if(treatment.status==="진료 완료"){
+      const work = async() => {
+        try {
+          const response = await getPrescriptionList(treatment.treatmentid);
+          setTreatmentDrugs(response.data.drugsList);
+          setTreatmentDiagnoses(response.data.diagnosesList);
+        } catch (error) {
+          console.log(error);
+        }
+      }
+      work();
     }
     return (() => {
       setTreatmentDrugs([]);
@@ -93,7 +109,7 @@ function Treatment(props) {
       //   ...treatment,
       //   state:"진료 완료"
       // })
-      updateTreatment(treatment.treatmentid);
+      // updateTreatment(treatment.treatmentid);
     }
   }
   const closeShow = () => {

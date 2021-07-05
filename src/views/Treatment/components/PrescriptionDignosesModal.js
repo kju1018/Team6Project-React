@@ -67,12 +67,12 @@ function PrescriptionDignosesModal(props) {
                 <div key={item.diagnosesdataid} className="d-flex text-center pt-1 pb-1 align-items-center border-bottom" style={{height:"50px", fontWeight:"bold"}}>
                   <div style={{width:"25%"}}>{item.diagnosesdataid}</div>
                   <OverlayTrigger placement="right"
-                      overlay={<Tooltip>{item.diagnosisdataname}</Tooltip>}>
-                    <div style={{width:"25%", whiteSpace: "nowrap",overflow:"hidden", textOverflow:"ellipsis"}}>{item.diagnosisdataname}</div>
+                      overlay={<Tooltip>{item.diagnosesdataname}</Tooltip>}>
+                    <div style={{width:"25%", whiteSpace: "nowrap",overflow:"hidden", textOverflow:"ellipsis"}}>{item.diagnosesdataname}</div>
                   </OverlayTrigger>
                   <OverlayTrigger placement="right"
-                      overlay={<Tooltip>{item.diagnosisdataename}</Tooltip>}>
-                    <div style={{width:"25%", whiteSpace: "nowrap",overflow:"hidden", textOverflow:"ellipsis"}}>{item.diagnosisdataename}</div>
+                      overlay={<Tooltip>{item.diagnosesdataename}</Tooltip>}>
+                    <div style={{width:"25%", whiteSpace: "nowrap",overflow:"hidden", textOverflow:"ellipsis"}}>{item.diagnosesdataename}</div>
                   </OverlayTrigger>
                   <div style={{width:"25%"}}><button className="btn btn-danger btn-sm" onClick={() => {removeItem(item)}}>제거</button></div>
                 </div>
@@ -96,19 +96,19 @@ function PrescriptionDignosesModal(props) {
 
             {props.staticItemList != null &&
             props.staticItemList.map ((item, index) => {
-              if((item.diagnosisdataname.indexOf(searchName) != -1) 
-                  || (item.diagnosisdataename.indexOf(searchName) != -1)
+              if((item.diagnosesdataname.indexOf(searchName) != -1) 
+                  || (item.diagnosesdataename.indexOf(searchName) != -1)
                   || (item.diagnosesdataid.indexOf(searchName) != -1)){
                 return (
                   <div key={item.diagnosesdataid} className="d-flex text-center pt-1 pb-1 align-items-center border-bottom" style={{height:"50px", fontWeight:"bold"}}>
                     <div style={{width:"25%"}}>{item.diagnosesdataid}</div>
                     <OverlayTrigger placement="right"
-                        overlay={<Tooltip>{item.diagnosisdataname}</Tooltip>}>
-                      <div style={{width:"25%", whiteSpace: "nowrap",overflow:"hidden", textOverflow:"ellipsis"}}>{item.diagnosisdataname}</div>
+                        overlay={<Tooltip>{item.diagnosesdataname}</Tooltip>}>
+                      <div style={{width:"25%", whiteSpace: "nowrap",overflow:"hidden", textOverflow:"ellipsis"}}>{item.diagnosesdataname}</div>
                     </OverlayTrigger>
                     <OverlayTrigger placement="right"
-                        overlay={<Tooltip>{item.diagnosisdataename}</Tooltip>}>
-                      <div style={{width:"25%", whiteSpace: "nowrap",overflow:"hidden", textOverflow:"ellipsis"}}>{item.diagnosisdataename}</div>
+                        overlay={<Tooltip>{item.diagnosesdataename}</Tooltip>}>
+                      <div style={{width:"25%", whiteSpace: "nowrap",overflow:"hidden", textOverflow:"ellipsis"}}>{item.diagnosesdataename}</div>
                     </OverlayTrigger>
                     <div style={{width:"25%"}}><button className="btn btn-success btn-sm" onClick={() => {addItme(item)}}>추가</button></div>
                   </div>
