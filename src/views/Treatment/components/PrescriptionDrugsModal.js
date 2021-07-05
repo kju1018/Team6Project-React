@@ -29,7 +29,7 @@ function PrescriptionDrugsModal(props) {
     props.handleClose();
   }
 
-  const addItme = (item, quantity=1) => {
+  const addItem = (item, quantity=1) => {
     if(quantity <=0){
       quantity = 1;
     }
@@ -121,7 +121,7 @@ function PrescriptionDrugsModal(props) {
                     <div style={{width:"25%"}}>
                       <input min={1} type="number" name={item.drugid} value={quantityArr[item.drugid] || 1} onChange={onChangeQuantity} className="form-control" style={{width:"60%", marginRight:"3px", display:"inline"}}></input>{item.drugunit}
                     </div>
-                    <div style={{width:"25%"}}><button className="btn btn-success btn-sm" onClick={() => {addItme(item, quantityArr[item.drugid])}}>추가</button></div>
+                    <div style={{width:"25%"}}><button className="btn btn-success btn-sm" onClick={() => {addItem(item, quantityArr[item.drugid])}}>추가</button></div>
                   </div>
                 );
               }

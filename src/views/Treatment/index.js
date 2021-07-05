@@ -11,8 +11,6 @@ import { Col, Row, Toast } from "react-bootstrap";
 import { updateTreatment } from "./data/TreatmentData";
 import { getPatient } from "./data/PatientData";
 
-
-
 function Treatment(props) {
 
   const globalPatient = useSelector((state) => {
@@ -37,13 +35,12 @@ function Treatment(props) {
     if(newPatient){
       setPatient(newPatient);
     }
-    // 
   }, [globalPatient]) 
 
   const [treatment, setTreatment] = useState({})
+
   const selectTreatment = useCallback((treatment) => {
     setTreatment(treatment);
-    console.log("treatment변경");
   }, [])
 
   const [treatmentDrugs, setTreatmentDrugs] = useState([]);
@@ -60,12 +57,12 @@ function Treatment(props) {
     setStaticDignoses(getDiagnoses());
     setStaticTests(getTests());
   },[])//정적 데이터 불러오기
+
   useEffect(() => {
     if(treatment.state==="진료 완료"){
       setTreatmentDrugs(getTreatemntDrugs(treatment.treatmentid));
       setTreatmentDiagnoses(getTretmentDiagnoses(treatment.treatmentid));
       setTreatmentTests(getTreatmentTests(treatment.treatmentid));
-      console.log("데이터 변경");
     }
     return (() => {
       setTreatmentDrugs([]);
@@ -89,10 +86,6 @@ function Treatment(props) {
   const saveTreatment = (patient, treatmentDrugs, treatmentDiagnoses, treatmentTests) => {
     if(window.confirm("처방을 완료 하시겠습니까?") === true){
       setShow(true);
-      // setTreatment({
-      //   ...treatment,
-      //   state:"진료 완료"
-      // })
       updateTreatment(treatment.treatmentid);
     }
   }

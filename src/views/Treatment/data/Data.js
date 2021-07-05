@@ -11,8 +11,8 @@ let packageTestData = [];
 for(var i=1; i<=lastbno; i++) {
   data.push({
     treatmentid:i%100 + 21, 
-    drugid: "G" + i,
-    drugname: "약 " + i,
+    drugid: "FLEE-Y" + i,
+    drugname: "COLCLEAN-S Enem " + i,
     drugquantity: Math.floor(Math.random() * 10)+1,
     drugunit: Math.random() > 0.5 ? "BT" : "TU",
     drugtype: Math.random() > 0.5 ? "내복약" : "외용약"
@@ -21,26 +21,21 @@ for(var i=1; i<=lastbno; i++) {
   diagnoseData.push({
     treatmentid:i%100 + 21,
     diagnosesdataid: "D" + i,
-    diagnosisdataname: "상병명 " + i,
+    diagnosisdataname: "기타 비외상성 " + i,
     diagnosisdataename: "Other nontraumatic intracranial haemorrhage " + i
   });
 
   testData.push({
     treatmentid:i%100 + 21,
     result:Math.random() > 0.5 ? (Math.random() * 10).toFixed(2) : null,
-    testdataid: "처방 코드" + i,
-    testname:"검사 이름" + i,
+    testdataid: "L2010" + i,
+    testname:"WBC" + i,
     testcontainer: Math.random() > 0.5? "EDTA" : "SST",
-    groupcode:"그룹코드" + (i%50),
-    groupname:"그룹 이름" + (i%50),
+    groupcode:"L2001" + (i%50),
+    groupname:"CBC CBC,PLT,DIFF" + (i%50),
     testunit: Math.random() > 0.5 ? "x10^3/mm3" : "%"
   });
 
-  packageTestData.push({
-    treatmentid:i%100 + 21,
-    groupcode:"묵음코드" + (i%50),
-    groupname:"묵음코드 이름" + (i%50)
-  })
 }
 
 let drugData = [];
@@ -48,25 +43,25 @@ let diagnosisData = [];
 let staticTestData=[];
 for(i=0; i< 100; i++) {
   drugData.push({
-    drugid: "G" + i,
-    drugname: "약 " + i,
+    drugid: "FLEE-Y" + i,
+    drugname: "COLCLEAN-S Enem " + i,
     drugtype: Math.random() > 0.5 ? "내복약" : "외용약",
     drugunit: Math.random() > 0.5 ? "BT" : "TU"
   })
 
   diagnosisData.push({
     diagnosesdataid: "D" + i,
-    diagnosisdataname: "상병명 " + i,
+    diagnosisdataname: "기타 비외상성 " + i,
     diagnosisdataename: "Other nontraumatic intracranial haemorrhage " + i
   })
 
   staticTestData.push({
     result:"",
-    testdataid: "처방 코드" + i,
-    testname:"검사 이름" + i,
+    testdataid: "L2010" + i,
+    testname:"WBC" + i,
     testcontainer: Math.random() > 0.5? "EDTA" : "SST",
-    groupcode:"그룹코드" + (i%50),
-    groupname:"그룹 이름" + (i%50)
+    groupcode:"L2001" + (i%50),
+    groupname:"CBC CBC,PLT,DIFF" + (i%50)
   })
 }
 
