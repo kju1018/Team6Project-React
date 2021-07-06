@@ -11,7 +11,7 @@ function DrugsItem(props) {
           <div className={"col text-center border-left"} style={{whiteSpace:"nowrap",overflow:"hidden", textOverflow:"ellipsis"}}>{props.item.drugname}</div>
         </OverlayTrigger>
         <div className={"col text-center border-left"} style={{whiteSpace:"nowrap",overflow:"hidden", textOverflow:"ellipsis"}}>{props.item.drugtype}</div>
-        <div className={"col text-center border-left"} style={{whiteSpace:"nowrap",overflow:"hidden", textOverflow:"ellipsis"}}>{props.item.drugquantity} {props.item.drugunit}</div>
+        <div className={"col text-center border-left"} style={{whiteSpace:"nowrap",overflow:"hidden", textOverflow:"ellipsis"}}>{props.item.quantity} {props.item.drugunit}</div>
     </div>
     </>
   );

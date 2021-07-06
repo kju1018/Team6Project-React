@@ -8,7 +8,7 @@ let date = new Date();
 for(var i=1; i<=lastbno; i++) {
   date.setDate(date.getDate()-i);
   data.push({
-    patientid:"patientid"+i, 
+    patientid:i, 
     patientname:"환자이름"+i, 
     ssn1:"951018", 
     ssn2:"1111111", 

@@ -36,7 +36,7 @@ function AppMenu() {
             <div className="col-7 pl-0">Test</div>
           </div>
         </NavLink>
-        <Button style={{marginTop:"100px", marginLeft:"35px"}} variant="outline-dark">로그아웃</Button>
+        <Button style={{marginTop:"50px", marginLeft:"35px"}} variant="outline-dark">로그아웃</Button>
       </li>
     </ul>
     </div>
