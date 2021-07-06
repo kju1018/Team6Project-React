@@ -5,23 +5,6 @@ import { getAllTreatments } from "apis/Treatment"
 function PatientTreatment(props) {
 
   // console.log("PatientTreatment");
-  const [patientTreatments, setPatientTreatments] = useState([]);
-
-  useEffect(() => {
-    const work = async() => {
-      try {
-        const response = await getAllTreatments(props.selectedPatient.patientid);
-        console.log(response.data);
-        if(response.data){
-          setPatientTreatments(response.data);
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    }
-    work();
-
-  }, [props.selectedPatient])
 
   const selectTreatment = useCallback((treatment) => {
     console.log(treatment);
@@ -41,12 +24,12 @@ function PatientTreatment(props) {
       <>
         <div className="overflow-auto p-3" style={{height:"calc(100% - 100px)"}}>
           {
-          (patientTreatments === null || patientTreatments.length === 0) ?  
+          (props.patientTreatments == null || props.patientTreatments.length === 0) ?  
           <div className="overflow-auto p-3 border-top justify-content-center d-flex align-items-center" style={{height:"100%"}}>
             <span><i className="bi bi-clipboard-x mr-1"></i>선택한 환자의 진료내역이 없습니다.</span>
           </div>
           : 
-          patientTreatments.map (treatment => {
+          props.patientTreatments.map (treatment => {
           return (
             <TreatmentItem key={treatment.treatmentid} item={treatment} property={["treatmentdate", "status"]} onClick={selectTreatment}></TreatmentItem>
           );

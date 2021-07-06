@@ -26,6 +26,7 @@ function PrescriptionDignosesModal(props) {
       alert("이미 처방받았습니다.");
     } else {
       setPrescriptionItems((prevItems) => {
+        item.treatmentid=props.treatment.treatmentid;
         const newItems = prevItems.concat(item);
         return newItems;
       });

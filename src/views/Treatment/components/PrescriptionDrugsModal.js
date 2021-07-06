@@ -37,7 +37,8 @@ function PrescriptionDrugsModal(props) {
     if(compare >= 0){
       alert("이미 처방받았습니다.");
     } else {
-      item.drugquantity = quantity;
+      item.quantity = quantity;
+      item.treatmentid = props.treatment.treatmentid;
       setPrescriptionItems((prevItems) => {
         const newItems = prevItems.concat(item);
         return newItems;
@@ -89,7 +90,7 @@ function PrescriptionDrugsModal(props) {
                       overlay={<Tooltip>{item.drugname}</Tooltip>}>
                     <div style={{width:"25%", whiteSpace: "nowrap",overflow:"hidden", textOverflow:"ellipsis"}}>{item.drugname}</div>
                   </OverlayTrigger>
-                  <div style={{width:"25%"}}>{item.drugquantity} {item.drugunit}</div>
+                  <div style={{width:"25%"}}>{item.quantity} {item.drugunit}</div>
                   <div style={{width:"25%"}}><button className="btn btn-danger btn-sm" onClick={() => {removeItem(item)}}>제거</button></div>
                 </div>
               );

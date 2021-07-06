@@ -7,7 +7,11 @@ export function getAllTreatments(patientid){
     return result;
 }
 
-
+//처방하기
+export function prescribeTreatment(prescription) {
+  const result = axios.post(BASE_URL + "treatment/prescribetreatment", prescription);
+  return result;
+}
 
 
 //약 목록 가져오기

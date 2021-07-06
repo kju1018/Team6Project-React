@@ -7,7 +7,7 @@ import { useCallback, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import PatientProfile from "./components/PatientProfile";
 import { Col, Row, Toast } from "react-bootstrap";
-import { getStaticDiagnoses, getStaticDrugs, getPrescriptionList } from "apis/Treatment";
+import { getStaticDiagnoses, getStaticDrugs, getPrescriptionList, prescribeTreatment, getAllTreatments } from "apis/Treatment";
 
 function Treatment(props) {
 
@@ -41,7 +41,7 @@ function Treatment(props) {
   const selectTreatment = useCallback((treatment) => {
     setTreatment(treatment);
   }, [])
-
+  const [patientTreatments, setPatientTreatments] = useState([]);
   const [treatmentDrugs, setTreatmentDrugs] = useState([]);
   const [treatmentDiagnoses, setTreatmentDiagnoses] = useState([]);
   const [treatmentTests, setTreatmentTests] = useState([]);
@@ -56,7 +56,6 @@ function Treatment(props) {
       try {
         const drugResponse = await getStaticDrugs();
         const diagnosesResponse = await getStaticDiagnoses();
-        console.log(diagnosesResponse.data);
         setStaticDrugs(drugResponse.data);
         setStaticDignoses(diagnosesResponse.data);
       } catch (error) {
@@ -79,6 +78,7 @@ function Treatment(props) {
           console.log(error);
         }
       }
+      work();
     }
     return (() => {
       setTreatmentDrugs([]);
@@ -87,6 +87,23 @@ function Treatment(props) {
     })
   }, [treatment]);//선택한 진료 변경시 그 진료가 처방받은 약, 상병, 테스트 가져오기
 
+  useEffect(() => {
+    const work = async() => {
+      try {
+        console.log(patient.patientid);
+        const response = await getAllTreatments(patient.patientid);
+        if(response.data){
+          console.log("갱신");
+          setPatientTreatments(response.data);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    work();
+
+  }, [patient])
+  console.log(patientTreatments);
   const prescribeDrugs = (prescriptionItems) => {
     setTreatmentDrugs(prescriptionItems);
   }//약 처방 함수
@@ -99,14 +116,28 @@ function Treatment(props) {
     setTreatmentTests(prescriptionItems);
   }//검사 처방 함수
 
+  const prescribeList = async() => {
+    try {
+      let prescription = {};
+      prescription.treatmentDrugs = treatmentDrugs;
+      prescription.treatmentDiagnoses = treatmentDiagnoses;
+      prescription.treatment = treatment;
+      const response = await prescribeTreatment(prescription);
+      if(response.data === "success"){
+        const response = await getAllTreatments(patient.patientid);
+        if(response.data){
+          setPatientTreatments(response.data);
+        }
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   const saveTreatment = (patient, treatmentDrugs, treatmentDiagnoses, treatmentTests) => {
     if(window.confirm("처방을 완료 하시겠습니까?") === true){
+      prescribeList();
       setShow(true);
-      // setTreatment({
-      //   ...treatment,
-      //   state:"진료 완료"
-      // })
-      // updateTreatment(treatment.treatmentid);
     }
   }
   const closeShow = () => {
@@ -115,12 +146,12 @@ function Treatment(props) {
   return (
     <>        
       <div style={{height:"5vh", marginBottom:"2vh",  marginTop:"1vh"}}>
-        <PatientProfile selectedPatient={patient} treatment={treatment} selectPatient={selectPatient} saveTreatment={saveTreatment}  ></PatientProfile>
+        <PatientProfile selectedPatient={patient} treatment={treatment} selectPatient={selectPatient} saveTreatment={saveTreatment} ></PatientProfile>
       </div>
       <div className="row ml-0 mr-0" style={{heighn:"92vh"}}>
         <div className="col-3 h-100 border-right">
           <div className="pl-3 pr-3 pt-0 pb-1 border border-dark" style={{height:"46vh", marginBottom:"2vh", backgroundColor:"#FFFFFF"}}>
-            <PatientTreatment selectedPatient={patient} treatment={treatment} selectTreatment={selectTreatment}/>
+            <PatientTreatment selectedPatient={patient} treatment={treatment} selectTreatment={selectTreatment} patientTreatments={patientTreatments}/>
           </div>
           <div className="pl-3 pr-3 pt-0 pb-1 border border-dark" style={{height:"42vh",marginBottom:"2vh", backgroundColor:"#FFFFFF"}}>
             <TreatmentMemo treatment={treatment}/>

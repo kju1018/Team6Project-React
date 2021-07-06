@@ -22,7 +22,7 @@ function DiagnosisList(props) {
     <>
     {console.log(props.treatmentDiagnoses)}
       <ButtonHeader headertitle="상병 목록" iclassName="bi bi-check2-square" color="#D27E7B" btnicon="bi bi-plus-square" onclick={props.treatment.status==="진료 대기"? handleShow : info}/>
-      <PrescriptionDignosesModal show={show} handleClose={handleClose} staticItemList={props.staticDignoses} itemList={props.treatmentDiagnoses} prescribe={prescribeDiagnoses}></PrescriptionDignosesModal>
+      <PrescriptionDignosesModal show={show} treatment={props.treatment} handleClose={handleClose} staticItemList={props.staticDignoses} itemList={props.treatmentDiagnoses} prescribe={prescribeDiagnoses}></PrescriptionDignosesModal>
       <div className="overflow-auto p-3" style={{height:"calc(100% - 50px"}}>
       {props.treatmentDiagnoses.map (diagnosis => {
           return (
