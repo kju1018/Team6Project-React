@@ -40,7 +40,7 @@ function TestList(props) {
 
   return (
     <>
-      <ButtonHeader headertitle="검사 목록" iclassName="bi bi-droplet" color="#E89677" btnicon="bi bi-plus-square" onclick={props.treatment.state==="진료 대기"? handleShow : info}/>
+      <ButtonHeader headertitle="검사 목록" iclassName="bi bi-droplet" color="#E89677" btnicon="bi bi-plus-square" onclick={props.treatment.status==="진료 대기"? handleShow : info}/>
       <PrescriptionTestsModal show={show} handleClose={handleClose} staticItemList={props.staticTests} itemList={props.treatmentTests} prescribe={prescribeTests}></PrescriptionTestsModal>
       <div className="overflow-auto p-3" style={{height:"calc(100% - 50px)"}}>
         {Object.values(groupTests).map(groupTest => {
@@ -49,7 +49,6 @@ function TestList(props) {
             );
         })
         }
-        {console.log(props.treatment)}
         {(props.treatment.state==="진료 완료" && props.treatment.treatmentdate !=="2021. 6. 30. 진료" ) ? 
         <Accordion className="mb-3">
           <Card>
@@ -112,10 +111,10 @@ function TestList(props) {
         <div style={{position: "absolute", bottom: "40px", right: "30px"}}>
           <Row>
             <Col style={{width:"400px"}}>
-              <Toast onClose={toastClose} show={props.toastShow} delay={3000} autohide>
+              <Toast onClose={toastClose} show={props.toastShow} delay={5000} autohide>
                 <Toast.Header style={{backgroundColor:"#1B296D"}}>
                   <strong className="mr-auto" style={{color:"white"}}>Message</strong>
-                  <small>11 mins ago</small>
+                  <small>complete</small>
                 </Toast.Header>
                 <Toast.Body>진료 완료!</Toast.Body>
               </Toast>
