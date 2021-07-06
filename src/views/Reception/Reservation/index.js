@@ -9,12 +9,13 @@ import ReservationUpdateModal from "./ReservationUpdateModal";
 import { createSetTestReception } from "redux/reception-reducer";
 import DoctorSelectorModal from "../SearchPatient/DoctorSelectorModal";
 import { GetReservationList,RemoveReservation } from "apis/Reception";
+import moment from 'moment';
 function Reservation(props){
     const [reservationUpdateModalshow, setReservationUpdateModalshow] = useState(false);
     const [doctorSelectorModalshow, setDoctorSelectorModalshow] = useState(false);
 
 
-    const property = ["reservationid","patientid","status","type","reservationdate"]
+    const property = ["patientid","patientname","status","type","reservationuidate"]
     const [selectDate,setSelectDate] = useState(new Date().toLocaleDateString());
     const [reservationList, setReservationList] = useState([])
     const reservationReducer = useSelector((state)=>(state.reservationReducer))
@@ -37,13 +38,17 @@ function Reservation(props){
     //예약정보가져옴
     useEffect(()=>{
       GetReservationList().then((result)=>{
+          console.log(result.data)
         setReservationList(result.data)
        });
     },[])
-    //리듀서로 가져온 예약정보를 ui에 추가해줌
+    //리듀서로 가져온 예약정보를 ui에 추가해줌 + 예약날짜순 정렬
     useEffect(()=>{
         if(reservationReducer.reservation.reservationid){
-            const newreservationlist = reservationList.concat(reservationReducer.reservation)          
+            const newreservationlist = reservationList.concat(reservationReducer.reservation)         
+            newreservationlist.sort((r1,r2)=>{
+                return Number(new Date(r1.reservationdate)) - Number(new Date(r2.reservationdate))
+            }) 
             setReservationList(newreservationlist)
         }
        
@@ -60,6 +65,9 @@ const UpdateReservation=(newreservation)=>{
         if(index>=0){
             tmplist.splice(index,1,newreservation);
         }
+        tmplist.sort((r1,r2)=>{
+            return Number(new Date(r1.reservationdate)) - Number(new Date(r2.reservationdate))
+        }) 
         setReservationList(tmplist)
     }
     
@@ -68,7 +76,6 @@ const UpdateReservation=(newreservation)=>{
 //예약 취소
 const CancelReservation=()=>{
     if(selectedReservation){
-        console.log(selectedReservation.reservationid)
         //DB변경
         RemoveReservation(selectedReservation.reservationid).then((result)=>{
             //ui변경
@@ -77,6 +84,9 @@ const CancelReservation=()=>{
             if(index>=0){
                 tmplist.splice(index,1);
             }
+            tmplist.sort((r1,r2)=>{
+                return Number(new Date(r1.reservationdate)) - Number(new Date(r2.reservationdate))
+            }) 
             setReservationList(tmplist)
         })
             
@@ -138,7 +148,7 @@ const CancelReservation=()=>{
         <div className="rounded-lg justify-content-center">
             <div className="d-flex justify-content-between text-center border " style={{borderRadius:"15px",marginTop:"10px",marginBottom:"10px"}}>
                 <div style={{width:"20%"}}>순번</div>
-                <div style={{width:"20%"}}>ID</div>
+                <div style={{width:"20%"}}>환자ID</div>
                 <div style={{width:"20%"}}>이름</div>
                 <div style={{width:"20%"}}>상태</div>
                 <div style={{width:"20%"}}>예약타입</div>
@@ -147,11 +157,13 @@ const CancelReservation=()=>{
             <div className="overflow-auto  justify-content-center" style={{height:"calc(50vh - 230px)"}} >
                  {reservationList&&reservationList.map((item,index)=>{
                      
+                     
                      let rdate = new Date(item.reservationdate).toLocaleDateString() 
+                     const item2 = {...item, reservationuidate:moment(item.reservationdate).format("HH:mm")}
                      if(rdate===selectDate){
                         return(
                             <div key={index}>
-                                    <Item onClick={click} item ={item} property={property} order={index}/>
+                                    <Item onClick={click} item ={item2} property={property} order={index}/>
                             </div>                         
                             )
                         }

@@ -5,7 +5,7 @@ import "./font.css"
 import PatientReception from "./PatientReception";
 import { LoginApi,test, test2 } from "apis/Auth";
 import config, { addAuthHeader } from "apis/axiosConfig";
-import { GetReservationList } from "apis/Reception";
+import { GetReservationList,GetPrescriptionTestData } from "apis/Reception";
 
 function Reception(props){
     
@@ -16,8 +16,9 @@ function Reception(props){
         console.log(result)
     }
     const tests =() =>{
-        const result = GetReservationList();
-        console.log(result)
+        GetPrescriptionTestData(999).then((result)=>{
+            console.log(result.data);
+        });
     }
     const tests2 =() =>{
         const result = test2()

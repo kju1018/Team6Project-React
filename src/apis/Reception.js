@@ -22,7 +22,11 @@ export function RemoveReservation(reservationid){
       });
     return result;
 }
-
+//예약정보 수정하기
+export function UpdateReservation(reservation){
+    let result = axios.put("/reception/updatereservation",reservation);
+    return result;
+}
 
 
 //환자정보가져오기
@@ -47,3 +51,28 @@ export function UpdatePatient(patient){
     return result;
 }
 
+//환자의 진료정보 가져오기
+export function GetTreatmentList(patientid){
+    const result = axios.get("/treatment/treatments/"+patientid);
+    return result;
+}
+
+//환자의 진료상세정보 가져오기
+export function GetTreatmentDetail(treatmentid){
+    const result = axios.get("/reception/treatmentdetail",{
+        params:{    
+            treatmentid
+        }
+    });
+    return result;
+}
+
+//처방받은 검사데이터 가져오기
+export function GetPrescriptionTestData(patientid){
+    const result = axios.get("/reception/test",{
+        params:{    
+            patientid
+        }
+    });
+    return result;
+}

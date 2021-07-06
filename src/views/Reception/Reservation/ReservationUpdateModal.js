@@ -5,7 +5,7 @@ import {getPatientData,getAllReservationsData, getAllTestsGroupData, insertReser
 import { useDispatch } from "react-redux";
 import { createSetReservation } from "redux/reservation-reducer";
 import TestList from "views/Treatment/TestList";
-import { RegisterReservation } from "apis/Reception";
+import { UpdateReservation } from "apis/Reception";
 
 
 function UpdateReservationModal(props){
@@ -71,6 +71,9 @@ function UpdateReservationModal(props){
         // setReservationList(reservationlist)
         var testlist = getAllTestsGroupData(props.selectedReservation.patientid);
         setTestList(testlist);
+        //선택된 예약정보 가져오기 타입, 시간
+        setReservationType(props.selectedReservation.type==="진료"?true:false)
+        setStartDate(new Date(props.selectedReservation.reservationdate))
         //console.log(GetTime(GetTimeIndex(new Date(new Date().getFullYear(),new Date().getMonth(),29,15,30))))
         //  let Times=new Array(18);
         //     Times[GetTimeIndex(new Date(startDate.getFullYear(),startDate.getMonth(),startDate.getDate(),13,0))] = true;
@@ -112,6 +115,10 @@ function UpdateReservationModal(props){
       
       
     },[])
+
+    useEffect(()=>{
+        console.log(startDate)
+    },[startDate])
     const getReservationDate= () =>{
         var newDateOptions = {
             month: "2-digit",
@@ -132,14 +139,17 @@ function UpdateReservationModal(props){
     }
     
     //예약 수정함수
-    const UpdateReservation=()=>{
+    const UpdateReservationClickBtn=()=>{
         let newreservation;
         //reservationType이 true가 진료 / false가 검사
         if(reservationType){
+            newreservation = {...props.selectedReservation,reservationdate:startDate.getTime(),type:"진료"};
             //DB에 새로운 예약정보로 업데이트 
-            UpdateReservation({reservationdate:startDate.getTime(),type:"진료",...props.selectedReservation}).then((result)=>{
+            UpdateReservation(newreservation).then((result)=>{
+                //부모함수 불러서 ui변경
+                props.UpdateReservation(newreservation)
                 //모달 닫기
-                props.closeModal("UpdateReservationModal")
+                props.closeModal("ReservationUpdateModal")
             })
            
         }
@@ -147,7 +157,7 @@ function UpdateReservationModal(props){
             //DB에 해당 patient, startDate, testList로 해당 시간에 검사예약
             const checkedtestlist = testList.filter((test)=>(test.ischeck===true))
             //이 안에는 검사리스트도 같이 있음
-            newreservation = RegisterReservation({reservationdate:startDate,patientid:props.selectedPatient.patientid,status:"대기",type:"검사" }, checkedtestlist)
+            newreservation = UpdateReservation({reservationdate:startDate,patientid:props.selectedPatient.patientid,status:"대기",type:"검사" }, checkedtestlist)
         }
  
     }
@@ -175,7 +185,6 @@ function UpdateReservationModal(props){
             </div>
             <div className="row" style={{height:"80%"}}>
                 <div className="col-6 text-center" style={{margin:"10px",marginTop:"5%", height:"100%"}} >
-                    {console.log(reservatedTimes)}
                     <ReactDatePicker 
                     selected={startDate}
                     onChange={(date) => setStartDate(date)}
@@ -185,9 +194,9 @@ function UpdateReservationModal(props){
                     minDate={new Date(new Date().getFullYear(),new Date().getMonth(),new Date().getDate())}
                     minTime={new Date(startDate.getFullYear(),startDate.getMonth(),startDate.getDate(),9,0)}
                     maxTime={new Date(startDate.getFullYear(),startDate.getMonth(),startDate.getDate(),17,30)}
-                    excludeTimes={reservatedTimes.length>1&&reservatedTimes[startDate.getMonth()][startDate.getDate()-1]}
+                    //excludeTimes={reservatedTimes.length>1&&reservatedTimes[startDate.getMonth()][startDate.getDate()-1]}
                     inline
-                    dateFormat="MMMM d, yyyy h:mm"
+                    dateFormat="yyyy-MM-dd hh:mm"
                     />
                     <div className="border text-center" style={{borderRadius:"15px"}}> 
                         예약날짜<br/>{getReservationDate()}
@@ -212,7 +221,7 @@ function UpdateReservationModal(props){
                         }
                    </div>
                    <div className="col d-flex justify-content-end" style={{borderRadius:"15px",  marginTop:"10px"}}> 
-                        <button className="btn btn-outline-dark btn-sm" disabled={reservationType===false&&(testList==null || (testList.filter((item)=>(item.ischeck===true)).length<1)) } onClick={UpdateReservation}>예약수정</button>
+                        <button className="btn btn-outline-dark btn-sm" disabled={reservationType===false&&(testList==null || (testList.filter((item)=>(item.ischeck===true)).length<1)) } onClick={UpdateReservationClickBtn}>예약수정</button>
                    </div>
                 </div>
 
