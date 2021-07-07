@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import TreatmentItem from "./components/TreatmentItem";
 import { getAllTreatments } from "apis/Treatment"
-
+import moment from 'moment';
 function PatientTreatment(props) {
 
   // console.log("PatientTreatment");
@@ -30,8 +30,9 @@ function PatientTreatment(props) {
           </div>
           : 
           props.patientTreatments.map (treatment => {
+
           return (
-            <TreatmentItem key={treatment.treatmentid} item={treatment} property={["treatmentdate", "status"]} onClick={selectTreatment}></TreatmentItem>
+            <TreatmentItem key={treatment.treatmentid} item={{...treatment, treatmentdate: moment(treatment.treatmentdate).format("YYYY-MM-DD")}} property={["treatmentdate", "status"]} onClick={selectTreatment}></TreatmentItem>
           );
           })}
         </div>
