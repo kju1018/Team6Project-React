@@ -1,17 +1,20 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import PeriodSearch from "./PeriodSearch";
 import TestGroup from "./TestGroup";
 import TestResult from "./TestResult";
 import { Nav, Row, Tab, Badge } from "react-bootstrap";
 import {getAllPatient, waitingPatient, progressPatient, completePatient, testReceptions } from "./data/patient"
+import { testlistByDate } from "apis/test";
+import moment from 'moment';
 
 function TestPage(props) {  
+
   const [testreceptions, setTestReception] = useState(testReceptions()) //전체 환자 접수 기록
 
-  const [patients, setPatient] = useState(getAllPatient()) //전체 환자
-  const [waitings, setWaiting] = useState(waitingPatient()) //대기 환자
-  const [progresss, setProgress] = useState(progressPatient()) //진행 환자
-  const [completes, setComplete] = useState(completePatient()) //완료 환자
+  const [patients, setPatient] = useState([]) //전체 환자
+  const [waitings, setWaiting] = useState([]) //대기 환자
+  const [progresss, setProgress] = useState([]) //진행 환자
+  const [completes, setComplete] = useState([]) //완료 환자
 
   const [clickdateList, setClickDateList] = useState([]); //환자의 검사접수기록
   const [clickdate, setClickdate] = useState({}) //클릭한 날짜의 검사접수 상세정보
@@ -19,14 +22,37 @@ function TestPage(props) {
  
   const [groupshow, setGroupShow] = useState(false) //처방 보여주는 show
  
-  console.log(testreceptions)
+  const [startdate, setStartdate] = useState(new Date());
+  const [enddate, setEnddate] = useState(new Date());
+
+  const getpatient = async(startdate, enddate) => { //함수로 만든이유는 나중에 클릭할때도 사용
+    try { 
+      const response = await testlistByDate(moment(startdate).format('YYYY-MM-DD'), moment(enddate).format('YYYY-MM-DD'));
+      const patient = response.data;
+      setPatient(response.data);
+      const waiting = patient.filter(patient => patient.status === "대기중");
+      setWaiting(waiting)
+      const progress = patient.filter(patient => patient.status === "진행중");
+      setProgress(progress)
+      const complete = patient.filter(patient => patient.status === "검사완료");
+      setComplete(complete)
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+  
+  useEffect(()=>{
+    getpatient(moment().format('YYYY-MM-DD'), moment().format('YYYY-MM-DD'))
+  },[]);
+
   const ClickPatient = (e, item) => {
     const reset = false;
     setGroupShow(reset)
     const visitLists = [];
     for(var i=0; i<testreceptions.length; i++){
       if(testreceptions[i].patientid === item.patientid){
-        visitLists.push(testreceptions[i]); //검사받은 날의 객체 배열 저장
+        visitLists.push(testreceptions[i]); //환자에 해당하는 검사 객체 배열 저장
       }
     } 
     setClickDateList(visitLists)
@@ -39,14 +65,14 @@ function TestPage(props) {
     const value = true;
     setGroupShow(value) //클릭시 show
   }
-  
+
   return (
     <div className="vh-100" style={{minWidth:"1000px"}}>
       <div className="row m-0">
       <div className="col-3 pt-3" style={{borderRight:"1px solid #dadada"}}>
           <div className="row pl-3 ml-0" style={{backgroundColor: "#ffffff", width:"85%"}}><div className="pr-3 pl-3 pt-2 pb-2" style={{ backgroundColor:"#FF8C64"}}><i class="bi bi-calendar4-week" style={{ fontSize:"22px"}}></i></div><div className="ml-4 pt-2">검사 대기 목록</div></div>
           <div style={{height:"88vh"}}>
-          <PeriodSearch/>
+          <PeriodSearch startdate={startdate} enddate={enddate} change={getpatient}/>
           <Tab.Container id="left-tabs-example" defaultActiveKey="wait">
           <Nav fill variant="tabs" className="flex-column mb-2">
             <Row className="ml-0 mr-0">
@@ -81,7 +107,7 @@ function TestPage(props) {
                 <div className="col-3 p-0 text-center">{item.ssn1}</div>
                 <div className="col-1 p-0 text-center">{item.sex}</div>
                 <div className="col-3 p-0 text-center">{item.patientname}</div>
-                <div className="col-3 p-0 text-center"><Badge className="mr-1" variant="success">{item.state}</Badge><Badge variant="danger">미입력</Badge></div>
+                <div className="col-3 p-0 text-center"><Badge className="mr-1" variant="success">{item.status}</Badge><Badge variant="danger">미입력</Badge></div>
               </div>
               )})}
               </Tab.Pane>
@@ -92,7 +118,7 @@ function TestPage(props) {
                 <div className="col-3 p-0 text-center">{item.ssn1}</div>
                 <div className="col-1 p-0 text-center">{item.sex}</div>
                 <div className="col-3 p-0 text-center">{item.patientname}</div>
-                <div className="col-3 p-0 text-center"><Badge className="mr-1" variant="success">{item.state}</Badge><Badge variant="danger">미입력</Badge></div>
+                <div className="col-3 p-0 text-center"><Badge className="mr-1" variant="success">{item.status}</Badge><Badge variant="danger">미입력</Badge></div>
               </div>
               )})}
               </Tab.Pane>
@@ -103,7 +129,7 @@ function TestPage(props) {
                 <div className="col-3 p-0 text-center">{item.ssn1}</div>
                 <div className="col-1 p-0 text-center">{item.sex}</div>
                 <div className="col-3 p-0 text-center">{item.patientname}</div>
-                <div className="col-3 p-0 text-center"><Badge className="mr-1" variant="success">{item.state}</Badge><Badge variant="danger">미입력</Badge></div>
+                <div className="col-3 p-0 text-center"><Badge className="mr-1" variant="primary">{item.status}</Badge><Badge variant="danger">미입력</Badge></div>
               </div>
               )})}
               </Tab.Pane>
@@ -114,7 +140,7 @@ function TestPage(props) {
                 <div className="col-3 p-0 text-center">{item.ssn1}</div>
                 <div className="col-1 p-0 text-center">{item.sex}</div>
                 <div className="col-3 p-0 text-center">{item.patientname}</div>
-                <div className="col-3 p-0 text-center"><Badge className="mr-1" variant="success">{item.state}</Badge><Badge variant="danger">미입력</Badge></div>
+                <div className="col-3 p-0 text-center"><Badge className="mr-1" variant="danger">{item.status}</Badge><Badge variant="danger">미입력</Badge></div>
               </div>
               )})}
               </Tab.Pane>
