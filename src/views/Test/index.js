@@ -3,14 +3,11 @@ import PeriodSearch from "./PeriodSearch";
 import TestGroup from "./TestGroup";
 import TestResult from "./TestResult";
 import { Nav, Row, Tab, Badge } from "react-bootstrap";
-import {getAllPatient, waitingPatient, progressPatient, completePatient, testReceptions } from "./data/patient"
-import { testlistByDate } from "apis/test";
+import { testlistByDate, testlistByPatientid } from "apis/test";
 import moment from 'moment';
 
 function TestPage(props) {  
-
-  const [testreceptions, setTestReception] = useState(testReceptions()) //전체 환자 접수 기록
-
+  console.log("리렌더링")
   const [patients, setPatient] = useState([]) //전체 환자
   const [waitings, setWaiting] = useState([]) //대기 환자
   const [progresss, setProgress] = useState([]) //진행 환자
@@ -20,7 +17,7 @@ function TestPage(props) {
   const [clickdate, setClickdate] = useState({}) //클릭한 날짜의 검사접수 상세정보
   const [profile, setProfile] = useState({}); //클릭한 환자의 프로필
  
-  const [groupshow, setGroupShow] = useState(false) //처방 보여주는 show
+  const [groupshow, setGroupShow] = useState(false) //testgroup 보여주는 show
  
   const [startdate, setStartdate] = useState(new Date());
   const [enddate, setEnddate] = useState(new Date());
@@ -41,27 +38,21 @@ function TestPage(props) {
     }
   }
 
-  
   useEffect(()=>{
     getpatient(moment().format('YYYY-MM-DD'), moment().format('YYYY-MM-DD'))
   },[]);
 
-  const ClickPatient = (e, item) => {
+  const ClickPatient = async(e, item) => {
+    setProfile(item)
     const reset = false;
     setGroupShow(reset)
-    const visitLists = [];
-    for(var i=0; i<testreceptions.length; i++){
-      if(testreceptions[i].patientid === item.patientid){
-        visitLists.push(testreceptions[i]); //환자에 해당하는 검사 객체 배열 저장
-      }
-    } 
-    setClickDateList(visitLists)
-    setProfile(item)
+    const response = await testlistByPatientid(item.patientid);
+    setClickDateList(response.data);
   }
   
   const onClickDate = (e, date) => {  
     setClickdate(date); //클릭한 날짜 저장
-
+  
     const value = true;
     setGroupShow(value) //클릭시 show
   }
@@ -164,14 +155,14 @@ function TestPage(props) {
               <div style={{width:"18%", marginRight:"3%", marginLeft:"2%"}}>
                 <div className="mb-3">검사 날짜: </div>
                 <div className="overflow-auto">   
-                  {clickdateList.map((date,index)=>{return(   
+                  {clickdateList.map((date)=>{return(   
                   <div key={date.testreceptionid} className="pt-2 pb-2 mb-2 align-items-center" onClick={ e => { onClickDate(e, date) }} style={{border:"1px solid #dadada", borderRadius:"15px", textAlign:"center", backgroundColor:"#ffffff"}}>
                     <div>{date.testdate}</div>
                   </div>
                   )})}
                 </div>
               </div>
-              <div style={{width:"75%", marginRight:"2%"}}><div>검사 목록: </div>{groupshow?<TestGroup clickdate={clickdate}/>:""}</div>
+              <div style={{width:"75%", marginRight:"2%"}}><div>검사 목록: </div>{groupshow?<TestGroup clickdate={clickdate} />:""}</div>
             </div>
         </div>
         <div className="col-4 pt-3" style={{borderLeft:"1px solid #dadada"}}>

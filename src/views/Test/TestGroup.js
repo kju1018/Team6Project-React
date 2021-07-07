@@ -3,73 +3,75 @@ import { Badge, Button, Modal, Accordion, Card  } from "react-bootstrap";
 import xlsx from 'xlsx';
 import React from 'react';
 import Print from "./Print";
-import { AlltestList, AlltestData, startTests } from "./data/patient"
 import { testlistByReceptionid } from "apis/test";
 
 function TestGroup(props) {
-  const [state, setState] = useState(); //묶음 코드 객체
   const [open, setOpen] = useState(false); //모달 열림/닫힘 상태
-  const [testlist, setTestData] = useState(AlltestList());
-  const [testdata, setTestList] = useState(AlltestData())
+  const [testdata, setTestData] = useState([])
   const [groupList, setGroupList] = useState({}); //제일 바깥
 
-  const patienttest = AlltestList();
+  
 
   useEffect(()=>{ 
-  
-    const group = [];
-    const temp = [];
-    for(var i=0; i<testlist.length; i++){
-      if(props.clickdate.testreceptionid === patienttest[i].testreceptionid){ 
-        for(var j=0; j<testlist.length; j++){
-          if(testlist[i].testdataid === testdata[j].testdataid){
-            const put = {...testdata[j], state:patienttest[i].state}
-            temp.push(put)        
+    console.log(props.clickdate.testreceptionid) 
+    testlistByReceptionid(props.clickdate.testreceptionid).then((response)=>{
+      const testdatas = response.data;
+      const group = [];
+          for(var i=0; i<testdatas.length; i++){
+            group.push(testdatas[i].groupcode)    
           }
-        } 
-      }    
-    } //receptionid에 맞는 test 가져오기
 
+          const set = new Set(group)
+          const title = [...set]; //묶음 코드 중복 제거
 
-    for(var i=0; i<temp.length; i++){
-      group.push(temp[i].groupcode)    
-    }
-    const set = new Set(group)
-    const title = [...set]; //묶음 코드 중복 제거
-
-    console.log(temp)
-    let obj = {};//나중에 groupList가 데이터 가공후 리스트에 추가
-    for(var i=0; i<title.length; i++){
-        for(var j=0; j<temp.length; j++){
-          if(title[i] === temp[j].groupcode) {
-            if(obj[title[i]]){ //그룹코드이름으로 된 속성이 있을 때
-              obj[title[i]].tests.push(temp[j]);
-            } else {
-              obj[title[i]]={}; //묶음코드 하나하나 객체
-              obj[title[i]].groupcode=temp[j].groupcode;
-              obj[title[i]].groupname=temp[j].groupname;
-              obj[title[i]].state=temp[j].state;
-              obj[title[i]].ischeck=false;
-              if(temp[j].state === "검사완료") {
-                obj[title[i]].saveBtn=false;
-                obj[title[i]].label = "danger";
-              } else if (temp[j].state === "진행중") {
-                obj[title[i]].saveBtn=true;
-                obj[title[i]].label = "primary";
-              } else {
-                obj[title[i]].saveBtn=true;
-                obj[title[i]].label = "success";
-              };
-              obj[title[i]].tests=[];
-              obj[title[i]].tests.push(temp[j]);
+          let obj = {};//나중에 groupList가 데이터 가공후 리스트에 추가
+          for(var i=0; i<title.length; i++){
+              for(var j=0; j<testdatas.length; j++){
+                if(title[i] === testdatas[j].groupcode) {
+                  if(obj[title[i]]){ //그룹코드이름으로 된 속성이 있을 때
+                    obj[title[i]].tests.push(testdatas[j]);
+                  } else {
+                    obj[title[i]]={}; //묶음코드 하나하나 객체
+                    obj[title[i]].groupcode=testdatas[j].groupcode;
+                    obj[title[i]].groupname=testdatas[j].groupname;
+                    obj[title[i]].status=testdatas[j].status;
+                    obj[title[i]].ischeck=false;
+                    if(testdatas[j].status === "검사완료") {
+                      obj[title[i]].saveBtn=false;
+                      obj[title[i]].label = "danger";
+                    } else if (testdatas[j].status === "진행중") {
+                      obj[title[i]].saveBtn=true;
+                      obj[title[i]].label = "primary";
+                    } else {
+                      obj[title[i]].saveBtn=true;
+                      obj[title[i]].label = "success";
+                    };
+                    obj[title[i]].tests=[];
+                    obj[title[i]].tests.push(testdatas[j]);
+                  }
+                }
             }
           }
-       }
-    }
-    setGroupList(obj);
+          setGroupList(obj);
 
+
+
+    })
+    
+
+    
   }, [props.clickdate.testreceptionid])
-
+  console.log(testdata)
+  
+  const gettest = async(testreceptionid) => {
+    try {
+      const response = await testlistByReceptionid(testreceptionid);
+      setTestData(response.data);
+    } catch (error) {
+      console.log(error)
+    } 
+  }
+ 
 
   const handleExit = () => setOpen(false); //바코드 모달 닫힘
 
@@ -92,7 +94,7 @@ function TestGroup(props) {
     const newGroupList = Object.values(groupList).map ((group) => {
       if(group.ischeck === true){
         group.ischeck = false;
-        if(group.state === "대기중"){
+        if(group.status === "대기중"){
           checkedList.push(group);
         } else {
           flag = 1;
@@ -101,14 +103,14 @@ function TestGroup(props) {
       return group;
     });
     if(flag === 0){
-      startTests(checkedList);
+      //startTests(checkedList);
     }
     
     setGroupList(newGroupList);
   }
 
   const handleExcel =() => { //엑셀 버튼 클릭 시, 동작하는 함수
-    const ws = xlsx.utils.json_to_sheet(testlist); //안에 배열의 객체 넣으면 그대로 출력
+    const ws = xlsx.utils.json_to_sheet(testdata); //안에 배열의 객체 넣으면 그대로 출력
     const wb = xlsx.utils.book_new();
     xlsx.utils.book_append_sheet(wb, ws, "Sheet1");
     xlsx.writeFile(wb, "처방검사.xlsx");
@@ -141,7 +143,7 @@ function TestGroup(props) {
       return group;
     });
     if(flag === 0){
-      startTests(checkedList);
+      //startTests(checkedList);
     }
     
     setGroupList(newGroupList);
@@ -163,7 +165,7 @@ function TestGroup(props) {
       return group;
     });
     if(flag === 0){
-      startTests(checkedList);
+      //startTests(checkedList);
     }
     
     setGroupList(newGroupList);
@@ -192,7 +194,7 @@ function TestGroup(props) {
           <Card.Header className="row" style={{backgroundColor:"#D5D5D5", height:"60px", alignItems:"center"}}>
             <Accordion.Toggle as={Card.Header} eventKey={index.toString()}>
               {/* checked: 체크박스 체크 유무 */}
-              <div><input className="mr-2" type="checkbox"  onChange={e => {changeHandler(e, group.groupcode)}} checked={group.ischeck}/>{group.groupcode}<Badge className="ml-3" variant={group.label}>{group.state}</Badge></div>
+              <div><input className="mr-2" type="checkbox"  onChange={e => {changeHandler(e, group.groupcode)}} checked={group.ischeck}/>{group.groupcode}<Badge className="ml-3" variant={group.label}>{group.status}</Badge></div>
             </Accordion.Toggle>
             <div></div>
           </Card.Header>
@@ -213,7 +215,7 @@ function TestGroup(props) {
                     <div className="col-2 p-0 text-center">{test.testdataid}</div>
                     <div className="col-2 p-0 text-center">{test.testdataname}</div>
                     <div className="col-2 p-0 text-center" style={{color: "orange", fontWeight:"bold"}}>EDTA</div>
-                    <div className="col-2 p-0 text-center">{test.state}</div>
+                    <div className="col-2 p-0 text-center">{test.status}</div>
                     <div className="col-2 p-0 text-center"> <input type="text" style={{width:"100%"}} ></input></div>
                   </div>
                 )
