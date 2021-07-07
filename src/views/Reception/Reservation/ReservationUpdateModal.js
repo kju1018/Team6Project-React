@@ -5,6 +5,7 @@ import {getPatientData,getAllReservationsData, getAllTestsGroupData, insertReser
 import { useDispatch } from "react-redux";
 import { createSetReservation } from "redux/reservation-reducer";
 import TestList from "views/Treatment/TestList";
+import { UpdateReservation } from "apis/Reception";
 
 
 function UpdateReservationModal(props){
@@ -40,77 +41,84 @@ function UpdateReservationModal(props){
         setTestList(modify);
     }
 
-    const GetTimeIndex=(date)=>{
-        let hour = date.getHours()*10
-        let minute = date.getMinutes()
-        if(minute===0){
-            minute = 0;
-        }else if(minute===30){
-            minute = 5;
-        }
-        const Index = (hour+minute)/5-18
-        return Index
-    }
-    const GetTime=(Index)=>{
-        let num = (Index+18)*5
-        let hour = num/10
-        let minute = num%10===5?30:0
-        const date = new Date(new Date().getFullYear(),new Date().getMonth(),new Date().getDate(),hour,minute)
-        return date;
-    }
-    useEffect(()=>{
-        if(props.selectedReservation){
-            const Patient = getPatientData(props.selectedReservation.patientid)
-            setPatient(Patient)
-        }
+    // const GetTimeIndex=(date)=>{
+    //     let hour = date.getHours()*10
+    //     let minute = date.getMinutes()
+    //     if(minute===0){
+    //         minute = 0;
+    //     }else if(minute===30){
+    //         minute = 5;
+    //     }
+    //     const Index = (hour+minute)/5-18
+    //     return Index
+    // }
+    // const GetTime=(Index)=>{
+    //     let num = (Index+18)*5
+    //     let hour = num/10
+    //     let minute = num%10===5?30:0
+    //     const date = new Date(new Date().getFullYear(),new Date().getMonth(),new Date().getDate(),hour,minute)
+    //     return date;
+    // }
+    // useEffect(()=>{
+    //     if(props.selectedReservation){
+    //         const Patient = getPatientData(props.selectedReservation.patientid)
+    //         setPatient(Patient)
+    //     }
         
-    },[props.selectedReservation])
+    // },[props.selectedReservation])
     useEffect(()=>{
-        var reservationlist = getAllReservationsData();
-        setReservationList(reservationlist)
+        // var reservationlist = getAllReservationsData();
+        // setReservationList(reservationlist)
         var testlist = getAllTestsGroupData(props.selectedReservation.patientid);
         setTestList(testlist);
-        console.log(GetTime(GetTimeIndex(new Date(new Date().getFullYear(),new Date().getMonth(),29,15,30))))
-         let Times=new Array(18);
-            Times[GetTimeIndex(new Date(startDate.getFullYear(),startDate.getMonth(),startDate.getDate(),13,0))] = true;
-            Times[GetTimeIndex(new Date(startDate.getFullYear(),startDate.getMonth(),startDate.getDate(),13,30))] = true;
-            for(var i=0; i<reservationlist.length; i++){
-                if(reservationlist[i].reservationdate){
-                    Times[GetTimeIndex(reservationlist[i].reservationdate)] = true;
-                }
-            }
+        //선택된 예약정보 가져오기 타입, 시간
+        setReservationType(props.selectedReservation.type==="진료"?true:false)
+        setStartDate(new Date(props.selectedReservation.reservationdate))
+        //console.log(GetTime(GetTimeIndex(new Date(new Date().getFullYear(),new Date().getMonth(),29,15,30))))
+        //  let Times=new Array(18);
+        //     Times[GetTimeIndex(new Date(startDate.getFullYear(),startDate.getMonth(),startDate.getDate(),13,0))] = true;
+        //     Times[GetTimeIndex(new Date(startDate.getFullYear(),startDate.getMonth(),startDate.getDate(),13,30))] = true;
+        //     for(var i=0; i<reservationlist.length; i++){
+        //         if(reservationlist[i].reservationdate){
+        //             Times[GetTimeIndex(reservationlist[i].reservationdate)] = true;
+        //         }
+        //     }
          
         
             //처음 들어갈시간 넣기
-         setStartDate(props.selectedReservation.rdate);
+        //  setStartDate(props.selectedReservation.rdate);
 
-         let excludeTime = new Array(12)
-         for(var i=0; i<12; i++){
-             var lastday = new Date(new Date().getFullYear(),i+1,0).getDate();
-            excludeTime[i] = new Array(lastday)
-            for(var j=0; j<lastday; j++){
-                excludeTime[i][j] = new Array();
-            }
-         }
+        //  let excludeTime = new Array(12)
+        //  for(var i=0; i<12; i++){
+        //      var lastday = new Date(new Date().getFullYear(),i+1,0).getDate();
+        //     excludeTime[i] = new Array(lastday)
+        //     for(var j=0; j<lastday; j++){
+        //         excludeTime[i][j] = new Array();
+        //     }
+        //  }
          //exclude에 들어갈 월별 시간 구하기
         
-            for(var i=0; i<reservationlist.length; i++){
-                //수정된 예약의 시간은 다시선택할수있게함
-                if(reservationlist[i].reservationid===props.selectedReservation.reservationid){
-                    continue;
-                }
-                var month = reservationlist[i].reservationdate.getMonth()+1
-                var day = reservationlist[i].reservationdate.getDate()
-                excludeTime[month-1][day-1].push(reservationlist[i].reservationdate)
-                console.log(month + ","+day+","+reservationlist[i].reservationdate)
-             }
+        //     for(var i=0; i<reservationlist.length; i++){
+        //         //수정된 예약의 시간은 다시선택할수있게함
+        //         if(reservationlist[i].reservationid===props.selectedReservation.reservationid){
+        //             continue;
+        //         }
+        //         var month = reservationlist[i].reservationdate.getMonth()+1
+        //         var day = reservationlist[i].reservationdate.getDate()
+        //         excludeTime[month-1][day-1].push(reservationlist[i].reservationdate)
+        //         console.log(month + ","+day+","+reservationlist[i].reservationdate)
+        //      }
          
          
-        console.log(excludeTime)
-        setReservatedTimes(excludeTime)  
+        // console.log(excludeTime)
+        // setReservatedTimes(excludeTime)  
       
       
     },[])
+
+    useEffect(()=>{
+        console.log(startDate)
+    },[startDate])
     const getReservationDate= () =>{
         var newDateOptions = {
             month: "2-digit",
@@ -118,45 +126,40 @@ function UpdateReservationModal(props){
             hour:"2-digit",
             minute:"2-digit"
         }
-        const origin = startDate.toLocaleString("en-US",newDateOptions);
+        const origin = startDate.toLocaleString("ko-kr",newDateOptions);
         let date = new Date(startDate);
         date.setMinutes(date.getMinutes()+30)
         if(startDate.getTime()){
             
-            return origin+" ~ "+date.toLocaleString("en-US",newDateOptions)
+            return origin+" ~ "+date.toLocaleString("ko-kr",newDateOptions)
         }else{
             return "시간을 선택해 주세요"
         }
        
     }
     
-    //예약 등록함수
-    const ResisterReservation=()=>{
+    //예약 수정함수
+    const UpdateReservationClickBtn=()=>{
         let newreservation;
-        let reservationobj;
-        let resultreservationobj;
         //reservationType이 true가 진료 / false가 검사
         if(reservationType){
-            //DB에 해당 patient, startDate로 해당 시간에 진료예약
-            newreservation = {reservationdate:startDate
-            ,patientid:props.selectedReservation.patientid,status:"대기",type:"진료" }
-            const newreservationid = insertReservationData(newreservation)
-            resultreservationobj = {reservationid:newreservationid,...newreservation}
+            newreservation = {...props.selectedReservation,reservationdate:startDate.getTime(),type:"진료"};
+            //DB에 새로운 예약정보로 업데이트 
+            UpdateReservation(newreservation).then((result)=>{
+                //부모함수 불러서 ui변경
+                props.UpdateReservation(newreservation)
+                //모달 닫기
+                props.closeModal("ReservationUpdateModal")
+            })
+           
         }
         else{
             //DB에 해당 patient, startDate, testList로 해당 시간에 검사예약
             const checkedtestlist = testList.filter((test)=>(test.ischeck===true))
-            newreservation = {reservationdate:startDate
-            ,patientid:props.selectedReservation.patientid,status:"대기",type:"검사" }
-            const newreservationid = insertReservationData(newreservation, checkedtestlist)
-            reservationobj = {reservationid:newreservationid,...newreservation}
-            //예약 객체를 redux로 보낼때 안에 검사리스트도 같이 보냄
-            resultreservationobj = {testList,...reservationobj}
+            //이 안에는 검사리스트도 같이 있음
+            newreservation = UpdateReservation({reservationdate:startDate,patientid:props.selectedPatient.patientid,status:"대기",type:"검사" }, checkedtestlist)
         }
-        //예약수정하기
-        props.UpdateReservation(resultreservationobj)
-        //모달 닫기
-        props.closeModal("ReservationUpdateModal")
+ 
     }
     return(
         <div className="conatainer" style={{height:"60vh"}}>
@@ -182,7 +185,6 @@ function UpdateReservationModal(props){
             </div>
             <div className="row" style={{height:"80%"}}>
                 <div className="col-6 text-center" style={{margin:"10px",marginTop:"5%", height:"100%"}} >
-                    {console.log(reservatedTimes)}
                     <ReactDatePicker 
                     selected={startDate}
                     onChange={(date) => setStartDate(date)}
@@ -192,9 +194,9 @@ function UpdateReservationModal(props){
                     minDate={new Date(new Date().getFullYear(),new Date().getMonth(),new Date().getDate())}
                     minTime={new Date(startDate.getFullYear(),startDate.getMonth(),startDate.getDate(),9,0)}
                     maxTime={new Date(startDate.getFullYear(),startDate.getMonth(),startDate.getDate(),17,30)}
-                    excludeTimes={reservatedTimes.length>1&&reservatedTimes[startDate.getMonth()][startDate.getDate()-1]}
+                    //excludeTimes={reservatedTimes.length>1&&reservatedTimes[startDate.getMonth()][startDate.getDate()-1]}
                     inline
-                    dateFormat="MMMM d, yyyy h:mm"
+                    dateFormat="yyyy-MM-dd hh:mm"
                     />
                     <div className="border text-center" style={{borderRadius:"15px"}}> 
                         예약날짜<br/>{getReservationDate()}
@@ -219,7 +221,7 @@ function UpdateReservationModal(props){
                         }
                    </div>
                    <div className="col d-flex justify-content-end" style={{borderRadius:"15px",  marginTop:"10px"}}> 
-                        <button className="btn btn-outline-dark btn-sm" disabled={reservationType===false&&(testList==null || (testList.filter((item)=>(item.ischeck===true)).length<1)) } onClick={ResisterReservation}>예약등록</button>
+                        <button className="btn btn-outline-dark btn-sm" disabled={reservationType===false&&(testList==null || (testList.filter((item)=>(item.ischeck===true)).length<1)) } onClick={UpdateReservationClickBtn}>예약수정</button>
                    </div>
                 </div>
 
