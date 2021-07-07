@@ -6,8 +6,7 @@ import TreatmentMemo from "./TreatmentMemo";
 import { useCallback, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import PatientProfile from "./components/PatientProfile";
-import { Col, Row, Toast } from "react-bootstrap";
-import { getStaticDiagnoses, getStaticDrugs, getPrescriptionList, prescribeTreatment, getAllTreatments } from "apis/Treatment";
+import { getStaticDiagnoses, getStaticDrugs, getPrescriptionList, prescribeTreatment, getAllTreatments, getStaticTests } from "apis/Treatment";
 
 function Treatment(props) {
 
@@ -31,7 +30,6 @@ function Treatment(props) {
 
   useEffect(() => {
     if(globalPatient.patientid != null){
-      console.log("safsdfsda");
       setPatient(globalPatient);
     }
   }, [globalPatient]) 
@@ -41,10 +39,12 @@ function Treatment(props) {
   const selectTreatment = useCallback((treatment) => {
     setTreatment(treatment);
   }, [])
+
   const [patientTreatments, setPatientTreatments] = useState([]);
   const [treatmentDrugs, setTreatmentDrugs] = useState([]);
   const [treatmentDiagnoses, setTreatmentDiagnoses] = useState([]);
   const [treatmentTests, setTreatmentTests] = useState([]);
+  const [memo, setMemo] = useState("");
 
   const [staticDrugs, setStaticDrugs] = useState([]);
   const [staticDignoses, setStaticDignoses] = useState([]);
@@ -56,15 +56,15 @@ function Treatment(props) {
       try {
         const drugResponse = await getStaticDrugs();
         const diagnosesResponse = await getStaticDiagnoses();
+        const testResponse = await getStaticTests();
         setStaticDrugs(drugResponse.data);
         setStaticDignoses(diagnosesResponse.data);
+        setStaticTests(testResponse.data);
       } catch (error) {
         console.log(error);
       }
     }
     work();
-    
-    // setStaticTests(getTests());
   },[])//정적 데이터 불러오기
 
   useEffect(() => {
@@ -72,8 +72,9 @@ function Treatment(props) {
       const work = async() => {
         try {
           const response = await getPrescriptionList(treatment.treatmentid);
-          setTreatmentDrugs(response.data.drugsList);
-          setTreatmentDiagnoses(response.data.diagnosesList);
+          setTreatmentDrugs(() => response.data.drugsList);
+          setTreatmentDiagnoses(() => response.data.diagnosesList);
+          setTreatmentTests(() => response.data.testsList);
         } catch (error) {
           console.log(error);
         }
@@ -84,7 +85,8 @@ function Treatment(props) {
       setTreatmentDrugs([]);
       setTreatmentDiagnoses([]);
       setTreatmentTests([]);
-    })
+      setMemo("");
+      })
   }, [treatment]);//선택한 진료 변경시 그 진료가 처방받은 약, 상병, 테스트 가져오기
 
   useEffect(() => {
@@ -94,16 +96,17 @@ function Treatment(props) {
         const response = await getAllTreatments(patient.patientid);
         if(response.data){
           console.log("갱신");
-          setPatientTreatments(response.data);
+          setPatientTreatments(() => {
+            return response.data
+          });
         }
       } catch (error) {
         console.log(error);
       }
     }
     work();
-
+    setMemo("");
   }, [patient])
-  console.log(patientTreatments);
   const prescribeDrugs = (prescriptionItems) => {
     setTreatmentDrugs(prescriptionItems);
   }//약 처방 함수
@@ -119,13 +122,21 @@ function Treatment(props) {
   const prescribeList = async() => {
     try {
       let prescription = {};
-      prescription.treatmentDrugs = treatmentDrugs;
-      prescription.treatmentDiagnoses = treatmentDiagnoses;
-      prescription.treatment = treatment;
+      const newTreatment = {
+        ...treatment,
+        memo:memo
+      }
+      prescription.treatmentDrugs = [...treatmentDrugs];
+      prescription.treatmentDiagnoses = [...treatmentDiagnoses];
+      prescription.treatmentTests = [...treatmentTests];
+      prescription.treatment = newTreatment;
+      prescription.userid ="user1";
+      prescription.patientid = patient.patientid;
       const response = await prescribeTreatment(prescription);
       if(response.data === "success"){
         const response = await getAllTreatments(patient.patientid);
         if(response.data){
+          setMemo("");
           setPatientTreatments(response.data);
         }
       }
@@ -154,7 +165,7 @@ function Treatment(props) {
             <PatientTreatment selectedPatient={patient} treatment={treatment} selectTreatment={selectTreatment} patientTreatments={patientTreatments}/>
           </div>
           <div className="pl-3 pr-3 pt-0 pb-1 border border-dark" style={{height:"42vh",marginBottom:"2vh", backgroundColor:"#FFFFFF"}}>
-            <TreatmentMemo treatment={treatment}/>
+            <TreatmentMemo treatment={treatment} setMemo={setMemo} memo={memo}/>
           </div> 
         </div>
         <div className="col-4 h-100 border-right">

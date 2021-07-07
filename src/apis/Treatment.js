@@ -26,6 +26,12 @@ export function getStaticDiagnoses() {
   return result;
 }
 
+//검사 목록 가져오기
+export function getStaticTests() {
+  const result = axios.get(BASE_URL + "treatment/statictests");
+  return result;
+}
+
 //처방 목록 가져오기
 export function getPrescriptionList(treatmentid) {
   const result = axios.get(BASE_URL + "treatment/" + treatmentid);
