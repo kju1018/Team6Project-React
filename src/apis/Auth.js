@@ -17,3 +17,11 @@ export function test(){
             'Content-Type': 'application/json'
         }});
 }
+
+
+export function test2(){
+    axios.get("/Auth/test2", {
+        headers: {
+            'Content-Type': 'application/json'
+        }});
+}
