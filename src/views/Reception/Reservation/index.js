@@ -38,7 +38,6 @@ function Reservation(props){
     //예약정보가져옴
     useEffect(()=>{
       GetReservationList().then((result)=>{
-          console.log(result.data)
         setReservationList(result.data)
        });
     },[])
