@@ -29,7 +29,6 @@ function PrescriptionTestsModal(props) {
       }
       return gt;
     }, {});
-    console.log(group);
     setGroupTests(group);
   }, [props.staticItemList])
 
@@ -51,7 +50,6 @@ function PrescriptionTestsModal(props) {
   }
 
   const addPackage = (item) => {
-    // console.log(item);
     setPrescriptionItems((prevItems) => {
       let newItems = prevItems.filter(prevItem => prevItem.groupcode !== item.groupcode);
       newItems = newItems.concat(item.tests);
@@ -100,8 +98,8 @@ function PrescriptionTestsModal(props) {
                   </OverlayTrigger>
                   <div style={{width:"20%"}}>{item.testdataid}</div>
                   <OverlayTrigger placement="right"
-                      overlay={<Tooltip>{item.testname}</Tooltip>}>
-                    <div style={{width:"20%", whiteSpace: "nowrap",overflow:"hidden", textOverflow:"ellipsis"}}>{item.testname}</div>
+                      overlay={<Tooltip>{item.testdataname}</Tooltip>}>
+                    <div style={{width:"20%", whiteSpace: "nowrap",overflow:"hidden", textOverflow:"ellipsis"}}>{item.testdataname}</div>
                   </OverlayTrigger>
                   <div style={{width:"20%"}}><button className="btn btn-danger btn-sm" onClick={() => {removeItem(item)}}>제거</button></div>
                 </div>
@@ -140,7 +138,7 @@ function PrescriptionTestsModal(props) {
                     {props.staticItemList != null &&
                     props.staticItemList.map ((item, index) => {
                       if((item.testdataid.indexOf(searchName) != -1) 
-                          || (item.testname.indexOf(searchName) != -1)
+                          || (item.testdataname.indexOf(searchName) != -1)
                           || (item.groupcode.indexOf(searchName) != -1)){
                         return (
                           <div key={item.testdataid} className="d-flex text-center pt-1 pb-1 align-items-center border-bottom" style={{height:"50px", fontWeight:"bold"}}>
@@ -151,8 +149,8 @@ function PrescriptionTestsModal(props) {
                             </OverlayTrigger>
                             <div style={{width:"20%"}}>{item.testdataid}</div>
                             <OverlayTrigger placement="right"
-                                overlay={<Tooltip>{item.testname}</Tooltip>}>
-                              <div style={{width:"20%", whiteSpace: "nowrap",overflow:"hidden", textOverflow:"ellipsis"}}>{item.testname}</div>
+                                overlay={<Tooltip>{item.testdataname}</Tooltip>}>
+                              <div style={{width:"20%", whiteSpace: "nowrap",overflow:"hidden", textOverflow:"ellipsis"}}>{item.testdataname}</div>
                             </OverlayTrigger>
                             <div style={{width:"20%"}}><button className="btn btn-success btn-sm" onClick={() => {addItem(item)}}>추가</button></div>
                           </div>
