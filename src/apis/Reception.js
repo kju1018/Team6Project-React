@@ -52,7 +52,7 @@ export function UpdatePatient(patient){
 }
 
 //환자의 진료정보 가져오기
-export function GetTreatmentList(patientid){
+export function GetTreatmentListBypatientid(patientid){
     const result = axios.get("/treatment/treatments/"+patientid);
     return result;
 }
@@ -68,10 +68,34 @@ export function GetTreatmentDetail(treatmentid){
 }
 
 //처방받은 검사데이터 가져오기
-export function GetPrescriptionTestData(patientid){
-    const result = axios.get("/reception/test",{
+export function PrescriptionTest(patientid){
+    const result = axios.get("/reception/prescriptiontest",{
         params:{    
             patientid
+        }
+    });
+    return result;
+}
+// 진료접수하기
+export function ReceptionTreatment(treatment){
+    const result = axios.post("/reception/receptiontreatment",treatment,{
+        headers: {
+            'Content-Type': 'application/json'
+        }});
+    return result;
+}
+
+//진료정보 가져오기
+export function GetTreatmentList(){
+    const result = axios.get("/reception/treatmentlist");
+    return result;
+}
+
+//임직원 정보 가져오기
+export function GetUsersData(usertype){
+    const result = axios.get("/user/userlist",{
+        params:{    
+            usertype
         }
     });
     return result;

@@ -1,3 +1,4 @@
+import { PrescriptionTest } from "apis/Reception";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { createSetTestReception } from "redux/reception-reducer";
@@ -11,8 +12,9 @@ function TestSelectorModal(props){
 
     //처음 컴포넌트 시작시 처방검사 목록 불러오기
     useEffect(()=>{
-        var testlist = getAllTestsGroupData(props.selectedPatient.patientid);
-        setTestList(testlist);
+        PrescriptionTest(props.selectedPatient.patientid).then((result)=>{
+            setTestList(result.data.prescriptiontest);
+        })
     },[])
     //처방된 검사 선택
     const handleTestList = (event, index) =>{

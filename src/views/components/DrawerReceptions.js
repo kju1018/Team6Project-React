@@ -1,16 +1,25 @@
 import { useEffect, useState } from "react";
 
-import {getAllTreatmentsData, getAllTestsReceptionData,DeleteReceptionTreatment,DeleteReceptionTest} from "views/Reception/BackEnd/index"
+import { getAllTestsReceptionData,DeleteReceptionTreatment,DeleteReceptionTest} from "views/Reception/BackEnd/index"
 import { useSelector } from "react-redux";
 import TestReception from "views/Reception/PatientReception/TestReception";
 import TreatmentReception from "views/Reception/PatientReception/TreatmentReception";
 import ChattingMenu from "./Messenger/ChattingMenu";
+import { GetTreatmentList } from "apis/Reception";
 function DrawerReceptions(props){
     const treatmentReception = useSelector((state)=>(state.receptionReducer.treatmentreception)) 
     const testReception = useSelector((state)=>(state.receptionReducer.testreception))
 
-    const [treatementsData, setTreatmentsData] = useState(getAllTreatmentsData)
-    const [testsData, setTestsData] = useState(getAllTestsReceptionData)
+    const [treatementsData, setTreatmentsData] = useState()
+    const [testsData, setTestsData] = useState()
+
+    useEffect(()=>{
+        GetTreatmentList().then((result)=>{
+            setTreatmentsData(result.data);
+        })
+    },[treatmentReception])
+
+
     const deleteTreatmentsData=(treatment_id)=>{
         let modify = []
         for(var i=0; i<treatementsData.length; i++){

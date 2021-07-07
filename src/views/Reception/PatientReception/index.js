@@ -5,6 +5,7 @@ import TreatmentReception from "./TreatmentReception";
 
 import {getAllTreatmentsData, getAllTestsReceptionData,DeleteReceptionTreatment,DeleteReceptionTest} from "views/Reception/BackEnd/index"
 import { useSelector } from "react-redux";
+import { GetTreatmentList } from "apis/Reception";
 function PatientReception(props){
    const [select, setSelect] = useState("treatmentreception");
    const onChangeSelect=(event)=>{
@@ -14,9 +15,14 @@ function PatientReception(props){
     const testReception = useSelector((state)=>(state.receptionReducer.testreception))
 
   
-    const [treatementsData, setTreatmentsData] = useState(getAllTreatmentsData)
-    const [testsData, setTestsData] = useState(getAllTestsReceptionData)
+    const [treatementsData, setTreatmentsData] = useState()
+    const [testsData, setTestsData] = useState()
 
+    useEffect(()=>{
+        GetTreatmentList().then((result)=>{
+            setTreatmentsData(result.data);
+        })
+    },[treatmentReception])
     //진료접수삭제
     const deleteTreatmentsData=(treatment_id)=>{
         let modify = []

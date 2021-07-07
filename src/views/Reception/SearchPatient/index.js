@@ -56,7 +56,6 @@ function SearchPatient(props){
    const setPatient = (patient)=>{
    
      if(patient){
-       console.log(patient)
       const tmpPatient = {
         patientid:patient.patientid,
         patientname:patient.patientname, 
@@ -66,8 +65,9 @@ function SearchPatient(props){
         age:patient.age,
         phonenumber: patient.phonenumber, 
         registerday: patient.registerday,
-        lasttreatment: patient.lasttreatment
+        lasttreatment: patient.lasttreatment?patient.lasttreatment:"-"
       }
+      console.log(tmpPatient)
       setSelectedPatient(tmpPatient)
      }
   }
