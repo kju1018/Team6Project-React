@@ -1,5 +1,5 @@
 import axios from "axios";
-axios.defaults.baseURL = "http://localhost:8080/webapp";
+axios.defaults.baseURL = "http://localhost:8080/";
 export function addAuthHeader(authToken){
     axios.defaults.headers.common["authToken"] = authToken; 
   }
