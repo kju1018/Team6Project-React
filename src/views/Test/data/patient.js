@@ -125,10 +125,7 @@ export function testReceptions() {
   return testreceptions;
 }
 
-export function waitingPatient() {
-  const patients = data.filter(patient => patient.state === "대기중");
-  return patients;
-}
+
 export function progressPatient() {
   const patients = data.filter(patient => patient.state === "진행중");
   return patients;

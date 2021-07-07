@@ -3,10 +3,10 @@ import DatePicker from "react-datepicker";
 import "views/style/datepicker.css";
 import { registerLocale } from "react-datepicker";  // 한국어적용
 import ko from 'date-fns/locale/ko'; // 한국어적용
-import { Button } from "react-bootstrap";
+
 registerLocale("ko", ko) // 한국어적용
 
-function PeriodSearch() {
+function PeriodSearch({change, startdate, enddate}) {
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
   const [btnClicked, setBtnClicked] = useState("당일");
@@ -18,6 +18,13 @@ function PeriodSearch() {
       </div>
     </div>
   ));
+
+  const dateSubmit = () => {
+    
+    setStartDate(startDate);
+    setEndDate(endDate);
+    change(startDate, endDate)
+  }
 
   const handleBtnClicked = (e) => {
     const { value } = e.target;
@@ -95,12 +102,14 @@ function PeriodSearch() {
                   selected={endDate}
                   onChange={(date) => setEndDate(date)}
                   customInput={<ExampleCustomInput />}
+                  dateFormat="yyyy-MM-dd"
+                  locale={ko}
                 />
                 </div>
                 </div>
               </div>
               </div>
-              <Button variant="dark" size="m" block>조회</Button>
+              <button type="submit" className="btn btn-dark btn-block" onClick={ dateSubmit }>Submit</button>
             </div>
           </div>
   );

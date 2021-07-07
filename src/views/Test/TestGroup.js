@@ -4,6 +4,7 @@ import xlsx from 'xlsx';
 import React from 'react';
 import Print from "./Print";
 import { AlltestList, AlltestData, startTests } from "./data/patient"
+import { testlistByReceptionid } from "apis/test";
 
 function TestGroup(props) {
   const [state, setState] = useState(); //묶음 코드 객체
@@ -36,7 +37,7 @@ function TestGroup(props) {
     const set = new Set(group)
     const title = [...set]; //묶음 코드 중복 제거
 
-
+    console.log(temp)
     let obj = {};//나중에 groupList가 데이터 가공후 리스트에 추가
     for(var i=0; i<title.length; i++){
         for(var j=0; j<temp.length; j++){
@@ -125,11 +126,47 @@ function TestGroup(props) {
   }
 
   const handleCancel =() => { 
-  
+    let checkedList = [];
+    let flag = 0;
+    
+    const newGroupList = Object.values(groupList).map ((group) => {
+      if(group.ischeck === true){
+        group.ischeck = false;
+        if(group.state === "진행중"){
+          checkedList.push(group);
+        } else {
+          flag = 1;
+        }
+      }
+      return group;
+    });
+    if(flag === 0){
+      startTests(checkedList);
+    }
+    
+    setGroupList(newGroupList);
   }
 
   const handleFinish =() => { 
-  
+    let checkedList = [];
+    let flag = 0;
+    
+    const newGroupList = Object.values(groupList).map ((group) => {
+      if(group.ischeck === true){
+        group.ischeck = false;
+        if(group.state === "진행중"){
+          checkedList.push(group);
+        } else {
+          flag = 1;
+        }
+      }
+      return group;
+    });
+    if(flag === 0){
+      startTests(checkedList);
+    }
+    
+    setGroupList(newGroupList);
   }
 
   const Save = () => {
@@ -175,7 +212,7 @@ function TestGroup(props) {
                     <div className="col-2 p-0 pt-1 pb-1 text-center">{index}</div>
                     <div className="col-2 p-0 text-center">{test.testdataid}</div>
                     <div className="col-2 p-0 text-center">{test.testdataname}</div>
-                    <div className="col-2 p-0 text-center">EDTA</div>
+                    <div className="col-2 p-0 text-center" style={{color: "orange", fontWeight:"bold"}}>EDTA</div>
                     <div className="col-2 p-0 text-center">{test.state}</div>
                     <div className="col-2 p-0 text-center"> <input type="text" style={{width:"100%"}} ></input></div>
                   </div>
