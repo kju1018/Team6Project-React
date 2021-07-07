@@ -15,11 +15,14 @@ function SearchPatient(props) {
   });
   const [searchName, setSearchName] = useState("");
   const [patientList, setPatientList] = useState([]);
+  const [searchList, setSearchList] = useState([]);
 
   useEffect(() => {
+    console.log("modal!");
     const work = async() => {
       const response = await getPatientList();
       setPatientList(response.data);
+      setSearchList(response.data);
     }
     work();
   }, [])
@@ -50,8 +53,9 @@ function SearchPatient(props) {
   };
 
   const search = useCallback((name) => {
-    // const loadPatient = getSearchPatients(name);
-    // setPatientList(loadPatient);
+    setSearchList(() => {
+      return patientList.filter(patient => patient.patientname.indexOf(name) !== -1);
+    })
     console.log(name);
   }, []);//useCallback로 받으면 () =>      ()괄호안에 매개변수를 받아야함
 
@@ -73,7 +77,7 @@ function SearchPatient(props) {
             {checkedPatient.patientname}
           </div>
           <div style={{height:"400px"}} className="overflow-auto pt-1">
-            {patientList.map ( patient => {
+            {searchList.map ( patient => {
               return (
                 <Item key={patient.patientid}  item={patient} property={property} onClick={checkPatient}></Item>
               );

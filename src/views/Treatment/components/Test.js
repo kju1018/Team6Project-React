@@ -9,7 +9,7 @@ function Test(props) {
         <Accordion.Toggle block as={Button} size="sm" variant="outline-light" eventKey="0">
           <span style={{fontSize:"14px", fontWeight:"bold", color:"black"}}>{props.test.testdataid}	&nbsp;&nbsp;{props.test.testname}
             &nbsp;&nbsp;<span style={{color:props.test.testcontainer==="EDTA"? "purple" : "red", marginRight:"8px"}}>{props.test.testcontainer}</span>
-           {(props.test.result !== null && props.test.result !=="") ? <Badge variant="primary">입력완료</Badge> : <Badge variant="danger">미입력</Badge>} 
+           {(props.test.result != null && props.test.result !=="") ? <Badge variant="primary">입력완료</Badge> : <Badge variant="danger">미입력</Badge>} 
           </span>
         </Accordion.Toggle>
       </Card.Header>
@@ -25,9 +25,9 @@ function Test(props) {
                   <th>상한치</th>
                 </tr>
                 <tr>
-                  <td>0</td>
-                  <td className={(props.test.result < 0 || props.test.result > 5) ? "table-danger" : "table-primary"}>{props.test.result}&nbsp;&nbsp;{props.test.testunit}</td>
-                  <td>5</td>
+                  <td>{props.test.min}</td>
+                  <td className={(props.test.result < props.test.min || props.test.result > props.test.max) ? "table-danger" : "table-primary"}>{props.test.result == null ? 0 : props.test.result}&nbsp;&nbsp;{props.test.testunit}</td>
+                  <td>{props.test.max}</td>
                 </tr>
               </tbody>
             </Table>
