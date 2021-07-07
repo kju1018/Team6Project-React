@@ -1,18 +1,13 @@
 import { useCallback, useEffect, useState } from "react";
-import { getTreatments } from "./data/TreatmentData";
 import TreatmentItem from "./components/TreatmentItem";
+import { getAllTreatments } from "apis/Treatment"
 
 function PatientTreatment(props) {
 
   // console.log("PatientTreatment");
-  const [patientTreatments, setPatientTreatments] = useState([]);
-
-  useEffect(() => {
-    setPatientTreatments(getTreatments(props.selectedPatient.patientid));
-    console.log("PatientTreatment 데이터 가져옴")
-  }, [props.selectedPatient])
 
   const selectTreatment = useCallback((treatment) => {
+    console.log(treatment);
     props.selectTreatment(treatment);
   }, [props])
 
@@ -29,10 +24,14 @@ function PatientTreatment(props) {
       <>
         <div className="overflow-auto p-3" style={{height:"calc(100% - 100px)"}}>
           {
-          patientTreatments !=null &&
-          patientTreatments.map (treatment => {
+          (props.patientTreatments == null || props.patientTreatments.length === 0) ?  
+          <div className="overflow-auto p-3 border-top justify-content-center d-flex align-items-center" style={{height:"100%"}}>
+            <span><i className="bi bi-clipboard-x mr-1"></i>선택한 환자의 진료내역이 없습니다.</span>
+          </div>
+          : 
+          props.patientTreatments.map (treatment => {
           return (
-            <TreatmentItem key={treatment.treatmentid} item={treatment} property={["treatmentdate", "state"]} onClick={selectTreatment}></TreatmentItem>
+            <TreatmentItem key={treatment.treatmentid} item={treatment} property={["treatmentdate", "status"]} onClick={selectTreatment}></TreatmentItem>
           );
           })}
         </div>

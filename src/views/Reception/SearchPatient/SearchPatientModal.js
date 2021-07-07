@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import Item from "views/components/Item";
-import {getAllPatientsData} from "views/Reception/BackEnd/index"
+import {GetPatientList} from "apis/Reception"
 function SearchPatientModal(props){
     const property = ["patientid","patientname","ssn1","lasttreatment","registerday"]
     const [keyword, setKeyword] = useState("");
@@ -10,9 +10,10 @@ function SearchPatientModal(props){
 
     //처음 컴포넌트 시작시 목록 불러옴
     useEffect(()=>{
-        var patientlist = getAllPatientsData();
-        setPatientList(patientlist)
-    },[])
+        GetPatientList().then((result)=>{
+            setPatientList(result.data)
+        })
+},[])
     // keyword 적을때 불리는 함수
     const ChangeKeyword = (event) =>{
         setKeyword(event.target.value)
@@ -23,14 +24,16 @@ function SearchPatientModal(props){
     }
     // 선택 버튼 누를떄 불리는 함수
     const SelectPatient = () =>{
+        console.log("sp1")
        props.setSelectedPatient(focusItem)
+       console.log(focusItem)
+       console.log("sp2")
        props.closeModal("SearchPatientModal")
        
     }
     // 환자 div 포커스 선택
     const click = (item) =>{
-        focusItem = item;
-       
+        focusItem = item; 
     }
     return(
     <div className="conatainer" style={{height:"400px"}}>

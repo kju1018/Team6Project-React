@@ -1,21 +1,24 @@
-import { useState } from "react";
+import { RegisterPatient } from "apis/Reception";
 import { useForm } from "react-hook-form";
-import {insertPatientData} from "views/Reception/BackEnd/index"
 function RegisterPatientModal(props){
-
-    const [patient, setPatient] = useState({patientname:"",age:"",ssn1:"",ssn2:"",sex:"",phonenumber:""});
     const { register, handleSubmit, watch, errors } = useForm();
   
     const onSubmit=(patient)=>{
-        patient["lasttreatment"] = "-"
-        patient["registerday"] = new Date().toLocaleDateString()
 
+        patient["registerday"] = new Date()
+        patient["codenumber"]=1
+        patient["enabled"]=1
         //DB에 저장
-        const patientid = insertPatientData(patient)
-        patient["patientid"] = patientid
+       RegisterPatient(patient).then((result)=>{
+        patient["patientid"] = result.data
+        patient["lasttreatment"] = "-"
+        patient["registerday"] = patient["registerday"].toLocaleDateString()
+        console.log(patient);
         // 해당 상태 부모로 빼고 모달 닫기
         props.setSelectedPatient(patient)
         props.closeModal("RegisterPatientModal")
+        })
+       
     }
 
     return(

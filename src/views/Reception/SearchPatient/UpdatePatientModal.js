@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import {updatePatientData} from "views/Reception/BackEnd/index"
+import {UpdatePatient} from "apis/Reception"
 function RegisterPatientModal(props){
 
     const [patient, setPatient] = useState({patientname:"",age:"",ssn1:"",ssn2:"",sex:"",phonenumber:""});
@@ -9,14 +9,16 @@ function RegisterPatientModal(props){
     const onSubmit=(patient)=>{
         patient["patientid"] = props.selectedPatient.patientid
         patient["lasttreatment"] = props.selectedPatient.lasttreatment
-        patient["registerday"] = props.selectedPatient.registerday
+        patient["registerday"] = new Date()
 
         //DB에 저장
-        updatePatientData(patient)
-
-        // 해당 상태 부모로 빼고 모달 닫기
-        props.setSelectedPatient(patient)
-        props.closeModal("UpdatePatientModal")
+        UpdatePatient(patient).then((result)=>{
+          patient["registerday"] =  patient["registerday"].toLocaleDateString()
+          // 해당 상태 부모로 빼고 모달 닫기
+          props.setSelectedPatient(patient)
+          props.closeModal("UpdatePatientModal")        
+        })
+       
     }
 
     return(

@@ -1,31 +1,34 @@
+import { GetTreatmentList,GetTreatmentDetail } from "apis/Reception";
 import { useEffect, useState } from "react";
 import Item from "views/components/Item";
-import {getAllTreatmentsData,getAllTestsGroupData,getDrugsData} from "../BackEnd/index"
 function PatientHistory(props) {
   const[selectedTreatment, setSelectedTreatment] = useState();
   const[treatmentData, setTreatmentData] = useState([])
 
-  const[testGroupData, setTestGroupData] = useState([])
+  const[testData, setTestData] = useState([])
   const[drugsData, setDrugsData] = useState([])
-
+  const[diagnosesData, setDiagnosesData] = useState([])
   useEffect(()=>{
-    if(props.selectedPatient){
+    if(props.selectedPatient.patientid){
         //히스토리 상세기록 초기화해주기
         setSelectedTreatment(null)
         //해당 환자의 진료기록 불러오기
-        var treatmentlist = getAllTreatmentsData(props.selectedPatient)
-        setTreatmentData(treatmentlist)
+        GetTreatmentList(props.selectedPatient.patientid).then((result)=>{
+          setTreatmentData(result.data)
+        })
+        
     }
   },[props.selectedPatient])
   
   useEffect(()=>{
     if(selectedTreatment){
-      //해당 진료의 테스트데이터 불러오기
-      var testlist= getAllTestsGroupData(selectedTreatment.patientid);
-      setTestGroupData(testlist);
-      //해당 진료의 처방약데이터 불러오기
-      var druglist= getDrugsData(selectedTreatment.treatmentid);
-      setDrugsData(druglist);
+      GetTreatmentDetail(selectedTreatment.treatmentid).then((result)=>{
+        console.log(result.data.treatmentdetail)
+        //데이터 배열의 첫번째가 진단, 두번째가 약, 세번째가 테스트 그룹임
+        setDiagnosesData(result.data.treatmentdetail[0])
+        setDrugsData(result.data.treatmentdetail[1]);
+        setTestData(result.data.treatmentdetail[2]);
+      })
     }
     
   },[selectedTreatment])
@@ -33,8 +36,6 @@ function PatientHistory(props) {
       setSelectedTreatment(focusItem);
     }
     const treatmentProperty = ["treatmentid","patientid","userid","status","treatmentdate"]  
-    const PrescriptionTestsProperty = ["groupcode","groupname"]  
-    const PrescriptionDrugsProperty = ["drugid","drugname","description"]  
    
   return (
     <>
@@ -67,36 +68,58 @@ function PatientHistory(props) {
 
         <div className="d-flex border mt-4" style={{height:"calc(35vh - 65px)"}}>
            <div className="col-4">
-           진료기록
-           
-           <div className="overflow-auto  justify-content-center border" style={{borderRadius:"15px",height:"calc(35vh - 100px)"}} >
-                {selectedTreatment&&selectedTreatment.memo}  
+           진단기록
+           <div className="overflow-auto  justify-content-center border" style={{height:"calc(35vh - 100px)"}} >
+          
+                {selectedTreatment&&diagnosesData&&diagnosesData.map((item,index)=>{
+                      return(
+                          <div className="row m-0 border-bottom text-center" key={index} style={{fontSize:"0.8em"}}>
+                            <div className="col-3 p-0 border-right">
+                            {item.diagnosesdataid}
+                            </div>
+                            <div className="col-9 p-0">
+                            {item.diagnosesdataname}
+                            </div>
+                           
+                          </div>                         
+                          )
+                      })}  
           </div>
           </div>
            <div className="col-4">
             처방검사
-           <div className="overflow-auto  justify-content-center border" style={{borderRadius:"15px",height:"calc(35vh - 100px)"}} >
-                {selectedTreatment&&testGroupData&&testGroupData.map((item,index)=>{
-                  if(selectedTreatment.treatmentid===item.treatmentid){
+           <div className="overflow-auto  justify-content-center border" style={{height:"calc(35vh - 100px)"}} >
+                {selectedTreatment&&testData&&testData.map((item,index)=>{
                     return(
-                      <div key={index}>
-                              <Item  item ={item} property={PrescriptionTestsProperty}/>
-                      </div>                         
+                      <div className="row m-0 border-bottom text-center" key={index} style={{fontSize:"0.8em"}}>
+                      <div className="col-3 p-0 border-right">
+                      {item.testdataid}
+                      </div>
+                      <div className="col-9 p-0">
+                      {item.testdataname}
+                      </div>
+                     
+                    </div>                             
                       )
-                  }
                 })}  
           </div>
           </div>
            <div className="col-4">
              처방약
-           <div className="overflow-auto  justify-content-center border" style={{borderRadius:"15px",height:"calc(35vh - 100px)"}} >
+           <div className="overflow-auto  justify-content-center border" style={{height:"calc(35vh - 100px)"}} >
                 
                 {selectedTreatment&&drugsData&&drugsData.map((item,index)=>{
                       return(
-                          <div key={index}>
-                                  <Item item ={item} property={PrescriptionDrugsProperty}/>
-                          </div>                         
-                          )
+                        <div className="row m-0 border-bottom text-center" key={index} style={{fontSize:"0.8em"}}>
+                          <div className="col-3 p-0 border-right">
+                          {item.drugid}
+                          </div>
+                          <div className="col-9 p-0">
+                          {item.drugname}
+                          </div>
+                         
+                        </div>                         
+                        )
                       })}  
           </div>
            </div>
