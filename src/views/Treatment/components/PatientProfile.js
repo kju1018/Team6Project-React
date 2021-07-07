@@ -1,5 +1,6 @@
 import { useState } from "react";
-const { default: SearchPatient } = require("./SearchPatient");
+import SearchPatient from "./SearchPatient";
+
 
 function PatientProfile(props) {
   const [show, setShow] = useState(false);
