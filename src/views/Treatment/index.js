@@ -51,12 +51,6 @@ function Treatment(props) {
   const [staticTests, setStaticTests] = useState([]);
   const [show, setShow] = useState(false);
 
-  // const handlechange = (event) => {
-  //   setMemo({
-  //     [event.target.name]
-  //   })
-  // }
-
   useEffect(() => {
     const work = async() => {
       try {
