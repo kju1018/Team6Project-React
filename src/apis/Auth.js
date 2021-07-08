@@ -12,7 +12,7 @@ export function LogoutApi(){
 }
 
 export function join(user) {
-    const promise = axios.post("/auth/join");
+    const promise = axios.post("/auth/join", user);
     return promise;
 }
 

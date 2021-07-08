@@ -2,13 +2,15 @@ import { join } from "apis/Auth";
 import { useState } from "react";
 import { Button, Col, Form, InputGroup } from "react-bootstrap";
 const errorMsg = {
-  'empty' : '비밀번호를 입력해주세요',
+  'password_empty' : '비밀번호를 입력해주세요.',
+  'userid_empty' : '아이디를 입력해주세요.',
   'err_confirmPassword': '비밀번호확인을 다시 입력해주세요.',
+  'err_':'이미 존재하는 userID 입니다.'
 }
 function Members(props) {
 
   const [validated, setValidated] = useState(false);
-  const [errorMessage, setErrorMesssage] = useState(errorMsg.empty);
+  const [errorMessage, setErrorMesssage] = useState(errorMsg.password_empty);
   const [isInvalid, setIsInvalid] = useState(false);
   const [formData, setFormData] = useState({
     userid:"",
@@ -42,15 +44,33 @@ function Members(props) {
         })
         event.preventDefault();
       } else {
-        join(formData).then((response) => {
-
-        });
+        const response = workJoin(formData);
+        event.preventDefault();
       }
     }
     console.log(formData);
 
     setValidated(true);
   };
+
+  const workJoin = async(formData) => {
+    // try {
+    //   const response = await join(formData);
+    //   console.log(response);
+    //   return response;
+    // } catch (error) {
+      
+    //   console.log(error);
+    // }
+    join(formData).then((response) => {
+      console.log(response);
+    }).catch((error) => {
+      console.log(error.response);
+    })
+
+    return null;    
+  }
+
   return (
     <>
       <div className="row ml-0 mr-0" style={{height:"100vh"}}>
@@ -115,8 +135,9 @@ function Members(props) {
                   <Form.Control.Feedback type="invalid">직책을 선택해주세요.</Form.Control.Feedback>
                 </Form.Group>
 
-
-                <Button type="submit">Submit form</Button>
+                <div className="text-right">
+                  <Button className="w-100" type="submit">Submit form</Button>
+                </div>
               </Form>
                 
             </div>
