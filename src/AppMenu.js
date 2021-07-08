@@ -36,7 +36,14 @@ function AppMenu() {
             <div className="col-7 pl-0">Test</div>
           </div>
         </NavLink>
-        <Button style={{marginTop:"50px", marginLeft:"35px"}} variant="outline-dark">로그아웃</Button>
+
+        <NavLink to="/main/members" className="nav-link pt-2 pb-2 mt-3 mb-3" style={{color:"black"}} activeStyle={{color:"#FFFFFF", backgroundColor:"#2F4273"}}>
+          <div className="row">
+            <div className="col-5 text-right"><i className="bi bi-file-person"></i></div>
+            <div className="col-7 pl-0">Members</div>
+          </div>
+        </NavLink>
+        <Button style={{marginTop:"20px", marginLeft:"35px"}} variant="outline-dark">로그아웃</Button>
       </li>
     </ul>
     </div>
