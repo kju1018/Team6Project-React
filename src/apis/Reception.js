@@ -76,6 +76,14 @@ export function PrescriptionTest(patientid){
     });
     return result;
 }
+//검사 접수하기
+export function ReceptionTest(receptiontestarg){
+    const result = axios.post("/reception/receptiontest",receptiontestarg,{
+        headers: {
+            'Content-Type': 'application/json'
+        }});
+    return result;
+}
 // 진료접수하기
 export function ReceptionTreatment(treatment){
     const result = axios.post("/reception/receptiontreatment",treatment,{
@@ -88,6 +96,11 @@ export function ReceptionTreatment(treatment){
 //진료정보 가져오기
 export function GetTreatmentList(){
     const result = axios.get("/reception/treatmentlist");
+    return result;
+}
+//검사정보 가져오기
+export function GetTestReceptionList(){
+    const result = axios.get("/reception/testreceptionlist");
     return result;
 }
 
