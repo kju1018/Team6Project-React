@@ -4,6 +4,7 @@ import { ButtonGroup } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import Item from "views/components/Item";
 import {createSetPatient} from"redux/patient-reducer"
+import moment from 'moment';
 function TestReception(props){
     const [listtype, setListtype] = useState("all");
     const [selectedTestReception,setSelectedTestReception] = useState()
@@ -18,6 +19,7 @@ function TestReception(props){
     //검사접수삭제
     const deleteReceptionTest = () =>{
         if(selectedTestReception){
+            console.log(selectedTestReception)
             props.deleteTestReception(selectedTestReception.testreceptionid)
         }
        
@@ -29,6 +31,7 @@ function TestReception(props){
             <ButtonGroup toggle>
                 <ToggleButton type="radio" variant={`${listtype === "all" ? "secondary" : "light" }`} name="type"  checked={listtype==="all"} value="all" onChange={handleChange}><div className="ml-5 mr-5">전체</div></ToggleButton>
                 <ToggleButton type="radio" variant={`${listtype === "대기중" ? "secondary" : "light" }`} name="type"  checked={listtype==="대기중"} value="대기중" onChange={handleChange}><div className="ml-5 mr-5">대기중</div></ToggleButton>
+                <ToggleButton type="radio" variant={`${listtype === "진행중" ? "secondary" : "light" }`} name="type"  checked={listtype==="진행중"} value="진행중" onChange={handleChange}><div className="ml-5 mr-5">진행중</div></ToggleButton>
                 <ToggleButton type="radio" variant={`${listtype === "검사완료" ? "secondary" : "light" }`} name="type"  checked={listtype==="검사완료"} value="검사완료" onChange={handleChange}><div className="ml-5 mr-5">검사완료</div></ToggleButton>
             </ButtonGroup>
             <div>
@@ -46,10 +49,11 @@ function TestReception(props){
             <div className="overflow-auto  justify-content-center" style={{height:"calc(40vh - 200px)"}} >
                
                  {props.patientList&&props.patientList.map((item,index)=>{
+                     const item2 = {...item,testdate:moment(item.testdate).format("HH:mm")}
                       if(listtype==="all"||item.status===listtype){
                      return(
                                     <div key={index}>
-                                            <Item onClick={click} item ={item} property={testProperty} order={index}/>
+                                            <Item onClick={click} item ={item2} property={testProperty} order={index}/>
                                     </div>                         
                  )
                 }})} 

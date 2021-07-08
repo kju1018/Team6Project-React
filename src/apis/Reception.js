@@ -93,6 +93,28 @@ export function ReceptionTreatment(treatment){
     return result;
 }
 
+//검사접수 삭제하기
+export function DeleteReceptionTest(testreceptionid){
+    const result = axios.delete("/reception/removetestreception", {
+        data: { 
+            testreceptionid
+        }
+      });
+    return result;
+}
+
+
+//진료접수 삭제하기
+export function DeleteReceptionTreatment(treatmentid){
+    const result = axios.delete("/reception/removereceptiontreatment", {
+        data: { 
+            treatmentid 
+        }
+      });
+    return result;
+}
+
+
 //진료정보 가져오기
 export function GetTreatmentList(){
     const result = axios.get("/reception/treatmentlist");

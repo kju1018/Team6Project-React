@@ -3,9 +3,9 @@ import ReceptionHeader from "../components/ReceptionHeader";
 import TestReception from "./TestReception";
 import TreatmentReception from "./TreatmentReception";
 
-import {getAllTreatmentsData, getAllTestsReceptionData,DeleteReceptionTreatment,DeleteReceptionTest} from "views/Reception/BackEnd/index"
-import { useSelector } from "react-redux";
-import { GetTreatmentList,GetTestReceptionList } from "apis/Reception";
+import { useDispatch, useSelector } from "react-redux";
+import { GetTreatmentList,GetTestReceptionList,DeleteReceptionTreatment,DeleteReceptionTest } from "apis/Reception";
+import { createSetTestReception, createSetTreatmentReception } from "redux/reception-reducer";
 function PatientReception(props){
    const [select, setSelect] = useState("treatmentreception");
    const onChangeSelect=(event)=>{
@@ -18,6 +18,7 @@ function PatientReception(props){
     const [treatementsData, setTreatmentsData] = useState()
     const [testReceptionsData, setTestReceptionsData] = useState()
 
+    const dispatch = useDispatch();
     useEffect(()=>{
         GetTreatmentList().then((result)=>{
             setTreatmentsData(result.data);
@@ -38,8 +39,12 @@ function PatientReception(props){
             }
         }
         //DB에서 삭제
-        DeleteReceptionTreatment(treatment_id)
-        setTreatmentsData(modify)
+        DeleteReceptionTreatment(treatment_id).then(()=>{
+            setTreatmentsData(modify)
+            dispatch(createSetTreatmentReception(treatment_id))
+        })
+        
+        
     }
     //검사접수 삭제
     const deleteTestsData=(testreception_id)=>{
@@ -50,8 +55,12 @@ function PatientReception(props){
             }
         }
         //DB에서 삭제
-        DeleteReceptionTest(testreception_id)
-        setTestReceptionsData(modify)
+        DeleteReceptionTest(testreception_id).then(()=>{
+            setTestReceptionsData(modify)
+            dispatch(createSetTestReception(testreception_id))
+        })
+        
+        
     }
     return(
         <div className="pl-3 pr-3 pb-3 border border-dark" style={{height:"calc(45vh - 10px)", backgroundColor:"white"}}>    
