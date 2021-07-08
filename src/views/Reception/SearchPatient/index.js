@@ -54,7 +54,9 @@ function SearchPatient(props){
 
    // 환자 프로필에 변수저장 
    const setPatient = (patient)=>{
+   
      if(patient){
+       console.log(patient)
       const tmpPatient = {
         patientid:patient.patientid,
         patientname:patient.patientname, 

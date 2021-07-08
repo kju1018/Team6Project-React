@@ -16,6 +16,8 @@ function PatientReception(props){
   
     const [treatementsData, setTreatmentsData] = useState(getAllTreatmentsData)
     const [testsData, setTestsData] = useState(getAllTestsReceptionData)
+
+    //진료접수삭제
     const deleteTreatmentsData=(treatment_id)=>{
         let modify = []
         for(var i=0; i<treatementsData.length; i++){
@@ -27,6 +29,7 @@ function PatientReception(props){
         DeleteReceptionTreatment(treatment_id)
         setTreatmentsData(modify)
     }
+    //검사접수 삭제
     const deleteTestsData=(testreception_id)=>{
         let modify = []
         for(var i=0; i<testsData.length; i++){
