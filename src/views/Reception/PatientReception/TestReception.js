@@ -28,8 +28,8 @@ function TestReception(props){
         <div className="mt-3 d-flex justify-content-between">
             <ButtonGroup toggle>
                 <ToggleButton type="radio" variant={`${listtype === "all" ? "secondary" : "light" }`} name="type"  checked={listtype==="all"} value="all" onChange={handleChange}><div className="ml-5 mr-5">전체</div></ToggleButton>
-                <ToggleButton type="radio" variant={`${listtype === "대기" ? "secondary" : "light" }`} name="type"  checked={listtype==="대기"} value="대기" onChange={handleChange}><div className="ml-5 mr-5">대기</div></ToggleButton>
-                <ToggleButton type="radio" variant={`${listtype === "완료" ? "secondary" : "light" }`} name="type"  checked={listtype==="완료"} value="완료" onChange={handleChange}><div className="ml-5 mr-5">완료</div></ToggleButton>
+                <ToggleButton type="radio" variant={`${listtype === "대기중" ? "secondary" : "light" }`} name="type"  checked={listtype==="대기중"} value="대기중" onChange={handleChange}><div className="ml-5 mr-5">대기중</div></ToggleButton>
+                <ToggleButton type="radio" variant={`${listtype === "검사완료" ? "secondary" : "light" }`} name="type"  checked={listtype==="검사완료"} value="검사완료" onChange={handleChange}><div className="ml-5 mr-5">검사완료</div></ToggleButton>
             </ButtonGroup>
             <div>
                 {props.isDrawer===false&&<button style={{marginRight:"10px"}} onClick={deleteReceptionTest} className="btn btn-outline-dark btn-sm">취소</button>}

@@ -5,7 +5,7 @@ import TreatmentReception from "./TreatmentReception";
 
 import {getAllTreatmentsData, getAllTestsReceptionData,DeleteReceptionTreatment,DeleteReceptionTest} from "views/Reception/BackEnd/index"
 import { useSelector } from "react-redux";
-import { GetTreatmentList } from "apis/Reception";
+import { GetTreatmentList,GetTestReceptionList } from "apis/Reception";
 function PatientReception(props){
    const [select, setSelect] = useState("treatmentreception");
    const onChangeSelect=(event)=>{
@@ -16,13 +16,19 @@ function PatientReception(props){
 
   
     const [treatementsData, setTreatmentsData] = useState()
-    const [testsData, setTestsData] = useState()
+    const [testReceptionsData, setTestReceptionsData] = useState()
 
     useEffect(()=>{
         GetTreatmentList().then((result)=>{
             setTreatmentsData(result.data);
         })
     },[treatmentReception])
+    useEffect(()=>{
+        GetTestReceptionList().then((result)=>{
+            setTestReceptionsData(result.data);
+            console.log(result.data);
+        })
+    },[testReception])
     //진료접수삭제
     const deleteTreatmentsData=(treatment_id)=>{
         let modify = []
@@ -38,14 +44,14 @@ function PatientReception(props){
     //검사접수 삭제
     const deleteTestsData=(testreception_id)=>{
         let modify = []
-        for(var i=0; i<testsData.length; i++){
-            if(testsData[i].testreceptionid!==testreception_id){
-                modify.push(testsData[i]);
+        for(var i=0; i<testReceptionsData.length; i++){
+            if(testReceptionsData[i].testreceptionid!==testreception_id){
+                modify.push(testReceptionsData[i]);
             }
         }
         //DB에서 삭제
         DeleteReceptionTest(testreception_id)
-        setTestsData(modify)
+        setTestReceptionsData(modify)
     }
     return(
         <div className="pl-3 pr-3 pb-3 border border-dark" style={{height:"calc(45vh - 10px)", backgroundColor:"white"}}>    
@@ -55,7 +61,7 @@ function PatientReception(props){
                     <option value="testreception">검사접수</option>
                 </select>
             </ReceptionHeader> 
-            {select==="treatmentreception"?<TreatmentReception isDrawer={false} deleteTreatmentReception={deleteTreatmentsData} patientList={treatementsData}/>:<TestReception isDrawer={false} deleteTestReception={deleteTestsData} patientList={testsData}/>}
+            {select==="treatmentreception"?<TreatmentReception isDrawer={false} deleteTreatmentReception={deleteTreatmentsData} patientList={treatementsData}/>:<TestReception isDrawer={false} deleteTestReception={deleteTestsData} patientList={testReceptionsData}/>}
         </div>
     )
 }

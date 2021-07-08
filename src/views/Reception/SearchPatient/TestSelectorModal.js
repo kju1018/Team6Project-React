@@ -1,8 +1,7 @@
-import { PrescriptionTest } from "apis/Reception";
+import { PrescriptionTest ,ReceptionTest} from "apis/Reception";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { createSetTestReception } from "redux/reception-reducer";
-import { getAllTestsGroupData, ReceptionTest} from "views/Reception/BackEnd/index"
 
 function TestSelectorModal(props){
     //처방된 검사리스트
@@ -13,7 +12,12 @@ function TestSelectorModal(props){
     //처음 컴포넌트 시작시 처방검사 목록 불러오기
     useEffect(()=>{
         PrescriptionTest(props.selectedPatient.patientid).then((result)=>{
-            setTestList(result.data.prescriptiontest);
+           var entry = Object.entries(result.data)
+           for(var en of entry){
+               en["ischeck"] = false
+           }
+
+            setTestList(entry);
         })
     },[])
     //처방된 검사 선택
@@ -30,20 +34,37 @@ function TestSelectorModal(props){
 
     const ResisterTest = () =>{
         //DB에 검사 생성
-        const testreception=ReceptionTest(props.selectedPatient.patientid,testList)
-        const testreceptionredux = {testList,...testreception}
-        //redux에 접수된 검사넘기기
-        dispatch(createSetTestReception(testreceptionredux))
-        props.closeModal("TestSelectorModal")
+        let testdataidlist=[]
+        for(var testdataArray of testList){
+            if(testdataArray.ischeck){
+                for(var data of testdataArray[1]){
+                    testdataidlist.push(data.testdataid);
+                }
+            }
+        }
+        const testreceptionarg = {patientid:props.selectedPatient.patientid, testdataidlist}
+        ReceptionTest(testreceptionarg).then((result)=>{
+            console.log(result.data)
+            //redux에 접수된 검사넘기기
+            dispatch(createSetTestReception(result.data))
+            props.closeModal("TestSelectorModal")
+        })
+       
     }
     return(
     <div className="conatainer" style={{height:"400px"}}>
       <div className="col border" style={{overflow:"auto" ,borderRadius:"15px",  marginTop:"15px", height:"70%"}}> 
-                        {testList&&testList.map((item,index)=>{return(
+                        {/* testList => {groupcode1:[testdata1, testdata2],groupcode2:[testdata3, testdata4]... } */}
+                        {testList&&testList.map((item,index)=>{
+                            
+                            return(
                                 <div key={index}>
                                 <input type="checkbox" onChange={(e)=>{handleTestList(e,index)}} value={testList[index].ischeck}/>
-                                <label style={{marginLeft:"5px"}}>{item.groupcode}</label>
-                                <label style={{marginLeft:"5px"}}>{item.groupname}</label>
+                                <span style={{marginLeft:"5px"}}>그룹코드 : {item[0]}</span>
+                                {<span> 검사 : </span>}
+                                {item[1].map((data,index)=>{
+                                    return(<span>{data.testdataname} / </span>)
+                                })}
                                 </div>
                             )})
                         }
