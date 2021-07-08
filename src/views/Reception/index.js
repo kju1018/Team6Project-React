@@ -24,9 +24,6 @@ function Reception(props){
     }
     return( 
     <>
-    <button onClick={login}>test</button>
-    <button onClick={tests}>test</button>
-    <button onClick={tests2}>test2</button>
     <div className="container-fluid  d-flex p-0 " style={{minWidth:"1200px", fontFamily:"Noto Sans KR"}}>
     <div className=" col-6 " style={{height:"100vh"}}>
             <div className="p-2" >
