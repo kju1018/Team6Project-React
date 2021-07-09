@@ -1,4 +1,5 @@
 import { GetUsersData } from "apis/Reception";
+import { sendRedisMessage } from "apis/Redis";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { createSetTreatmentReception } from "redux/reception-reducer";
@@ -35,7 +36,10 @@ function DoctorSelectorModal(props){
     ReceptionTreatment(newTreatment).then((result)=>{
        console.log(moment(treatmentdate).format("HH:mm"));
         //redux에 접수된 진료넘기기
-        dispatch(createSetTreatmentReception(result.data))
+        //dispatch(createSetTreatmentReception(result.data))
+        //실시간으로 데이터 넘기기
+        sendRedisMessage("/hospital/reception",props.selectedPatient.patientid)
+
         props.closeModal("DoctorSelectorModal")
     })
    
