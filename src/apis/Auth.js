@@ -11,10 +11,6 @@ export function LogoutApi(){
     axios.get("/Auth/logout")
 }
 
-export function join(user) {
-    const promise = axios.post("/auth/join", user);
-    return promise;
-}
 
 export function test(){
     axios.get("/Auth/test", {

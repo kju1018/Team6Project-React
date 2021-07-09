@@ -1,25 +1,27 @@
-import { join } from "apis/Auth";
+import { join } from "apis/User";
 import { useState } from "react";
 import { Button, Col, Form, InputGroup } from "react-bootstrap";
 const errorMsg = {
   'password_empty' : '비밀번호를 입력해주세요.',
   'userid_empty' : '아이디를 입력해주세요.',
   'err_confirmPassword': '비밀번호확인을 다시 입력해주세요.',
-  'err_':'이미 존재하는 userID 입니다.'
+  'err_userid':'이미 존재하는 userID 입니다.'
 }
 function Members(props) {
 
   const [validated, setValidated] = useState(false);
   const [errorMessage, setErrorMesssage] = useState(errorMsg.password_empty);
+  const [errorMessageID, setErrorMesssageID] = useState(errorMsg.userid_empty);
   const [isInvalid, setIsInvalid] = useState(false);
+  const [isInvalidID, setIsInvalidID] = useState(false);
   const [formData, setFormData] = useState({
     userid:"",
     userpassword:"",
     confirmpassword:"",
     username:"",
     phonenumber:"",
-    sex:"",
-    role_authority:""
+    sex:"남자",
+    role_authority:"ROLE_DOCTOR"
   });
 
   const handleChange = (event) => {
@@ -30,46 +32,56 @@ function Members(props) {
   }
 
   const handleSubmit = (event) => {
+
     const form = event.currentTarget;
-    if (form.checkValidity() === false) {
-      event.preventDefault();
-      event.stopPropagation();
-    } else {
-      if(formData.userpassword !== formData.confirmpassword){
+    console.log(event);
+    event.preventDefault();
+    event.stopPropagation();
+    if (form.checkValidity() === false) {//빈칸이 있을경우
+      setValidated(true);
+    } else { //빈칸이 없을경우
+      if(formData.userpassword !== formData.confirmpassword){//비밀번호, 비밀번호 확인이 다르면
+        setIsInvalidID(false);
+        setErrorMesssageID(errorMsg.userid_empty);
         setIsInvalid(true);
         setErrorMesssage(errorMsg.err_confirmPassword);
         setFormData({
           ...formData,
           confirmpassword:""
         })
-        event.preventDefault();
       } else {
-        const response = workJoin(formData);
-        event.preventDefault();
+        const response = join(formData);
+        response
+        .then((response) => {
+          const state = response.data.state
+          if(state === "success"){
+            alert("직원 등록이 완료 되었습니다.");
+            setFormData({
+              userid:"",
+              userpassword:"",
+              confirmpassword:"",
+              username:"",
+              phonenumber:"",
+              sex:"남자",
+              role_authority:"ROLE_DOCTOR"
+            });
+            setIsInvalidID(false);
+            setErrorMesssageID(errorMsg.userid_empty);
+            setIsInvalid(false);
+            setErrorMesssage(errorMsg.password_empty);
+          } else if(state === "failure"){
+            console.log(state);
+            setIsInvalidID(true);
+            setErrorMesssageID(errorMsg.err_userid);
+            setIsInvalid(false);
+            setErrorMesssage(errorMsg.password_empty);
+          }
+        }).catch((error) => {
+          console.log(error);
+        });
       }
     }
-    console.log(formData);
-
-    setValidated(true);
   };
-
-  const workJoin = async(formData) => {
-    // try {
-    //   const response = await join(formData);
-    //   console.log(response);
-    //   return response;
-    // } catch (error) {
-      
-    //   console.log(error);
-    // }
-    join(formData).then((response) => {
-      console.log(response);
-    }).catch((error) => {
-      console.log(error.response);
-    })
-
-    return null;    
-  }
 
   return (
     <>
@@ -89,8 +101,8 @@ function Members(props) {
               <Form noValidate validated={validated} onSubmit={handleSubmit}>
                 <Form.Group>
                   <Form.Label>아이디</Form.Label>
-                  <Form.Control required name="userid" type="text" placeholder="User ID" value={formData.userid} onChange={handleChange}/>
-                  <Form.Control.Feedback type="invalid">아이디를 입력해주세요.</Form.Control.Feedback>
+                  <Form.Control required name="userid" type="text" placeholder="User ID" value={formData.userid} onChange={handleChange} isInvalid={isInvalidID}/>
+                  <Form.Control.Feedback type="invalid">{errorMessageID}</Form.Control.Feedback>
                 </Form.Group>
 
                 <Form.Group>
@@ -121,8 +133,8 @@ function Members(props) {
                   <div>
                     <Form.Label>성별</Form.Label>
                   </div>
-                  <Form.Check required inline label="남자" name="sex" type={"radio"} value="남자" feedback={"성별을 선택해주세요."} onChange={handleChange}/>
-                  <Form.Check required inline label="여자" name="sex" type={"radio"} value="여자" feedback={"성별을 선택해주세요."} onChange={handleChange}/>
+                  <Form.Check required checked={formData.sex === "남자"} inline label="남자" name="sex" type={"radio"} value="남자" feedback={"성별을 선택해주세요."} onChange={handleChange}/>
+                  <Form.Check required checked={formData.sex === "여자"} inline label="여자" name="sex" type={"radio"} value="여자" feedback={"성별을 선택해주세요."} onChange={handleChange}/>
                   <Form.Control.Feedback type="invalid">성별을 선택해주세요.</Form.Control.Feedback>
                 </Form.Group>
  
@@ -130,8 +142,8 @@ function Members(props) {
                   <div>
                     <Form.Label>직책</Form.Label>
                   </div>
-                  <Form.Check required inline label="의사" name="role_authority" value="ROLE_DOCTOR" type={"radio"} feedback={"직책을 선택해주세요."} onChange={handleChange}/>
-                  <Form.Check required inline label="간호사" name="role_authority" value="ROLE_NURSE" type={"radio"} feedback={"직책을 선택해주세요."} onChange={handleChange}/>
+                  <Form.Check checked={formData.role_authority === "ROLE_DOCTOR"} required inline label="의사" name="role_authority" value="ROLE_DOCTOR" type={"radio"} feedback={"직책을 선택해주세요."} onChange={handleChange}/>
+                  <Form.Check checked={formData.role_authority === "ROLE_NURSE"} required inline label="간호사" name="role_authority" value="ROLE_NURSE" type={"radio"} feedback={"직책을 선택해주세요."} onChange={handleChange}/>
                   <Form.Control.Feedback type="invalid">직책을 선택해주세요.</Form.Control.Feedback>
                 </Form.Group>
 
