@@ -6,6 +6,7 @@ import Home from "views/Home";
 import Reception from "views/Reception";
 import Treatment from "views/Treatment";
 import Test from "views/Test";
+import Redis from "views/components/Redis";
 
 function Main(props) {
   return (
@@ -16,6 +17,7 @@ function Main(props) {
           <div className="col-1 pl-0 border-right align-items-end" style={{position:"relative", backgroundColor:"#FFFFFF"}}>
             <AppMenu/>
           </div>
+          <Redis/>
           <div className="col-11 pl-0 pr-0" >
           <Switch>
             <Route path={`${props.match.url}/home`} exact component={Home}/>

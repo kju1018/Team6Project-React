@@ -10,10 +10,10 @@ function PatientReception(props){
    const [select, setSelect] = useState("treatmentreception");
    const onChangeSelect=(event)=>{
        setSelect(event.target.value)
+       
     }
     const treatmentReception = useSelector((state)=>(state.receptionReducer.treatmentreception)) 
     const testReception = useSelector((state)=>(state.receptionReducer.testreception))
-
   
     const [treatementsData, setTreatmentsData] = useState()
     const [testReceptionsData, setTestReceptionsData] = useState()
@@ -30,6 +30,14 @@ function PatientReception(props){
             console.log(result.data);
         })
     },[testReception])
+
+    useEffect(()=>{
+        GetTestReceptionList().then((result)=>{
+            setTestReceptionsData(result.data);
+            console.log(result.data);
+        })
+    },[testReception])
+
     //진료접수삭제
     const deleteTreatmentsData=(treatment_id)=>{
         let modify = []
