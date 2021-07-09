@@ -16,10 +16,6 @@ const Redis = () => {
   const [contents, setContents] = useState([]);
   const dispatch = useDispatch();
 
-  const changePubMessage = (event) => {
-    setPubMessage({...pubMessage, [event.target.name]:event.target.value});
-  };
-
   //상태 변경 내용 출력
   useEffect(() => {
     console.group("상태 변경");

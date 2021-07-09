@@ -31,13 +31,6 @@ function PatientReception(props){
         })
     },[testReception])
 
-    useEffect(()=>{
-        GetTestReceptionList().then((result)=>{
-            setTestReceptionsData(result.data);
-            console.log(result.data);
-        })
-    },[testReception])
-
     //진료접수삭제
     const deleteTreatmentsData=(treatment_id)=>{
         let modify = []
