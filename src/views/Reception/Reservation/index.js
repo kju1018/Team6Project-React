@@ -10,6 +10,7 @@ import { createSetTestReception } from "redux/reception-reducer";
 import DoctorSelectorModal from "../SearchPatient/DoctorSelectorModal";
 import { GetReservationList,RemoveReservation } from "apis/Reception";
 import moment from 'moment';
+import TestSelectorModal from "../SearchPatient/TestSelectorModal";
 function Reservation(props){
     const [reservationUpdateModalshow, setReservationUpdateModalshow] = useState(false);
     const [doctorSelectorModalshow, setDoctorSelectorModalshow] = useState(false);
@@ -21,7 +22,7 @@ function Reservation(props){
     const reservationReducer = useSelector((state)=>(state.reservationReducer))
 
     const [selectedReservation, setSelectedReservation] = useState();
-    const [updatedReservation,setUpdatedReservation] = useState(null);
+    const [testSelectorModalshow, setTestSelectorModalshow] = useState(false);
     const click = (focusItem) =>{
         setSelectedReservation(focusItem)
     }
@@ -31,14 +32,15 @@ function Reservation(props){
         // 모달일때 모달종류에 따라 닫아줌
           if(modalname==="ReservationUpdateModal"){
             setReservationUpdateModalshow(false)
+          }else if(modalname==="TestSelectorModal"){
+            setTestSelectorModalshow(false)
           }else if(modalname==="DoctorSelectorModal"){
                 setDoctorSelectorModalshow(false)
-            }
+          }
         }
     //예약정보가져옴
     useEffect(()=>{
       GetReservationList().then((result)=>{
-          console.log(result.data)
         setReservationList(result.data)
        });
     },[])
@@ -98,21 +100,8 @@ const CancelReservation=()=>{
 
     //검사접수하기
     const ResisterTest = () =>{
-        if(selectedReservation.type==="검사"){
-            //DB에 검사 생성
-            const testreception=ReceptionTest(selectedReservation.patientid,selectedReservation.testList)
-            //해당 예약의 상태변경
-            const modify = reservationList.map((item)=>{
-                if(item.reservationid===selectedReservation.reservationid){
-                    item.status="접수완료"
-                }
-                return item;      
-                
-            })
-             setReservationList(modify)
-            //redux에 접수된 검사넘기기
-            dispatch(createSetTestReception(testreception))
-        }
+      //모달창 open
+      setTestSelectorModalshow(true)
         
     }
 
@@ -176,12 +165,17 @@ const CancelReservation=()=>{
         </Modal.Header>
         <Modal.Body><ReservationUpdateModal closeModal={closeModal} selectedReservation={selectedReservation} UpdateReservation={UpdateReservation}/></Modal.Body>
         </Modal>
-
+        <Modal  backdrop="static" show={testSelectorModalshow} onHide={()=>{setTestSelectorModalshow(false)}}>
+        <Modal.Header closeButton>
+          <Modal.Title>검사선택</Modal.Title>
+        </Modal.Header>
+        <Modal.Body><TestSelectorModal closeModal={closeModal} selectedPatient={selectedReservation}/></Modal.Body>
+      </Modal>
         <Modal  backdrop="static" show={doctorSelectorModalshow} onHide={()=>{setDoctorSelectorModalshow(false)}}>
         <Modal.Header closeButton>
           <Modal.Title>의사선택</Modal.Title>
         </Modal.Header>
-        <Modal.Body><DoctorSelectorModal closeModal={closeModal} modifyReservationList={modifyReservationList} selectedPatient={selectedReservation}/></Modal.Body>
+        <Modal.Body><DoctorSelectorModal closeModal={closeModal} selectedPatient={selectedReservation}/></Modal.Body>
       </Modal>
     </div>
     )

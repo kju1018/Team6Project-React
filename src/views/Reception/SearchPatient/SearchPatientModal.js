@@ -10,8 +10,12 @@ function SearchPatientModal(props){
 
     //처음 컴포넌트 시작시 목록 불러옴
     useEffect(()=>{
+        console.log("modal open!!!!");
         GetPatientList().then((result)=>{
             setPatientList(result.data)
+        })
+        return(()=>{
+            console.log("modal close!!!!");
         })
 },[])
     // keyword 적을때 불리는 함수
@@ -24,10 +28,7 @@ function SearchPatientModal(props){
     }
     // 선택 버튼 누를떄 불리는 함수
     const SelectPatient = () =>{
-        console.log("sp1")
        props.setSelectedPatient(focusItem)
-       console.log(focusItem)
-       console.log("sp2")
        props.closeModal("SearchPatientModal")
        
     }

@@ -5,7 +5,7 @@ import "./font.css"
 import PatientReception from "./PatientReception";
 import { LoginApi,test, test2 } from "apis/Auth";
 import config, { addAuthHeader } from "apis/axiosConfig";
-import { GetReservationList,GetPrescriptionTestData } from "apis/Reception";
+import { GetReservationList } from "apis/Reception";
 
 function Reception(props){
     
@@ -16,9 +16,7 @@ function Reception(props){
         console.log(result)
     }
     const tests =() =>{
-        GetPrescriptionTestData(999).then((result)=>{
-            console.log(result.data);
-        });
+      
     }
     const tests2 =() =>{
         const result = test2()
@@ -26,9 +24,6 @@ function Reception(props){
     }
     return( 
     <>
-    <button onClick={login}>test</button>
-    <button onClick={tests}>test</button>
-    <button onClick={tests2}>test2</button>
     <div className="container-fluid  d-flex p-0 " style={{minWidth:"1200px", fontFamily:"Noto Sans KR"}}>
     <div className=" col-6 " style={{height:"100vh"}}>
             <div className="p-2" >
