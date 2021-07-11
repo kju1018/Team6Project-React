@@ -6,6 +6,7 @@ import TreatmentReception from "views/Reception/PatientReception/TreatmentRecept
 import ChattingMenu from "./Messenger/ChattingMenu";
 import { GetTestReceptionList, GetTreatmentList,DeleteReceptionTreatment,DeleteReceptionTest } from "apis/Reception";
 import Chatting from "./Messenger/Chatting";
+
 function DrawerReceptions(props){
     const treatmentReception = useSelector((state)=>(state.receptionReducer.treatmentreception)) 
     const testReception = useSelector((state)=>(state.receptionReducer.testreception))

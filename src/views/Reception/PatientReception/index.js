@@ -17,7 +17,6 @@ function PatientReception(props){
   
     const [treatementsData, setTreatmentsData] = useState()
     const [testReceptionsData, setTestReceptionsData] = useState()
-
     const dispatch = useDispatch();
     useEffect(()=>{
         GetTreatmentList().then((result)=>{
@@ -27,9 +26,9 @@ function PatientReception(props){
     useEffect(()=>{
         GetTestReceptionList().then((result)=>{
             setTestReceptionsData(result.data);
+            console.log(result.data);
         })
     },[testReception])
-
     //진료접수삭제
     const deleteTreatmentsData=(treatment_id)=>{
         let modify = []
