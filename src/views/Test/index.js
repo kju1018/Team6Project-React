@@ -8,6 +8,8 @@ import moment from 'moment';
 
 function TestPage(props) {  
   console.log("리렌더링")
+  const [color, setColor] = useState(true)
+
   const [patients, setPatient] = useState([]) //전체 환자
   const [waitings, setWaiting] = useState([]) //대기 환자
   const [progresss, setProgress] = useState([]) //진행 환자
@@ -42,7 +44,7 @@ function TestPage(props) {
     getpatient(moment().format('YYYY-MM-DD'), moment().format('YYYY-MM-DD'))
   },[]);
 
-  const ClickPatient = async(e, item) => {
+  const ClickPatient = async(e, item, index) => {
     setProfile(item)
     const reset = false;
     setGroupShow(reset)
@@ -52,11 +54,9 @@ function TestPage(props) {
   
   const onClickDate = (e, date) => {  
     setClickdate(date); //클릭한 날짜 저장
-  
     const value = true;
     setGroupShow(value) //클릭시 show
   }
-
   return (
     <div className="vh-100" style={{minWidth:"1000px"}}>
       <div className="row m-0">
@@ -84,54 +84,54 @@ function TestPage(props) {
           
           <div className="pt-2 pb-2 mb-2 d-flex align-items-center" style={{ backgroundColor:"#ffffff", boxShadow:"rgb(0 0 0 / 8%) 0px 0px 5px 2px", borderRadius:"15px", fontSize:"13px"}}>
             <div className="col-2 p-0 pt-1 pb-1 text-center">차트번호</div>
-            <div className="col-3 p-0 text-center">생년월일</div>
-            <div className="col-1 p-0 text-center">성별</div>
-            <div className="col-3 p-0 text-center">이름</div>
-            <div className="col-3 p-0 text-center">상태</div>
+            <div className="col-2 p-0 text-center">생년월일</div>
+            <div className="col-2 p-0 text-center">이름</div>
+            <div className="col-4 p-0 text-center">검사날짜</div>
+            <div className="col-2 p-0 text-center">상태</div>
           </div>
 
-          <Tab.Content className="overflow-auto">
+          <Tab.Content className="overflow-auto" style={{height:"550px"}}>
               <Tab.Pane eventKey= "total" className="pt-1">
-              {patients.map((item)=>{return(
-                <div className="pt-2 pb-2 mb-2 d-flex align-items-center" onClick={ e => {ClickPatient(e, item) }} style={{ fontSize:"13px", borderBottom:"1px solid #a6a6a6"}}>
+              {patients.map((item, index)=>{return(
+                <div id={index} className="pt-2 pb-2 mb-2 d-flex align-items-center" onClick={ e => {ClickPatient(e, item, index) }} style={{ fontSize:"13px", borderBottom:"1px solid #a6a6a6"}}>
                 <div className="col-2 p-0 pt-1 pb-1 text-center">{item.patientid}</div>
-                <div className="col-3 p-0 text-center">{item.ssn1}</div>
-                <div className="col-1 p-0 text-center">{item.sex}</div>
-                <div className="col-3 p-0 text-center">{item.patientname}</div>
-                <div className="col-3 p-0 text-center"><Badge className="mr-1" variant="success">{item.status}</Badge><Badge variant="danger">미입력</Badge></div>
-              </div>
+                <div className="col-2 p-0 text-center">{item.ssn1}</div>
+                <div className="col-2 p-0 text-center">{item.patientname}</div>
+                <div className="col-4 p-0 text-center">{item.testdate}</div>
+                <div className="col-2 p-0 text-center"><Badge className="mr-1" variant="success">{item.status}</Badge><Badge variant="danger">미입력</Badge></div>
+                </div>
               )})}
               </Tab.Pane>
               <Tab.Pane eventKey= "wait" className="pt-1">
-              {waitings.map((item)=>{return(
-                <div className="pt-2 pb-2 mb-2 d-flex align-items-center" onClick={ e => {ClickPatient(e, item) }} style={{ fontSize:"13px", borderBottom:"1px solid #a6a6a6"}}>
-                <div className="col-2 p-0 pt-1 pb-1 text-center">{item.patientid}</div>
-                <div className="col-3 p-0 text-center">{item.ssn1}</div>
-                <div className="col-1 p-0 text-center">{item.sex}</div>
-                <div className="col-3 p-0 text-center">{item.patientname}</div>
-                <div className="col-3 p-0 text-center"><Badge className="mr-1" variant="success">{item.status}</Badge><Badge variant="danger">미입력</Badge></div>
-              </div>
+              {waitings.map((item, index)=>{return(
+                  <div id={index} className="pt-2 pb-2 mb-2 d-flex align-items-center" onClick={ e => {ClickPatient(e, item) }} style={{ fontSize:"13px", borderBottom:"1px solid #a6a6a6"}} >
+                  <div className="col-2 p-0 pt-1 pb-1 text-center">{item.patientid}</div>
+                  <div className="col-2 p-0 text-center">{item.ssn1}</div>
+                  <div className="col-2 p-0 text-center">{item.patientname}</div>
+                  <div className="col-4 p-0 text-center">{item.testdate}</div>
+                  <div className="col-2 p-0 text-center"><Badge className="mr-1" variant="success">{item.status}</Badge><Badge variant="danger">미입력</Badge></div>
+                  </div>
               )})}
               </Tab.Pane>
               <Tab.Pane eventKey= "progress" className="pt-1">
-              {progresss.map((item)=>{return(
-                <div className="pt-2 pb-2 mb-2 d-flex align-items-center" onClick={ e => {ClickPatient(e, item) }} style={{ fontSize:"13px", borderBottom:"1px solid #a6a6a6"}}>
+              {progresss.map((item, index)=>{return(
+                <div id={index} className="pt-2 pb-2 mb-2 d-flex align-items-center" onClick={ e => {ClickPatient(e, item) }} style={{ fontSize:"13px", borderBottom:"1px solid #a6a6a6", backgroundColor:"color"}}>
                 <div className="col-2 p-0 pt-1 pb-1 text-center">{item.patientid}</div>
-                <div className="col-3 p-0 text-center">{item.ssn1}</div>
-                <div className="col-1 p-0 text-center">{item.sex}</div>
-                <div className="col-3 p-0 text-center">{item.patientname}</div>
-                <div className="col-3 p-0 text-center"><Badge className="mr-1" variant="primary">{item.status}</Badge><Badge variant="danger">미입력</Badge></div>
+                <div className="col-2 p-0 text-center">{item.ssn1}</div>
+                <div className="col-2 p-0 text-center">{item.patientname}</div>
+                <div className="col-4 p-0 text-center">{item.testdate}</div>
+                <div className="col-2 p-0 text-center"><Badge className="mr-1" variant="primary">{item.status}</Badge><Badge variant="danger">미입력</Badge></div>
               </div>
               )})}
               </Tab.Pane>
               <Tab.Pane eventKey= "complete" className="pt-1">
-              {completes.map((item)=>{return(
-                <div className="pt-2 pb-2 mb-2 d-flex align-items-center" onClick={ e => {ClickPatient(e, item) }} style={{ fontSize:"13px", borderBottom:"1px solid #a6a6a6"}}>
+              {completes.map((item, index)=>{return(
+                <div id={index} className="pt-2 pb-2 mb-2 d-flex align-items-center" onClick={ e => {ClickPatient(e, item) }} style={{ fontSize:"13px", borderBottom:"1px solid #a6a6a6", backgroundColor:"color"}}>
                 <div className="col-2 p-0 pt-1 pb-1 text-center">{item.patientid}</div>
-                <div className="col-3 p-0 text-center">{item.ssn1}</div>
-                <div className="col-1 p-0 text-center">{item.sex}</div>
-                <div className="col-3 p-0 text-center">{item.patientname}</div>
-                <div className="col-3 p-0 text-center"><Badge className="mr-1" variant="danger">{item.status}</Badge><Badge variant="danger">미입력</Badge></div>
+                <div className="col-2 p-0 text-center">{item.ssn1}</div>
+                <div className="col-2 p-0 text-center">{item.patientname}</div>
+                <div className="col-4 p-0 text-center">{item.testdate}</div>
+                <div className="col-2 p-0 text-center"><Badge className="mr-1" variant="danger">{item.status}</Badge><Badge variant="danger">미입력</Badge></div>
               </div>
               )})}
               </Tab.Pane>
@@ -157,12 +157,12 @@ function TestPage(props) {
                 <div className="overflow-auto">   
                   {clickdateList.map((date)=>{return(   
                   <div key={date.testreceptionid} className="pt-2 pb-2 mb-2 align-items-center" onClick={ e => { onClickDate(e, date) }} style={{border:"1px solid #dadada", borderRadius:"15px", textAlign:"center", backgroundColor:"#ffffff"}}>
-                    <div>{date.testdate}</div>
+                    <div>{moment(date.testdate).format('YYYY-MM-DD')}</div>
                   </div>
                   )})}
                 </div>
               </div>
-              <div style={{width:"75%", marginRight:"2%"}}><div>검사 목록: </div>{groupshow?<TestGroup clickdate={clickdate} />:""}</div>
+              <div style={{width:"75%", marginRight:"2%"}}>{groupshow?<TestGroup clickdate={clickdate}/>:""}</div>
             </div>
         </div>
         <div className="col-4 pt-3" style={{borderLeft:"1px solid #dadada"}}>
@@ -170,7 +170,7 @@ function TestPage(props) {
 
           <div className="row" style={{height:"2%"}}>      
           </div>
-          <div style={{height:"65%"}}><TestResult/> </div>
+          <div style={{height:"65%"}}><TestResult clickdate={clickdate}/> </div>
 
           <div style={{height:"10%"}}>
           
