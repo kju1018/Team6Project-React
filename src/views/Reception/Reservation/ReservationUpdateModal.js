@@ -142,8 +142,8 @@ function UpdateReservationModal(props){
     const UpdateReservationClickBtn=()=>{
         let newreservation;
         //reservationType이 true가 진료 / false가 검사
-        if(reservationType){
-            newreservation = {...props.selectedReservation,reservationdate:startDate.getTime(),type:"진료"};
+       
+            newreservation = {...props.selectedReservation,reservationdate:startDate.getTime(),type:reservationType?"진료":"검사"};
             //DB에 새로운 예약정보로 업데이트 
             UpdateReservation(newreservation).then((result)=>{
                 //부모함수 불러서 ui변경
@@ -152,13 +152,13 @@ function UpdateReservationModal(props){
                 props.closeModal("ReservationUpdateModal")
             })
            
-        }
-        else{
+        
+      
             //DB에 해당 patient, startDate, testList로 해당 시간에 검사예약
-            const checkedtestlist = testList.filter((test)=>(test.ischeck===true))
+            // const checkedtestlist = testList.filter((test)=>(test.ischeck===true))
             //이 안에는 검사리스트도 같이 있음
-            newreservation = UpdateReservation({reservationdate:startDate,patientid:props.selectedPatient.patientid,status:"대기",type:"검사" }, checkedtestlist)
-        }
+            // newreservation = UpdateReservation({reservationdate:startDate,patientid:props.selectedPatient.patientid,status:"대기",type:"검사" }, checkedtestlist)
+        
  
     }
     return(
@@ -221,7 +221,7 @@ function UpdateReservationModal(props){
                         }
                    </div>
                    <div className="col d-flex justify-content-end" style={{borderRadius:"15px",  marginTop:"10px"}}> 
-                        <button className="btn btn-outline-dark btn-sm" disabled={reservationType===false&&(testList==null || (testList.filter((item)=>(item.ischeck===true)).length<1)) } onClick={UpdateReservationClickBtn}>예약수정</button>
+                        <button className="btn btn-outline-dark btn-sm" onClick={UpdateReservationClickBtn}>예약수정</button>
                    </div>
                 </div>
 

@@ -4,6 +4,7 @@ import treatmentReducer from "./treatment-reducer"
 import reservationReducer from "./reservation-reducer"
 import receptionReducer from "./reception-reducer"
 import authReducer from "./auth-rducer"
+import realtimeReducer from "./realtime-reducer"
 import websocketReducer from "./websocket-reducer"
 const rootReducer = combineReducers({
   patientReducer,
@@ -11,7 +12,8 @@ const rootReducer = combineReducers({
   reservationReducer,
   receptionReducer,
   authReducer,
-  websocketReducer
+  websocketReducer,
+  realtimeReducer
 
 });
 

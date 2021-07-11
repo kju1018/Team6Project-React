@@ -1,4 +1,4 @@
-import { GetTreatmentList,GetTreatmentDetail } from "apis/Reception";
+import { GetTreatmentListBypatientid,GetTreatmentDetail } from "apis/Reception";
 import { useEffect, useState } from "react";
 import Item from "views/components/Item";
 function PatientHistory(props) {
@@ -13,7 +13,7 @@ function PatientHistory(props) {
         //히스토리 상세기록 초기화해주기
         setSelectedTreatment(null)
         //해당 환자의 진료기록 불러오기
-        GetTreatmentList(props.selectedPatient.patientid).then((result)=>{
+        GetTreatmentListBypatientid(props.selectedPatient.patientid).then((result)=>{
           setTreatmentData(result.data)
         })
         
