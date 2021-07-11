@@ -3,13 +3,14 @@ import { Badge, Button, Modal, Accordion, Card  } from "react-bootstrap";
 import xlsx from 'xlsx';
 import React from 'react';
 import Print from "./Print";
-import { testlistByReceptionid, startTests, cancelTests, finishTests, startPatient, cancelPatient, finishPatient } from "apis/test";
+import { testlistByReceptionid, startTests, cancelTests, finishTests, startPatient, cancelPatient, finishPatient, insertResult } from "apis/test";
 
 function TestGroup(props) {
   const [open, setOpen] = useState(false); //모달 열림/닫힘 상태
   const [groupList, setGroupList] = useState({}); //제일 바깥
   const [excel, setExcel] = useState([]);
   const [patientid, setPatientid] = useState({});
+  const [data, setData] = useState([]); 
  
   useEffect(()=>{ 
     setPatientid(props.clickdate)
@@ -184,11 +185,17 @@ function TestGroup(props) {
     setGroupList(newGroupList);
   }
 
-  const Save = (group) => {
-    alert("저장")
-    {group.tests.map((test, index) => {
+  const handleAdd = async(event) => {
+    event.preventDefault();
+    await insertResult({...test});
+  }
 
-    })}
+  const handleChange = (event, test) => { //사용자 입력시 상태 변경을 위해
+    setData({
+      ...test,
+      [event.target.name]: event.target.value
+    })
+    console.log(test)
   }
   
   return (
@@ -217,27 +224,28 @@ function TestGroup(props) {
           <Accordion.Collapse eventKey={index.toString()}>
             <Card.Body>
               <div className="pt-2 pb-2 mb-2 d-flex align-items-center" style={{ fontSize:"13px", borderBottom:"1px solid #a6a6a6"}}>
-                <div className="col-2 p-0 pt-1 pb-1 text-center">#</div>
                 <div className="col-2 p-0 text-center">처방코드</div>
                 <div className="col-2 p-0 text-center">검사명</div>
                 <div className="col-2 p-0 text-center">용기</div>
-                <div className="col-2 p-0 text-center">상태</div>
-                <div className="col-2 p-0 text-center">결과값</div>
+                <div className="col-1 p-0 text-center">상태</div>
+                <div className="col-5 p-0 text-center">결과값</div>
               </div>
               {group.tests.map((test, index) => {
                 return (
                   <div className="pt-2 pb-2 mb-2 d-flex align-items-center" style={{ fontSize:"13px", borderBottom:"1px solid #a6a6a6"}}>
-                    <div className="col-2 p-0 pt-1 pb-1 text-center">{index}</div>
                     <div className="col-2 p-0 text-center">{test.testdataid}</div>
                     <div className="col-2 p-0 text-center">{test.testdataname}</div>
                     <div className="col-2 p-0 text-center" style={{color: "orange", fontWeight:"bold"}}>EDTA</div>
-                    <div className="col-2 p-0 text-center">{test.status}</div>
-                    <div className="col-2 p-0 text-center"><input type="text" id={index} name={index} style={{width:"100%"}} ></input></div>
+                    <div className="col-1 p-0 text-center">{test.status}</div>
+                    <div className="col-5 p-0 pl-4 text-center" style={{display:"inline-flex"}}>
+                      <form onSubmit={handleAdd}>
+                        <div style={{float:"left", width:"68%"}}><input type="text" className="form-control" name="result" value={test.result} onChange={e => {handleChange(e, index, test)}} /></div>
+                        <div style={{float:"right"}}><input type="submit" className="btn btn-primary btn-sm mr-2"  disabled={group.saveBtn} value="추가"/></div>
+                      </form>
+                    </div>
                   </div>
                 )
               })}
-              
-              <div className="mt-3 text-right"><button className="btn btn-info btn-sm mr-2" disabled={group.saveBtn} onClick={Save}>저장</button></div>
             </Card.Body>
           </Accordion.Collapse>
         </Card>

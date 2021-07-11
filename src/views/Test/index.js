@@ -57,7 +57,6 @@ function TestPage(props) {
     const value = true;
     setGroupShow(value) //클릭시 show
   }
-  console.log(clickdate)
   return (
     <div className="vh-100" style={{minWidth:"1000px"}}>
       <div className="row m-0">

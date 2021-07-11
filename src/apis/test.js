@@ -20,6 +20,12 @@ export function createXray(multipartFormData) {
   return axios.post("/test/xray", multipartFormData); 
 }
 
+export function insertResult(test){
+  console.log(test)
+  const promise = axios.put("/test/result", test) 
+  return promise;
+}
+
 export function startTests(checkedList) {
   //console.log(checkedList)
   const tests = [];
