@@ -10,14 +10,13 @@ function PatientReception(props){
    const [select, setSelect] = useState("treatmentreception");
    const onChangeSelect=(event)=>{
        setSelect(event.target.value)
+       
     }
     const treatmentReception = useSelector((state)=>(state.receptionReducer.treatmentreception)) 
     const testReception = useSelector((state)=>(state.receptionReducer.testreception))
-
   
     const [treatementsData, setTreatmentsData] = useState()
     const [testReceptionsData, setTestReceptionsData] = useState()
-
     const dispatch = useDispatch();
     useEffect(()=>{
         GetTreatmentList().then((result)=>{

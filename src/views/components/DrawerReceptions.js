@@ -5,6 +5,8 @@ import TestReception from "views/Reception/PatientReception/TestReception";
 import TreatmentReception from "views/Reception/PatientReception/TreatmentReception";
 import ChattingMenu from "./Messenger/ChattingMenu";
 import { GetTestReceptionList, GetTreatmentList,DeleteReceptionTreatment,DeleteReceptionTest } from "apis/Reception";
+import Chatting from "./Messenger/Chatting";
+
 function DrawerReceptions(props){
     const treatmentReception = useSelector((state)=>(state.receptionReducer.treatmentreception)) 
     const testReception = useSelector((state)=>(state.receptionReducer.testreception))
@@ -37,7 +39,7 @@ function DrawerReceptions(props){
             <div className="col-4  pl-0"style={{height:"96vh", backgroundColor:"white"}}>
                 <div className="pl-1 pr-1 pb-3 border border-dark" style={{height:"100%"}}>    
                     메신저
-                    <ChattingMenu/>
+                    <Chatting/>
                 </div>
             </div>
            
