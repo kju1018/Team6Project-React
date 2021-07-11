@@ -15,7 +15,7 @@ function TreatmentMemo(props) {
 
   return (
   <>
-    <div className="d-flex row pb-1 align-items-center" style={{height:"50px", backgroundColor:"#FFFFFF"}}><div className="p-2 ml-3 mr-2 text-center" style={{ backgroundColor:"#6790D8", width:"40px", color:"#FFFFFF"}}><i className="bi bi-clipboard-plus"></i></div>진료 메모</div>
+    <div className="d-flex row pb-1" style={{height:"50px"}}><div className="p-2 ml-3 mr-2 text-center" style={{ backgroundColor:"#887BD2", width:"40px", color:"#FFFFFF"}}><i className="bi bi-clipboard-plus"></i></div><div className="d-flex align-items-center">진료 메모</div></div>
     <div className="p-3" style={{height:"calc(100% - 50px)"}}>
       <textarea value={props.treatment.status === "진료 대기" ? 
       props.memo

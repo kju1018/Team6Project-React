@@ -14,7 +14,6 @@ function HospitalNotice(props){
 
   useEffect(() => {
     setSelectedNotice(getBoardList());
-    console.log(selectedNotice);
   }, [])
 
   const handleShow = (board) => {
@@ -40,7 +39,6 @@ return(
         </tr>
       </thead>
     </table>
-    {console.log(selectedNotice)}
     {selectedNotice.length != 0 &&
     selectedNotice.map((board, index) => {
       return (
