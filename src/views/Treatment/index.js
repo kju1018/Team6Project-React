@@ -27,9 +27,10 @@ function Treatment(props) {
     setPatient(patient);
     setTreatment({});
   }, []);
-
+  console.log(patient);
   useEffect(() => {
     if(globalPatient.patientid != null){
+
       setPatient(globalPatient);
     }
   }, [globalPatient]) 
@@ -95,7 +96,7 @@ function Treatment(props) {
         console.log(patient.patientid);
         const response = await getAllTreatments(patient.patientid);
         if(response.data){
-          console.log("갱신");
+          console.log(response.data);
           setPatientTreatments(() => {
             return response.data
           });
@@ -122,10 +123,14 @@ function Treatment(props) {
   const prescribeList = async() => {
     try {
       let prescription = {};
+      console.log(treatment.treatmentdate);
+      let time = new Date(treatment.treatmentdate).getTime();
       const newTreatment = {
         ...treatment,
+        treatmentdate:time,
         memo:memo
       }
+      console.log(newTreatment.treatmentdate);
       prescription.treatmentDrugs = [...treatmentDrugs];
       prescription.treatmentDiagnoses = [...treatmentDiagnoses];
       prescription.treatmentTests = [...treatmentTests];

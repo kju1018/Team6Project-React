@@ -1,4 +1,6 @@
 import { PrescriptionTest ,ReceptionTest} from "apis/Reception";
+import { sendRedisMessage } from "apis/Redis";
+
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { createSetTestReception } from "redux/reception-reducer";
@@ -46,7 +48,8 @@ function TestSelectorModal(props){
         ReceptionTest(testreceptionarg).then((result)=>{
             console.log(result.data)
             //redux에 접수된 검사넘기기
-            dispatch(createSetTestReception(result.data))
+            //dispatch(createSetTestReception(result.data))
+            sendRedisMessage("/reception","test")
             props.closeModal("TestSelectorModal")
         })
        
