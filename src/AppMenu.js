@@ -1,9 +1,27 @@
 
+import { removeAuthHeader } from "apis/axiosConfig";
 import { Button } from "react-bootstrap";
+import { useDispatch } from "react-redux";
 import { NavLink } from "react-router-dom";
+import { createSetAuthTokenAction, createSetUseridAction } from "redux/auth-rducer";
 
 
 function AppMenu() {
+    const dispatch = useDispatch();
+
+    const logout = () => {
+      //Redux를 이용
+      dispatch(createSetUseridAction(""));
+      dispatch(createSetAuthTokenAction(""));
+
+      //요청헤더에 authToken제거
+      removeAuthHeader();
+
+      //SessionStorage에 인증 내용 제거
+      sessionStorage.removeItem("userid");
+      sessionStorage.removeItem("authToken");    
+    }
+
     return (
     <>
     <div style={{backgroundColor:"#1B296D", height:"58vh", marginRight:"-15px"}}>
@@ -43,7 +61,7 @@ function AppMenu() {
             <div className="col-7 pl-0">Members</div>
           </div>
         </NavLink>
-        <Button style={{marginTop:"20px", marginLeft:"35px"}} variant="outline-dark">로그아웃</Button>
+        <Button style={{marginTop:"20px", marginLeft:"35px"}} variant="outline-dark" onClick={logout}>로그아웃</Button>
       </li>
     </ul>
     </div>

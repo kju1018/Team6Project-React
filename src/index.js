@@ -10,8 +10,18 @@ import { createStore } from 'redux';
 import rootReducer from 'redux/root-reducer';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import { Provider } from 'react-redux';
+import { createSetAuthTokenAction, createSetCodeNumberAction, createSetUseridAction } from 'redux/auth-rducer';
+import { addAuthHeader } from 'apis/axiosConfig';
 
 const store = createStore(rootReducer, composeWithDevTools());
+
+//Redux에 인증 정보 설정
+store.dispatch(createSetCodeNumberAction(sessionStorage.getItem("codenumber") || ""));
+store.dispatch(createSetUseridAction(sessionStorage.getItem("userid") || ""));
+store.dispatch(createSetAuthTokenAction(sessionStorage.getItem("authToken") || ""));
+
+//Axios에 인증 헤더 추가
+addAuthHeader(sessionStorage.getItem("authToken"));
 
 ReactDOM.render(
   // <React.StrictMode>

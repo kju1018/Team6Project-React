@@ -8,8 +8,16 @@ import Treatment from "views/Treatment";
 import Test from "views/Test";
 import Members from "views/Members";
 import Redis from "views/components/Redis";
+import { useSelector } from "react-redux";
 
 function Main(props) {
+  
+  const globalUserid = useSelector((state) => {return state.authReducer.userid});
+   //유저 아이디가 없다면 다시 로그인 페이지로 이동
+   if(globalUserid == null || globalUserid === "") {
+    return <Redirect to="/login"></Redirect>
+  }
+
   return (
     <>
       <Menus ></Menus>
