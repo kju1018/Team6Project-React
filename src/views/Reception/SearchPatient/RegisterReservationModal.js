@@ -7,13 +7,13 @@ import { createSetReservation } from "redux/reservation-reducer";
 import { RegisterReservation } from "apis/Reception";
 
 function RegisterReservationModal(props){
-    //예약 리스트
-    const [reservationList, setReservationList] = useState([]);
+    // //예약 리스트
+    // const [reservationList, setReservationList] = useState([]);
     //선택된 날짜 상태
-    const [startDate, setStartDate] = useState(new Date())
+    const [startDate, setStartDate] = useState(new Date(new Date().getFullYear(),new Date().getMonth(),new Date().getDate(),9,0))
 
-    //예약된 시간상태
-    const [reservatedTimes,setReservatedTimes] = useState([]); 
+    // //예약된 시간상태
+    // const [reservatedTimes,setReservatedTimes] = useState([]); 
 
     //진료인지 날짜인지 예약 타입상태 -> true이면 진료, false이면 예약
     const [reservationType, setReservationType] = useState(true)
@@ -22,18 +22,18 @@ function RegisterReservationModal(props){
         setReservationType(type)
     }
     const dispatch = useDispatch();
-    //선택된 검사리스트 (초기값으로 DB에서 불러온 처방검사리스트 들어감)
-    const [testList,setTestList] = useState([]);
-    //처방된 검사 선택
-    const handleTestList = (event, index) =>{
-        const modify = testList.map((item,i)=>{
-            if(i===index){
-                item.ischeck = event.target.checked
-            }
-            return item;
-        })
-        setTestList(modify);
-    }
+    ////선택된 검사리스트 (초기값으로 DB에서 불러온 처방검사리스트 들어감)
+    // const [testList,setTestList] = useState([]);
+    // //처방된 검사 선택
+    // const handleTestList = (event, index) =>{
+    //     const modify = testList.map((item,i)=>{
+    //         if(i===index){
+    //             item.ischeck = event.target.checked
+    //         }
+    //         return item;
+    //     })
+    //     setTestList(modify);
+    // }
 
     //날짜를 넣으면 인데스 나옴
     // const GetTimeIndex=(date)=>{
@@ -59,8 +59,8 @@ function RegisterReservationModal(props){
         //예약정보불러오기
         // var reservationlist = getAllReservationsData();
         // setReservationList(reservationlist)
-        var testlist = getAllTestsGroupData(props.selectedPatient.patientid);
-        setTestList(testlist);
+        // var testlist = getAllTestsGroupData(props.selectedPatient.patientid);
+        // setTestList(testlist);
          
        //첫번째로 가능한 예약시간을 구하기위해 datepicker의 Time테이블 형식(30분단위)에 맞춰서 해당 날짜의 1차원배열구성
         // let Times=new Array(18);
@@ -133,24 +133,13 @@ function RegisterReservationModal(props){
     //예약 등록함수
     const ResisterReservation=()=>{
         let newreservation;
-        //reservationType이 true가 진료 / false가 검사
-        if(reservationType){
             //DB에 해당 patient, startDate로 해당 시간에 진료예약
-            RegisterReservation({reservationdate:startDate.getTime(),patientid:props.selectedPatient.patientid,status:"대기",type:"진료" }).then((result)=>{
+            RegisterReservation({reservationdate:startDate.getTime(),patientid:props.selectedPatient.patientid,patientname:props.selectedPatient.patientname,status:"대기",type:reservationType?"진료":"검사" }).then((result)=>{
                 //redux 저장
                 dispatch(createSetReservation(result.data))
                 //모달 닫기
                 props.closeModal("RegisterReservationModal")
             })
-           
-        }
-        else{
-            //DB에 해당 patient, startDate, testList로 해당 시간에 검사예약
-            const checkedtestlist = testList.filter((test)=>(test.ischeck===true))
-            //이 안에는 검사리스트도 같이 있음
-            newreservation = RegisterReservation({reservationdate:startDate,patientid:props.selectedPatient.patientid,status:"대기",type:"검사" }, checkedtestlist)
-        }
- 
     }
     return(
         <div className="conatainer" style={{height:"60vh"}}>
@@ -201,7 +190,7 @@ function RegisterReservationModal(props){
                     <div className="col border" style={{overflow:"auto" ,borderRadius:"15px",  marginTop:"15px", height:"70%"}}> 
                         
              
-                        {!reservationType&&
+                        {/* {!reservationType&&
                             testList&&testList.map((item,index)=>{return(
                                 <div key={index}>
                                 <input type="checkbox" onChange={(e)=>{handleTestList(e,index)}} value={testList[index].ischeck}/>
@@ -209,10 +198,10 @@ function RegisterReservationModal(props){
                                 <label style={{marginLeft:"5px"}}>{item.groupname}</label>
                                 </div>
                             )})
-                        }
+                        } */}
                    </div>
                    <div className="col d-flex justify-content-end" style={{borderRadius:"15px",  marginTop:"10px"}}> 
-                        <button className="btn btn-outline-dark btn-sm" disabled={reservationType===false&&(testList==null || (testList.filter((item)=>(item.ischeck===true)).length<1)) }  onClick={ResisterReservation}>예약등록</button>
+                        <button className="btn btn-outline-dark btn-sm" /*disabled={reservationType===false&&(testList==null || (testList.filter((item)=>(item.ischeck===true)).length<1)) }*/  onClick={ResisterReservation}>예약등록</button>
                    </div>
                 </div>
 
