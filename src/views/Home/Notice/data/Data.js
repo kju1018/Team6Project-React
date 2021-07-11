@@ -2,7 +2,7 @@ let lastbno = 10;
 
 let data = [];
 
-for(var i=1; i<=lastbno; i++){
+for(var i=0; i<=lastbno; i++){
   data.push({
     noticeid:i,
     title:"제목",

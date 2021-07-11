@@ -5,6 +5,7 @@ import Item from "views/components/Item";
 import "./scrollbar1.css"
 import { getBoardList } from "./data/Data";
 import NoticeDetail from "./NoticeDetail";
+import NoticeAdd from "./NoticeAdd";
 function Notice(props){
   const [show, setShow] = useState(false);
   const [show1, setShow1] = useState(false);
@@ -14,10 +15,9 @@ function Notice(props){
 
   useEffect(() => {
     setSelectedNotice(getBoardList());
-    console.log(selectedNotice);
   }, [])
 
-  const handleShow = () => (board) => {
+  const handleShow =(board) => {
     setShow(true);
     setBoard(board);
   }
@@ -31,31 +31,12 @@ function Notice(props){
 return(
   <>
   <h5>NOTICE <img src="/pencil.png"width="25"height="25"/>
-      <Button variant="outline-primary" style={{float: "right"}} onClick={handleShow}>
+      <Button variant="outline-primary" style={{float: "right"}} onClick={handleShow1}>
       <img src="/pen.png"width="25"height="25"/></Button>
     </h5> 
-    <Modal show={show} onHide={handleClose}>
-              <Form className="text-center">
-                <h4>NOTICE<img src="/pencil.png"width="25"height="25"/></h4>
-                <hr></hr>
-                <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                  <Form.Label><strong>작성자</strong></Form.Label>
-                  <Form.Control type="text"/>
-                </Form.Group>
-                <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
-                  <Form.Label><strong>내용</strong></Form.Label>
-                  <Form.Control as="textarea" rows={3} />
-                </Form.Group>
-              </Form>
-              <Modal.Footer>
-              <Button variant="primary" onClick={handleClose}>
-                  ADD
-                </Button>
-                <Button variant="danger" onClick={handleClose}>
-                  CLOSE
-                </Button>
-              </Modal.Footer>
-            </Modal>
+    <NoticeAdd show={show1} handleClose1={handleClose1}
+      onClick
+    ></NoticeAdd>
   <div className="scrollbar" id="style-7">
     <div className="force-overflow-auto">
    <table className="table table-hover">
@@ -72,11 +53,11 @@ return(
        {selectedNotice.length != 0 &&
        selectedNotice.map((board,index) => {
          return(
-           <tr key={board.noticeid} onClick={()=>{handleShow(board)}}>
-             <th>{index}</th>
-             <th>{board.userid}</th>
+           <tr key={board.noticeid} onClick={()=>{handleShow(board);}} /*onClick={handleShow(board)}*/ >
+             <th style={{width:"100px"}}>{index}</th>
+             <th style={{width:"200px"}}>{board.userid}</th>
              <th>{board.title}</th>
-             <th>{board.date}</th>
+             <th style={{width:"200px"}}>{board.date}</th>
            </tr>
          ) 
        })}
@@ -84,7 +65,7 @@ return(
     </table>
     </div>
     </div>
-
+      
     <NoticeDetail board={board} show={show} handleClose={handleClose}></NoticeDetail>
   </>
 )
