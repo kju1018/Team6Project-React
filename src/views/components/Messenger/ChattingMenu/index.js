@@ -23,7 +23,7 @@ function ChattingMenu(props){
     return(
     <>
     {/* <button className="btn btn-outline-warning btn-lg" onClick={EnterChat}>채팅방 입장하기</button>  */}
-        <Chatting/>
+       
     </>
     )
 }

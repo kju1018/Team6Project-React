@@ -38,7 +38,7 @@ function DoctorSelectorModal(props){
         //redux에 접수된 진료넘기기
         //dispatch(createSetTreatmentReception(result.data))
         //실시간으로 데이터 넘기기
-        sendRedisMessage("/reception",props.selectedPatient.patientid)
+        sendRedisMessage("/reception","treatment")
 
         props.closeModal("DoctorSelectorModal")
     })

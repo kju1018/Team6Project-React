@@ -27,7 +27,6 @@ function PatientReception(props){
     useEffect(()=>{
         GetTestReceptionList().then((result)=>{
             setTestReceptionsData(result.data);
-            console.log(result.data);
         })
     },[testReception])
 

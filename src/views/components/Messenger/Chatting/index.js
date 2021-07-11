@@ -1,6 +1,8 @@
+import { loadChatting, saveChatting } from "apis/Redis";
 import AppContext from "AppContext";
 import { useContext, useEffect, useRef, useState } from "react"
 import { useSelector } from "react-redux"
+import { useHistory } from "react-router-dom";
 
 const initChatArray=  () =>{ 
     const chatArray=[];
@@ -10,40 +12,60 @@ const initChatArray=  () =>{
     }
     return chatArray;
 }
-
+window.addEventListener('beforeunload', (event) => {
+    event.preventDefault();
+    console.log("before!!!")
+  });
 function Chatting(props){
-    const chatObj = {username:"", pic:null,message:"", dateTime:null,isMe:false, enabled:false}
     const [chatArray, setChatArray] = useState([]);
     const [message, setMessage] = useState("");
-    const globalUid = "내아이디"//useSelector((state)=>(state.authReducer.uid))
+    const [globalUid, setGlobalUid] = useState("id1")//useSelector((state)=>(state.authReducer.uid))
     const scrollRef = useRef();
     const [websocket, setWebsocket] = useState();
-
+    const history = useHistory();
     useEffect(()=>{
-        setMessage("");
-        scrollRef.current.scrollIntoView({ behavior: 'smooth'});
-    },[chatArray])
-    
-    useEffect(()=>{
-        console.log("mount!!")
-        setWebsocket(new  WebSocket('ws://localhost:8080/websocket/chatting'))
-        return(()=>{
-            console.log("unmount!!")
-            websocket.close()
-        })
-    },[])
-        if(websocket){
-            websocket.onopen = () =>{
-                console.log("open!!!")
-                websocket.send(JSON.stringify({
-                    header:"HELLO",
-                    from:globalUid,
-                    message:""
-                }))
-            }
+        if(scrollRef.current){
+            scrollRef.current.scrollIntoView({ behavior: 'smooth'});
         }
-        
-    
+        setMessage("");
+    },[chatArray])
+    window.onbeforeunload = function(e) {
+         saveChatting(chatArray).then((result)=>{
+             console.log("!!! save")
+             console.log(result.data)
+     })
+      };
+    useEffect(()=>{
+        let webSocket = new  WebSocket('ws://localhost:8080/websocket/chatting')
+        webSocket.onopen = () =>{
+            console.log("open!!!")
+            //Back-end에서 이전 채팅기록 가져오기
+            loadChatting().then((result)=>{
+                console.log(result.data)
+                setChatArray(()=>result.data)
+            })
+            if(scrollRef.current){
+                scrollRef.current.scrollIntoView({ behavior: 'smooth'});
+            }
+            // webSocket.send(JSON.stringify({
+            //     header:"HELLO",
+            //     from:globalUid,
+            //     message:""
+            // }))
+        }
+        webSocket.onmessage = (event) =>{
+            //메시지 수신할때마다 스크롤 내리기
+            console.log("onmessag!!!")
+            console.log(event.data)
+            console.log(globalUid)
+            var data = JSON.parse(event.data);
+            setChatArray((prev)=>{
+                const chatObj = {username:data.from, pic:null,message:data.message, dateTime:new Date(),isMe:data.from===globalUid, enabled:true}
+            return prev.concat(chatObj) 
+            })
+        }
+        setWebsocket(webSocket)
+    },[])
     const onChangeMessage = (event) =>{
         setMessage(event.target.value);
     } 
@@ -60,29 +82,28 @@ function Chatting(props){
         message:message
     }))
     }
-    if(websocket){
-    websocket.onmessage = (event) =>{
-        console.log(event.data)
-        var data = JSON.parse(event.data);
-        setChatArray((prev)=>{
-            const chatObj = {username:data.from, pic:null,message:data.message, dateTime:new Date(),isMe:data.from===globalUid, enabled:true}
-        return prev.concat(chatObj) 
-        })
+    const clear = () =>{
+        setChatArray([]);
+        saveChatting([]).then((result)=>{
+            console.log("!!! save")
+            console.log(result.data)
+    })
     }
-}
-    
     return(
         <>
-        <div className="overflow-auto" style={{height:"calc(95vh - 65px)"}}>
-            <div ref={scrollRef} className=" d-flex flex-column justify-content-end bg-dark pl-3 pr-3" style={{minHeight:"calc(95vh - 65px)"}}>
-                
-                {chatArray.map((chat)=>{return(
-                    <div  className={chat.isMe?"row p-1 justify-content-end":"row  p-1  justify-content-start"}>
-                        <div>
+        <button onClick={()=>{setGlobalUid("id1")}}>id1선택</button>
+            <button onClick={()=>{setGlobalUid("id2")}}>id2선택</button>
+            <button onClick={clear}>clear</button>
+        <div  className="overflow-auto" style={{height:"calc(95vh - 65px)"}}>
+            
+            <div  className=" d-flex flex-column justify-content-end bg-dark pl-3 pr-3" style={{minHeight:"calc(95vh - 65px)"}}>
+                {chatArray&&chatArray.map((chat,index)=>{return(
+                    <div ref={scrollRef} key={index}  className={chat.isMe?"row p-1 justify-content-end":"row  p-1  justify-content-start"}>
+                        <div style={{ maxWidth:"70%"}}>
                             <div style={{color:"white"}}>
                                 {chat.isMe?globalUid:chat.username}
                             </div>
-                            <div className="border" style={chat.isMe?{backgroundColor:"yellow"} : {backgroundColor:"gray"}}>
+                            <div className="border " style={ {backgroundColor:chat.isMe?"yellow":"gray",whiteSpace:"normal" }}>
                                 {chat.message}
                             </div>
                             <div style={{fontSize:"0.5em",color:"white"}}>
@@ -93,7 +114,7 @@ function Chatting(props){
                 })}
             </div>
             </div>
-        <div className="align-items-end d-flex" >
+        <div className="align-items-end d-flex mb-5" >
             <input type="text" className="col-10 form-control" name="message" onKeyPress={onKeyPress} value={message} onChange={onChangeMessage} />
             <button className="col-2 btn btn-warning btn-sm p-0"style={{height:"2.5rem", fontSize:"0.9rem"}}  onClick={sendMsg}>보내기</button>
         </div>
