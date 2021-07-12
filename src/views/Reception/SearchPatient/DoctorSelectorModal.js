@@ -20,10 +20,12 @@ function DoctorSelectorModal(props){
     const[disable,setDisable]  = useState(false)
     //처음 컴포넌트 시작시 의사 목록 불러오기
     useEffect(()=>{
+        props.controlLoading(true);
         GetUsersData("의사").then((result)=>{
             setDoctorList(result.data);
             //진료접수 가능한지 여부 체크
-            setDisable(isReceptionTreatment(props.selectedPatient.patientid))
+            //setDisable(isReceptionTreatment(props.selectedPatient.patientid))
+            props.controlLoading(false);
         })
     },[])
     

@@ -13,6 +13,7 @@ function TestSelectorModal(props){
 
     //처음 컴포넌트 시작시 처방검사 목록 불러오기
     useEffect(()=>{
+        props.controlLoading(true);
         PrescriptionTest(props.selectedPatient.patientid).then((result)=>{
            var entry = Object.entries(result.data)
            for(var en of entry){
@@ -20,6 +21,7 @@ function TestSelectorModal(props){
            }
 
             setTestList(entry);
+            props.controlLoading(false);
         })
     },[])
     //처방된 검사 선택
