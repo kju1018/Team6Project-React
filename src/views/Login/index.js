@@ -115,7 +115,7 @@ function Login(props) { //컴포넌트 이름
             <div className="pr-5 pl-3">
               <Form noValidate validated={validated} onSubmit={handleLogin}>
                 <Form.Group controlId="formBasicID">
-                  <Form.Label>Hospital Code</Form.Label>
+                  <Form.Label>UserID</Form.Label>
                   <Form.Control required type="text" name="userid" placeholder="직원 ID를 입력하세요." value={loginForm.userid} onChange={handleChange} isInvalid={isInvalidUserid}/>
                   <Form.Control.Feedback type="invalid">{errorMessageUserid}</Form.Control.Feedback>
                 </Form.Group>
