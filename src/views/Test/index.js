@@ -26,6 +26,8 @@ function TestPage(props) {
 
   const getpatient = async(startdate, enddate) => { //함수로 만든이유는 나중에 클릭할때도 사용
     try { 
+      setStartdate(startdate)
+      setEnddate(enddate)
       const response = await testlistByDate(moment(startdate).format('YYYY-MM-DD'), moment(enddate).format('YYYY-MM-DD'));
       const patient = response.data;
       setPatient(response.data);
@@ -162,7 +164,7 @@ function TestPage(props) {
                   )})}
                 </div>
               </div>
-              <div style={{width:"75%", marginRight:"2%"}}>{groupshow?<TestGroup clickdate={clickdate}/>:""}</div>
+              <div style={{width:"75%", marginRight:"2%"}}>{groupshow?<TestGroup startdate={startdate} enddate={enddate} getpatient={getpatient} clickdate={clickdate}/>:""}</div>
             </div>
         </div>
         <div className="col-4 pt-3" style={{borderLeft:"1px solid #dadada"}}>
