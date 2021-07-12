@@ -1,15 +1,18 @@
 import axios from "axios";
 export function LoginApi(user){
-    const result = axios.post("/Auth/login",JSON.stringify(user), {
-        headers: {
-            'Content-Type': 'application/json'
-        }});
+    const result = axios.post("/auth/login",user);
     return result;
 }
 
 export function LogoutApi(){
     axios.get("/Auth/logout")
 }
+
+export function LoginCode(code){
+    const result = axios.post("/auth/codelogin", code);
+    return result;
+}
+
 
 export function test(){
     axios.get("/Auth/test", {
