@@ -3,6 +3,7 @@ import AppContext from "AppContext";
 import { useContext, useEffect, useRef, useState } from "react"
 import { useSelector } from "react-redux"
 import { useHistory } from "react-router-dom";
+import ReceptionHeader from "views/Reception/components/ReceptionHeader";
 
 const initChatArray=  () =>{ 
     const chatArray=[];
@@ -12,17 +13,16 @@ const initChatArray=  () =>{
     }
     return chatArray;
 }
-window.addEventListener('beforeunload', (event) => {
-    event.preventDefault();
-    console.log("before!!!")
-  });
+// window.addEventListener('beforeunload', (event) => {
+//     event.preventDefault();
+//     console.log("before!!!")
+//   });
 function Chatting(props){
     const [chatArray, setChatArray] = useState([]);
     const [message, setMessage] = useState("");
-    const [globalUid, setGlobalUid] = useState("id1")//useSelector((state)=>(state.authReducer.uid))
+    const globalUid= useSelector((state)=>(state.authReducer.userid))
     const scrollRef = useRef();
     const [websocket, setWebsocket] = useState();
-    const history = useHistory();
     useEffect(()=>{
         if(scrollRef.current){
             scrollRef.current.scrollIntoView({ behavior: 'smooth'});
@@ -36,6 +36,7 @@ function Chatting(props){
      })
       };
     useEffect(()=>{
+        console.log("useeffect!!")
         let webSocket = new  WebSocket('ws://localhost:8080/websocket/chatting')
         webSocket.onopen = () =>{
             console.log("open!!!")
@@ -53,6 +54,10 @@ function Chatting(props){
             //     message:""
             // }))
         }
+        webSocket.onclose=()=>{
+            console.log("close!!")
+            webSocket.close()
+        }
         webSocket.onmessage = (event) =>{
             //메시지 수신할때마다 스크롤 내리기
             console.log("onmessag!!!")
@@ -60,11 +65,16 @@ function Chatting(props){
             console.log(globalUid)
             var data = JSON.parse(event.data);
             setChatArray((prev)=>{
-                const chatObj = {username:data.from, pic:null,message:data.message, dateTime:new Date(),isMe:data.from===globalUid, enabled:true}
+                const chatObj = {username:data.from, from:data.from,message:data.message, dateTime:new Date(),isMe:data.from===globalUid, enabled:true}
             return prev.concat(chatObj) 
             })
         }
         setWebsocket(webSocket)
+
+        return(()=>{
+            webSocket.close()
+        })
+
     },[])
     const onChangeMessage = (event) =>{
         setMessage(event.target.value);
@@ -90,20 +100,21 @@ function Chatting(props){
     })
     }
     return(
-        <>
-        <button onClick={()=>{setGlobalUid("id1")}}>id1선택</button>
-            <button onClick={()=>{setGlobalUid("id2")}}>id2선택</button>
-            <button onClick={clear}>clear</button>
-        <div  className="overflow-auto" style={{height:"calc(95vh - 65px)"}}>
+        <div className="pl-1 pr-1 pb-3 border border-dark" style={{height:"100%"}}>
+            <ReceptionHeader  headertitle="메신저" iclassName=" bi bi-chat-dots-fill " color="#ffc107">
+                <button className="btn  btn-sm align-self-end mr-4" style={{backgroundColor:"#ffc107" ,color:"white"}} onClick={clear}>내역삭제</button>
+            </ReceptionHeader>
+
+         <div  className="overflow-auto mt-3" style={{height:"calc(95vh - 100px)"}}>
             
-            <div  className=" d-flex flex-column justify-content-end bg-dark pl-3 pr-3" style={{minHeight:"calc(95vh - 65px)"}}>
+            <div  className=" d-flex flex-column justify-content-end bg-dark pl-3 pr-3" style={{minHeight:"calc(95vh - 100px)"}}>
                 {chatArray&&chatArray.map((chat,index)=>{return(
                     <div ref={scrollRef} key={index}  className={chat.isMe?"row p-1 justify-content-end":"row  p-1  justify-content-start"}>
                         <div style={{ maxWidth:"70%"}}>
                             <div style={{color:"white"}}>
-                                {chat.isMe?globalUid:chat.username}
+                                {chat.from}
                             </div>
-                            <div className="border " style={ {backgroundColor:chat.isMe?"yellow":"gray",whiteSpace:"normal" }}>
+                            <div className="border " style={ {backgroundColor:chat.isMe?"yellow":"gray",whiteSpace:"normal",wordWrap:"normal" }}>
                                 {chat.message}
                             </div>
                             <div style={{fontSize:"0.5em",color:"white"}}>
@@ -118,7 +129,7 @@ function Chatting(props){
             <input type="text" className="col-10 form-control" name="message" onKeyPress={onKeyPress} value={message} onChange={onChangeMessage} />
             <button className="col-2 btn btn-warning btn-sm p-0"style={{height:"2.5rem", fontSize:"0.9rem"}}  onClick={sendMsg}>보내기</button>
         </div>
-        </>
+        </div>
     );
 }
 export default Chatting;
