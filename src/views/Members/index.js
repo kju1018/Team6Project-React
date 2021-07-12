@@ -1,5 +1,5 @@
-import { join } from "apis/User";
-import { useState } from "react";
+import { join, getUserList } from "apis/User";
+import { useEffect, useState } from "react";
 import { Button, Col, Form, InputGroup, Spinner } from "react-bootstrap";
 const errorMsg = {
   password_empty : '비밀번호를 입력해주세요.',
@@ -26,6 +26,7 @@ function Members(props) {
     sex:"남자",
     role_authority:"ROLE_DOCTOR"
   });
+  const [userList, setUserList] = useState([]);
 
   const handleChange = (event) => {
     if(event.target.value === "ROLE_NURSE"){
@@ -106,13 +107,29 @@ function Members(props) {
     }
   };
 
+  useEffect(() => {
+    const work = async() => {
+      const response = await getUserList();
+      
+      setUserList(response.data);
+    }
+    work();
+  })
+
   return (
     <>
       <div className="row ml-0 mr-0" style={{height:"100vh"}}>
         <div className="col h-100">
           <div className="border border-dark pl-3 pr-3" style={{height:"96vh", marginBottom:"2vh",  marginTop:"2vh" , backgroundColor:"#FFFFFF"}}>
             <div className="d-flex row pb-1" style={{height:"50px"}}><div className="p-2 ml-3 mr-2 text-center" style={{ backgroundColor:"#887BD2", width:"40px", color:"#FFFFFF"}}><i className="bi bi-person-lines-fill"></i></div><div className="d-flex align-items-center">직원 목록</div></div>
-            <div className="bg-secondary" style={{height:"calc(100% - 50px)"}}></div>
+            <div className="p-4" style={{height:"calc(100% - 50px)"}}>
+              <div className="d-flex text-center align-items-center" style={{height:"40px", color:"#88888D", fontWeight:"bold"}}>
+                <div style={{width:"25%"}}>약품코드</div>
+                <div style={{width:"25%"}}>약품명</div>
+                <div style={{width:"25%"}}>수량</div>
+                <div style={{width:"25%"}}></div>
+              </div>
+            </div>
           </div>
         </div>
 
