@@ -52,7 +52,7 @@ function TestResult(props) {
             </div>
           </div>
           <div className="form-group row">
-              <label htmlFor="battach" className="col-sm-3 col-form-label">battach</label>
+              <label htmlFor="battach" className="col-sm-3 col-form-label">사진첨부</label>
               <div className="col-sm-8">
                 <input id="battach" name="battach" type="file" className="form-control-file" ref={inputFile}/>
               </div>

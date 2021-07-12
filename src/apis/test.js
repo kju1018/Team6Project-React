@@ -17,12 +17,12 @@ export function testlistByReceptionid(testreceptionid) {
 
 export function createXray(multipartFormData) {
   console.log(multipartFormData)
-  return axios.post("/test/xray", multipartFormData); 
+  return axios.post("test/xray", multipartFormData); 
 }
 
 export function insertResult(test){
   console.log(test)
-  const promise = axios.put("/test/result", test) 
+  const promise = axios.put("test/result", test) 
   return promise;
 }
 
