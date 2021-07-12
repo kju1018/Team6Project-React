@@ -1,12 +1,14 @@
 
 const initState = {
     userid:"",
+    role_authority:"",
     autToken:"",
     codenumber:""
 }
 const SET_USERID = "auth/set_userid"
 const SET_AuthToken = "auth/set_authtoken"
 const SET_CodeNumber = "auth/set_codenumber"
+const SET_Authority = "auth/set_role_authority"
 export const createSetUseridAction = (userid) => {
     return { type:SET_USERID, userid}
 }
@@ -16,6 +18,10 @@ export const createSetAuthTokenAction = (authToken) => {
 
 export const createSetCodeNumberAction = (codenumber) => {
     return {type:SET_CodeNumber, codenumber}
+}
+
+export const createSetRoleAuthority = (authority) => {
+    return {type:SET_Authority, authority}
 }
 const authReducer=(state = initState,action)=> {
     switch(action.type){
@@ -33,6 +39,11 @@ const authReducer=(state = initState,action)=> {
             return {
                 ...state,
                 codenumber:action.codenumber
+            }
+        case SET_Authority:
+            return {
+                ...state,
+                role_authority:action.authority
             }
         default :
             return state

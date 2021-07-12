@@ -4,14 +4,15 @@ import LoginModal from "views/Login/components/LoginModal"
 import { Button, Form } from "react-bootstrap";
 import { LoginApi } from "apis/Auth";
 import { useDispatch, useSelector } from "react-redux";
-import { createSetAuthTokenAction, createSetCodeNumberAction, createSetUseridAction } from "redux/auth-rducer";
+import { createSetAuthTokenAction, createSetCodeNumberAction, createSetRoleAuthority, createSetUseridAction } from "redux/auth-rducer";
 import { Redirect, useHistory } from "react-router";
 import { addAuthHeader } from "apis/axiosConfig";
 
 const errorMsg = {
   password_empty : '비밀번호를 입력해주세요.',
   userid_empty : '직원아이디를 입력해주세요.',
-  err_login:"아이디 비밀번호를 다시 한번 확인해주세요."
+  err_login:"아이디 비밀번호를 다시 한번 확인해주세요.",
+  err_nullAuth:"해당 병원에 없는 계정입니다."
 }
 
 function Login(props) { //컴포넌트 이름
@@ -65,21 +66,31 @@ function Login(props) { //컴포넌트 이름
       setErrorPassword(errorMsg.password_empty);
       setValidated(true);
     } else {
+      loginForm.codenumber = globalcode
       const response = LoginApi(loginForm);
 
       response
         .then((response) => {
-        
-        //로그인 성공시 redux에 저장
-        dispatch(createSetUseridAction(response.data.userid));
-        dispatch(createSetAuthTokenAction(response.data.authToken));
 
-        //요청 헤더에 추가
-        addAuthHeader(response.data.authToken);
+        if(response.data.state === "err_nullAuth") {
+          setErrorMessageUserid("");
+          setErrorPassword(errorMsg.err_nullAuth);
+          setIsInvalidUserid(true);
+          setIsInvalidPassword(true);
+        } else if(response.data.state === "success") {
+          //로그인 성공시 redux에 저장
+          dispatch(createSetUseridAction(response.data.userid));
+          dispatch(createSetAuthTokenAction(response.data.authToken));
+          dispatch(createSetRoleAuthority(response.data.role_authority));
 
-        //로그인 성공시 sessionStorage에 저장
-        sessionStorage.setItem("authToken", response.data.authToken);
-        sessionStorage.setItem("userid", response.data.userid);
+          //요청 헤더에 추가
+          addAuthHeader(response.data.authToken);
+
+          //로그인 성공시 sessionStorage에 저장
+          sessionStorage.setItem("authToken", response.data.authToken);
+          sessionStorage.setItem("userid", response.data.userid);
+          sessionStorage.setItem("role_authority", response.data.role_authority);
+        }
 
       }).catch((error) => {
         if(error.response.status === 401) {
