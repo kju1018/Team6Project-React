@@ -41,6 +41,11 @@ export function getPrescriptionList(treatmentid) {
 
 //환자 목록 가져오기
 export function getPatientList() {
-  const result = axios.get(BASE_URL + "treatment/getpatientList");
+  const result = axios.get(BASE_URL + "treatment/getpatientlist");
+  return result;
+}
+
+export function getTestImgs(treatmentid, testdataid) {
+  const result = axios.get(BASE_URL + "treatment/getimgList", {params: {treatmentid, testdataid}});
   return result;
 }

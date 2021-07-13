@@ -7,6 +7,7 @@ import { useCallback, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import PatientProfile from "./components/PatientProfile";
 import { getStaticDiagnoses, getStaticDrugs, getPrescriptionList, prescribeTreatment, getAllTreatments, getStaticTests } from "apis/Treatment";
+import { sendRedisMessage } from "apis/Redis";
 
 function Treatment(props) {
 
@@ -27,7 +28,6 @@ function Treatment(props) {
     setPatient(patient);
     setTreatment({});
   }, []);
-  console.log(patient);
   useEffect(() => {
     if(globalPatient.patientid != null){
 
@@ -93,7 +93,6 @@ function Treatment(props) {
   useEffect(() => {
     const work = async() => {
       try {
-        console.log(patient.patientid);
         const response = await getAllTreatments(patient.patientid);
         if(response.data){
           console.log(response.data);
@@ -108,17 +107,25 @@ function Treatment(props) {
     work();
     setMemo("");
   }, [patient])
-  const prescribeDrugs = (prescriptionItems) => {
-    setTreatmentDrugs(prescriptionItems);
-  }//약 처방 함수
 
-  const prescribeDiagnoses = (prescriptionItems) => {
-    setTreatmentDiagnoses(prescriptionItems);
-  }//증상 처방 함수
 
-  const prescribeTests = (prescriptionItems) => {
+  // const selectTreatment = useCallback((treatment) => {
+  //   setTreatment(treatment);
+  // }, [])
+
+  const prescribeDrugs = useCallback((prescriptionItems) => {
+    setTreatmentDrugs(prescriptionItems) 
+  }, []);
+ //약 처방 함수
+
+  const prescribeDiagnoses = useCallback((prescriptionItems) => {
+    setTreatmentDiagnoses(prescriptionItems)
+  },[]);
+  //증상 처방 함수
+
+  const prescribeTests = useCallback((prescriptionItems) => {
     setTreatmentTests(prescriptionItems);
-  }//검사 처방 함수
+  }, [])//검사 처방 함수
 
   const prescribeList = async() => {
     try {
@@ -150,10 +157,11 @@ function Treatment(props) {
     }
   }
 
-  const saveTreatment = (patient, treatmentDrugs, treatmentDiagnoses, treatmentTests) => {
+  const saveTreatment = () => {
     if(window.confirm("처방을 완료 하시겠습니까?") === true){
       prescribeList();
       setShow(true);
+      // sendRedisMessage(topic, content);//진료가 완료 되었다는 사실을 접수처에 알림
     }
   }
   const closeShow = () => {
