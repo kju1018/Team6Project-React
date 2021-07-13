@@ -1,6 +1,7 @@
 import { GetTreatmentListBypatientid,GetTreatmentDetail } from "apis/Reception";
 import { useEffect, useState } from "react";
 import { Spinner } from "react-bootstrap";
+import { useSelector } from "react-redux";
 import Item from "views/components/Item";
 function PatientHistory(props) {
   const[selectedTreatment, setSelectedTreatment] = useState();
@@ -10,6 +11,8 @@ function PatientHistory(props) {
   const[drugsData, setDrugsData] = useState([])
   const[diagnosesData, setDiagnosesData] = useState([])
   const [loading,setLoading] = useState(false);
+  
+  const treatmentReception = useSelector((state)=>(state.receptionReducer.treatmentreception)) 
   useEffect(()=>{
     if(props.selectedPatient.patientid){
         setLoading(true)
@@ -17,12 +20,18 @@ function PatientHistory(props) {
         setSelectedTreatment(null)
         //해당 환자의 진료기록 불러오기
         GetTreatmentListBypatientid(props.selectedPatient.patientid).then((result)=>{
-          setTreatmentData(result.data)
+         const userlist = result.data.userlist;
+         const treatmentlist = result.data.treatmentlist
+         console.log(userlist)
+         const data = treatmentlist.map((item,index)=>
+         {return {...item,patientname:props.selectedPatient.patientname,username:userlist[index].username}})
+          console.log(data)
+          setTreatmentData(data)
           setLoading(false)
         })
         
     }
-  },[props.selectedPatient])
+  },[props.selectedPatient,treatmentReception])
   
   useEffect(()=>{
     if(selectedTreatment){
@@ -41,7 +50,7 @@ function PatientHistory(props) {
   const click =(focusItem) =>{
       setSelectedTreatment(focusItem);
     }
-    const treatmentProperty = ["treatmentid","patientid","userid","status","treatmentdate"]  
+    const treatmentProperty = ["treatmentid","patientname","username","status","treatmentdate"]  
    
   return (
     <>
@@ -52,8 +61,8 @@ function PatientHistory(props) {
             <div className="d-flex justify-content-between text-center border " style={{borderRadius:"15px",marginTop:"10px",marginBottom:"10px"}}>
                 <div style={{width:"20%"}}>순번</div>
                 <div style={{width:"20%"}}>진료ID</div>
-                <div style={{width:"20%"}}>환자번호</div>
-                <div style={{width:"20%"}}>의사번호</div>
+                <div style={{width:"20%"}}>환자</div>
+                <div style={{width:"20%"}}>진료자</div>
                 <div style={{width:"20%"}}>접수상태</div>
                 <div style={{width:"20%"}}>접수시간</div>
             </div>
