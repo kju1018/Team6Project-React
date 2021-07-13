@@ -6,7 +6,13 @@ import "./scrollbar1.css"
 import { getBoardList } from "./data/Data";
 import NoticeDetail from "./NoticeDetail";
 import NoticeAdd from "./NoticeAdd";
+import { getNoticeList } from "apis/Main";
 function Notice(props){
+  const [a, setA] = useState(1);//상태데이터 선언 문법
+  //자바에서 int a = 1;와 같음
+  //setA(바꿔주고싶은값)
+  //a = 2;(자바) setA(2)
+
   const [show, setShow] = useState(false);
   const [show1, setShow1] = useState(false);
   const [selectedNotice, setSelectedNotice] = useState([]);
@@ -14,7 +20,13 @@ function Notice(props){
   const [board, setBoard] = useState({});
 
   useEffect(() => {
-    setSelectedNotice(getBoardList());
+    const work = async() => {
+      const response = await getNoticeList();
+      console.log(response.data);
+      setSelectedNotice(response.data);
+    }
+    work();
+
   }, [])
 
   const handleShow =(board) => {
