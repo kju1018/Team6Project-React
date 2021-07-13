@@ -1,4 +1,4 @@
-import { Modal } from "react-bootstrap";
+import { Modal, Spinner } from "react-bootstrap";
 import React, { useEffect, useState } from "react";
 import SearchPatientModal from "./SearchPatientModal";
 import TestSelectorModal from "./TestSelectorModal";
@@ -17,6 +17,7 @@ function SearchPatient(props){
     const [patientUpdateModalshow, setPatientUpdateModalshow] = useState(false);
     const [testSelectorModalshow, setTestSelectorModalshow] = useState(false);
     const [doctorSelectorModalshow, setDoctorSelectorModalshow] = useState(false);
+    const [loading,setLoading] = useState(false);
     const dispatch = useDispatch();
     // 모달창에서 선택된 환자 상태
     const [selectedPatient, setSelectedPatient] = useState({
@@ -71,11 +72,13 @@ function SearchPatient(props){
       setSelectedPatient(tmpPatient)
      }
   }
-
+  //로딩 스피너 끄고 키는 함수
+  const ControlLoading=(bool)=>{
+    setLoading(bool)
+  }
    
     return(
-    <div className="pl-3 pr-3 pb-3 border border-dark" style={{height:"96vh", backgroundColor:"white"}} >
-      
+   <div className="pl-3 pr-3 pb-3 border border-dark" style={{height:"96vh", backgroundColor:"white"}} >
         <ReceptionHeader headertitle="환자정보" iclassName="bi bi-person-square " color="#9ACAA1">
                 <button  style={{marginRight:"10px"}} className="btn btn-outline-dark btn-sm" onClick={()=>{setSearchModalshow(true)}}>환자검색</button>
                  <button disabled={selectedPatient.patientname!=="-"?false:true} style={{marginRight:"10px"}} className="btn btn-outline-dark btn-sm" onClick={()=>{setreservationRegisterhModalshow(true)}}>예약</button>
@@ -90,8 +93,10 @@ function SearchPatient(props){
       <Modal backdrop="static" size="lg" show={searchModalshow}  onHide={()=>{setSearchModalshow(false)}}>
         <Modal.Header closeButton>
           <Modal.Title>환자검색</Modal.Title>
+          {loading?<Spinner as="span" animation="border" variant="info" size="lg" role="status" className="ml-2"/>:null}
+         
         </Modal.Header>
-        <Modal.Body><SearchPatientModal closeModal={closeModal} setSelectedPatient={setPatient}/></Modal.Body>
+        <Modal.Body><SearchPatientModal controlLoading={ControlLoading} closeModal={closeModal} setSelectedPatient={setPatient}/></Modal.Body>
       </Modal>
 
       <Modal  backdrop="static" size="lg" show={reservationRegisterhModalshow} onHide={()=>{setreservationRegisterhModalshow(false)}}>
@@ -117,14 +122,16 @@ function SearchPatient(props){
       <Modal  backdrop="static" show={testSelectorModalshow} onHide={()=>{setTestSelectorModalshow(false)}}>
         <Modal.Header closeButton>
           <Modal.Title>검사선택</Modal.Title>
-        </Modal.Header>
-        <Modal.Body><TestSelectorModal closeModal={closeModal} selectedPatient={selectedPatient}/></Modal.Body>
+          {loading?<Spinner as="span" animation="border" variant="info" size="lg" role="status" className="ml-2"/>:null}
+          </Modal.Header>
+        <Modal.Body><TestSelectorModal controlLoading={ControlLoading} closeModal={closeModal} selectedPatient={selectedPatient}/></Modal.Body>
       </Modal>
       <Modal  backdrop="static" show={doctorSelectorModalshow} onHide={()=>{setDoctorSelectorModalshow(false)}}>
         <Modal.Header closeButton>
           <Modal.Title>의사선택</Modal.Title>
-        </Modal.Header>
-        <Modal.Body><DoctorSelectorModal closeModal={closeModal} selectedPatient={selectedPatient}/></Modal.Body>
+          {loading?<Spinner as="span" animation="border" variant="info" size="lg" role="status" className="ml-2"/>:null}
+           </Modal.Header>
+        <Modal.Body><DoctorSelectorModal controlLoading={ControlLoading} closeModal={closeModal} selectedPatient={selectedPatient}/></Modal.Body>
       </Modal>
         
     </div>

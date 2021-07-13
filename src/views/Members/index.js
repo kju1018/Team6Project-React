@@ -1,120 +1,38 @@
-import { join, getUserList } from "apis/User";
+import { getUserList } from "apis/User";
 import { useEffect, useState } from "react";
-import { Button, Col, Form, InputGroup, Spinner } from "react-bootstrap";
-const errorMsg = {
-  password_empty : '비밀번호를 입력해주세요.',
-  userid_empty : '아이디를 입력해주세요.',
-  err_confirmPassword: '비밀번호확인을 다시 입력해주세요.',
-  err_userid: '이미 존재하는 userID 입니다.'
-}
+import { Col, Row, Toast } from "react-bootstrap";
+import JoinForm from "./JoinForm";
+import UpdateForm from "./UpdateForm";
 function Members(props) {
-
-  const [validated, setValidated] = useState(false);
-  const [errorMessage, setErrorMesssage] = useState(errorMsg.password_empty);
-  const [errorMessageID, setErrorMesssageID] = useState(errorMsg.userid_empty);
-  const [isInvalid, setIsInvalid] = useState(false);
-  const [isInvalidID, setIsInvalidID] = useState(false);
-  const [isNurse, setIsNurse] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [formData, setFormData] = useState({
-    userid:"",
-    userpassword:"",
-    confirmpassword:"",
-    username:"",
-    phonenumber:"",
-    userroom:"",
-    sex:"남자",
-    role_authority:"ROLE_DOCTOR"
-  });
+  const [show, setShow] = useState(false);
+  const [toastMessage, setToastMessage] = useState("");
+  const [isUpdate, setIsUpdate] = useState(false);
   const [userList, setUserList] = useState([]);
+  useEffect(() => {
+    getUsers();
+  }, []);
 
-  const handleChange = (event) => {
-    if(event.target.value === "ROLE_NURSE"){
-      setIsNurse(true);
-      setFormData((prevData) => {
-        return {
-          ...prevData,
-          userroom:""
-        }
-      })
-      console.log(formData);
-    } else {
-      setIsNurse(false);
-    }
-    setFormData((prevData) => {
-      return {
-        ...prevData,
-        [event.target.name]:event.target.value
-      }
-    })
+  const getUsers = async() => {
+    const response = await getUserList();
+    setUserList(response.data);
   }
 
-  const handleSubmit = (event) => {
-    setLoading(true);
-    const form = event.currentTarget;
-    console.log(event);
-    event.preventDefault();
-    event.stopPropagation();
-    if (form.checkValidity() === false) {//빈칸이 있을경우
-      setValidated(true);
-      setLoading(false);
-      setErrorMesssageID(errorMsg.password_empty);
-      setErrorMesssage(errorMsg.userid_empty);
-    } else { //빈칸이 없을경우
-      if(formData.userpassword !== formData.confirmpassword){//비밀번호, 비밀번호 확인이 다르면
-        setIsInvalidID(false);
-        setErrorMesssageID(errorMsg.userid_empty);
-        setIsInvalid(true);
-        setErrorMesssage(errorMsg.err_confirmPassword);
-        setFormData({
-          ...formData,
-          confirmpassword:""
-        })
-        setLoading(false);
-      } else {
-        const response = join(formData);
-        response
-        .then((response) => {
-          const state = response.data.state
-          if(state === "success"){
-            alert("직원 등록이 완료 되었습니다.");
-            setFormData({
-              userid:"",
-              userpassword:"",
-              confirmpassword:"",
-              username:"",
-              phonenumber:"",
-              userroom:"",
-              sex:"남자",
-              role_authority:"ROLE_DOCTOR"
-            });
-            setIsInvalidID(false);
-            setErrorMesssageID(errorMsg.userid_empty);
-            setIsInvalid(false);
-            setErrorMesssage(errorMsg.password_empty);
-          } else if(state === "failure"){
-            setIsInvalidID(true);
-            setErrorMesssageID(errorMsg.err_userid);
-            setIsInvalid(false);
-            setErrorMesssage(errorMsg.password_empty);
-          }
-        }).catch((error) => {
-          console.log(error);
-        }).finally(() => {
-          setLoading(false);
-        });
-      }
-    }
-  };
+  const [updateUser, setUpdateUser] = useState({});
 
-  useEffect(() => {
-    const work = async() => {
-      const response = await getUserList();
-      
-      setUserList(response.data);
-    }
-    work();
-  })
+  const update = (selectUser) => {
+    setUpdateUser(selectUser);
+    setIsUpdate(true);
+  }
+
+  const completeUpdate = (message) => {
+    setToastMessage(message);
+    setShow(true);
+  }
+
+  const closeShow = () => {
+    setShow(false)
+    setToastMessage(""); 
+  }
 
   return (
     <>
@@ -124,85 +42,73 @@ function Members(props) {
             <div className="d-flex row pb-1" style={{height:"50px"}}><div className="p-2 ml-3 mr-2 text-center" style={{ backgroundColor:"#887BD2", width:"40px", color:"#FFFFFF"}}><i className="bi bi-person-lines-fill"></i></div><div className="d-flex align-items-center">직원 목록</div></div>
             <div className="p-4" style={{height:"calc(100% - 50px)"}}>
               <div className="d-flex text-center align-items-center" style={{height:"40px", color:"#88888D", fontWeight:"bold"}}>
-                <div style={{width:"25%"}}>약품코드</div>
-                <div style={{width:"25%"}}>약품명</div>
-                <div style={{width:"25%"}}>수량</div>
-                <div style={{width:"25%"}}></div>
+                <div style={{width:"10%"}}></div>
+                <div style={{width:"12%"}}>직원 아이디</div>
+                <div style={{width:"15%"}}>직원명</div>
+                <div style={{width:"18%"}}>전화번호</div>
+                <div style={{width:"10%"}}>진료실</div>
+                <div style={{width:"15%"}}>직책</div>
+                <div style={{width:"10%"}}>상태</div>
+                <div style={{width:"10%"}}></div>
               </div>
+              <div className="overflow-auto border" style={{height:"calc(100% - 40px"}}>
+                {userList != null &&
+                userList.map((user) => {
+                  return (
+                    <div key={user.userid} className="d-flex text-center pt-1 pb-1 align-items-center border-bottom" style={{height:"60px", fontWeight:"bold"}}>
+                      <div style={{width:"10%"}}>
+                        {user.sex === "남자" ? 
+                          <img src="/doctor2.png" width="30" height="30"/> :
+                          <img src="/doctor3.png" width="30" height="30"/>
+                        }  
+                      </div>
+                      <div style={{width:"12%"}}>{user.userid}</div>
+                      <div style={{width:"15%"}}>{user.username}</div>
+                      <div style={{width:"18%"}}>{user.phonenumber}</div>
+                      <div style={{width:"10%"}}>{user.userroom}</div>
+                      <div style={{width:"15%"}}>
+                        {user.role_authority === "ROLE_DOCTOR" ? "의사" : "간호사"}
+                      </div>
+                      <div style={{width:"10%"}}>
+                        {user.userenabled === 1 ? "활성화" : "비활성화"}
+                      </div>
+                      <div style={{width:"10%"}}><button className="btn btn-sm btn-outline-secondary" onClick={() => {update(user)}}>수정</button></div>
+                    </div>
+                  )
+                })
+                }
+              </div>
+
             </div>
           </div>
         </div>
 
         <div className="col h-100">
           <div className="border border-dark pl-3 pr-3" style={{height:"96vh", marginBottom:"2vh",  marginTop:"2vh" , backgroundColor:"#FFFFFF"}}>
-            <div className="d-flex row pb-1" style={{height:"50px"}}><div className="p-2 ml-3 mr-2 text-center" style={{ backgroundColor:"#887BD2", width:"40px", color:"#FFFFFF"}}><i className="bi bi-person-plus-fill"></i></div><div className="d-flex align-items-center">직원 등록</div></div>
+            <div className="d-flex row pb-1" style={{height:"50px"}}><div className="p-2 ml-3 mr-2 text-center" style={{ backgroundColor:"#887BD2", width:"40px", color:"#FFFFFF"}}><i className="bi bi-person-plus-fill"></i></div><div className="d-flex align-items-center">
+                {isUpdate == false ? "직원 등록" : "직원 수정"}</div></div>
             <div className="pt-4" style={{height:"calc(100% - 50px)"}}>
-
-              <Form noValidate validated={validated} onSubmit={handleSubmit}>
-                <Form.Group style={{marginBottom:"10px"}}>
-                  <Form.Label>아이디</Form.Label>
-                  <Form.Control required name="userid" type="text" placeholder="User ID" value={formData.userid} onChange={handleChange} isInvalid={isInvalidID}/>
-                  <Form.Control.Feedback type="invalid">{errorMessageID}</Form.Control.Feedback>
-                </Form.Group>
-
-                <Form.Group style={{marginBottom:"10px"}}>
-                  <Form.Label>비밀번호</Form.Label>
-                  <Form.Control required name="userpassword" type="password" placeholder="Password" value={formData.userpassword} onChange={handleChange}/>
-                  <Form.Control.Feedback type="invalid">비밀번호를 입력해주세요.</Form.Control.Feedback>
-                </Form.Group>
-
-                <Form.Group style={{marginBottom:"10px"}}>
-                  <Form.Label>비밀번호 확인</Form.Label>
-                  <Form.Control required name="confirmpassword" type="password" placeholder="Confirm Password" value={formData.confirmpassword} onChange={handleChange} isInvalid={isInvalid}/>
-                  <Form.Control.Feedback type="invalid">{errorMessage}</Form.Control.Feedback>
-                </Form.Group>
-
-                <Form.Group style={{marginBottom:"10px"}}>
-                  <Form.Label>이름</Form.Label>
-                  <Form.Control required name="username" type="text" placeholder="User Name" value={formData.username} onChange={handleChange}/>
-                  <Form.Control.Feedback type="invalid">이름을 입력해주세요.</Form.Control.Feedback>
-                </Form.Group>
-
-                <Form.Group style={{marginBottom:"10px"}}>
-                  <Form.Label>전화번호</Form.Label>
-                  <Form.Control required name="phonenumber" type="test" placeholder="Phone Number" value={formData.phonenumber} onChange={handleChange}/>
-                  <Form.Control.Feedback type="invalid">전화번호를 입력해주세요.</Form.Control.Feedback>
-                </Form.Group>
-
-                <Form.Group style={{marginBottom:"10px"}}>
-                  <div>
-                    <Form.Label>성별</Form.Label>
-                  </div>
-                  <Form.Check required checked={formData.sex === "남자"} inline label="남자" name="sex" type={"radio"} value="남자" feedback={"성별을 선택해주세요."} onChange={handleChange}/>
-                  <Form.Check required checked={formData.sex === "여자"} inline label="여자" name="sex" type={"radio"} value="여자" feedback={"성별을 선택해주세요."} onChange={handleChange}/>
-                  <Form.Control.Feedback type="invalid">성별을 선택해주세요.</Form.Control.Feedback>
-                </Form.Group>
- 
-                <Form.Group style={{marginBottom:"10px"}}>
-                  <div>
-                    <Form.Label>직책</Form.Label>
-                  </div>
-                  <Form.Check checked={formData.role_authority === "ROLE_DOCTOR"} required inline label="의사" name="role_authority" value="ROLE_DOCTOR" type={"radio"} feedback={"직책을 선택해주세요."} onChange={handleChange}/>
-                  <Form.Check checked={formData.role_authority === "ROLE_NURSE"} required inline label="간호사" name="role_authority" value="ROLE_NURSE" type={"radio"} feedback={"직책을 선택해주세요."} onChange={handleChange}/>
-                  <Form.Control.Feedback type="invalid">직책을 선택해주세요.</Form.Control.Feedback>
-                </Form.Group>
-
-                <Form.Group style={{marginBottom:"10px"}}>
-                  <Form.Label>진료실</Form.Label>
-                  <Form.Control required name="userroom" type="text" placeholder="UserRoom" value={formData.userroom} onChange={handleChange} readOnly={isNurse}/>
-                  <Form.Control.Feedback type="invalid">진료실을 입력해주세요.</Form.Control.Feedback>
-                </Form.Group>
-
-
-                <div className="text-right">
-                  <Button className="w-100" type="submit">
-                    {loading === true ? <Spinner as="span" animation="border" size="sm" role="status"/> : null}
-                      Submit form</Button>
-                </div>
-              </Form>
+              {isUpdate == false ? 
+              <JoinForm toastShow={completeUpdate} getUsers={getUsers}/> 
+              : 
+              <UpdateForm updateUser={updateUser} getUsers={getUsers} setIsUpdate={setIsUpdate} updateShow={completeUpdate}></UpdateForm> }
                 
             </div>
           </div>
+        </div>
+
+        <div style={{position: "absolute", bottom: "40px", right: "30px"}}>
+          <Row>
+            <Col style={{width:"400px"}}>
+              <Toast onClose={closeShow} show={show} delay={3000} autohide>
+                <Toast.Header style={{backgroundColor:"#1B296D"}}>
+                  <strong className="mr-auto" style={{color:"white"}}>Message</strong>
+                  <small>complete</small>
+                </Toast.Header>
+                <Toast.Body>{toastMessage}</Toast.Body>
+              </Toast>
+            </Col>
+          </Row>
         </div>
 
       </div>
