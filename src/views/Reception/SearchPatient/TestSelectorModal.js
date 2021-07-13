@@ -37,6 +37,10 @@ function TestSelectorModal(props){
     }
 
     const ResisterTest = () =>{
+        //만약 예약된거라면 예약에서 지우기
+        if(props.CancelReservation){
+            props.CancelReservation()
+        }
         //DB에 검사 생성
         let testdataidlist=[]
         for(var testdataArray of testList){

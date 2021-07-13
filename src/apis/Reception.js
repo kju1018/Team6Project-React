@@ -53,7 +53,7 @@ export function UpdatePatient(patient){
 
 //환자의 진료정보 가져오기
 export function GetTreatmentListBypatientid(patientid){
-    const result = axios.get("/treatment/treatments/"+patientid);
+    const result = axios.get("/reception/treatments/"+patientid);
     return result;
 }
 
@@ -114,13 +114,12 @@ export function DeleteReceptionTreatment(treatmentid){
     return result;
 }
 
-
-//진료정보 가져오기
+//그날의 진료접수정보 가져오기
 export function GetTreatmentList(){
     const result = axios.get("/reception/treatmentlist");
     return result;
 }
-//검사정보 가져오기
+//그날의 검사접수정보 가져오기
 export function GetTestReceptionList(){
     const result = axios.get("/reception/testreceptionlist");
     return result;

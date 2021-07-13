@@ -21,8 +21,17 @@ function Chatting(props){
     const [chatArray, setChatArray] = useState([]);
     const [message, setMessage] = useState("");
     const globalUid= useSelector((state)=>(state.authReducer.userid))
+    const globalUrole = useSelector((state)=>(state.authReducer.role_authority))
+    let userRoleText=""
     const scrollRef = useRef();
     const [websocket, setWebsocket] = useState();
+
+    if(globalUrole){
+        if(globalUrole==="ROLE_DOCTOR")userRoleText="의사"
+        else if(globalUrole==="ROLE_NURSE")userRoleText="간호사"
+        else if(globalUrole==="ROLE_ADMIN")userRoleText="관리자"
+    }
+
     useEffect(()=>{
         if(scrollRef.current){
             scrollRef.current.scrollIntoView({ behavior: 'smooth'});
@@ -43,7 +52,7 @@ function Chatting(props){
             //Back-end에서 이전 채팅기록 가져오기
             loadChatting().then((result)=>{
                 console.log(result.data)
-                setChatArray(()=>result.data)
+                setChatArray(result.data )
             })
             if(scrollRef.current){
                 scrollRef.current.scrollIntoView({ behavior: 'smooth'});
@@ -65,7 +74,7 @@ function Chatting(props){
             console.log(globalUid)
             var data = JSON.parse(event.data);
             setChatArray((prev)=>{
-                const chatObj = {username:data.from, from:data.from,message:data.message, dateTime:new Date(),isMe:data.from===globalUid, enabled:true}
+                const chatObj = {username:data.from, from:data.from,role:data.role,message:data.message, dateTime:data.dateTime,isMe:data.from===globalUid, enabled:true}
             return prev.concat(chatObj) 
             })
         }
@@ -89,6 +98,8 @@ function Chatting(props){
       websocket.send(JSON.stringify({
         header:"CHATTING",
         from:globalUid,
+        role:userRoleText,
+        dateTime:new Date().toLocaleString(),
         message:message
     }))
     }
@@ -112,9 +123,9 @@ function Chatting(props){
                     <div ref={scrollRef} key={index}  className={chat.isMe?"row p-1 justify-content-end":"row  p-1  justify-content-start"}>
                         <div style={{ maxWidth:"70%"}}>
                             <div style={{color:"white"}}>
-                                {chat.from}
+                                {chat.from}({chat.role})
                             </div>
-                            <div className="border " style={ {backgroundColor:chat.isMe?"yellow":"gray",whiteSpace:"normal",wordWrap:"normal" }}>
+                            <div className="border " style={ {backgroundColor:chat.isMe?"yellow":"gray",wordBreak:"break-all" }}>
                                 {chat.message}
                             </div>
                             <div style={{fontSize:"0.5em",color:"white"}}>
