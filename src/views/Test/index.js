@@ -3,7 +3,7 @@ import PeriodSearch from "./PeriodSearch";
 import TestGroup from "./TestGroup";
 import TestResult from "./TestResult";
 import { Nav, Row, Tab, Badge } from "react-bootstrap";
-import { testlistByDate, testlistByPatientid } from "apis/test";
+import { testlistByDate, testlistByPatientid, testlistByReceptionid } from "apis/test";
 import moment from 'moment';
 import { useSelector } from "react-redux";
 
@@ -24,14 +24,15 @@ function TestPage(props) {
  
   const [startdate, setStartdate] = useState(new Date());
   const [enddate, setEnddate] = useState(new Date());
+  const [testdatas, setTestdatas] = useState([]);
 
   const testReception = useSelector((state)=>(state.receptionReducer.testreception)) //--------------redis
-
+  
   const getpatient = async(startdate, enddate) => { //함수로 만든이유는 나중에 클릭할때도 사용
     try { 
       setStartdate(startdate)
       setEnddate(enddate)
-      const response = await testlistByDate(moment(startdate).format('YYYY-MM-DD'), moment(enddate).format('YYYY-MM-DD'));
+      const response = await testlistByDate(moment(startdate).format('YYYY-MM-DD'), moment(new Date(enddate).getTime() + 1 * 24 * 60 * 60 * 1000).format('YYYY-MM-DD'));
       const patient = response.data;
       setPatient(response.data);
       const waiting = patient.filter(patient => patient.status === "대기중");
@@ -45,8 +46,19 @@ function TestPage(props) {
     }
   }
 
+  const gettest = (testreceptionid) => {
+    console.log(clickdate.testreceptionid)
+    if(clickdate.testreceptionid != null){
+      testlistByReceptionid(clickdate.testreceptionid).then((response)=>{
+      setTestdatas(response.data);
+      console.log(response.data)
+      })
+   }
+  }
+
   useEffect(()=>{
     getpatient(moment().format('YYYY-MM-DD'), moment().format('YYYY-MM-DD'))
+    console.log(testReception)
   },[testReception]);
 
   const ClickPatient = async(e, item, index) => {
@@ -57,6 +69,11 @@ function TestPage(props) {
     setClickDateList(response.data);
   }
   
+  useEffect(()=>{
+    console.log(clickdate)
+    gettest();
+  }, [clickdate])
+
   const onClickDate = (e, date) => {  
     setClickdate(date); //클릭한 날짜 저장
     const value = true;
@@ -98,18 +115,19 @@ function TestPage(props) {
           <Tab.Content className="overflow-auto" style={{height:"550px"}}>
               <Tab.Pane eventKey= "total" className="pt-1">
               {patients.map((item, index)=>{return(
-                <div id={index} className="pt-2 pb-2 mb-2 d-flex align-items-center" onClick={ e => {ClickPatient(e, item, index) }} style={{ fontSize:"13px", borderBottom:"1px solid #a6a6a6"}}>
-                <div className="col-2 p-0 pt-1 pb-1 text-center">{item.patientid}</div>
-                <div className="col-2 p-0 text-center">{item.ssn1}</div>
-                <div className="col-2 p-0 text-center">{item.patientname}</div>
-                <div className="col-4 p-0 text-center">{item.testdate}</div>
-                <div className="col-2 p-0 text-center"><Badge className="mr-1" variant="success">{item.status}</Badge><Badge variant="danger">미입력</Badge></div>
+                <div key={item.testreceptionid} className="pt-2 pb-2 mb-2 d-flex align-items-center" onClick={ e => {ClickPatient(e, item, index) }} style={{ fontSize:"13px", borderBottom:"1px solid #a6a6a6"}}>
+                  <div className="col-2 p-0 pt-1 pb-1 text-center">{item.patientid}</div>
+                  <div className="col-2 p-0 text-center">{item.ssn1}</div>
+                  <div className="col-2 p-0 text-center">{item.patientname}</div>
+                  <div className="col-4 p-0 text-center">{item.testdate}</div>
+                  <div className="col-2 p-0 text-center"><Badge className="mr-1" variant="success">{item.status}</Badge><Badge variant="danger">미입력</Badge></div>
                 </div>
               )})}
               </Tab.Pane>
               <Tab.Pane eventKey= "wait" className="pt-1">
               {waitings.map((item, index)=>{return(
-                  <div className="pt-2 pb-2 mb-2 d-flex align-items-center" onClick={ e => {ClickPatient(e, item) }} style={{ fontSize:"13px", borderBottom:"1px solid #a6a6a6"}} >
+                  <div key={item.testreceptionid} className="pt-2 pb-2 mb-2 d-flex align-items-center" onClick={ e => {ClickPatient(e, item) }} style={{ fontSize:"13px", borderBottom:"1px solid #a6a6a6"}} >
+
                   <div className="col-2 p-0 pt-1 pb-1 text-center">{item.patientid}</div>
                   <div className="col-2 p-0 text-center">{item.ssn1}</div>
                   <div className="col-2 p-0 text-center">{item.patientname}</div>
@@ -120,7 +138,7 @@ function TestPage(props) {
               </Tab.Pane>
               <Tab.Pane eventKey= "progress" className="pt-1">
               {progresss.map((item, index)=>{return(
-                <div className="pt-2 pb-2 mb-2 d-flex align-items-center" onClick={ e => {ClickPatient(e, item) }} style={{ fontSize:"13px", borderBottom:"1px solid #a6a6a6", backgroundColor:"color"}}>
+                <div key={item.testreceptionid} className="pt-2 pb-2 mb-2 d-flex align-items-center" onClick={ e => {ClickPatient(e, item) }} style={{ fontSize:"13px", borderBottom:"1px solid #a6a6a6", backgroundColor:"color"}}>
                 <div className="col-2 p-0 pt-1 pb-1 text-center">{item.patientid}</div>
                 <div className="col-2 p-0 text-center">{item.ssn1}</div>
                 <div className="col-2 p-0 text-center">{item.patientname}</div>
@@ -131,7 +149,7 @@ function TestPage(props) {
               </Tab.Pane>
               <Tab.Pane eventKey= "complete" className="pt-1">
               {completes.map((item, index)=>{return(
-                <div id={index} className="pt-2 pb-2 mb-2 d-flex align-items-center" onClick={ e => {ClickPatient(e, item) }} style={{ fontSize:"13px", borderBottom:"1px solid #a6a6a6", backgroundColor:"color"}}>
+                <div key={item.testreceptionid} className="pt-2 pb-2 mb-2 d-flex align-items-center" onClick={ e => {ClickPatient(e, item) }} style={{ fontSize:"13px", borderBottom:"1px solid #a6a6a6", backgroundColor:"color"}}>
                 <div className="col-2 p-0 pt-1 pb-1 text-center">{item.patientid}</div>
                 <div className="col-2 p-0 text-center">{item.ssn1}</div>
                 <div className="col-2 p-0 text-center">{item.patientname}</div>
@@ -169,7 +187,7 @@ function TestPage(props) {
                   </div>
                 </div>
               </div>
-              <div style={{width:"74%", marginRight:"1%"}}>{groupshow?<TestGroup startdate={startdate} enddate={enddate} getpatient={getpatient} clickdate={clickdate}/>:""}</div>
+              <div style={{width:"74%", marginRight:"1%"}}>{groupshow?<TestGroup startdate={startdate} enddate={enddate} getpatient={getpatient} clickdate={clickdate} testdatas={testdatas} gettest={gettest}/>:""}</div>
             </div>
         </div>
         <div className="col-4 pt-3" style={{borderLeft:"1px solid #dadada"}}>
@@ -177,7 +195,7 @@ function TestPage(props) {
 
           <div className="row" style={{height:"2%"}}>      
           </div>
-          <div style={{height:"65%"}}><TestResult clickdate={clickdate}/> </div>
+          <div style={{height:"65%"}}><TestResult clickdate={clickdate} testdatas={testdatas}/> </div>
 
           <div style={{height:"10%"}}>
           
