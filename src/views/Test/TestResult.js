@@ -1,8 +1,31 @@
-import { createXray } from "apis/test";
-import { useRef } from "react";
+import { sendRedisMessage } from "apis/Redis";
+import { createXray, testlistByReceptionid } from "apis/test";
+import { useEffect, useRef } from "react";
 import { useState } from "react";
 function TestResult(props) { 
-  console.log(props.click)
+  const [patientid, setPatientid] = useState({});
+  const [testdataid, setTestdataid] = useState();
+  const [show, setShow] = useState();
+  useEffect(()=>{ 
+    setPatientid(props.clickdate)
+    group();
+    
+  }, [props.clickdate])
+
+  const group = () => {
+    testlistByReceptionid(props.clickdate.testreceptionid).then((response)=>{
+    const testdatas = response.data;
+    for(let i=0; i<testdatas.length; i++){
+      if(testdatas[i]){ 
+        if(testdatas[i].testdataid === "xray") {
+          setShow(true);
+        } else {
+          setShow(false)
+        }
+     }
+    } 
+  })}
+
   const [testimg, setTestimg] = useState({
     treatmentid:"",
     testdataid:""
@@ -18,10 +41,12 @@ function TestResult(props) {
       formData.append("treatmentid", testimg.treatmentid);
       formData.append("testdataid", testimg.testdataid);
       formData.append("battach", inputFile.current.files[0]);
-      await createXray(formData);
+      createXray(formData);
     }catch(error){
       console.log(error);
     }
+    console.log(testimg.treatmentid)
+    sendRedisMessage({type:"treatment", treatmentid:testimg.treatmentid})//----------------redis 메세지
   }
 
   const handleChange = (event) => { //사용자 입력시 상태 변경을 위해
@@ -37,7 +62,12 @@ function TestResult(props) {
       <div className="card-header">
         xray
       </div>
-      <div className="card-body">
+      {show?<div className="card-body">
+        <div>
+          <div>환자차트번호: {props.clickdate.patientid}</div>
+          <div>환자접수번호: {props.clickdate.testreceptionid}</div>
+        </div>
+        <hr/>
         <form onSubmit={handleAdd}>
           <div className="form-group row">
             <label htmlFor="treatmentid" className="col-sm-3 col-form-label">treatmentid</label>
@@ -63,7 +93,7 @@ function TestResult(props) {
             </div>
           </div>
         </form>
-      </div>
+      </div>:""}
     </div>
     <div>
     </div>
