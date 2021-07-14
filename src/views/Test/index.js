@@ -25,7 +25,10 @@ function TestPage(props) {
   const [startdate, setStartdate] = useState(new Date());
   const [enddate, setEnddate] = useState(new Date());
 
+<<<<<<< HEAD
   const [testdatas, setTestdatas] = useState([]);
+=======
+>>>>>>> 22b17340795ffb317d3c442d58a2f47cccb05cdb
   const testReception = useSelector((state)=>(state.receptionReducer.testreception)) //--------------redis
 
   const getpatient = async(startdate, enddate) => { //함수로 만든이유는 나중에 클릭할때도 사용
@@ -125,7 +128,11 @@ function TestPage(props) {
               </Tab.Pane>
               <Tab.Pane eventKey= "wait" className="pt-1">
               {waitings.map((item, index)=>{return(
+<<<<<<< HEAD
                   <div key={item.testreceptionid} className="pt-2 pb-2 mb-2 d-flex align-items-center" onClick={ e => {ClickPatient(e, item) }} style={{ fontSize:"13px", borderBottom:"1px solid #a6a6a6"}} >
+=======
+                  <div className="pt-2 pb-2 mb-2 d-flex align-items-center" onClick={ e => {ClickPatient(e, item) }} style={{ fontSize:"13px", borderBottom:"1px solid #a6a6a6"}} >
+>>>>>>> 22b17340795ffb317d3c442d58a2f47cccb05cdb
                   <div className="col-2 p-0 pt-1 pb-1 text-center">{item.patientid}</div>
                   <div className="col-2 p-0 text-center">{item.ssn1}</div>
                   <div className="col-2 p-0 text-center">{item.patientname}</div>
@@ -136,7 +143,11 @@ function TestPage(props) {
               </Tab.Pane>
               <Tab.Pane eventKey= "progress" className="pt-1">
               {progresss.map((item, index)=>{return(
+<<<<<<< HEAD
                 <div key={item.testreceptionid} className="pt-2 pb-2 mb-2 d-flex align-items-center" onClick={ e => {ClickPatient(e, item) }} style={{ fontSize:"13px", borderBottom:"1px solid #a6a6a6", backgroundColor:"color"}}>
+=======
+                <div className="pt-2 pb-2 mb-2 d-flex align-items-center" onClick={ e => {ClickPatient(e, item) }} style={{ fontSize:"13px", borderBottom:"1px solid #a6a6a6", backgroundColor:"color"}}>
+>>>>>>> 22b17340795ffb317d3c442d58a2f47cccb05cdb
                 <div className="col-2 p-0 pt-1 pb-1 text-center">{item.patientid}</div>
                 <div className="col-2 p-0 text-center">{item.ssn1}</div>
                 <div className="col-2 p-0 text-center">{item.patientname}</div>

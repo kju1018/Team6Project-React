@@ -3,6 +3,7 @@ import { createXray, testlistByReceptionid } from "apis/test";
 import { useEffect, useRef } from "react";
 import { useState } from "react";
 function TestResult(props) { 
+<<<<<<< HEAD
   const [show, setShow] = useState();
   useEffect(()=>{ 
     group();
@@ -13,13 +14,34 @@ function TestResult(props) {
     for(let i=0; i<props.testdatas.length; i++){
       if(props.testdatas[i]){ 
         if(props.testdatas[i].testdataid === "xray") {
+=======
+  const [patientid, setPatientid] = useState({});
+  const [testdataid, setTestdataid] = useState();
+  const [show, setShow] = useState();
+  useEffect(()=>{ 
+    setPatientid(props.clickdate)
+    group();
+    
+  }, [props.clickdate])
+
+  const group = () => {
+    testlistByReceptionid(props.clickdate.testreceptionid).then((response)=>{
+    const testdatas = response.data;
+    for(let i=0; i<testdatas.length; i++){
+      if(testdatas[i]){ 
+        if(testdatas[i].testdataid === "xray") {
+>>>>>>> 22b17340795ffb317d3c442d58a2f47cccb05cdb
           setShow(true);
         } else {
           setShow(false)
         }
      }
     } 
+<<<<<<< HEAD
   }
+=======
+  })}
+>>>>>>> 22b17340795ffb317d3c442d58a2f47cccb05cdb
 
   const [testimg, setTestimg] = useState({
     treatmentid:"",

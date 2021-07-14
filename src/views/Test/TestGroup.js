@@ -23,6 +23,7 @@ function TestGroup(props) {
     setExcel(props.testdatas)
     console.log(props.testdatas)
 
+
     const group = [];
         for(var i=0; i<props.testdatas.length; i++){
           group.push(props.testdatas[i].groupcode)    
@@ -289,7 +290,11 @@ function TestGroup(props) {
                     <div className="col-2 p-0 text-center">{test.status}</div>
                     <div className="col-4 p-0 pl-2 text-center" style={{display:"inline-flex"}}>
                       <form onSubmit={ event => {handleAdd(event, test)}}>
+<<<<<<< HEAD
                         {group.saveBtn?"":<div style={{float:"left", width:"60%"}}><input type="text" className="form-control" name="result" value={test.result || ""} onChange={e => {handleChange(e, index, test)}}/></div>}
+=======
+                        {group.saveBtn?"":<div style={{float:"left", width:"60%"}}><input type="text" className="form-control" name="result" value={test.result} onChange={e => {handleChange(e, index, test)}}/></div>}
+>>>>>>> 22b17340795ffb317d3c442d58a2f47cccb05cdb
                         {group.saveBtn?"":<div style={{float:"right"}}><input type="submit" className="btn btn-primary btn-sm mr-2"  disabled={group.saveBtn} value="추가"/></div>}
                       </form>
                     </div>
