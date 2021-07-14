@@ -8,7 +8,7 @@ function PackageImgTest(props) {
 
   useEffect(() => {
     const test = props.groupTest.tests[0];
-    if(test.result != null && test.result === "사진첨부완료"){
+    if(test.result != null && test.result === "첨부완료"){
       console.log(test.treatmentid, " ", test.testdataid);
       work(test.treatmentid, test.testdataid);
     } 

@@ -34,14 +34,25 @@ export function getStaticTests() {
 
 //처방 목록 가져오기
 export function getPrescriptionList(treatmentid) {
-  const result = axios.get(BASE_URL + "treatment/" + treatmentid);
+  const result = axios.get(BASE_URL + "treatment/getprescription/" + treatmentid);
   return result;
 }
 
+//실시간을 위해 테스트 리스트 가져오기
+export function getTestList(treatmentid) {
+  const result = axios.get(BASE_URL + "treatment/gettestlist/" + treatmentid);
+  return result;
+}
 
 //환자 목록 가져오기
 export function getPatientList() {
   const result = axios.get(BASE_URL + "treatment/getpatientlist");
+  return result;
+}
+
+//
+export function getPatient(patientid) {
+  const result = axios.get(BASE_URL + "treatment/getpatient/"+patientid);
   return result;
 }
 
