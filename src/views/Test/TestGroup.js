@@ -4,6 +4,7 @@ import xlsx from 'xlsx';
 import React from 'react';
 import Print from "./Print";
 import { testlistByReceptionid, startTests, cancelTests, finishTests, startPatient, cancelPatient, finishPatient, insertResult } from "apis/test";
+import { sendRedisMessage } from "apis/Redis";
 
 function TestGroup(props) {
   const [open, setOpen] = useState(false); //모달 열림/닫힘 상태
@@ -15,12 +16,12 @@ function TestGroup(props) {
   useEffect(()=>{ 
     setPatientid(props.clickdate)
     group();
-
   }, [props.clickdate.testreceptionid])
 
   const group = () => {testlistByReceptionid(props.clickdate.testreceptionid).then((response)=>{
     const testdatas = response.data;
     setExcel(testdatas)
+    console.log(testdatas)
 
     const group = [];
         for(var i=0; i<testdatas.length; i++){
@@ -198,18 +199,33 @@ function TestGroup(props) {
     if(flag === 0){
       try {
         finishTests(checkedList).then(()=>{group()})
-        finishPatient(props.clickdate.testreceptionid).then(()=>{props.getpatient(props.startdate, props.enddate)})
+        //finishPatient(props.clickdate.testreceptionid).then(()=>{props.getpatient(props.startdate, props.enddate)})
+        let count = 0;
+        console.log("클릭한 검사그룹 갯수", groupList.length)
+        if(groupList.length > 0) {
+          for(let i=0; i<groupList.length; i++){
+            console.log(groupList[i].status)
+          if(groupList[i].status === "검사완료"){
+            count++;
+            console.log(count)
+          }
+        }
+          if(count === groupList.length-1) {
+            console.log(count)
+            finishPatient(props.clickdate.testreceptionid).then(()=>{props.getpatient(props.startdate, props.enddate)})
+          }
+        }
       } catch (error) {
         console.log(error);
       }
-  
     }
     setGroupList(newGroupList);
   }
 
-  const handleAdd = async(event) => {
+  const handleAdd = async(event, test) => {
     event.preventDefault();
-    await insertResult(data).then(()=>{group()});
+    insertResult(data).then(()=>{group()});
+    sendRedisMessage({type:"treatment", treatmentid:test.treatmentid})//----------------redis 메세지
     //다시 검사리스트 가져오기
     setData({});//이전에 입력한 결과값 초기화 
   }
@@ -259,22 +275,22 @@ function TestGroup(props) {
             <Card.Body>
               <div className="pt-2 pb-2 mb-2 d-flex align-items-center" style={{ fontSize:"13px", borderBottom:"1px solid #a6a6a6"}}>
                 <div className="col-2 p-0 text-center">처방코드</div>
-                <div className="col-2 p-0 text-center">검사명</div>
-                <div className="col-2 p-0 text-center">용기</div>
-                <div className="col-1 p-0 text-center">상태</div>
-                <div className="col-5 p-0 text-center">결과값</div>
+                <div className="col-3 p-0 text-center">검사명</div>
+                <div className="col-1 p-0 text-center">용기</div>
+                <div className="col-2 p-0 text-center">상태</div>
+                <div className="col-4 p-0 text-center">결과값</div>
               </div>
               {group.tests.map((test, index) => {
                 return (
                   <div className="pt-2 pb-2 mb-2 d-flex align-items-center" style={{ fontSize:"13px", borderBottom:"1px solid #a6a6a6"}}>
                     <div className="col-2 p-0 text-center">{test.testdataid}</div>
-                    <div className="col-2 p-0 text-center">{test.testdataname}</div>
-                    <div className="col-2 p-0 text-center" style={{color: "orange", fontWeight:"bold"}}>{test.testcontainer}</div>
-                    <div className="col-1 p-0 text-center">{test.status}</div>
-                    <div className="col-5 p-0 pl-4 text-center" style={{display:"inline-flex"}}>
-                      <form onSubmit={handleAdd}>
-                        <div style={{float:"left", width:"68%"}}><input type="text" className="form-control" name="result" value={test.result} onChange={e => {handleChange(e, index, test)}} /></div>
-                        <div style={{float:"right"}}><input type="submit" className="btn btn-primary btn-sm mr-2"  disabled={group.saveBtn} value="추가"/></div>
+                    <div className="col-3 p-0 text-center">{test.testdataname}</div>
+                    <div className="col-1 p-0 text-center" style={{color: "orange", fontWeight:"bold"}}>{test.testcontainer}</div>
+                    <div className="col-2 p-0 text-center">{test.status}</div>
+                    <div className="col-4 p-0 pl-2 text-center" style={{display:"inline-flex"}}>
+                      <form onSubmit={ event => {handleAdd(event, test)}}>
+                        {group.saveBtn?"":<div style={{float:"left", width:"60%"}}><input type="text" className="form-control" name="result" value={test.result} onChange={e => {handleChange(e, index, test)}}/></div>}
+                        {group.saveBtn?"":<div style={{float:"right"}}><input type="submit" className="btn btn-primary btn-sm mr-2"  disabled={group.saveBtn} value="추가"/></div>}
                       </form>
                     </div>
                   </div>
