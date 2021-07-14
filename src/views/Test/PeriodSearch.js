@@ -23,7 +23,7 @@ function PeriodSearch({change, startdate, enddate}) {
     
     setStartDate(startDate);
     setEndDate(endDate);
-    change(startDate, endDate)
+    change(startDate, new Date(endDate.getTime() + 1 * 24 * 60 * 60 * 1000)) //mysql between 이상~초과 여서 인식불가. 1일 추가해줘야함
   }
 
   const handleBtnClicked = (e) => {

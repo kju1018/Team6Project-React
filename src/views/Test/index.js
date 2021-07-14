@@ -5,6 +5,7 @@ import TestResult from "./TestResult";
 import { Nav, Row, Tab, Badge } from "react-bootstrap";
 import { testlistByDate, testlistByPatientid } from "apis/test";
 import moment from 'moment';
+import { useSelector } from "react-redux";
 
 function TestPage(props) {  
   console.log("리렌더링")
@@ -23,6 +24,8 @@ function TestPage(props) {
  
   const [startdate, setStartdate] = useState(new Date());
   const [enddate, setEnddate] = useState(new Date());
+
+  const testReception = useSelector((state)=>(state.receptionReducer.testreception)) //--------------redis
 
   const getpatient = async(startdate, enddate) => { //함수로 만든이유는 나중에 클릭할때도 사용
     try { 
@@ -44,7 +47,7 @@ function TestPage(props) {
 
   useEffect(()=>{
     getpatient(moment().format('YYYY-MM-DD'), moment().format('YYYY-MM-DD'))
-  },[]);
+  },[testReception]);
 
   const ClickPatient = async(e, item, index) => {
     setProfile(item)
@@ -106,7 +109,7 @@ function TestPage(props) {
               </Tab.Pane>
               <Tab.Pane eventKey= "wait" className="pt-1">
               {waitings.map((item, index)=>{return(
-                  <div id={index} className="pt-2 pb-2 mb-2 d-flex align-items-center" onClick={ e => {ClickPatient(e, item) }} style={{ fontSize:"13px", borderBottom:"1px solid #a6a6a6"}} >
+                  <div className="pt-2 pb-2 mb-2 d-flex align-items-center" onClick={ e => {ClickPatient(e, item) }} style={{ fontSize:"13px", borderBottom:"1px solid #a6a6a6"}} >
                   <div className="col-2 p-0 pt-1 pb-1 text-center">{item.patientid}</div>
                   <div className="col-2 p-0 text-center">{item.ssn1}</div>
                   <div className="col-2 p-0 text-center">{item.patientname}</div>
@@ -117,7 +120,7 @@ function TestPage(props) {
               </Tab.Pane>
               <Tab.Pane eventKey= "progress" className="pt-1">
               {progresss.map((item, index)=>{return(
-                <div id={index} className="pt-2 pb-2 mb-2 d-flex align-items-center" onClick={ e => {ClickPatient(e, item) }} style={{ fontSize:"13px", borderBottom:"1px solid #a6a6a6", backgroundColor:"color"}}>
+                <div className="pt-2 pb-2 mb-2 d-flex align-items-center" onClick={ e => {ClickPatient(e, item) }} style={{ fontSize:"13px", borderBottom:"1px solid #a6a6a6", backgroundColor:"color"}}>
                 <div className="col-2 p-0 pt-1 pb-1 text-center">{item.patientid}</div>
                 <div className="col-2 p-0 text-center">{item.ssn1}</div>
                 <div className="col-2 p-0 text-center">{item.patientname}</div>
@@ -154,17 +157,19 @@ function TestPage(props) {
             <div className="col p-0 pt-1 pb-1 text-center">{profile.patientname}</div>
           </div>
             <div className="d-flex pt-3">
-              <div style={{width:"18%", marginRight:"3%", marginLeft:"2%"}}>
+              <div style={{width:"20%", marginRight:"3%", marginLeft:"2%"}}>
                 <div className="mb-3">검사 날짜: </div>
-                <div className="overflow-auto">   
+                <div className="pr-4 overflow-auto" style={{height:"720px"}}>  
+                <div> 
                   {clickdateList.map((date)=>{return(   
-                  <div key={date.testreceptionid} className="pt-2 pb-2 mb-2 align-items-center" onClick={ e => { onClickDate(e, date) }} style={{border:"1px solid #dadada", borderRadius:"15px", textAlign:"center", backgroundColor:"#ffffff"}}>
+                  <div key={date.testreceptionid} className="pt-2 pb-2 mb-2 align-items-center" onClick={ e => { onClickDate(e, date) }} style={{border:"1px solid #dadada", borderRadius:"15px", textAlign:"center", backgroundColor:"#ffffff", width:"116px"}}>
                     <div>{moment(date.testdate).format('YYYY-MM-DD')}</div>
                   </div>
                   )})}
+                  </div>
                 </div>
               </div>
-              <div style={{width:"75%", marginRight:"2%"}}>{groupshow?<TestGroup startdate={startdate} enddate={enddate} getpatient={getpatient} clickdate={clickdate}/>:""}</div>
+              <div style={{width:"74%", marginRight:"1%"}}>{groupshow?<TestGroup startdate={startdate} enddate={enddate} getpatient={getpatient} clickdate={clickdate}/>:""}</div>
             </div>
         </div>
         <div className="col-4 pt-3" style={{borderLeft:"1px solid #dadada"}}>
