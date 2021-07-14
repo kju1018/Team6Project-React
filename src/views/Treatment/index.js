@@ -6,7 +6,8 @@ import TreatmentMemo from "./TreatmentMemo";
 import { useCallback, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import PatientProfile from "./components/PatientProfile";
-import { getStaticDiagnoses, getStaticDrugs, getPrescriptionList, prescribeTreatment, getAllTreatments, getStaticTests } from "apis/Treatment";
+import { getPatient, getStaticDiagnoses, getStaticDrugs, getPrescriptionList, prescribeTreatment, getAllTreatments, getStaticTests, getTestList } from "apis/Treatment";
+import { sendRedisMessage } from "apis/Redis";
 
 function Treatment(props) {
 
@@ -27,11 +28,15 @@ function Treatment(props) {
     setPatient(patient);
     setTreatment({});
   }, []);
-  console.log(patient);
   useEffect(() => {
     if(globalPatient.patientid != null){
-
-      setPatient(globalPatient);
+      const response = getPatient(globalPatient.patientid);
+      response.then((response) => {
+        setPatient(response.data);
+      }).catch((error) => {
+        console.log(error);
+      })
+      
     }
   }, [globalPatient]) 
 
@@ -90,10 +95,27 @@ function Treatment(props) {
       })
   }, [treatment]);//선택한 진료 변경시 그 진료가 처방받은 약, 상병, 테스트 가져오기
 
+  const testResult = useSelector((state) => {
+    return state.receptionReducer.testresult;
+  })
+
+  //testResult가 바뀔 때 
+  useEffect(() => {
+    if(testResult.treatmentid != null && testResult.treatmentid === treatment.treatmentid){
+      const response = getTestList(treatment.treatmentid);
+      response.then((response) => {
+        console.log(response.data);
+        setTreatmentTests(response.data);
+      }).catch((error) => {
+        console.log(error);
+      })
+    }
+  }, [testResult]);
+
+
   useEffect(() => {
     const work = async() => {
       try {
-        console.log(patient.patientid);
         const response = await getAllTreatments(patient.patientid);
         if(response.data){
           console.log(response.data);
@@ -108,17 +130,20 @@ function Treatment(props) {
     work();
     setMemo("");
   }, [patient])
-  const prescribeDrugs = (prescriptionItems) => {
-    setTreatmentDrugs(prescriptionItems);
-  }//약 처방 함수
 
-  const prescribeDiagnoses = (prescriptionItems) => {
-    setTreatmentDiagnoses(prescriptionItems);
-  }//증상 처방 함수
+  const prescribeDrugs = useCallback((prescriptionItems) => {
+    setTreatmentDrugs(prescriptionItems) 
+  }, []);
+ //약 처방 함수
 
-  const prescribeTests = (prescriptionItems) => {
+  const prescribeDiagnoses = useCallback((prescriptionItems) => {
+    setTreatmentDiagnoses(prescriptionItems)
+  },[]);
+  //증상 처방 함수
+
+  const prescribeTests = useCallback((prescriptionItems) => {
     setTreatmentTests(prescriptionItems);
-  }//검사 처방 함수
+  }, [])//검사 처방 함수
 
   const prescribeList = async() => {
     try {
@@ -150,10 +175,14 @@ function Treatment(props) {
     }
   }
 
-  const saveTreatment = (patient, treatmentDrugs, treatmentDiagnoses, treatmentTests) => {
+  const saveTreatment = () => {
     if(window.confirm("처방을 완료 하시겠습니까?") === true){
       prescribeList();
       setShow(true);
+      const message = {
+        type:"treatment"
+      };
+      sendRedisMessage(message);//진료가 완료 되었다는 사실을 접수처에 알림
     }
   }
   const closeShow = () => {

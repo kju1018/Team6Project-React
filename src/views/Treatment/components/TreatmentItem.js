@@ -4,13 +4,13 @@ function TreatmentItem(props) {
 
   return (
     <>
-     <style jsx>{`
+     {/* <style jsx>{`
         .test:focus {
           background: #B3E283;
           color:black;
         }
         
-      `}</style>
+      `}</style> */}
     <div tabIndex="-1" onClick={(event)=>{if(props.onClick)props.onClick(props.item); }} 
         className={"test ml-2 mr-2 mb-2 pt-2 pb-2 d-flex align-items-center"} style={{ cursor:"pointer", boxShadow: "rgb(0 0 0 / 8%) 0px 0px 5px 2px",borderRadius:"7px",fontSize: "13px" }}>
     {props.property.map((prop,index)=>{

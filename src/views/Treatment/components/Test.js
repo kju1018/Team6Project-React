@@ -1,5 +1,5 @@
 
-import { Accordion, Badge, Button, Card, ListGroup, Table } from "react-bootstrap";
+import { Accordion, Badge, Button, Card, Table } from "react-bootstrap";
 
 function Test(props) {
   return (
@@ -15,7 +15,7 @@ function Test(props) {
       </Card.Header>
       <Accordion.Collapse eventKey="0">
         <Card.Body>
-          {(props.test.result !== null && props.test.result !=="") ? 
+          {(props.test.result != null && props.test.result !=="") ? 
             <Table striped hover className="text-center table-bordered">
               <thead></thead>
               <tbody>
