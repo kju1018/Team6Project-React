@@ -44,7 +44,7 @@ const Redis = () => {
       setConnected(false);
     };
     
-    ws.current.onmessage = (event) => {
+    ws.current.onmessage = (event) => { 
       console.log("메시지 수신");
       var strJson = event.data;
       var message = JSON.parse(JSON.parse(strJson));

@@ -57,7 +57,7 @@ function PatientReception(props){
         //DB에서 삭제
         DeleteReceptionTreatment(treatment_id).then(()=>{
             setTreatmentsData(modify)
-            sendRedisMessage("/reception","treatment")
+            sendRedisMessage({type:"treatment"})
             
         })
         
@@ -74,7 +74,7 @@ function PatientReception(props){
         //DB에서 삭제
         DeleteReceptionTest(testreception_id).then(()=>{
             setTestReceptionsData(modify)
-            sendRedisMessage("/reception","test")
+            sendRedisMessage({type:"test"})
         })
         
         
