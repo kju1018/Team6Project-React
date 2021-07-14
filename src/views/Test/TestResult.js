@@ -3,28 +3,23 @@ import { createXray, testlistByReceptionid } from "apis/test";
 import { useEffect, useRef } from "react";
 import { useState } from "react";
 function TestResult(props) { 
-  const [patientid, setPatientid] = useState({});
-  const [testdataid, setTestdataid] = useState();
   const [show, setShow] = useState();
   useEffect(()=>{ 
-    setPatientid(props.clickdate)
     group();
     
-  }, [props.clickdate])
+  }, [props.testdatas])
 
   const group = () => {
-    testlistByReceptionid(props.clickdate.testreceptionid).then((response)=>{
-    const testdatas = response.data;
-    for(let i=0; i<testdatas.length; i++){
-      if(testdatas[i]){ 
-        if(testdatas[i].testdataid === "xray") {
+    for(let i=0; i<props.testdatas.length; i++){
+      if(props.testdatas[i]){ 
+        if(props.testdatas[i].testdataid === "xray") {
           setShow(true);
         } else {
           setShow(false)
         }
      }
     } 
-  })}
+  }
 
   const [testimg, setTestimg] = useState({
     treatmentid:"",
@@ -64,8 +59,8 @@ function TestResult(props) {
       </div>
       {show?<div className="card-body">
         <div>
-          <div>환자차트번호: {props.clickdate.patientid}</div>
-          <div>환자접수번호: {props.clickdate.testreceptionid}</div>
+          <div>환자차트번호: {props.testdatas.patientid}</div>
+          <div>환자접수번호: {props.testdatas.testreceptionid}</div>
         </div>
         <hr/>
         <form onSubmit={handleAdd}>
