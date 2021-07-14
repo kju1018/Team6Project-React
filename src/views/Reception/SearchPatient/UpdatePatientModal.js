@@ -8,7 +8,7 @@ function RegisterPatientModal(props){
   
     const onSubmit=(patient)=>{
         patient["patientid"] = props.selectedPatient.patientid
-        patient["lasttreatment"] = props.selectedPatient.lasttreatment
+        patient["lasttreatment"] = props.selectedPatient.lasttreatment==="-"?null:props.selectedPatient.lasttreatment
         patient["registerday"] = new Date()
 
         //DB에 저장
@@ -28,7 +28,7 @@ function RegisterPatientModal(props){
       <div className="mb-2">
         <label>이름 : </label>
         <input className="ml-2" name="patientname" defaultValue={props.selectedPatient.patientname} ref={register({ required: true })} />
-        {errors.patientname && <span>이름을 입력해 주세요</span>}
+        {errors.patientname && <div style={{color:"red"}}>이름을 입력해 주세요</div>}
       </div>
 
       <div className="mb-2">
@@ -42,7 +42,7 @@ function RegisterPatientModal(props){
       <div className="mb-2">
       <label>나이 : </label>
       <input className="ml-2" name="age" type="number" defaultValue={props.selectedPatient.age} ref={register({ required: true })} />
-      {errors.age && <span>나이를 입력해 주세요</span>}
+      {errors.age && <div style={{color:"red"}}>나이를 입력해 주세요</div>}
       </div>
 
       <div className="mb-2">
@@ -54,14 +54,14 @@ function RegisterPatientModal(props){
       -
    
       <input className="ml-2" name="ssn2" type="number" defaultValue={props.selectedPatient.ssn2} ref={register({required: true, pattern: /[0-9]{7}/})} />
-      {(errors.ssn2?.type === "required" || errors.ssn1?.type === "required")  && <div>주민번호를 입력해 주세요</div>}
-      {(errors.ssn2?.type === "pattern" ||errors.ssn1?.type === "pattern")  && <div>주민번호 13자리를 입력해 주세요</div>}
+      {(errors.ssn2?.type === "required" || errors.ssn1?.type === "required")  && <div style={{color:"red"}}>주민번호를 입력해 주세요</div>}
+      {(errors.ssn2?.type === "pattern" ||errors.ssn1?.type === "pattern")  && <div style={{color:"red"}}>주민번호 13자리를 입력해 주세요</div>}
       </div>
 
       <div className="mb-2">
       <label>핸드폰번호 : </label>
       <input className="ml-2" name="phonenumber" type="number" defaultValue={props.selectedPatient.phonenumber} ref={register({ required: true })} />
-      {errors.phonenumber && <span>핸드폰 번호를 입력해 주세요</span>}
+      {errors.phonenumber && <div style={{color:"red"}}>핸드폰 번호를 입력해 주세요</div>}
       </div>
 
       

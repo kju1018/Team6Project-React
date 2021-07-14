@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import ReceptionHeader from "../components/ReceptionHeader";
 import { ReceptionTest,cancelReservationData} from "views/Reception/BackEnd/index"
 import { useDispatch, useSelector } from "react-redux";
-import { Modal } from "react-bootstrap";
+import { Modal,Spinner } from "react-bootstrap";
 import ReservationUpdateModal from "./ReservationUpdateModal";
 import { createSetTestReception } from "redux/reception-reducer";
 import DoctorSelectorModal from "../SearchPatient/DoctorSelectorModal";
@@ -16,13 +16,14 @@ function Reservation(props){
     const [doctorSelectorModalshow, setDoctorSelectorModalshow] = useState(false);
 
 
-    const property = ["patientid","patientname","status","type","reservationuidate"]
+    const property = ["patientid","patientname","type","reservationuidate"]
     const [selectDate,setSelectDate] = useState(new Date().toLocaleDateString());
     const [reservationList, setReservationList] = useState([])
     const reservationReducer = useSelector((state)=>(state.reservationReducer))
 
     const [selectedReservation, setSelectedReservation] = useState();
     const [testSelectorModalshow, setTestSelectorModalshow] = useState(false);
+    const [loading,setLoading] = useState(false);
     const click = (focusItem) =>{
         setSelectedReservation(focusItem)
     }
@@ -56,7 +57,10 @@ function Reservation(props){
        
     },[reservationReducer])
 
-    
+    //로딩 스피너 끄고 키는 함수
+  const ControlLoading=(bool)=>{
+    setLoading(bool)
+  }
 
     //자식인 예약수정 컴포넌트에 넘길 예약수정함수(부모의 예약 리스트를 바꿔야하기에 부모컴포넌트에서 수행해줌) 
 const UpdateReservation=(newreservation)=>{
@@ -139,7 +143,6 @@ const CancelReservation=()=>{
                 <div style={{width:"20%"}}>순번</div>
                 <div style={{width:"20%"}}>환자ID</div>
                 <div style={{width:"20%"}}>이름</div>
-                <div style={{width:"20%"}}>상태</div>
                 <div style={{width:"20%"}}>예약타입</div>
                 <div style={{width:"20%"}}>예약시간</div>
             </div>
@@ -168,14 +171,16 @@ const CancelReservation=()=>{
         <Modal  backdrop="static" show={testSelectorModalshow} onHide={()=>{setTestSelectorModalshow(false)}}>
         <Modal.Header closeButton>
           <Modal.Title>검사선택</Modal.Title>
+          {loading?<Spinner as="span" animation="border" variant="info" size="lg" role="status" className="ml-2"/>:null}
         </Modal.Header>
-        <Modal.Body><TestSelectorModal closeModal={closeModal} selectedPatient={selectedReservation}/></Modal.Body>
+        <Modal.Body><TestSelectorModal CancelReservation={CancelReservation} controlLoading={ControlLoading} closeModal={closeModal} selectedPatient={selectedReservation}/></Modal.Body>
       </Modal>
         <Modal  backdrop="static" show={doctorSelectorModalshow} onHide={()=>{setDoctorSelectorModalshow(false)}}>
         <Modal.Header closeButton>
           <Modal.Title>의사선택</Modal.Title>
+          {loading?<Spinner as="span" animation="border" variant="info" size="lg" role="status" className="ml-2"/>:null}
         </Modal.Header>
-        <Modal.Body><DoctorSelectorModal closeModal={closeModal} selectedPatient={selectedReservation}/></Modal.Body>
+        <Modal.Body><DoctorSelectorModal CancelReservation={CancelReservation} controlLoading={ControlLoading} closeModal={closeModal} selectedPatient={selectedReservation}/></Modal.Body>
       </Modal>
     </div>
     )

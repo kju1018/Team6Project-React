@@ -35,6 +35,11 @@ function DoctorSelectorModal(props){
    const ResisterTreatment = () =>{
     let treatmentdate = new Date().getTime()
     const newTreatment = {memo:"",treatmentdate:treatmentdate,patientid:props.selectedPatient.patientid,userid:selectedDoctor.userid,status:"진료 대기" }
+    //만약 예약된거라면 예약에서 지우기
+    if(props.CancelReservation){
+        props.CancelReservation()
+    }
+    
     //DB에 진료생성
     ReceptionTreatment(newTreatment).then((result)=>{
        console.log(moment(treatmentdate).format("HH:mm"));
