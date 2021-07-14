@@ -1,7 +1,8 @@
 import axios from "axios";
 
-export function sendRedisMessage(topic, content) {
-    return axios.get("/reception/sendRedisMessage", {params:{topic, content}});
+export function sendRedisMessage(content) {
+    content =JSON.stringify(content)
+    return axios.get("/reception/sendRedisMessage", {params:{topic:"/reception", content}});
   }
 
 export function saveChatting(chatArray) {
