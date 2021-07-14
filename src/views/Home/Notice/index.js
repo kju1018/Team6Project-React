@@ -1,9 +1,7 @@
 import { Form, Modal } from "react-bootstrap";
 import React, { useEffect, useState } from "react";
 import { Button } from 'react-bootstrap';
-import Item from "views/components/Item";
 import "./scrollbar1.css"
-import { getBoardList } from "./data/Data";
 import NoticeDetail from "./NoticeDetail";
 import NoticeAdd from "./NoticeAdd";
 import { getNoticeList } from "apis/Main";
@@ -18,15 +16,15 @@ function Notice(props){
   const [selectedNotice, setSelectedNotice] = useState([]);
   //공지사항을 가져올 list 
   const [board, setBoard] = useState({});
+  
+  const work = async() => {
+    const response = await getNoticeList(); //백이랑 통신
+    console.log(response.data);
+    setSelectedNotice(response.data);
+  }
 
   useEffect(() => {
-    const work = async() => {
-      const response = await getNoticeList();
-      console.log(response.data);
-      setSelectedNotice(response.data);
-    }
     work();
-
   }, [])
 
   const handleShow =(board) => {
@@ -38,17 +36,17 @@ function Notice(props){
     setShow(false);
   }
   
+
   const handleClose1 = () => setShow1(false);
   const handleShow1 = () => setShow1(true);
+
 return(
   <>
   <h5>NOTICE <img src="/pencil.png"width="25"height="25"/>
       <Button variant="outline-primary" style={{float: "right"}} onClick={handleShow1}>
       <img src="/pen.png"width="25"height="25"/></Button>
     </h5> 
-    <NoticeAdd show={show1} handleClose1={handleClose1}
-      onClick
-    ></NoticeAdd>
+    <NoticeAdd show={show1} handleClose1={handleClose1} work={work}></NoticeAdd>
   <div className="scrollbar" id="style-7">
     <div className="force-overflow-auto">
    <table className="table table-hover">
@@ -71,7 +69,7 @@ return(
              <th>{board.title}</th>
              <th style={{width:"200px"}}>{board.date}</th>
            </tr>
-         ) 
+         )
        })}
      </tbody>
     </table>

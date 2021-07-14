@@ -7,5 +7,9 @@ export function getNoticeList() {
 }
 
 //공지사항 추가
-//공지사항 삭제하기
+export function noticeUpdate(newBoard){
+    const promise = axios.post("/main/noticeUpdate", newBoard);
+    return promise;
+}
 
+//공지사항 삭제하기
