@@ -13,3 +13,7 @@ export function noticeUpdate(newBoard){
 }
 
 //공지사항 삭제하기
+export function deleteNotice(noticeid){
+    const promise = axios.delete("/main/delete/" + noticeid);
+    return promise;
+}
