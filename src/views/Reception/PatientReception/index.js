@@ -17,11 +17,9 @@ function PatientReception(props){
     }
     const treatmentReception = useSelector((state)=>(state.receptionReducer.treatmentreception)) 
     const testReception = useSelector((state)=>(state.receptionReducer.testreception))
-  
     const [treatementsData, setTreatmentsData] = useState()
     const [testReceptionsData, setTestReceptionsData] = useState()
     const [loading,setLoading] = useState(false);
-    const dispatch = useDispatch();
     useEffect(()=>{
         setLoading(true)
         GetTreatmentList().then((result)=>{
