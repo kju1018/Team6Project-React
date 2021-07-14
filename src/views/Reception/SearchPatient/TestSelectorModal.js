@@ -55,7 +55,7 @@ function TestSelectorModal(props){
             console.log(result.data)
             //redux에 접수된 검사넘기기
             //dispatch(createSetTestReception(result.data))
-            sendRedisMessage("/reception","test")
+            sendRedisMessage({type:"test"})
             props.closeModal("TestSelectorModal")
         })
        

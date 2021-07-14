@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
-import { createSetTestReception, createSetTreatmentReception } from "redux/reception-reducer";
+import { createSetTestReception, createSetTestResult, createSetTreatmentReception } from "redux/reception-reducer";
 
 const Redis = () => {
   //-------------------------------------------------------------  
@@ -47,13 +47,15 @@ const Redis = () => {
     ws.current.onmessage = (event) => {
       console.log("메시지 수신");
       var strJson = event.data;
-      var message = JSON.parse(strJson);
-      console.log(message)
+      var message = JSON.parse(JSON.parse(strJson));
       // 여기서 각 topic에 따라 dispatch!!
-      if(message.content==="\"treatment\""){
+      //{type: , treatmentid: , newDate()}
+      if(message.type==="treatment"){
         dispatch(createSetTreatmentReception(new Date()))
-      }else if(message.content==="\"test\""){
+      }else if(message.type==="test"){
         dispatch(createSetTestReception(new Date()))
+      }else if(message.type==="testresult"){
+        dispatch(createSetTestResult({treatmentid:message.treatmentid}))
       }
 
 
