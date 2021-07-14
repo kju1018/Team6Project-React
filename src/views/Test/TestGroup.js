@@ -16,13 +16,10 @@ function TestGroup(props) {
   useEffect(()=>{ 
     setPatientid(props.clickdate)
     group();
-  }, [props.testdatas])
+  }, [props.testdatas, props.clickdate.testreceptionid])
 
   const group = () => {
-    
     setExcel(props.testdatas)
-    console.log(props.testdatas)
-
 
     const group = [];
         for(var i=0; i<props.testdatas.length; i++){
@@ -31,7 +28,7 @@ function TestGroup(props) {
 
         const set = new Set(group)
         const title = [...set]; //묶음 코드 중복 제거
-
+        console.log(title)
         let obj = {};//나중에 groupList가 데이터 가공후 리스트에 추가
         for(var i=0; i<title.length; i++){
             for(var j=0; j<props.testdatas.length; j++){
@@ -96,7 +93,7 @@ function TestGroup(props) {
 
     if(flag === 0){
       try {
-        startTests(checkedList).then(()=>{group()});
+        startTests(checkedList).then(()=>{props.gettest(props.clickdate.testreceptionid); group()});
         startPatient(props.clickdate.testreceptionid).then(()=>{ props.getpatient(props.startdate, props.enddate)});
       } catch (error) {
         console.log(error);
@@ -135,7 +132,7 @@ function TestGroup(props) {
 
     if(flag === 0){
       try {
-        startTests(checkedList).then(()=>{group()});
+        startTests(checkedList).then(()=>{props.gettest(props.clickdate.testreceptionid); group()});
         startPatient(props.clickdate.testreceptionid).then(()=>{props.getpatient(props.startdate, props.enddate)});
       } catch (error) {
         console.log(error);
@@ -166,7 +163,7 @@ function TestGroup(props) {
     });
     if(flag === 0){
       try {
-        cancelTests(checkedList).then(()=>{group();})
+        cancelTests(checkedList).then(()=>{props.gettest(props.clickdate.testreceptionid); group()})
         cancelPatient(props.clickdate.testreceptionid).then(()=>{props.getpatient(props.startdate, props.enddate)})
         
       } catch (error) {
@@ -199,7 +196,7 @@ function TestGroup(props) {
     });
     if(flag === 0){
       try {
-        finishTests(checkedList).then(()=>{group()})
+        finishTests(checkedList).then(()=>{props.gettest(props.clickdate.testreceptionid); group()})
         //finishPatient(props.clickdate.testreceptionid).then(()=>{props.getpatient(props.startdate, props.enddate)})
         let count = 0;
         console.log("클릭한 검사그룹 갯수", groupList.length)
@@ -290,11 +287,7 @@ function TestGroup(props) {
                     <div className="col-2 p-0 text-center">{test.status}</div>
                     <div className="col-4 p-0 pl-2 text-center" style={{display:"inline-flex"}}>
                       <form onSubmit={ event => {handleAdd(event, test)}}>
-<<<<<<< HEAD
                         {group.saveBtn?"":<div style={{float:"left", width:"60%"}}><input type="text" className="form-control" name="result" value={test.result || ""} onChange={e => {handleChange(e, index, test)}}/></div>}
-=======
-                        {group.saveBtn?"":<div style={{float:"left", width:"60%"}}><input type="text" className="form-control" name="result" value={test.result} onChange={e => {handleChange(e, index, test)}}/></div>}
->>>>>>> 22b17340795ffb317d3c442d58a2f47cccb05cdb
                         {group.saveBtn?"":<div style={{float:"right"}}><input type="submit" className="btn btn-primary btn-sm mr-2"  disabled={group.saveBtn} value="추가"/></div>}
                       </form>
                     </div>

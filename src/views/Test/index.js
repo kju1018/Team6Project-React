@@ -27,12 +27,12 @@ function TestPage(props) {
   const [testdatas, setTestdatas] = useState([]);
 
   const testReception = useSelector((state)=>(state.receptionReducer.testreception)) //--------------redis
-
+  
   const getpatient = async(startdate, enddate) => { //함수로 만든이유는 나중에 클릭할때도 사용
     try { 
       setStartdate(startdate)
       setEnddate(enddate)
-      const response = await testlistByDate(moment(startdate).format('YYYY-MM-DD'), moment(enddate).format('YYYY-MM-DD'));
+      const response = await testlistByDate(moment(startdate).format('YYYY-MM-DD'), moment(new Date(enddate).getTime() + 1 * 24 * 60 * 60 * 1000).format('YYYY-MM-DD'));
       const patient = response.data;
       setPatient(response.data);
       const waiting = patient.filter(patient => patient.status === "대기중");
@@ -58,6 +58,7 @@ function TestPage(props) {
 
   useEffect(()=>{
     getpatient(moment().format('YYYY-MM-DD'), moment().format('YYYY-MM-DD'))
+    console.log(testReception)
   },[testReception]);
 
   const ClickPatient = async(e, item, index) => {
@@ -186,7 +187,7 @@ function TestPage(props) {
                   </div>
                 </div>
               </div>
-              <div style={{width:"74%", marginRight:"1%"}}>{groupshow?<TestGroup startdate={startdate} enddate={enddate} getpatient={getpatient} clickdate={clickdate} testdatas={testdatas}/>:""}</div>
+              <div style={{width:"74%", marginRight:"1%"}}>{groupshow?<TestGroup startdate={startdate} enddate={enddate} getpatient={getpatient} clickdate={clickdate} testdatas={testdatas} gettest={gettest}/>:""}</div>
             </div>
         </div>
         <div className="col-4 pt-3" style={{borderLeft:"1px solid #dadada"}}>
