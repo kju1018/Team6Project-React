@@ -3,7 +3,7 @@ import { Badge, Button, Modal, Accordion, Card  } from "react-bootstrap";
 import xlsx from 'xlsx';
 import React from 'react';
 import Print from "./Print";
-import { testlistByReceptionid, startTests, cancelTests, finishTests, startPatient, cancelPatient, finishPatient, insertResult } from "apis/test";
+import { startTests, cancelTests, finishTests, startPatient, cancelPatient, finishPatient, insertResult } from "apis/test";
 import { sendRedisMessage } from "apis/Redis";
 
 function TestGroup(props) {
@@ -199,7 +199,6 @@ function TestGroup(props) {
     if(flag === 0){
       try {
         finishTests(checkedList).then(()=>{props.gettest(props.clickdate.testreceptionid); group()})
-        //finishPatient(props.clickdate.testreceptionid).then(()=>{props.getpatient(props.startdate, props.enddate)})
         let count = 0;
         console.log("클릭한 검사그룹 갯수", groupList.length)
         if(groupList.length > 0) {
