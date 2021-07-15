@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import ReactDatePicker, {} from "react-datepicker";
 import "./datepickerReservation.css";
-import {getAllReservationsData, getAllTestsGroupData} from "views/Reception/BackEnd/index"
 import { useDispatch } from "react-redux";
 import { createSetReservation } from "redux/reservation-reducer";
 import { RegisterReservation } from "apis/Reception";
@@ -132,7 +131,7 @@ function RegisterReservationModal(props){
     
     //예약 등록함수
     const ResisterReservation=()=>{
-        let newreservation;
+        //let newreservation;
             //DB에 해당 patient, startDate로 해당 시간에 진료예약
             RegisterReservation({reservationdate:startDate.getTime(),patientid:props.selectedPatient.patientid,patientname:props.selectedPatient.patientname,status:"대기",type:reservationType?"진료":"검사" }).then((result)=>{
                 //redux 저장
