@@ -24,9 +24,9 @@ function PatientTreatment(props) {
         <div className="overflow-auto p-3" style={{height:"calc(100% - 100px)"}}>
           {
             props.loading === true ? 
-            <div class="d-flex h-100 justify-content-center align-items-center">
-              <div class="spinner-border text-success" role="status">
-                <span class="sr-only">Loading...</span>
+            <div className="d-flex h-100 justify-content-center align-items-center">
+              <div className="spinner-border text-success" role="status">
+                <span className="sr-only">Loading...</span>
               </div>
             </div>
             :

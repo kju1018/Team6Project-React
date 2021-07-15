@@ -32,9 +32,9 @@ function DrugList(props) {
         :
         ( 
           props.loading === true ? 
-          <div class="d-flex h-100 justify-content-center align-items-center">
-            <div class="spinner-border text-success" role="status">
-              <span class="sr-only">Loading...</span>
+          <div className="d-flex h-100 justify-content-center align-items-center">
+            <div className="spinner-border text-success" role="status">
+              <span className="sr-only">Loading...</span>
             </div>
           </div>
           :
