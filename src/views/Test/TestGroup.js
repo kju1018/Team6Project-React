@@ -95,6 +95,7 @@ function TestGroup(props) {
       try {
         startTests(checkedList).then(()=>{props.gettest(props.clickdate.testreceptionid); group()});
         startPatient(props.clickdate.testreceptionid).then(()=>{ props.getpatient(props.startdate, props.enddate)});
+        sendRedisMessage({type:"test"})
       } catch (error) {
         console.log(error);
       }
@@ -134,6 +135,7 @@ function TestGroup(props) {
       try {
         startTests(checkedList).then(()=>{props.gettest(props.clickdate.testreceptionid); group()});
         startPatient(props.clickdate.testreceptionid).then(()=>{props.getpatient(props.startdate, props.enddate)});
+        sendRedisMessage({type:"test"})
       } catch (error) {
         console.log(error);
       }
@@ -165,7 +167,7 @@ function TestGroup(props) {
       try {
         cancelTests(checkedList).then(()=>{props.gettest(props.clickdate.testreceptionid); group()})
         cancelPatient(props.clickdate.testreceptionid).then(()=>{props.getpatient(props.startdate, props.enddate)})
-        
+        sendRedisMessage({type:"test"})
       } catch (error) {
         console.log(error);
       }
@@ -213,6 +215,7 @@ function TestGroup(props) {
             finishPatient(props.clickdate.testreceptionid).then(()=>{props.getpatient(props.startdate, props.enddate)})
           }
         }
+        sendRedisMessage({type:"test"})
       } catch (error) {
         console.log(error);
       }
@@ -223,7 +226,7 @@ function TestGroup(props) {
   const handleAdd = async(event, test) => {
     event.preventDefault();
     insertResult(data).then(()=>{group()});
-    sendRedisMessage({type:"treatment", treatmentid:test.treatmentid})//----------------redis 메세지
+    sendRedisMessage({type:"testresult", treatmentid:test.treatmentid})//----------------redis 메세지
     //다시 검사리스트 가져오기
     setData({});//이전에 입력한 결과값 초기화 
   }
@@ -283,11 +286,11 @@ function TestGroup(props) {
                   <div key={test.testdataid} className="pt-2 pb-2 mb-2 d-flex align-items-center" style={{ fontSize:"13px", borderBottom:"1px solid #a6a6a6"}}>
                     <div className="col-2 p-0 text-center">{test.testdataid}</div>
                     <div className="col-3 p-0 text-center">{test.testdataname}</div>
-                    <div className="col-1 p-0 text-center" style={{color: "orange", fontWeight:"bold"}}>{test.testcontainer}</div>
+                    <div className="col-1 p-0 text-center" style={{ color:test.testcontainer == "EDTA"?"orange":"purple", fontWeight:"bold"}}>{test.testcontainer}</div>
                     <div className="col-2 p-0 text-center">{test.status}</div>
                     <div className="col-4 p-0 pl-2 text-center" style={{display:"inline-flex"}}>
                       <form onSubmit={ event => {handleAdd(event, test)}}>
-                        {group.saveBtn?"":<div style={{float:"left", width:"60%"}}><input type="text" className="form-control" name="result" value={test.result || ""} onChange={e => {handleChange(e, index, test)}}/></div>}
+                        {group.saveBtn?"":<div style={{float:"left", width:"60%"}}><input type="text" className="form-control" name="result" value={test.result} onChange={e => {handleChange(e, index, test)}}/></div>}
                         {group.saveBtn?"":<div style={{float:"right"}}><input type="submit" className="btn btn-primary btn-sm mr-2"  disabled={group.saveBtn} value="추가"/></div>}
                       </form>
                     </div>

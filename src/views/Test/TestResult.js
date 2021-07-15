@@ -4,6 +4,8 @@ import { useEffect, useRef } from "react";
 import { useState } from "react";
 function TestResult(props) { 
   const [show, setShow] = useState();
+  const [treatmentid, setTreatmentid] = useState();
+  
   useEffect(()=>{ 
     group();
     
@@ -13,7 +15,7 @@ function TestResult(props) {
     for(let i=0; i<props.testdatas.length; i++){
       if(props.testdatas[i]){ 
         if(props.testdatas[i].testdataid === "xray") {
-
+          setTreatmentid(props.testdatas[i].treatmentid);
           setShow(true);
         } else {
           setShow(false)
@@ -34,8 +36,8 @@ function TestResult(props) {
     //console.log(board);
     try{
       const formData = new FormData(); //multipart로 만드는법
-      formData.append("treatmentid", testimg.treatmentid);
-      formData.append("testdataid", testimg.testdataid);
+      formData.append("treatmentid", treatmentid);
+      formData.append("testdataid", "xray");
       formData.append("battach", inputFile.current.files[0]);
       createXray(formData);
     }catch(error){
@@ -60,21 +62,21 @@ function TestResult(props) {
       </div>
       {show?<div className="card-body">
         <div>
-          <div>환자차트번호: {props.testdatas.patientid}</div>
-          <div>환자접수번호: {props.testdatas.testreceptionid}</div>
+          <div>환자차트번호: {props.clickdate.patientid}</div>
+          <div>환자접수번호: {props.clickdate.testreceptionid}</div>
         </div>
         <hr/>
         <form onSubmit={handleAdd}>
           <div className="form-group row">
             <label htmlFor="treatmentid" className="col-sm-3 col-form-label">treatmentid</label>
             <div className="col-sm-8">
-              <input type="text" className="form-control" name="treatmentid" value={testimg.treatmentid} onChange={handleChange}/>
+              <input type="text" className="form-control" name="treatmentid" value={treatmentid}/>
             </div>
           </div>
           <div className="form-group row">
             <label htmlFor="testdataid" className="col-sm-3 col-form-label">testdataid</label>
             <div className="col-sm-8">
-              <input type="text" className="form-control" name="testdataid" value={testimg.testdataid} onChange={handleChange}/>
+              <input type="text" className="form-control" name="testdataid" value="xray"/>
             </div>
           </div>
           <div className="form-group row">
