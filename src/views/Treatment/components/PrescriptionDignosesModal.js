@@ -23,17 +23,19 @@ function PrescriptionDignosesModal(props) {
   }, [props]);
 
   const addItem = useCallback((item) => {
-    const compare = prescriptionItems.findIndex((obj) => obj.diagnosesdataid === item.diagnosesdataid);
-    if(compare >= 0){
-      alert("이미 처방받았습니다.");
-    } else {
       setPrescriptionItems((prevItems) => {
-        item.treatmentid=props.treatment.treatmentid;
-        const newItems = prevItems.concat(item);
-        return newItems;
+        const compare = prevItems.findIndex((obj) => obj.diagnosesdataid === item.diagnosesdataid);
+        if(compare >= 0){
+          alert("이미 처방받았습니다.");
+          return prevItems;
+        } else {
+          item.treatmentid=props.treatment.treatmentid;
+          const newItems = prevItems.concat(item);
+          return newItems;
+        }
       });
-    }
-  },[props])
+  },[props.treatment]);
+
   const removeItem = useCallback((item) => {
     setPrescriptionItems((prevItems) => {
       const newItems = prevItems.filter(prevItem => prevItem.diagnosesdataid !== item.diagnosesdataid);
