@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import Item from "views/components/Item";
 import {GetPatientList} from "apis/Reception"
-import {Spinner } from "react-bootstrap";
+
 function SearchPatientModal(props){
     const property = ["patientid","patientname","ssn1","lasttreatment","registerday"]
     const [keyword, setKeyword] = useState("");
@@ -12,14 +12,17 @@ function SearchPatientModal(props){
 
     //처음 컴포넌트 시작시 목록 불러옴
     useEffect(()=>{
-        console.log("modal open!!!!");
+        //스피너 on
         props.controlLoading(true);
+        //DB 불러옴
         GetPatientList().then((result)=>{
+            //DB불러온거 상태저장
             setPatientList(result.data)
+            //스피너 off
             props.controlLoading(false);
         })
+        //모달 닫을때 호출
         return(()=>{
-            console.log("modal close!!!!");
         })
 },[])
     // keyword 적을때 불리는 함수
@@ -32,7 +35,9 @@ function SearchPatientModal(props){
     }
     // 선택 버튼 누를떄 불리는 함수
     const SelectPatient = () =>{
+        //선택된 환자상태에 저장
        props.setSelectedPatient(focusItem)
+       //모달 닫기
        props.closeModal("SearchPatientModal")
        
     }
