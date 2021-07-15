@@ -189,7 +189,8 @@ function Treatment(props) {
       prescribeList();
       setShow(true);
       const message = {
-        type:"treatment"
+        type:"treatment",
+        patientid:patient.patientid
       };
       sendRedisMessage(message);//진료가 완료 되었다는 사실을 접수처에 알림
     }
