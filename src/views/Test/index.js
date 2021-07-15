@@ -34,6 +34,7 @@ function TestPage(props) {
       setEnddate(enddate)
       const response = await testlistByDate(moment(startdate).format('YYYY-MM-DD'), moment(new Date(enddate).getTime() + 1 * 24 * 60 * 60 * 1000).format('YYYY-MM-DD'));
       const patient = response.data;
+      console.log(patient)
       setPatient(response.data);
       const waiting = patient.filter(patient => patient.status === "대기중");
       setWaiting(waiting)
@@ -120,7 +121,7 @@ function TestPage(props) {
                   <div className="col-2 p-0 text-center">{item.ssn1}</div>
                   <div className="col-2 p-0 text-center">{item.patientname}</div>
                   <div className="col-4 p-0 text-center">{item.testdate}</div>
-                  <div className="col-2 p-0 text-center"><Badge className="mr-1" variant="success">{item.status}</Badge><Badge variant="danger">미입력</Badge></div>
+                  <div className="col-2 p-0 text-center"><Badge className="mr-1" variant="light">{item.status}</Badge><Badge variant={(item.result == null)?"success":"danger"}>{(item.result == null)?"미입력":"입력완료"}</Badge></div>
                 </div>
               )})}
               </Tab.Pane>
@@ -132,7 +133,7 @@ function TestPage(props) {
                   <div className="col-2 p-0 text-center">{item.ssn1}</div>
                   <div className="col-2 p-0 text-center">{item.patientname}</div>
                   <div className="col-4 p-0 text-center">{item.testdate}</div>
-                  <div className="col-2 p-0 text-center"><Badge className="mr-1" variant="success">{item.status}</Badge><Badge variant="danger">미입력</Badge></div>
+                  <div className="col-2 p-0 text-center"><Badge className="mr-1" variant="success">{item.status}</Badge><Badge variant={(item.result == null)?"success":"danger"}>{(item.result == null)?"미입력":"입력완료"}</Badge></div>
                   </div>
               )})}
               </Tab.Pane>
@@ -143,7 +144,7 @@ function TestPage(props) {
                 <div className="col-2 p-0 text-center">{item.ssn1}</div>
                 <div className="col-2 p-0 text-center">{item.patientname}</div>
                 <div className="col-4 p-0 text-center">{item.testdate}</div>
-                <div className="col-2 p-0 text-center"><Badge className="mr-1" variant="primary">{item.status}</Badge><Badge variant="danger">미입력</Badge></div>
+                <div className="col-2 p-0 text-center"><Badge className="mr-1" variant="primary">{item.status}</Badge><Badge variant={(item.result == null)?"success":"danger"}>{(item.result == null)?"미입력":"입력완료"}</Badge></div>
               </div>
               )})}
               </Tab.Pane>
@@ -154,7 +155,7 @@ function TestPage(props) {
                 <div className="col-2 p-0 text-center">{item.ssn1}</div>
                 <div className="col-2 p-0 text-center">{item.patientname}</div>
                 <div className="col-4 p-0 text-center">{item.testdate}</div>
-                <div className="col-2 p-0 text-center"><Badge className="mr-1" variant="danger">{item.status}</Badge><Badge variant="danger">미입력</Badge></div>
+                <div className="col-2 p-0 text-center"><Badge className="mr-1" variant="danger">{item.status}</Badge><Badge variant={(item.result == null)?"success":"danger"}>{(item.result == null)?"미입력":"입력완료"}</Badge></div>
               </div>
               )})}
               </Tab.Pane>
