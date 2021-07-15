@@ -1,8 +1,14 @@
+import { deleteNotice, getNoticeList } from "apis/Main";
 import { Button, Modal } from "react-bootstrap";
-
 
 function NoticeDetail(props) {
   console.log(props)
+  
+
+  const handleRemove = (event) =>{
+    deleteNotice();
+  }
+
   return(
     <>
     <Modal show={props.show} onHide={props.handleClose}>
@@ -14,9 +20,9 @@ function NoticeDetail(props) {
             <Button variant="primary" onClick={props.handleClose}>
               CLOSE
             </Button>
-            <Button variant="danger" onClick={props.handleClose}>
-                  DELETE
-                </Button>
+            <Button variant="danger" onClick={handleRemove}>
+              DELETE
+            </Button>
           </Modal.Footer>
         </Modal>
     </>
