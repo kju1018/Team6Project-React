@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Button, Modal, OverlayTrigger, Tooltip } from "react-bootstrap";
+import PrescriptionDignosesItem from "./PrescriptionDignosesItem";
 
 function PrescriptionDignosesModal(props) {
 
@@ -20,7 +21,7 @@ function PrescriptionDignosesModal(props) {
     props.handleClose();
   }
 
-  const addItme = (item) => {
+  const addItem = (item) => {
     const compare = prescriptionItems.findIndex((obj) => obj.diagnosesdataid === item.diagnosesdataid);
     if(compare >= 0){
       alert("이미 처방받았습니다.");
@@ -39,6 +40,11 @@ function PrescriptionDignosesModal(props) {
       return newItems;
     })
   }
+
+  const rowRenderer = ({index, key, style}) => {
+    
+  }
+
   return (
     <Modal animation={false} show={props.show} onHide={props.handleClose} size="xl" centered>
       <Modal.Header closeButton style={{backgroundColor:"#1B296D"} }>
@@ -101,18 +107,7 @@ function PrescriptionDignosesModal(props) {
                   || (item.diagnosesdataename.indexOf(searchName) != -1)
                   || (item.diagnosesdataid.indexOf(searchName) != -1)){
                 return (
-                  <div key={item.diagnosesdataid} className="d-flex text-center pt-1 pb-1 align-items-center border-bottom" style={{height:"50px", fontWeight:"bold"}}>
-                    <div style={{width:"25%"}}>{item.diagnosesdataid}</div>
-                    <OverlayTrigger placement="right"
-                        overlay={<Tooltip>{item.diagnosesdataname}</Tooltip>}>
-                      <div style={{width:"25%", whiteSpace: "nowrap",overflow:"hidden", textOverflow:"ellipsis"}}>{item.diagnosesdataname}</div>
-                    </OverlayTrigger>
-                    <OverlayTrigger placement="right"
-                        overlay={<Tooltip>{item.diagnosesdataename}</Tooltip>}>
-                      <div style={{width:"25%", whiteSpace: "nowrap",overflow:"hidden", textOverflow:"ellipsis"}}>{item.diagnosesdataename}</div>
-                    </OverlayTrigger>
-                    <div style={{width:"25%"}}><button className="btn btn-success btn-sm" onClick={() => {addItme(item)}}>추가</button></div>
-                  </div>
+                  <PrescriptionDignosesItem key={item.diagnosesdataid} item={item} addItem={addItem}></PrescriptionDignosesItem>
                 );
               }
             })} 

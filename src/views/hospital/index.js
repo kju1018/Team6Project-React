@@ -110,7 +110,7 @@ function Hospital(props) {
 
                     <Form.Group controlId="formBasicPassword">
                       <Form.Label>Password</Form.Label>
-                      <Form.Control required type="password" name="password" placeholder="비밀번호를 입력하세요." value={codeLogin.password} onChange={handleChange} isInvalid={isInvalidPassword}/>
+                      <Form.Control required type="password" autoComplete="off" name="password" placeholder="비밀번호를 입력하세요." value={codeLogin.password} onChange={handleChange} isInvalid={isInvalidPassword}/>
                       <Form.Control.Feedback type="invalid">{errorMessagePassword}</Form.Control.Feedback>
                     </Form.Group>
                     <div className="text-center mt-4">
