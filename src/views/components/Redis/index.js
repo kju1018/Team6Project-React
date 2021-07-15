@@ -44,14 +44,14 @@ const Redis = () => {
       setConnected(false);
     };
     
-    ws.current.onmessage = (event) => {
+    ws.current.onmessage = (event) => { 
       console.log("메시지 수신");
       var strJson = event.data;
       var message = JSON.parse(JSON.parse(strJson));
       // 여기서 각 topic에 따라 dispatch!!
       //{type: , treatmentid: , newDate()}
       if(message.type==="treatment"){
-        dispatch(createSetTreatmentReception(new Date()))
+        dispatch(createSetTreatmentReception({patientid:message.patientid}))
       }else if(message.type==="test"){
         dispatch(createSetTestReception(new Date()))
       }else if(message.type==="testresult"){

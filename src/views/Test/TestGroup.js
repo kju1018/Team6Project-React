@@ -16,37 +16,35 @@ function TestGroup(props) {
   useEffect(()=>{ 
     setPatientid(props.clickdate)
     group();
-  }, [props.clickdate.testreceptionid])
+  }, [props.testdatas, props.clickdate.testreceptionid])
 
-  const group = () => {testlistByReceptionid(props.clickdate.testreceptionid).then((response)=>{
-    const testdatas = response.data;
-    setExcel(testdatas)
-    console.log(testdatas)
+  const group = () => {
+    setExcel(props.testdatas)
 
     const group = [];
-        for(var i=0; i<testdatas.length; i++){
-          group.push(testdatas[i].groupcode)    
+        for(var i=0; i<props.testdatas.length; i++){
+          group.push(props.testdatas[i].groupcode)    
         }
 
         const set = new Set(group)
         const title = [...set]; //묶음 코드 중복 제거
-
+        console.log(title)
         let obj = {};//나중에 groupList가 데이터 가공후 리스트에 추가
         for(var i=0; i<title.length; i++){
-            for(var j=0; j<testdatas.length; j++){
-              if(title[i] === testdatas[j].groupcode) {
+            for(var j=0; j<props.testdatas.length; j++){
+              if(title[i] === props.testdatas[j].groupcode) {
                 if(obj[title[i]]){ //그룹코드이름으로 된 속성이 있을 때
-                  obj[title[i]].tests.push(testdatas[j]);
+                  obj[title[i]].tests.push(props.testdatas[j]);
                 } else {
                   obj[title[i]]={}; //묶음코드 하나하나 객체
-                  obj[title[i]].groupcode=testdatas[j].groupcode;
-                  obj[title[i]].groupname=testdatas[j].groupname;
-                  obj[title[i]].status=testdatas[j].status;
+                  obj[title[i]].groupcode=props.testdatas[j].groupcode;
+                  obj[title[i]].groupname=props.testdatas[j].groupname;
+                  obj[title[i]].status=props.testdatas[j].status;
                   obj[title[i]].ischeck=false;
-                  if(testdatas[j].status === "검사완료") {
+                  if(props.testdatas[j].status === "검사완료") {
                     obj[title[i]].saveBtn=false;
                     obj[title[i]].label = "danger";
-                  } else if (testdatas[j].status === "진행중") {
+                  } else if (props.testdatas[j].status === "진행중") {
                     obj[title[i]].saveBtn=true;
                     obj[title[i]].label = "primary";
                   } else {
@@ -54,13 +52,13 @@ function TestGroup(props) {
                     obj[title[i]].label = "success";
                   };
                   obj[title[i]].tests=[];
-                  obj[title[i]].tests.push(testdatas[j]);
+                  obj[title[i]].tests.push(props.testdatas[j]);
                 }
               }
           }
         }
         setGroupList(obj);
-  })}
+  }
   const handleExit = () => setOpen(false); //바코드 모달 닫힘
 
   const changeHandler = (e, groupcode) => { //체크버튼 선택 시, ischeck 변경해줌 
@@ -95,8 +93,9 @@ function TestGroup(props) {
 
     if(flag === 0){
       try {
-        startTests(checkedList).then(()=>{group()});
+        startTests(checkedList).then(()=>{props.gettest(props.clickdate.testreceptionid); group()});
         startPatient(props.clickdate.testreceptionid).then(()=>{ props.getpatient(props.startdate, props.enddate)});
+        sendRedisMessage({type:"test"})
       } catch (error) {
         console.log(error);
       }
@@ -134,8 +133,9 @@ function TestGroup(props) {
 
     if(flag === 0){
       try {
-        startTests(checkedList).then(()=>{group()});
+        startTests(checkedList).then(()=>{props.gettest(props.clickdate.testreceptionid); group()});
         startPatient(props.clickdate.testreceptionid).then(()=>{props.getpatient(props.startdate, props.enddate)});
+        sendRedisMessage({type:"test"})
       } catch (error) {
         console.log(error);
       }
@@ -165,9 +165,9 @@ function TestGroup(props) {
     });
     if(flag === 0){
       try {
-        cancelTests(checkedList).then(()=>{group();})
+        cancelTests(checkedList).then(()=>{props.gettest(props.clickdate.testreceptionid); group()})
         cancelPatient(props.clickdate.testreceptionid).then(()=>{props.getpatient(props.startdate, props.enddate)})
-        
+        sendRedisMessage({type:"test"})
       } catch (error) {
         console.log(error);
       }
@@ -198,7 +198,7 @@ function TestGroup(props) {
     });
     if(flag === 0){
       try {
-        finishTests(checkedList).then(()=>{group()})
+        finishTests(checkedList).then(()=>{props.gettest(props.clickdate.testreceptionid); group()})
         //finishPatient(props.clickdate.testreceptionid).then(()=>{props.getpatient(props.startdate, props.enddate)})
         let count = 0;
         console.log("클릭한 검사그룹 갯수", groupList.length)
@@ -215,6 +215,7 @@ function TestGroup(props) {
             finishPatient(props.clickdate.testreceptionid).then(()=>{props.getpatient(props.startdate, props.enddate)})
           }
         }
+        sendRedisMessage({type:"test"})
       } catch (error) {
         console.log(error);
       }
@@ -225,7 +226,7 @@ function TestGroup(props) {
   const handleAdd = async(event, test) => {
     event.preventDefault();
     insertResult(data).then(()=>{group()});
-    sendRedisMessage({type:"treatment", treatmentid:test.treatmentid})//----------------redis 메세지
+    sendRedisMessage({type:"testresult", treatmentid:test.treatmentid})//----------------redis 메세지
     //다시 검사리스트 가져오기
     setData({});//이전에 입력한 결과값 초기화 
   }
@@ -263,7 +264,7 @@ function TestGroup(props) {
        {groupList !=={} &&
        Object.values(groupList).map((group, index)=> {
          return (
-          <Card>
+          <Card key={group.groupcode}>
           <Card.Header className="row" style={{backgroundColor:"#D5D5D5", height:"60px", alignItems:"center"}}>
             <Accordion.Toggle as={Card.Header} eventKey={index.toString()}>
               {/* checked: 체크박스 체크 유무 */}
@@ -282,10 +283,10 @@ function TestGroup(props) {
               </div>
               {group.tests.map((test, index) => {
                 return (
-                  <div className="pt-2 pb-2 mb-2 d-flex align-items-center" style={{ fontSize:"13px", borderBottom:"1px solid #a6a6a6"}}>
+                  <div key={test.testdataid} className="pt-2 pb-2 mb-2 d-flex align-items-center" style={{ fontSize:"13px", borderBottom:"1px solid #a6a6a6"}}>
                     <div className="col-2 p-0 text-center">{test.testdataid}</div>
                     <div className="col-3 p-0 text-center">{test.testdataname}</div>
-                    <div className="col-1 p-0 text-center" style={{color: "orange", fontWeight:"bold"}}>{test.testcontainer}</div>
+                    <div className="col-1 p-0 text-center" style={{ color:test.testcontainer == "EDTA"?"orange":"purple", fontWeight:"bold"}}>{test.testcontainer}</div>
                     <div className="col-2 p-0 text-center">{test.status}</div>
                     <div className="col-4 p-0 pl-2 text-center" style={{display:"inline-flex"}}>
                       <form onSubmit={ event => {handleAdd(event, test)}}>
