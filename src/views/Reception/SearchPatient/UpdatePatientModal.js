@@ -9,6 +9,7 @@ function RegisterPatientModal(props){
     const onSubmit=(patient)=>{
         patient["patientid"] = props.selectedPatient.patientid
         patient["lasttreatment"] = props.selectedPatient.lasttreatment==="-"?null:props.selectedPatient.lasttreatment
+        //등록일은 수정한 날짜로 갱신
         patient["registerday"] = new Date()
 
         //DB에 저장
@@ -63,16 +64,10 @@ function RegisterPatientModal(props){
       <input className="ml-2" name="phonenumber" type="number" defaultValue={props.selectedPatient.phonenumber} ref={register({ required: true })} />
       {errors.phonenumber && <div style={{color:"red"}}>핸드폰 번호를 입력해 주세요</div>}
       </div>
-
-      
-
-
       <div className="d-flex justify-content-end">
       <input  type="submit" />
       </div>
-
     </form>
-
         </div>
         </>
     )

@@ -1,10 +1,10 @@
 import { RegisterPatient } from "apis/Reception";
 import { useForm } from "react-hook-form";
 function RegisterPatientModal(props){
-    const { register, handleSubmit, watch, errors } = useForm();
+    const { register, handleSubmit,  errors } = useForm();
   
     const onSubmit=(patient)=>{
-
+        //상태가 아닌 고정값 지정
         patient["registerday"] = new Date()
         patient["codenumber"]=1
         patient["enabled"]=1
@@ -13,7 +13,6 @@ function RegisterPatientModal(props){
         patient["patientid"] = result.data
         patient["lasttreatment"] = "-"
         patient["registerday"] = patient["registerday"].toLocaleDateString()
-        console.log(patient);
         // 해당 상태 부모로 빼고 모달 닫기
         props.setSelectedPatient(patient)
         props.closeModal("RegisterPatientModal")

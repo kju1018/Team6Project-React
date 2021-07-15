@@ -6,7 +6,6 @@ import Item from "views/components/Item";
 function PatientHistory(props) {
   const[selectedTreatment, setSelectedTreatment] = useState();
   const[treatmentData, setTreatmentData] = useState([])
-
   const[testData, setTestData] = useState([])
   const[drugsData, setDrugsData] = useState([])
   const[diagnosesData, setDiagnosesData] = useState([])
@@ -14,30 +13,45 @@ function PatientHistory(props) {
   
   const treatmentReception = useSelector((state)=>(state.receptionReducer.treatmentreception)) 
   useEffect(()=>{
-    if(props.selectedPatient.patientid){
+    if(props.selectedPatient.patientid ){
         setLoading(true)
         //히스토리 상세기록 초기화해주기
         setSelectedTreatment(null)
         //해당 환자의 진료기록 불러오기
         GetTreatmentListBypatientid(props.selectedPatient.patientid).then((result)=>{
-         const userlist = result.data.userlist;
+         //userlist도 불러와서 userid에 맞는 username 가져옴
+          const userlist = result.data.userlist;
          const treatmentlist = result.data.treatmentlist
-         console.log(userlist)
          const data = treatmentlist.map((item,index)=>
          {return {...item,patientname:props.selectedPatient.patientname,username:userlist[index].username}})
-          console.log(data)
           setTreatmentData(data)
           setLoading(false)
         })
         
     }
-  },[props.selectedPatient,treatmentReception])
-  
+  },[props.selectedPatient])
+  useEffect(()=>{
+    if(treatmentReception.patientid === props.selectedPatient.patientid ){
+        setLoading(true)
+        //히스토리 상세기록 초기화해주기
+        setSelectedTreatment(null)
+        //해당 환자의 진료기록 불러오기
+        GetTreatmentListBypatientid(props.selectedPatient.patientid).then((result)=>{
+         //userlist도 불러와서 userid에 맞는 username 가져옴
+          const userlist = result.data.userlist;
+         const treatmentlist = result.data.treatmentlist
+         const data = treatmentlist.map((item,index)=>
+         {return {...item,patientname:props.selectedPatient.patientname,username:userlist[index].username}})
+          setTreatmentData(data)
+          setLoading(false)
+        })
+        
+    }
+  },[treatmentReception])
   useEffect(()=>{
     if(selectedTreatment){
       setLoading(true)
       GetTreatmentDetail(selectedTreatment.treatmentid).then((result)=>{
-        console.log(result.data.treatmentdetail)
         //데이터 배열의 첫번째가 진단, 두번째가 약, 세번째가 테스트 그룹임
         setDiagnosesData(result.data.treatmentdetail[0])
         setDrugsData(result.data.treatmentdetail[1]);
