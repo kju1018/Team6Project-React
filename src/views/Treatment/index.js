@@ -26,7 +26,6 @@ function Treatment(props) {
   });
   const selectPatient = useCallback((patient) => {
     setPatient(patient);
-    setTreatment({});
   }, []);
   useEffect(() => {
     if(globalPatient.patientid != null){
@@ -56,6 +55,8 @@ function Treatment(props) {
   const [staticDignoses, setStaticDignoses] = useState([]);
   const [staticTests, setStaticTests] = useState([]);
   const [show, setShow] = useState(false);
+  const [prescribeLoading, setPrescribeLoading] = useState(false);
+  const [treatmentsLoading, setTreatmentLoading] = useState(false);
 
   useEffect(() => {
     const work = async() => {
@@ -77,13 +78,17 @@ function Treatment(props) {
     if(treatment.status==="진료 완료"){
       const work = async() => {
         try {
+          setPrescribeLoading(true);
           const response = await getPrescriptionList(treatment.treatmentid);
           setTreatmentDrugs(() => response.data.drugsList);
           setTreatmentDiagnoses(() => response.data.diagnosesList);
           setTreatmentTests(() => response.data.testsList);
         } catch (error) {
           console.log(error);
+        } finally {
+          setPrescribeLoading(false);
         }
+
       }
       work();
     }
@@ -116,6 +121,7 @@ function Treatment(props) {
   useEffect(() => {
     const work = async() => {
       try {
+        setTreatmentLoading(true);
         const response = await getAllTreatments(patient.patientid);
         if(response.data){
           console.log(response.data);
@@ -125,10 +131,13 @@ function Treatment(props) {
         }
       } catch (error) {
         console.log(error);
+      } finally {
+        setTreatmentLoading(false);
       }
     }
     work();
     setMemo("");
+    setTreatment({});
   }, [patient])
 
   const prescribeDrugs = useCallback((prescriptionItems) => {
@@ -180,7 +189,8 @@ function Treatment(props) {
       prescribeList();
       setShow(true);
       const message = {
-        type:"treatment"
+        type:"treatment",
+        patientid:patient.patientid
       };
       sendRedisMessage(message);//진료가 완료 되었다는 사실을 접수처에 알림
     }
@@ -196,7 +206,7 @@ function Treatment(props) {
       <div className="row ml-0 mr-0" style={{heighn:"92vh"}}>
         <div className="col-3 h-100 border-right">
           <div className="pl-3 pr-3 pt-0 pb-1 border border-dark" style={{height:"46vh", marginBottom:"2vh", backgroundColor:"#FFFFFF"}}>
-            <PatientTreatment selectedPatient={patient} treatment={treatment} selectTreatment={selectTreatment} patientTreatments={patientTreatments}/>
+            <PatientTreatment loading={treatmentsLoading} selectedPatient={patient} treatment={treatment} selectTreatment={selectTreatment} patientTreatments={patientTreatments}/>
           </div>
           <div className="pl-3 pr-3 pt-0 pb-1 border border-dark" style={{height:"42vh",marginBottom:"2vh", backgroundColor:"#FFFFFF"}}>
             <TreatmentMemo treatment={treatment} setMemo={setMemo} memo={memo}/>
@@ -204,17 +214,17 @@ function Treatment(props) {
         </div>
         <div className="col-4 h-100 border-right">
           <div className="pl-3 pr-3 pb-3 pt-0 border border-dark" style={{height:"46vh", backgroundColor:"#FFFFFF", marginBottom:"2vh"}}>
-            <DiagnosisList treatment={treatment} treatmentDiagnoses={treatmentDiagnoses}
+            <DiagnosisList loading={prescribeLoading} treatment={treatment} treatmentDiagnoses={treatmentDiagnoses}
                   staticDignoses={staticDignoses} prescribeDiagnoses={prescribeDiagnoses}/>
           </div>
           <div className="pl-3 pr-3 pt-0 pb-1 border border-dark" style={{height:"42vh",marginBottom:"2vh",  backgroundColor:"#FFFFFF"}}>
-            <DrugList treatment={treatment} treatmentDrugs={treatmentDrugs} 
+            <DrugList loading={prescribeLoading} treatment={treatment} treatmentDrugs={treatmentDrugs} 
                   staticDrugs={staticDrugs} prescribeDrugs={prescribeDrugs}/>
           </div>             
         </div>
         <div className="col-5 h-100">
           <div className="pl-3 pr-3 pb-3 pt-0 border border-dark" style={{height:"90vh",marginBottom:"2vh", backgroundColor:"#FFFFFF"}}>
-            <TestList treatment={treatment} treatmentTests = {treatmentTests}
+            <TestList loading={prescribeLoading} treatment={treatment} treatmentTests = {treatmentTests}
                   staticTests={staticTests} prescribeTests={prescribeTests} closeShow={closeShow} toastShow={show}></TestList>
           </div>                
         </div>

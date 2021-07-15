@@ -45,14 +45,36 @@ function TestList(props) {
       <ButtonHeader headertitle="검사 목록" iclassName="bi bi-droplet" color="#E89677" btnicon="bi bi-plus-square" onclick={props.treatment.status==="진료 대기"? handleShow : info}/>
       <PrescriptionTestsModal show={show} handleClose={handleClose} staticItemList={props.staticTests} itemList={props.treatmentTests} prescribe={prescribeTests}></PrescriptionTestsModal>
       <div className="overflow-auto p-3" style={{height:"calc(100% - 50px)"}}>
-        {Object.values(groupTests).map(groupTest => {
-          return (
-            groupTest.testtype === "진단검사" ?
-            <PackageTest key={groupTest.groupcode}  groupTest={groupTest}/>
+        {
+          props.treatment.treatmentid == null ? 
+          <div className="h-100 d-flex align-items-center justify-content-center">
+            진료를 선택해주세요.
+          </div>
+          :
+          (
+            props.loading === true ? 
+            <div className="d-flex h-100 justify-content-center align-items-center">
+              <div className="spinner-border text-success" role="status">
+                <span className="sr-only">Loading...</span>
+              </div>
+            </div>
             :
-            <PackageImgTest key={groupTest.groupcode} groupTest={groupTest}></PackageImgTest>
-            );
-        })
+            (
+              props.treatmentTests.length !== 0 ?
+              Object.values(groupTests).map(groupTest => {
+                return (
+                  groupTest.testtype === "진단검사" ?
+                  <PackageTest key={groupTest.groupcode}  groupTest={groupTest}/>
+                  :
+                  <PackageImgTest key={groupTest.groupcode} groupTest={groupTest}></PackageImgTest>
+                );
+              })
+              :
+              <div className="h-100 d-flex align-items-center justify-content-center">
+                처방 받은 내역이 없습니다.
+              </div>
+            )
+          )
         }
         <div style={{position: "absolute", bottom: "40px", right: "30px"}}>
           <Row>

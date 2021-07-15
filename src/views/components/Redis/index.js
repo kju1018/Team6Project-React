@@ -51,7 +51,7 @@ const Redis = () => {
       // 여기서 각 topic에 따라 dispatch!!
       //{type: , treatmentid: , newDate()}
       if(message.type==="treatment"){
-        dispatch(createSetTreatmentReception(new Date()))
+        dispatch(createSetTreatmentReception({patientid:message.patientid}))
       }else if(message.type==="test"){
         dispatch(createSetTestReception(new Date()))
       }else if(message.type==="testresult"){

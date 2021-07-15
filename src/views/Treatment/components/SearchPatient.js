@@ -16,13 +16,20 @@ function SearchPatient(props) {
   const [searchName, setSearchName] = useState("");
   const [patientList, setPatientList] = useState([]);
   const [searchList, setSearchList] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    console.log("modal!");
     const work = async() => {
-      const response = await getPatientList();
-      setPatientList(response.data);
-      setSearchList(response.data);
+      try {
+        setLoading(true);
+        const response = await getPatientList();
+        setPatientList(response.data);
+        setSearchList(response.data);
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setLoading(false);
+      }
     }
     work();
   }, [])
@@ -77,11 +84,18 @@ function SearchPatient(props) {
             {checkedPatient.patientname}
           </div>
           <div style={{height:"400px"}} className="overflow-auto pt-1">
-            {searchList.map ( patient => {
-              return (
-                <Item key={patient.patientid}  item={patient} property={property} onClick={checkPatient}></Item>
-              );
-            })}
+            {
+              loading === true ? 
+              <div class="spinner-border text-success" role="status">
+                <span class="sr-only">Loading...</span>
+              </div>
+              :
+              searchList.map ( patient => {
+                return (
+                  <Item key={patient.patientid}  item={patient} property={property} onClick={checkPatient}></Item>
+                );
+              })
+            }
           </div>
         </Modal.Body>
         <Modal.Footer>
