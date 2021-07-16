@@ -43,8 +43,8 @@ function TestResult(props) {
     }catch(error){
       console.log(error);
     }
-    console.log(testimg.treatmentid)
-    sendRedisMessage({type:"treatment", treatmentid:testimg.treatmentid})//----------------redis 메세지
+    console.log(treatmentid)
+    sendRedisMessage({type:"testresult", treatmentid:treatmentid})//----------------redis 메세지
   }
 
   const handleChange = (event) => { //사용자 입력시 상태 변경을 위해
