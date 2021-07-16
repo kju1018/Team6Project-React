@@ -8,11 +8,13 @@ import { useSelector } from "react-redux";
 function Menus(props){
   
   const toast = useSelector((state)=>(state.toastReducer.toast))
-  const [showToast,setShowToast] = useState(true); 
-  const toggleShowToast = () => setShowToast(!showToast);
+  const [showToast,setShowToast] = useState(false); 
+  const toggleShowToast = () => {setShowToast(!showToast);}
   //리덕스 올때마다 토스트 켜줌
   useEffect(()=>{
-    setShowToast(true)
+    if(toast.message){
+      setShowToast(true)
+    }
   },[toast])
 
   return (

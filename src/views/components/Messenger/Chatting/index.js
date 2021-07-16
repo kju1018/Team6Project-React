@@ -105,7 +105,7 @@ function Chatting(props){
             else if(data.header==="CHATTING"){
 
                 dispatch(createSetToast({message:data.from+"님으로 부터 메시지 도착"}))
-
+                console.log(userInfo.username)
                 setChatArray((prev)=>{
                     const chatObj = {username:data.from, from:data.from,role:data.role,message:data.message, dateTime:data.dateTime,isMe:data.from===userInfo.username, enabled:true}
                 return prev.concat(chatObj) 
@@ -132,6 +132,10 @@ function Chatting(props){
     }
     const sendMsg = (event) =>{
         if(message==="")return;
+        //만약 자리비움 상태에서 채팅보냈으면 접속중으로 바꿔주기
+        if(brb){
+            BRB();
+        }
       websocket.send(JSON.stringify({
         header:"CHATTING",
         from:userInfo.username,
