@@ -6,7 +6,7 @@ import TreatmentReception from "views/Reception/PatientReception/TreatmentRecept
 import { GetTestReceptionList, GetTreatmentList,DeleteReceptionTreatment,DeleteReceptionTest } from "apis/Reception";
 import Chatting from "./Messenger/Chatting";
 import ReceptionHeader from "views/Reception/components/ReceptionHeader";
-import { Spinner } from "react-bootstrap";
+import { ButtonGroup, Spinner, ToggleButton } from "react-bootstrap";
 
 function DrawerReceptions(props){
     const treatmentReception = useSelector((state)=>(state.receptionReducer.treatmentreception)) 
@@ -15,6 +15,12 @@ function DrawerReceptions(props){
     const [treatementsData, setTreatmentsData] = useState()
     const [testReceptionsData, setTestReceptionsData] = useState()
     const [loading,setLoading] = useState(false);
+    
+    const [listtype, setListtype] = useState("접수목록");
+
+    const handleChange = (event) => {
+        setListtype(event.target.value);
+      }
     useEffect(()=>{
         setLoading(true)
         GetTreatmentList().then((result)=>{
@@ -41,30 +47,42 @@ function DrawerReceptions(props){
             setLoading(false)
         })
     },[testReception])
+
     return(
-        <div className="bg-white row p-2" style={{height:"100%"}}>
-            <div className="col-8" style={{height:"92vh", backgroundColor:"white"}}>
-                <div className="pl-3 pr-1  border border-dark" style={{height:"calc(48vh - 8px)"}}>   
-                <ReceptionHeader  headertitle="진료접수" iclassName=" bi bi-clipboard-check " color="#e89677">
-                {loading?<Spinner as="span" animation="border" variant="info" size="lg" role="status" className="ml-2"/>:null}
-                </ReceptionHeader>
-               
-                <TreatmentReception isDrawer={true} treatmentList={treatementsData}/> 
-                </div>
-                <div className="mt-3 pl-3 pr-1  border border-dark" style={{height:"calc(48vh - 8px)"}}>    
-                <ReceptionHeader  headertitle="검사접수" iclassName=" bi bi-clipboard-check " color="#e89677">
-                {loading?<Spinner as="span" animation="border" variant="info" size="lg" role="status" className="ml-2"/>:null}
-                </ReceptionHeader>
-               
-                <TestReception isDrawer={true}  testList={testReceptionsData}/>
-                </div>
-            </div>
-            <div className="col-4  pl-0"style={{height:"96vh", backgroundColor:"white"}}>
-                    <Chatting/>
-            </div>
+        <>
+         <ButtonGroup toggle>
+                 <ToggleButton type="radio" style={{color:"white"}}  variant= {`${listtype === "접수목록" ? "success" : "" }`} name="type"  checked={listtype==="접수목록"} value="접수목록" onChange={handleChange}><div className="ml-5 mr-5">접수목록</div></ToggleButton>
+                <ToggleButton type="radio" style={{color:"white"}} variant={`${listtype === "메신저" ? "success" : "" }`} name="type"  checked={listtype==="메신저"} value="메신저" onChange={handleChange}><div className="ml-5 mr-5">메신저</div></ToggleButton>
+        </ButtonGroup>
+        <div className="bg-white row p-2" style={{height:"calc(100vh-38px)"}}>
+            
+            
+        <div className="col" style={{height:"calc(92vh-38px)", backgroundColor:"white",display:listtype==="접수목록"?"block": "none"}}>
+            <div className="pl-3 pr-1  border border-dark" style={{height:"calc(48vh - 25px)"}}>   
+            <ReceptionHeader  headertitle="진료접수" iclassName=" bi bi-clipboard-check " color="#e89677">
+            {loading?<Spinner as="span" animation="border" variant="info" size="lg" role="status" className="ml-2"/>:null}
+            </ReceptionHeader>
            
+            <TreatmentReception isDrawer={true} treatmentList={treatementsData}/> 
+            </div>
+            <div className="mt-3 pl-3 pr-1  border border-dark" style={{height:"calc(48vh - 25px)"}}>    
+            <ReceptionHeader  headertitle="검사접수" iclassName=" bi bi-clipboard-check " color="#e89677">
+            {loading?<Spinner as="span" animation="border" variant="info" size="lg" role="status" className="ml-2"/>:null}
+            </ReceptionHeader>
+           
+            <TestReception isDrawer={true}  testList={testReceptionsData}/>
+            </div>
         </div>
         
+        <div className="col"style={{height:"calc(92vh-38px)", backgroundColor:"white",display:listtype==="메신저"?"block": "none"}}>
+                <Chatting/>
+        </div>
+            
+            
+            
+           
+        </div>
+        </>
     )
 }
 
