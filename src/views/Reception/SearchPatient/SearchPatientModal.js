@@ -1,15 +1,14 @@
 import { useEffect, useState } from "react";
 import Item from "views/components/Item";
 import {GetPatientList} from "apis/Reception"
-
+import { AutoSizer, List } from "react-virtualized";
 function SearchPatientModal(props){
     const property = ["patientid","patientname","ssn1","lasttreatment","registerday"]
     const [keyword, setKeyword] = useState("");
     const [select, setSelect] = useState(property[0]);
+    //원본 list
     const [patientList,setPatientList] = useState([]);
-
     let focusItem;
-
     //처음 컴포넌트 시작시 목록 불러옴
     useEffect(()=>{
         //스피너 on
@@ -25,6 +24,7 @@ function SearchPatientModal(props){
         return(()=>{
         })
 },[])
+
     // keyword 적을때 불리는 함수
     const ChangeKeyword = (event) =>{
         setKeyword(event.target.value)
@@ -75,7 +75,30 @@ function SearchPatientModal(props){
             </div>
             
             <div className="overflow-auto  justify-content-center" style={{height:"300px"}} >
-                  {patientList.map((item,index)=>{
+            {/* Autosize최적화 */}
+            <AutoSizer disableHeight>
+            {({width, height}) => {
+                
+                let tmp = patientList.filter((item)=>{ return item[select].toString().indexOf(keyword)!=-1})
+                return(
+                <List width={width} height={300}
+                        list={tmp}
+                        rowCount={tmp.length}
+                        rowHeight={50}
+                        rowRenderer={({index, key, style}) => {
+                            return (
+                                <div key={key} style={style}>
+                                <Item onClick={click} item ={tmp[index]} property={property} order={index}/>
+                                </div>   
+                            );
+                            }}
+                        overscanRowCount={5}/>
+                )
+            }}
+            </AutoSizer>
+
+
+                   {/* {patientList.map((item,index)=>{
                      if(item[select].toString().indexOf(keyword)!=-1){
                         return(
                             <div key={index}>
@@ -84,7 +107,7 @@ function SearchPatientModal(props){
                             )    
                      }
                          
-                     })} 
+                     })}   */}
             </div>
         </div>
     </div>

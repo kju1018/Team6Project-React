@@ -5,10 +5,13 @@ import { useDispatch, useSelector } from "react-redux";
 import Item from "views/components/Item";
 import {createSetPatient} from"redux/patient-reducer"
 import moment from 'moment';
+import { AutoSizer, List } from "react-virtualized";
 function TestReception(props){
     const [listtype, setListtype] = useState("all");
     const [selectedTestReception,setSelectedTestReception] = useState()
     const dispatch = useDispatch();
+
+
     const handleChange = (event) => {
         setListtype(event.target.value);
       }
@@ -19,12 +22,12 @@ function TestReception(props){
     //검사접수삭제
     const deleteReceptionTest = () =>{
         if(selectedTestReception){
-            console.log(selectedTestReception)
             props.deleteTestReception(selectedTestReception.testreceptionid)
         }
        
     }
     const testProperty = ["testreceptionid","patientname","status","testdate",]
+    
     return(
         <div className="pl-3 pr-3 pb-3" style={{backgroundColor:"white"}}>
         <div className="mt-3 d-flex justify-content-between">
@@ -48,7 +51,34 @@ function TestReception(props){
             </div>
             <div className="overflow-auto  justify-content-center" style={{height:"calc(40vh - 200px)"}} >
                
-                 {props.testList&&props.testList.map((item,index)=>{
+            {props.testList?
+            <AutoSizer disableHeight>
+                        {({width, height}) => {
+                            
+                            let result = props.testList.filter((item)=>listtype==="all"||item.status===listtype) 
+                            return(
+                            <List width={width} height={Math.round(window.innerHeight / (100 / 40))-200}
+                                    list={result}
+                                    rowCount={result.length}
+                                    rowHeight={50}
+                                    rowRenderer={({index, key, style}) => {
+                                        const item2 = {...result[index],testdate:moment(result[index].testdate).format("HH:mm")}
+                                        return (
+                                            <div key={key} style={style}>
+                                            <Item onClick={click} item ={item2} property={testProperty} order={index}/>
+                                            </div>   
+                                        );
+                                        }}
+                                    overscanRowCount={5}/>
+                            )
+                        }}
+            </AutoSizer>
+            :
+            null
+            }
+
+
+                 {/* {props.testList&&props.testList.map((item,index)=>{
                      const item2 = {...item,testdate:moment(item.testdate).format("HH:mm")}
                       if(listtype==="all"||item.status===listtype){
                      return(
@@ -56,7 +86,7 @@ function TestReception(props){
                                             <Item onClick={click} item ={item2} property={testProperty} order={index}/>
                                     </div>                         
                  )
-                }})} 
+                }})}  */}
             </div>
         </div>
                     
