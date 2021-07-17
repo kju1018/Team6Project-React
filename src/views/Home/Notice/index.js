@@ -23,6 +23,12 @@ function Notice(props){
     setSelectedNotice(response.data);
   }
 
+  const deleteNoticeState=(noticeid)=>{
+    //boardlist에서 해당 noticeid의 notice 삭제 
+    console.log(noticeid)
+    selectedNotice 
+  }
+
   useEffect(() => {
     work();
   }, [])
@@ -76,7 +82,7 @@ return(
     </div>
     </div>
       
-    <NoticeDetail board={board} show={show} handleClose={handleClose}></NoticeDetail>
+    <NoticeDetail deleteNoticeState={deleteNoticeState} board={board} show={show} handleClose={handleClose}></NoticeDetail>
   </>
 )
 }

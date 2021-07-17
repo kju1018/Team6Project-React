@@ -22,3 +22,4 @@ export function getBoard(noticeid) {
   });
   return newBoard;
 }
+

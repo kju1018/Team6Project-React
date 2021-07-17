@@ -30,6 +30,7 @@ function NoticeAdd(props) {
     await noticeUpdate(newBoard);
     props.handleClose1();
     props.work();
+    alert('공지사항을 등록 하였습니다!');
   };
 
   return(
