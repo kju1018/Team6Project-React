@@ -1,3 +1,4 @@
+import React from "react";
 import { useEffect, useRef, useState } from "react";
 
 function Item(props) {
@@ -47,7 +48,7 @@ function Item(props) {
   );
 }
 
-export default Item;
+export default React.memo(Item);
 
 
 

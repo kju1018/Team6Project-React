@@ -2,6 +2,7 @@ import { GetTreatmentListBypatientid,GetTreatmentDetail } from "apis/Reception";
 import { useEffect, useState } from "react";
 import { Spinner } from "react-bootstrap";
 import { useSelector } from "react-redux";
+import { AutoSizer, List } from "react-virtualized";
 import Item from "views/components/Item";
 function PatientHistory(props) {
   const[selectedTreatment, setSelectedTreatment] = useState();
@@ -64,8 +65,8 @@ function PatientHistory(props) {
   const click =(focusItem) =>{
       setSelectedTreatment(focusItem);
     }
+
     const treatmentProperty = ["treatmentid","patientname","username","status","treatmentdate"]  
-   
   return (
     <>
       <div className="p-2 pt-3" style={{height:"60vh"}}>
@@ -81,7 +82,30 @@ function PatientHistory(props) {
                 <div style={{width:"20%"}}>접수시간</div>
             </div>
             <div className="overflow-auto  justify-content-center" style={{height:"calc(25vh - 70px)"}} >
-                  {treatmentData.map((item,index)=>{
+            {/* Autosize최적화 */}
+            <AutoSizer disableHeight>
+                        {({width, height}) => {
+                            return(
+                            
+                            <List width={width} height={Math.round(window.innerHeight / (100 / 25))-70}
+                                    list={treatmentData}
+                                    rowCount={treatmentData.length}
+                                    rowHeight={50}
+                                    rowRenderer={({index, key, style}) => {
+                                      return (
+                                          <div key={key} style={style}>
+                                          <Item onClick={click} item ={treatmentData[index]} property={treatmentProperty} order={index}/>
+                                          </div>   
+                                      );
+                                      }}
+                                    overscanRowCount={5}/>
+                            )
+                        }}
+              </AutoSizer>
+
+
+
+                  {/* {treatmentData.map((item,index)=>{
                     if(item.patientid===props.selectedPatient.patientid){
                       return(
                         <div key={index}>
@@ -90,7 +114,7 @@ function PatientHistory(props) {
                         )
                     }
                         
-                  })}  
+                  })}   */}
             </div>
         </div>
 

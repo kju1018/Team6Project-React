@@ -181,14 +181,12 @@ function RegisterReservationModal(props){
                         예약날짜<br/>{getReservationDate()}
                    </div>
                 </div>                
-                <div className="col-5" style={{margin:"10px", height:"100%"}}>
-                    <div style={{height:"10%"}}>
-                        <button onClick={()=>{handleReservation(true)}}  style={{backgroundColor:reservationType? "green":"white", borderRadius:"15px",marginRight:"10px", marginTop:"5px"}} className="btn btn-outline-dark btn-sm border">진료</button>
-                        <button onClick={()=>{handleReservation(false)}}  style={{backgroundColor:!reservationType? "green":"white",borderRadius:"15px",marginRight:"10px", marginTop:"5px"}} className="btn btn-outline-dark btn-sm border">검사</button>
-                    </div>
-                    <div className="col border" style={{overflow:"auto" ,borderRadius:"15px",  marginTop:"15px", height:"70%"}}> 
+                <div className="col-5 " style={{margin:"10px", height:"80%", padding:"0px" ,marginTop:"5%"  }}>
+                    <button onClick={()=>{handleReservation(true)}} style={{backgroundColor:reservationType? "#ffcd82":"white",border:"2px solid #ffcd82",borderRadius:"15px",width:"47%",height:"70%", fontSize:"2em"}} className="  mr-1 ">진료</button>
                         
-             
+                        
+                    <button onClick={()=>{handleReservation(false)}}  style={{backgroundColor:!reservationType? "#ffcd82":"white",border:"2px solid #ffcd82",borderRadius:"15px",width:"47%",height:"70%", fontSize:"2em"}} className=" ">검사</button>
+
                         {/* {!reservationType&&
                             testList&&testList.map((item,index)=>{return(
                                 <div key={index}>
@@ -198,10 +196,9 @@ function RegisterReservationModal(props){
                                 </div>
                             )})
                         } */}
-                   </div>
-                   <div className="col d-flex justify-content-end" style={{borderRadius:"15px",  marginTop:"10px"}}> 
-                        <button className="btn btn-outline-dark btn-sm" /*disabled={reservationType===false&&(testList==null || (testList.filter((item)=>(item.ischeck===true)).length<1)) }*/  onClick={ResisterReservation}>예약등록</button>
-                   </div>
+                   
+                    <button className="btn btn-outline-dark btn-sm" style={{borderRadius:"15px",  marginTop:"10px", width:"100%", fontSize:"1.5em"}} /*disabled={reservationType===false&&(testList==null || (testList.filter((item)=>(item.ischeck===true)).length<1)) }*/  onClick={ResisterReservation}>예약등록</button>
+                   
                 </div>
 
             </div>
