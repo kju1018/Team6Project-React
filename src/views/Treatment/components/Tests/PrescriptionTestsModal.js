@@ -18,7 +18,7 @@ function PrescriptionTestsModal(props) {
   const handleSearchName = (event) => {
     setSearchName(event.target.value);
   };
-
+  console.log(eventKey);
   useEffect(() => {
     if(props.show === true){
       setPrescriptionItems(props.itemList);
@@ -205,8 +205,8 @@ function PrescriptionTestsModal(props) {
 
           <div className="pl-0 pr-0" style={{width:"506px"}}>
             <div style={{height:"550px"}}>
-              <Tab.Container defaultActiveKey="test">
-                <Nav fill variant="tabs" onSelect={selectNav}>
+              <Tab.Container defaultActiveKey={eventKey}>
+                <Nav fill variant="tabs" onSelect={selectNav} >
                   <Nav.Item>
                     <Nav.Link eventKey="test">개별 처방</Nav.Link>
                   </Nav.Item>
@@ -224,20 +224,26 @@ function PrescriptionTestsModal(props) {
                     <div style={{width:"20%"}}></div>
                   </div>
                   <div className="border" style={{height:"460px"}}>
-                    <AutoSizer>
-                      {
-                        ({width, height}) => {
-                          return (
-                            <List width={width} height={height}
-                              rowCount={searchList.length}
-                              rowHeight={50}
-                              rowRenderer={rowRenderer}
-                              overscanRowCount={5}
-                            />
-                          )
+                    {searchList.length === 0 ? 
+                      <div className="h-100 d-flex align-items-center justify-content-center">
+                        <i className="bi bi-x-octagon mr-2"></i>  검색 결과가 없습니다.
+                      </div>
+                      :
+                      <AutoSizer>
+                        {
+                          ({width, height}) => {
+                            return (
+                              <List width={width} height={height}
+                                rowCount={searchList.length}
+                                rowHeight={50}
+                                rowRenderer={rowRenderer}
+                                overscanRowCount={5}
+                              />
+                            )
+                          }
                         }
-                      }
-                    </AutoSizer>
+                      </AutoSizer>
+                    }
                   </div>
                   </Tab.Pane>
 
@@ -248,20 +254,26 @@ function PrescriptionTestsModal(props) {
                       <div style={{width:"20%"}}></div>
                     </div>
                     <div className="border" style={{height:"460px"}}>
-                    <AutoSizer>
-                      {
-                        ({width, height}) => {
-                          return (
-                            <List width={width} height={height}
-                              rowCount={searchGroupTests.length}
-                              rowHeight={50}
-                              rowRenderer={rowRendererPackage}
-                              overscanRowCount={5}
-                            />
-                          )
+                    {searchGroupTests.length === 0 ? 
+                      <div className="h-100 d-flex align-items-center justify-content-center">
+                        <i className="bi bi-x-octagon mr-2"></i>  검색 결과가 없습니다.
+                      </div>
+                      :
+                      <AutoSizer>
+                        {
+                          ({width, height}) => {
+                            return (
+                              <List width={width} height={height}
+                                rowCount={searchGroupTests.length}
+                                rowHeight={50}
+                                rowRenderer={rowRendererPackage}
+                                overscanRowCount={5}
+                              />
+                            )
+                          }
                         }
-                      }
-                    </AutoSizer>
+                      </AutoSizer>
+                    }
                     </div>
                   </Tab.Pane>
                 </Tab.Content>

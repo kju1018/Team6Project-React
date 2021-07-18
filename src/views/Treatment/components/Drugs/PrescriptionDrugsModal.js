@@ -6,6 +6,9 @@ import PrescriptionDrugsItem from "./PrescriptionDrugItem"
 function PrescriptionDrugsModal(props) {
 
   const [searchName, setSearchName] = useState("");
+  const [searchList, setSearchList] = useState([]);
+  const [searchType, setSearchType] = useState("drugid");
+
   const [quantityArr, setQuantityArr] = useState({});
   const [prescriptionItems, setPrescriptionItems] = useState([]);
   
@@ -25,6 +28,7 @@ function PrescriptionDrugsModal(props) {
       setPrescriptionItems(props.itemList);
       setQuantityArr({});
       setSearchName("");
+      setSearchList(props.staticItemList);
     }
   },[props]);
 
@@ -67,10 +71,28 @@ function PrescriptionDrugsModal(props) {
     })
   }, []);
 
+  const selectType = useCallback((event) => {
+    setSearchType(event.target.value);
+  }, []);
+
+  const search = useCallback((search, searchType) => {
+    let newItems = [];
+    search = search.toUpperCase();
+    setSearchList(() => {
+      if(searchType === "drugid") {
+        newItems = props.staticItemList.filter(drug => (drug.drugid.toUpperCase()).indexOf(search) !== -1)
+      } else if(searchType === "drugname") {
+        newItems = props.staticItemList.filter(drug => (drug.drugname.toUpperCase()).indexOf(search) !== -1)
+      } 
+      return newItems;
+    })
+
+  },[props.staticItemList]);
+
   const rowRenderer = ({index, key, style}) => {
     return (
       <div key={key} style={style}>
-        <PrescriptionDrugsItem item={props.staticItemList[index]} addItem={addItem} quantityArr={quantityArr} onChangeQuantity={onChangeQuantity}></PrescriptionDrugsItem>
+        <PrescriptionDrugsItem item={searchList[index]} addItem={addItem} quantityArr={quantityArr} onChangeQuantity={onChangeQuantity}></PrescriptionDrugsItem>
       </div>
     )
   }
@@ -85,9 +107,13 @@ function PrescriptionDrugsModal(props) {
 
         <div className="input-group d-flex pb-2 justify-content-end border-bottom">
           <div className="d-flex">
+            <select className="custom-select" style={{width:"110px"}} onChange={selectType}>
+              <option value="drugid" selected={searchType ==="drugid"}>약품코드</option>
+              <option value="drugname" selected={searchType ==="drugname"}>약품명</option>
+            </select>
             <input type="text" onChange={handleSearchName}/>
             <div className="input-group-append">
-              {/* <button className="btn btn-outline-secondary btn-sm" type="button" onClick={ () => search(searchName)}>검색</button> */}
+              <button className="btn btn-outline-secondary btn-sm" type="button" onClick={ () => search(searchName, searchType)}>검색</button>
             </div>
           </div>
         </div>
@@ -122,18 +148,23 @@ function PrescriptionDrugsModal(props) {
 
           <div className="pl-0 pr-0" style={{width:"506px"}}>
             <div className="d-flex text-center align-items-center" style={{height:"40px", color:"#88888D", fontWeight:"bold"}}>
-              <div style={{width:"25%"}}>질병코드</div>
+              <div style={{width:"25%"}}>약품코드</div>
               <div style={{width:"25%"}}>약품명</div>
               <div style={{width:"25%"}}>수량</div>
               <div style={{width:"25%"}}></div>
             </div>
             <div className="border" style={{height:"450px"}}>
+              {searchList.length === 0 ? 
+              <div className="h-100 d-flex align-items-center justify-content-center">
+                <i className="bi bi-x-octagon mr-2"></i>  검색 결과가 없습니다.
+              </div>
+              :
               <AutoSizer>
                 {
                   ({width, height}) => {
                     return (
                       <List width={width} height={height}
-                        rowCount={props.staticItemList.length}
+                        rowCount={searchList.length}
                         rowHeight={50}
                         rowRenderer={rowRenderer}
                         overscanRowCount={5}
@@ -142,6 +173,7 @@ function PrescriptionDrugsModal(props) {
                   }
                 }
               </AutoSizer>
+              }
             </div>
           </div> 
         </div>
