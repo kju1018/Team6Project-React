@@ -169,6 +169,7 @@ function Treatment(props) {
       console.log(newTreatment.treatmentdate);
       prescription.treatmentDrugs = [...treatmentDrugs];
       prescription.treatmentDiagnoses = [...treatmentDiagnoses];
+      console.log(prescription.treatmentDiagnoses);
       prescription.treatmentTests = [...treatmentTests];
       prescription.treatment = newTreatment;
       prescription.userid ="user1";
