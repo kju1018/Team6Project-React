@@ -179,7 +179,7 @@ function Chatting(props){
             <div className="pl-2 pr-2 pb-3 border-bottom border-left border-top border-dark" style={{height:"100%"}}>
 
                    <label>접속직원리스트</label>
-                    <div  className="overflow-auto mb-2 border border-dark  justify-content-center" style={{height:"45%"}}>
+                    <div  className="overflow-auto mb-2 border border-dark  justify-content-center" style={{height:"95%"}}>
                         {connectionList&&connectionList.map((item,index)=>{
                         return(
                             <div className="row m-0 border-bottom text-center" key={index} style={{fontSize:"1em"}}>
@@ -199,10 +199,10 @@ function Chatting(props){
                             )
                         })}  
                     </div>
-                    <label>네트워크 상태</label>
+                    {/* <label>네트워크 상태</label>
                     <div  className="overflow-auto border border-dark" style={{height:"45%"}}>
                     
-                    </div>
+                    </div> */}
 
             </div>
         </div>

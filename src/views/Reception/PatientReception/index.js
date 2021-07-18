@@ -81,7 +81,7 @@ function PatientReception(props){
     }
     return(
         <div className="pl-3 pr-3 pb-3 border border-dark" style={{height:"calc(45vh - 10px)", backgroundColor:"white"}}>    
-            <ReceptionHeader headertitle="접수" iclassName="bi bi-droplet " color="#E89677">
+            <ReceptionHeader headertitle="당일 접수목록" iclassName="bi bi-droplet " color="#E89677">
             {loading?<Spinner as="span" animation="border" variant="info" size="lg" role="status" className="ml-2"/>:null}
              <select onChange={onChangeSelect} className="ml-2" name="reception" >
                     <option value="treatmentreception">진료접수</option>
