@@ -125,6 +125,7 @@ function TestGroup(props) {
           checkedList.push(group);
         } else {
           alert("검사가 이미 진행중이거나 완료 되었습니다.")
+          setOpen(false);
           flag = 1;
         }
       }
@@ -229,7 +230,7 @@ function TestGroup(props) {
     //다시 검사리스트 가져오기
     setData({});//이전에 입력한 결과값 초기화 
   }
-
+ 
   const handleChange = (event, index, test) => { //사용자 입력시 상태 변경을 위해
     setData({
       ...test,
@@ -309,7 +310,7 @@ function TestGroup(props) {
         <Modal.Title>바코드 생성</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-      <Print clickdate={patientid} grouplist={groupList}/>
+      <Print clickdate={patientid} grouplist={groupList} />
       </Modal.Body>
       <Modal.Footer>
         <Button variant="secondary" onClick={handleExit}>
