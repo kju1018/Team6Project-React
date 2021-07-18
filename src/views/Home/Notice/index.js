@@ -4,7 +4,7 @@ import { Button } from 'react-bootstrap';
 import "./scrollbar1.css"
 import NoticeDetail from "./NoticeDetail";
 import NoticeAdd from "./NoticeAdd";
-import { getNoticeList } from "apis/Main";
+import { deleteNotice, getNoticeList } from "apis/Main";
 function Notice(props){
   const [a, setA] = useState(1);//상태데이터 선언 문법
   //자바에서 int a = 1;와 같음
@@ -23,11 +23,15 @@ function Notice(props){
     setSelectedNotice(response.data);
   }
 
-  // const deleteNoticeState=(noticeid)=>{
-  //   //boardlist에서 해당 noticeid의 notice 삭제 
-  //   console.log(noticeid)
-  //   selectedNotice = 
-  // }
+  const deleteNoticeState=(noticeid)=>{
+    //boardlist에서 해당 noticeid의 notice 삭제 
+    deleteNotice(noticeid).then((response)=>{
+      console.log(noticeid)
+      console.log(response.data);
+      setSelectedNotice(response.data);
+    });
+   
+  }
 
   useEffect(() => {
     work();
@@ -82,7 +86,7 @@ return(
     </div>
     </div>
       
-    <NoticeDetail board={board} show={show} handleClose={handleClose}></NoticeDetail>
+    <NoticeDetail deleteNoticeState={deleteNoticeState} board={board} show={show} handleClose={handleClose}></NoticeDetail>
   </>
 )
 }

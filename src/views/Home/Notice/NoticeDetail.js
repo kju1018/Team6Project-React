@@ -6,8 +6,7 @@ function NoticeDetail(props) {
   console.log(props) 
 
   const handleRemove =(event) =>{
-    deleteNotice(props.board.noticeid);
-    // props.deleteNoticeState(props.board.noticeid);
+    props.deleteNoticeState(props.board.noticeid);
     props.handleClose();
     alert('공지사항을 삭제 하였습니다!');
   };
