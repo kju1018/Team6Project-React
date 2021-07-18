@@ -6,7 +6,7 @@ function Print({clickdate, grouplist}) {
   console.log(clickdate)
   console.log(grouplist)
   const { inputRef } = useBarcode({
-    value: clickdate.patientid+""+clickdate.testreceptionid+moment().format('YYYYMMDD'),
+    value: clickdate.patientid+"_"+clickdate.testreceptionid+moment().format('YYYYMMDD'),
     options: {
       background: '#ffffff',
     }
