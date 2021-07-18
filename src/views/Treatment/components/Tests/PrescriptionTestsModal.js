@@ -1,5 +1,8 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Accordion, Button, Card, Modal, Nav, OverlayTrigger, Row, Tab, Tooltip } from "react-bootstrap";
+import { AutoSizer, List } from "react-virtualized";
+import PrescriptionPackageItem from "./PrescriptionPackageItem";
+import PrescriptionTestItem from "./PrescriptionTestItem";
 
 function PrescriptionTestsModal(props) {
 
@@ -17,51 +20,71 @@ function PrescriptionTestsModal(props) {
   },[props]);
 
   useEffect(() => {
-    const group = props.staticItemList.reduce((gt, t) => {
+    const groupList = [];
+    props.staticItemList.reduce((gt, t) => {
       if(!gt[t.groupcode]){
         gt[t.groupcode] = {};
         gt[t.groupcode].groupcode = t.groupcode;
         gt[t.groupcode].groupname = t.groupname;
         gt[t.groupcode].tests = [];
         gt[t.groupcode].tests.push(t);
+        groupList.push(gt[t.groupcode]);
       } else {
         gt[t.groupcode].tests.push(t);
       }
       return gt;
     }, {});
-    setGroupTests(group);
+    setGroupTests(groupList);
   }, [props.staticItemList])
 
-  const prescribe = (items) => {
+  const prescribe = useCallback((items) => {
     props.prescribe(items);
     props.handleClose();
-  }
+  },[props]);
 
-  const addItem = (item) => {
-    const compare = prescriptionItems.findIndex((obj) => obj.testdataid === item.testdataid);
-    if(compare >= 0){
-      alert("이미 처방받았습니다.");
-    } else {
+  const addItem = useCallback((item) => {  
       setPrescriptionItems((prevItems) => {
-        const newItems = prevItems.concat(item);
-        return newItems;
+        const compare = prevItems.findIndex((obj) => obj.testdataid === item.testdataid);
+        if(compare >= 0){
+          alert("이미 처방받았습니다.");
+          return prevItems;
+        } else {
+          const newItems = prevItems.concat(item);
+          return newItems;
+        }
       });
-    }
-  }
 
-  const addPackage = (item) => {
+  },[])
+
+  const addPackage = useCallback((item) => {
     setPrescriptionItems((prevItems) => {
       let newItems = prevItems.filter(prevItem => prevItem.groupcode !== item.groupcode);
       newItems = newItems.concat(item.tests);
       return newItems;
     })
-  }
+  },[]);
 
-  const removeItem = (item) => {
+  const removeItem = useCallback((item) => {
     setPrescriptionItems((prevItems) => {
       const newItems = prevItems.filter(prevItem => prevItem.testdataid !== item.testdataid);
       return newItems;
     })
+  }, [])
+
+  const rowRenderer = ({index, key, style}) => {
+    return (
+      <div key={key} style={style}>
+        <PrescriptionTestItem item={props.staticItemList[index]} addItem={addItem}></PrescriptionTestItem>
+      </div>
+    )
+  }
+  
+  const rowRendererPackage = ({index, key, style}) => {
+    return (
+      <div key={key} style={style}>
+        <PrescriptionPackageItem item={groupTests[index]} addPackage={addPackage}></PrescriptionPackageItem>
+      </div>
+    )
   }
   return (
     <Modal animation={false} show={props.show} onHide={props.handleClose} size="xl" centered>
@@ -69,7 +92,7 @@ function PrescriptionTestsModal(props) {
         <Modal.Title style={{color:"#FFFFFF"}}>검사 처방</Modal.Title>
       </Modal.Header>
       <Modal.Body >
-        <div className="input-group d-flex pb-2 justify-content-end border-bottom">
+        <div className="input-group d-flex pb-2 mb-1 justify-content-end border-bottom">
           <div className="d-flex">
             <input type="text" onChange={handleSearchName}/>
             <div className="input-group-append">
@@ -115,15 +138,13 @@ function PrescriptionTestsModal(props) {
           <div className="pl-0 pr-0" style={{width:"506px"}}>
             <div style={{height:"550px"}}>
               <Tab.Container defaultActiveKey="wait">
-                <Nav fill variant="tabs" className="flex-column">
-                  <Row className="ml-0 mr-0 pt-1">
-                    <Nav.Item>
-                      <Nav.Link eventKey="wait">개별 처방</Nav.Link>
-                    </Nav.Item>
-                    <Nav.Item>
-                      <Nav.Link eventKey="complete">묶음 처방</Nav.Link>
-                    </Nav.Item>
-                  </Row>
+                <Nav fill variant="tabs">
+                  <Nav.Item>
+                    <Nav.Link eventKey="wait">개별 처방</Nav.Link>
+                  </Nav.Item>
+                  <Nav.Item>
+                    <Nav.Link eventKey="complete">묶음 처방</Nav.Link>
+                  </Nav.Item>
                 </Nav>
                 <Tab.Content  style={{height:"500px"}}>
                   <Tab.Pane eventKey= "wait" className="pt-1">
@@ -134,29 +155,21 @@ function PrescriptionTestsModal(props) {
                     <div style={{width:"20%"}}>처방명</div>
                     <div style={{width:"20%"}}></div>
                   </div>
-                  <div className="overflow-auto border" style={{height:"460px"}}>
-                    {props.staticItemList != null &&
-                    props.staticItemList.map ((item, index) => {
-                      if((item.testdataid.indexOf(searchName) != -1) 
-                          || (item.testdataname.indexOf(searchName) != -1)
-                          || (item.groupcode.indexOf(searchName) != -1)){
-                        return (
-                          <div key={item.testdataid} className="d-flex text-center pt-1 pb-1 align-items-center border-bottom" style={{height:"50px", fontWeight:"bold"}}>
-                            <div style={{width:"20%"}}>{item.groupcode}</div>
-                            <OverlayTrigger placement="right"
-                                overlay={<Tooltip>{item.groupname}</Tooltip>}>
-                              <div style={{width:"20%", whiteSpace: "nowrap",overflow:"hidden", textOverflow:"ellipsis"}}>{item.groupname}</div>
-                            </OverlayTrigger>
-                            <div style={{width:"20%"}}>{item.testdataid}</div>
-                            <OverlayTrigger placement="right"
-                                overlay={<Tooltip>{item.testdataname}</Tooltip>}>
-                              <div style={{width:"20%", whiteSpace: "nowrap",overflow:"hidden", textOverflow:"ellipsis"}}>{item.testdataname}</div>
-                            </OverlayTrigger>
-                            <div style={{width:"20%"}}><button className="btn btn-success btn-sm" onClick={() => {addItem(item)}}>추가</button></div>
-                          </div>
-                        );
+                  <div className="border" style={{height:"460px"}}>
+                    <AutoSizer>
+                      {
+                        ({width, height}) => {
+                          return (
+                            <List width={width} height={height}
+                              rowCount={props.staticItemList.length}
+                              rowHeight={50}
+                              rowRenderer={rowRenderer}
+                              overscanRowCount={5}
+                            />
+                          )
+                        }
                       }
-                    })} 
+                    </AutoSizer>
                   </div>
                   </Tab.Pane>
 
@@ -166,20 +179,21 @@ function PrescriptionTestsModal(props) {
                       <div style={{width:"40%"}}>묶음명</div>
                       <div style={{width:"20%"}}></div>
                     </div>
-                    <div className="overflow-auto border" style={{height:"460px"}}>
-                      {groupTests != null &&
-                      Object.values(groupTests).map ((item, index) => {
+                    <div className="border" style={{height:"460px"}}>
+                    <AutoSizer>
+                      {
+                        ({width, height}) => {
                           return (
-                            <div key={item.groupcode} className="d-flex text-center pt-1 pb-1 align-items-center border-bottom" style={{height:"50px", fontWeight:"bold"}}>
-                              <div style={{width:"40%"}}>{item.groupcode}</div>
-                              <OverlayTrigger placement="right"
-                                  overlay={<Tooltip>{item.groupname}</Tooltip>}>
-                                <div style={{width:"40%", whiteSpace: "nowrap",overflow:"hidden", textOverflow:"ellipsis"}}>{item.groupname}</div>
-                              </OverlayTrigger>
-                              <div style={{width:"20%"}}><button className="btn btn-success btn-sm" onClick={() => {addPackage(item)}}>추가</button></div>
-                            </div>
-                          );
-                      })}
+                            <List width={width} height={height}
+                              rowCount={groupTests.length}
+                              rowHeight={50}
+                              rowRenderer={rowRendererPackage}
+                              overscanRowCount={5}
+                            />
+                          )
+                        }
+                      }
+                    </AutoSizer>
                     </div>
                   </Tab.Pane>
                 </Tab.Content>

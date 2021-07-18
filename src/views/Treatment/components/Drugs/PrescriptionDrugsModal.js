@@ -1,5 +1,7 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Button, Modal, OverlayTrigger, Tooltip } from "react-bootstrap";
+import { AutoSizer, List } from "react-virtualized";
+import PrescriptionDrugsItem from "./PrescriptionDrugItem"
 
 function PrescriptionDrugsModal(props) {
 
@@ -9,12 +11,12 @@ function PrescriptionDrugsModal(props) {
     setSearchName(event.target.value);
   };
   
-  const onChangeQuantity = (e) => {
+  const onChangeQuantity = useCallback((e, quantityArr) => {
     setQuantityArr({
       ...quantityArr,
       [e.target.name]:e.target.value
     })
-  }
+  }, []);
   const [prescriptionItems, setPrescriptionItems] = useState([]);
   useEffect(() => {
     if(props.show === true){
@@ -24,38 +26,53 @@ function PrescriptionDrugsModal(props) {
     }
   },[props]);
 
-  const prescribe = (items) => {
+  const prescribe = useCallback((items) => {
     props.prescribe(items);
     props.handleClose();
-  }
+  }, [props]);
 
-  const addItem = (item, quantity=1) => {
+
+  const addItem = useCallback((item, quantity=1, quantityArr) => {
     if(quantity <=0){
       quantity = 1;
     }
-    const compare = prescriptionItems.findIndex((obj) => obj.drugid === item.drugid);
-    if(compare >= 0){
-      alert("이미 처방받았습니다.");
-    } else {
-      item.quantity = quantity;
-      item.treatmentid = props.treatment.treatmentid;
-      setPrescriptionItems((prevItems) => {
-        const newItems = prevItems.concat(item);
+    setPrescriptionItems((prevItems) => {
+      const compare = prevItems.findIndex((obj) => obj.drugid === item.drugid);
+      if(compare >= 0){
+        alert("이미 처방받았습니다.");
+        return prevItems;
+      } else {
+        const newItem = {
+          ...item,
+          quantity:quantity,
+          treatmentid:props.treatment.treatmentid
+        }
+        const newItems = prevItems.concat(newItem);
+        setQuantityArr({
+          ...quantityArr,
+          [item.drugid] : 0
+        })
         return newItems;
-      });
-      setQuantityArr({
-        ...quantityArr,
-        [item.drugid] : 0
-      })
-    }
-  }
+      }
+    });
 
-  const removeItem = (item) => {
+  }, [props.treatment]);
+
+  const removeItem = useCallback((item) => {
     setPrescriptionItems(prevItems => {
       const newItems = prevItems.filter(prevItem => prevItem.drugid != item.drugid);
       return newItems;
     })
+  }, []);
+
+  const rowRenderer = ({index, key, style}) => {
+    return (
+      <div key={key} style={style}>
+        <PrescriptionDrugsItem item={props.staticItemList[index]} addItem={addItem} quantityArr={quantityArr} onChangeQuantity={onChangeQuantity}></PrescriptionDrugsItem>
+      </div>
+    )
   }
+
 
   return (
     <Modal animation={false} show={props.show} onHide={props.handleClose} size="xl" centered>
@@ -108,28 +125,21 @@ function PrescriptionDrugsModal(props) {
               <div style={{width:"25%"}}>수량</div>
               <div style={{width:"25%"}}></div>
             </div>
-            <div className="overflow-auto border" style={{height:"450px"}}>
-            {props.staticItemList != null &&
-            props.staticItemList.map ((item, index) => {
-              if((item.drugname.indexOf(searchName) != -1)){
-                return (
-                  <div key={item.drugid} className="d-flex text-center pt-1 pb-1 align-items-center border-bottom" style={{height:"50px", fontWeight:"bold"}}>
-                    <div style={{width:"25%"}}>{item.drugid}</div>
-                    <OverlayTrigger placement="right"
-                        overlay={<Tooltip>{item.drugname}</Tooltip>}>
-                      <div style={{width:"25%", whiteSpace: "nowrap",overflow:"hidden", textOverflow:"ellipsis"}}>{item.drugname}</div>
-                    </OverlayTrigger>
-                    <div className="d-flex" style={{width:"25%"}}>
-                      <div style={{width:"60%", marginRight:"3px"}}>
-                        <input min={1} type="number" name={item.drugid} value={quantityArr[item.drugid] || 1} onChange={onChangeQuantity} className="form-control"></input>
-                      </div>
-                      <div style={{width:"40%"}}>{item.drugunit}</div>
-                    </div>
-                    <div style={{width:"25%"}}><button className="btn btn-success btn-sm" onClick={() => {addItem(item, quantityArr[item.drugid])}}>추가</button></div>
-                  </div>
-                );
-              }
-            })} 
+            <div className="border" style={{height:"450px"}}>
+              <AutoSizer>
+                {
+                  ({width, height}) => {
+                    return (
+                      <List width={width} height={height}
+                        rowCount={props.staticItemList.length}
+                        rowHeight={50}
+                        rowRenderer={rowRenderer}
+                        overscanRowCount={5}
+                      />
+                    )
+                  }
+                }
+              </AutoSizer>
             </div>
           </div> 
         </div>

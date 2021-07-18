@@ -1,7 +1,7 @@
 import { useState } from "react";
 import ButtonHeader from "./components/ButtonHeader";
-import DignosesItem from "./components/DignosesItem";
-import PrescriptionDignosesModal from "./components/PrescriptionDignosesModal";
+import DiagnosesItem from "./components/Diagnoses/DiagnosesItem";
+import PrescriptionDiagnosesModal from "./components/Diagnoses/PrescriptionDiagnosesModal";
 
 
 function DiagnosisList(props) {
@@ -20,7 +20,7 @@ function DiagnosisList(props) {
   return (
     <>
       <ButtonHeader headertitle="상병 목록" iclassName="bi bi-check2-square" color="#D27E7B" btnicon="bi bi-plus-square" onclick={props.treatment.status==="진료 대기"? handleShow : info}/>
-      <PrescriptionDignosesModal show={show} treatment={props.treatment} handleClose={handleClose} staticItemList={props.staticDignoses} itemList={props.treatmentDiagnoses} prescribe={prescribeDiagnoses}></PrescriptionDignosesModal>
+      <PrescriptionDiagnosesModal show={show} treatment={props.treatment} handleClose={handleClose} staticItemList={props.staticDignoses} itemList={props.treatmentDiagnoses} prescribe={prescribeDiagnoses}></PrescriptionDiagnosesModal>
       <div className="overflow-auto p-3" style={{height:"calc(100% - 50px"}}>
 
       
@@ -42,7 +42,7 @@ function DiagnosisList(props) {
             props.treatmentDiagnoses.length !==0 ? 
             props.treatmentDiagnoses.map (diagnosis => {
               return (
-                <DignosesItem key={diagnosis.diagnosesdataid} item={diagnosis}></DignosesItem>
+                <DiagnosesItem key={diagnosis.diagnosesdataid} item={diagnosis}></DiagnosesItem>
               );
             })
             :

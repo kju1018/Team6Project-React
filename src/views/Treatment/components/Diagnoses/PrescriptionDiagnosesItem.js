@@ -1,7 +1,7 @@
 import React from "react";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
 
-function PrescriptionDignosesItem(props) {
+function PrescriptionDiagnosesItem(props) {
 
   console.log(props.item.diagnosesdataid," 렌더링");
   return (
@@ -20,4 +20,4 @@ function PrescriptionDignosesItem(props) {
   );
 }
 
-export default React.memo(PrescriptionDignosesItem);
+export default React.memo(PrescriptionDiagnosesItem);

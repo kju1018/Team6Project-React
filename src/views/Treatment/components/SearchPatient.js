@@ -1,6 +1,7 @@
 import { getPatientList } from "apis/Treatment";
 import { useCallback, useEffect, useState } from "react";
 import { Button, Modal } from "react-bootstrap";
+import { AutoSizer, List } from "react-virtualized";
 import Item from "views/components/Item";
 function SearchPatient(props) {
   const property = ["patientid", "patientname", "age", "sex", "phonenumber", "lasttreatment", "registerday"];
@@ -43,6 +44,8 @@ function SearchPatient(props) {
       age:"-",
       phonenumber: "-", 
     })
+    setSearchList(patientList);
+    setSearchName("");
   }, [props.show])
 
   const checkPatient = (patient) => {
@@ -59,42 +62,67 @@ function SearchPatient(props) {
     setSearchName(event.target.value);
   };
 
-  const search = useCallback((name) => {
+  const search = useCallback((name, patientList) => {
     setSearchList(() => {
-      return patientList.filter(patient => patient.patientname.indexOf(name) !== -1);
+      const newPatient = patientList.filter(patient => patient.patientname.indexOf(name) !== -1);
+      return newPatient;
     })
     console.log(name);
   }, []);//useCallback로 받으면 () =>      ()괄호안에 매개변수를 받아야함
 
+  const rowRenderer = ({index, key, style}) => {
+    return (
+      <div key={key} style={style}>
+        <Item item={searchList[index]} property={property} onClick={checkPatient}></Item>
+      </div>
+    )
+  }
+
   return (
     <>
       <Modal show={props.show} onHide={props.handleClose} size="lg">
-        <Modal.Header closeButton>
-          <Modal.Title>환자 검색</Modal.Title>
+        <Modal.Header closeButton style={{backgroundColor:"#1B296D"}}>
+          <Modal.Title style={{color:"#FFFFFF"}}>환자 검색</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <div className="input-group mb-3">
-            <input type="text" onChange={handleSearchName}/>
+            <input type="search" value={searchName} onChange={handleSearchName} style={{width:"300px"}}/>
             <div className="input-group-append">
-              <button className="btn btn-outline-secondary btn-sm" type="button" onClick={ () => search(searchName)}>검색</button>
+              <button className="btn btn-outline-secondary btn-sm" type="button" onClick={ () => search(searchName, patientList)}>검색</button>
             </div>
           </div>
           <div className="d-flex">
-            <div style={{fontWeight:"bold"}}>현재 선택한 환자: </div>
+            <div style={{fontWeight:"bold"}}>현재 선택한 환자:  </div>
             {checkedPatient.patientname}
           </div>
           <div style={{height:"400px"}} className="overflow-auto pt-1">
             {
               loading === true ? 
-              <div class="spinner-border text-success" role="status">
-                <span class="sr-only">Loading...</span>
+              <div className="d-flex h-100 justify-content-center align-items-center">
+                <div class="spinner-border text-success" role="status">
+                  <span class="sr-only">Loading...</span>
+                </div>
               </div>
               :
-              searchList.map ( patient => {
-                return (
-                  <Item key={patient.patientid}  item={patient} property={property} onClick={checkPatient}></Item>
-                );
-              })
+              <AutoSizer>
+                {
+                  ({width, height}) => {
+                    return (
+                      <List width={width} height={height}
+                        rowCount={searchList.length}
+                        rowHeight={50}
+                        rowRenderer={rowRenderer}
+                        overscanRowCount={5}
+                      />
+                    )
+                  }
+                }
+              </AutoSizer>
+              // searchList.map ( patient => {
+              //   return (
+              //     <Item key={patient.patientid}  item={patient} property={property} onClick={checkPatient}></Item>
+              //   );
+              // })
             }
           </div>
         </Modal.Body>

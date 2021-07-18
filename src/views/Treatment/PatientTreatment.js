@@ -7,7 +7,6 @@ function PatientTreatment(props) {
   // console.log("PatientTreatment");
 
   const selectTreatment = useCallback((treatment) => {
-    console.log(treatment);
     props.selectTreatment(treatment);
   }, [props])
 
