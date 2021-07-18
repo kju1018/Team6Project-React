@@ -15,7 +15,7 @@ function PackageImgTest(props) {
     if(test.result != null && test.result === "첨부완료"){
       work(test.treatmentid, test.testdataid);
     } 
-  },[])
+  },[props.groupTest])
 
   const work = async(treatmentid, testdataid) => {
     try {
@@ -82,6 +82,7 @@ function PackageImgTest(props) {
                                     height="536px"
                                     onClick={() => { showImgModal(img) }}
                                     style={{cursor:"pointer"}}
+                                    alt="xray"
                                   />
                                 </Carousel.Item>
                               )

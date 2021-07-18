@@ -7,9 +7,9 @@ function SearchPatient(props) {
   const property = ["patientid", "patientname", "age", "sex", "phonenumber", "lasttreatment", "registerday"];
 
   const [checkedPatient, setCheckedPatient] = useState({
-    patientname:"", 
-    ssn1:"-", 
-    ssn2:"-", 
+    patientname:"환자이름", 
+    ssn1:"", 
+    ssn2:"", 
     sex: "성별",
     age:"-",
     phonenumber: "-", 
@@ -37,16 +37,16 @@ function SearchPatient(props) {
 
   useEffect(() => {
     setCheckedPatient({
-      patientname:"", 
-      ssn1:"-", 
-      ssn2:"-", 
+      patientname:"환자이름", 
+      ssn1:"", 
+      ssn2:"", 
       sex: "성별",
       age:"-",
       phonenumber: "-", 
     })
     setSearchList(patientList);
     setSearchName("");
-  }, [props.show])
+  }, [props.show, patientList])
 
   const checkPatient = (patient) => {
     setCheckedPatient(patient);

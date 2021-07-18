@@ -2,6 +2,7 @@ import React from "react";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
 
 function PrescriptionPackageItem(props) {
+  console.log(props.item.groupcode, "렌더링")
   return (
     <div key={props.item.groupcode} className="d-flex text-center pt-1 pb-1 align-items-center border-bottom" style={{height:"50px", fontWeight:"bold"}}>
       <div style={{width:"40%"}}>{props.item.groupcode}</div>
