@@ -26,6 +26,8 @@ function TestPage(props) {
   const [enddate, setEnddate] = useState(new Date());
   const [testdatas, setTestdatas] = useState([]);
 
+  const [chkresult, setChkresult] = useState();
+
   const testReception = useSelector((state)=>(state.receptionReducer.testreception)) //--------------redis
   
   const getpatient = async(startdate, enddate) => { //함수로 만든이유는 나중에 클릭할때도 사용
@@ -48,9 +50,9 @@ function TestPage(props) {
   }
 
   const gettest = (testreceptionid) => {
-    console.log(clickdate.testreceptionid)
-    if(clickdate.testreceptionid != null){
-      testlistByReceptionid(clickdate.testreceptionid).then((response)=>{
+    console.log(clickdate)
+    if(clickdate != null){
+      testlistByReceptionid(clickdate).then((response)=>{
       setTestdatas(response.data);
       console.log(response.data)
       })
@@ -63,16 +65,18 @@ function TestPage(props) {
   },[testReception]);
 
   const ClickPatient = async(e, item, index) => {
-    console.log("dd"+item.testreceptionid)
+    console.log("dd"+item)
     setProfile(item)
-    const reset = false;
-    setGroupShow(reset)
-    const response = await testlistByPatientid(item.patientid);
-    setClickDateList(response.data);
+    // const reset = false;
+    // setGroupShow(reset)
+    // const response = await testlistByPatientid(item.patientid);
+    // setClickDateList(response.data);
+    setClickdate(item.testreceptionid)
+    const value = true;
+    setGroupShow(value) //클릭시 show
   }
   
   useEffect(()=>{
-    console.log(clickdate)
     gettest();
   }, [clickdate])
 
@@ -122,7 +126,7 @@ function TestPage(props) {
                   <div className="col-2 p-0 text-center">{item.ssn1}</div>
                   <div className="col-2 p-0 text-center">{item.patientname}</div>
                   <div className="col-4 p-0 text-center">{moment(item.testdate).format('YYYY-MM-DD')}</div>
-                  <div className="col-2 p-0 text-center"><Badge className="mr-1" variant="light">{item.status}</Badge><Badge variant={(item.result == null)?"success":"danger"}>{(item.result == null)?"미입력":"입력완료"}</Badge></div>
+                  <div className="col-2 p-0 text-center"><Badge className="mr-1" variant="light">{item.status}</Badge><Badge variant={(item.result == null)?"success":"danger"}>{item.resultstatus}</Badge></div>
                 </div>
               )})}
               </Tab.Pane>
@@ -134,7 +138,7 @@ function TestPage(props) {
                   <div className="col-2 p-0 text-center">{item.ssn1}</div>
                   <div className="col-2 p-0 text-center">{item.patientname}</div>
                   <div className="col-4 p-0 text-center">{moment(item.testdate).format('YYYY-MM-DD')}</div>
-                  <div className="col-2 p-0 text-center"><Badge className="mr-1" variant="success">{item.status}</Badge><Badge variant={(item.result == null)?"success":"danger"}>{(item.result == null)?"미입력":"입력완료"}</Badge></div>
+                  <div className="col-2 p-0 text-center"><Badge className="mr-1" variant="success">{item.status}</Badge><Badge variant={(item.result == null)?"success":"danger"}>{item.resultstatus}</Badge></div>
                   </div>
               )})}
               </Tab.Pane>
@@ -145,7 +149,7 @@ function TestPage(props) {
                 <div className="col-2 p-0 text-center">{item.ssn1}</div>
                 <div className="col-2 p-0 text-center">{item.patientname}</div>
                 <div className="col-4 p-0 text-center">{moment(item.testdate).format('YYYY-MM-DD')}</div>
-                <div className="col-2 p-0 text-center"><Badge className="mr-1" variant="primary">{item.status}</Badge><Badge variant={(item.result == null)?"success":"danger"}>{(item.result == null)?"미입력":"입력완료"}</Badge></div>
+                <div className="col-2 p-0 text-center"><Badge className="mr-1" variant="primary">{item.status}</Badge><Badge variant={(item.result == null)?"success":"danger"}>{item.resultstatus}</Badge></div>
               </div>
               )})}
               </Tab.Pane>
@@ -156,7 +160,7 @@ function TestPage(props) {
                 <div className="col-2 p-0 text-center">{item.ssn1}</div>
                 <div className="col-2 p-0 text-center">{item.patientname}</div>
                 <div className="col-4 p-0 text-center">{moment(item.testdate).format('YYYY-MM-DD')}</div>
-                <div className="col-2 p-0 text-center"><Badge className="mr-1" variant="danger">{item.status}</Badge><Badge variant={(item.result == null)?"success":"danger"}>{(item.result == null)?"미입력":"입력완료"}</Badge></div>
+                <div className="col-2 p-0 text-center"><Badge className="mr-1" variant="danger">{item.status}</Badge><Badge variant={(item.result == null)?"success":"danger"}>{item.resultstatus}</Badge></div>
               </div>
               )})}
               </Tab.Pane>
@@ -177,7 +181,7 @@ function TestPage(props) {
             <div className="col p-0 pt-1 pb-1 text-center">{profile.patientname}</div>
           </div>
             <div className="d-flex pt-3">
-              <div style={{width:"20%", marginRight:"3%", marginLeft:"2%"}}>
+              {/* <div style={{width:"20%", marginRight:"3%", marginLeft:"2%"}}>
                 <div className="mb-3">검사 날짜: </div>
                 <div className="pr-4 overflow-auto" style={{height:"720px"}}>  
                 <div> 
@@ -188,8 +192,8 @@ function TestPage(props) {
                   )})}
                   </div>
                 </div>
-              </div>
-              <div style={{width:"74%", marginRight:"1%"}}>{groupshow?<TestGroup startdate={startdate} enddate={enddate} getpatient={getpatient} clickdate={clickdate} testdatas={testdatas} gettest={gettest}/>:""}</div>
+              </div> */}
+              <div style={{width:"87%", marginRight:"1%"}}>{groupshow?<TestGroup startdate={startdate} enddate={enddate} getpatient={getpatient} clickdate={clickdate} testdatas={testdatas} gettest={gettest} setTestdatas={setTestdatas}/>:""}</div>
             </div>
         </div>
         <div className="col-4 pt-3" style={{borderLeft:"1px solid #dadada"}}>

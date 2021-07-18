@@ -26,6 +26,11 @@ export function insertResult(test){
   return promise;
 }
 
+export function resultStatus(testreceptionid) {
+  const promise = axios.put(BASEURL+"test/resultstatus/"+testreceptionid)
+  return promise
+}
+
 export function startTests(checkedList) {
   //console.log(checkedList)
   const tests = [];
