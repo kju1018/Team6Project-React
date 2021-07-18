@@ -7,22 +7,26 @@ import PrescriptionTestItem from "./PrescriptionTestItem";
 function PrescriptionTestsModal(props) {
 
   const [searchName, setSearchName] = useState("");
+  const [searchType, setSearchType] = useState("groupcode");
+  const [eventKey, setEventKey] = useState("test")
+
+  const [prescriptionItems, setPrescriptionItems] = useState([]);
+  const [groupTests, setGroupTests] = useState([]);
+  const [searchGroupTests, setSearchGroupTests] = useState([]);
+  const [searchList, setSearchList] = useState([]);
+
   const handleSearchName = (event) => {
     setSearchName(event.target.value);
   };
 
-  const [prescriptionItems, setPrescriptionItems] = useState([]);
-  const [groupTests, setGroupTests] = useState([]);
-  const [searchList, setSearchList] = useState([]);
-  const [selectValue, setSelectValue] = useState("dataid");
-  const [eventKey, setEventKey] = useState("test")
   useEffect(() => {
     if(props.show === true){
       setPrescriptionItems(props.itemList);
       setSearchName("");
       setSearchList(props.staticItemList);
+      setSearchGroupTests(groupTests);
     }
-  },[props]);
+  },[props, groupTests]);
 
   useEffect(() => {
     const groupList = [];
@@ -40,7 +44,7 @@ function PrescriptionTestsModal(props) {
       return gt;
     }, {});
     setGroupTests(groupList);
-    setSearchList(props.staticItemList);
+    setSearchGroupTests(groupList);
   }, [props.staticItemList])
 
   const prescribe = useCallback((items) => {
@@ -76,14 +80,51 @@ function PrescriptionTestsModal(props) {
       return newItems;
     })
   }, [])
+  
+  const search = useCallback((search, searchType, eventKey) => {
+    let newTests = [];
+    search = search.toUpperCase();
+    if(eventKey === "test"){
 
-  const search = useCallback((search) => {
-    setSearchList(() => {
-      const newTests = props.staticItemList.filter(test => test.testdataid.indexOf(search) !== -1);
-      return newTests;
-    });
+      setSearchList(() => {
+        if(searchType === "dataid") {
+          newTests = props.staticItemList.filter(test => (test.testdataid.toUpperCase()).indexOf(search) !== -1);
+        } else if (searchType === "dataname") {
+          newTests = props.staticItemList.filter(test => (test.testdataname.toUpperCase()).indexOf(search) !== -1);
+        } else if (searchType === "groupcode") {
+          newTests = props.staticItemList.filter(test => (test.groupcode.toUpperCase()).indexOf(search) !== -1);
+        } else if (searchType === "groupname") {
+          newTests = props.staticItemList.filter(test => (test.groupname.toUpperCase()).indexOf(search) !== -1);
+        } 
+        return newTests;
+      });
+    } else if(eventKey === "package") {
 
-  }, [props.staticItemList]);
+      setSearchGroupTests(() => {
+        if (searchType === "groupcode") {
+          newTests = groupTests.filter(test => (test.groupcode.toUpperCase()).indexOf(search) !== -1);
+        } else if (searchType === "groupname") {
+          newTests = groupTests.filter(test => (test.groupname.toUpperCase()).indexOf(search) !== -1);
+        }
+        return newTests;
+      })
+    }
+
+  }, [props.staticItemList, groupTests]);
+
+  const selectType = useCallback((event) => {
+    setSearchType(event.target.value);
+  }, []);
+
+  const selectNav = useCallback((key) => {
+    setEventKey(key);
+
+    setSearchType("groupcode");
+    setSearchName("");
+
+    setSearchList(props.staticItemList);
+    setSearchGroupTests(groupTests);
+  }, [props.staticItemList, groupTests]);
 
   const rowRenderer = ({index, key, style}) => {
     return (
@@ -96,18 +137,9 @@ function PrescriptionTestsModal(props) {
   const rowRendererPackage = ({index, key, style}) => {
     return (
       <div key={key} style={style}>
-        <PrescriptionPackageItem item={groupTests[index]} addPackage={addPackage}></PrescriptionPackageItem>
+        <PrescriptionPackageItem item={searchGroupTests[index]} addPackage={addPackage}></PrescriptionPackageItem>
       </div>
     )
-  }
-  console.log(selectValue);
-  const handleSelect = (event) => {
-    setSelectValue(event.target.value);
-  }
-
-  const selectNav = (key) => {
-    setEventKey(key);
-    setSelectValue("dataid");
   }
 
   return (
@@ -118,15 +150,21 @@ function PrescriptionTestsModal(props) {
       <Modal.Body >
         <div className="input-group d-flex pb-2 mb-1 justify-content-end border-bottom">
           <div className="d-flex">
-          <select className="custom-select" style={{width:"110px"}} onChange={handleSelect}>
-            <option value="dataid" selected={selectValue ==="dataid"}>처방코드</option>
-            <option value="dataname" selected={selectValue ==="dataname"}>처방명</option>
-            <option value="groupcode" selected={selectValue ==="groupcode"}>그룹코드</option>
-            <option value="groupname" selected={selectValue ==="groupname"}>그룹명</option>
+          <select className="custom-select" style={{width:"110px"}} onChange={selectType}>
+            <option value="groupcode" selected={searchType ==="groupcode"}>묶음코드</option>
+            <option value="groupname" selected={searchType ==="groupname"}>묶음명</option>
+            {eventKey !== "package"? 
+              <>
+                <option value="dataid" selected={searchType ==="dataid"}>처방코드</option>
+                <option value="dataname" selected={searchType ==="dataname"}>처방명</option>
+              </>
+              :
+              null
+            }
           </select>
             <input type="text" value={searchName} onChange={handleSearchName}/>
             <div className="input-group-append">
-              <button className="btn btn-outline-secondary btn-sm" type="button" onClick={ () => search(searchName)}>검색</button>
+              <button className="btn btn-outline-secondary btn-sm" type="button" onClick={ () => search(searchName, searchType, eventKey, )}>검색</button>
             </div>
           </div>
         </div>
@@ -215,7 +253,7 @@ function PrescriptionTestsModal(props) {
                         ({width, height}) => {
                           return (
                             <List width={width} height={height}
-                              rowCount={groupTests.length}
+                              rowCount={searchGroupTests.length}
                               rowHeight={50}
                               rowRenderer={rowRendererPackage}
                               overscanRowCount={5}

@@ -7,6 +7,8 @@ function PrescriptionDrugsModal(props) {
 
   const [searchName, setSearchName] = useState("");
   const [quantityArr, setQuantityArr] = useState({});
+  const [prescriptionItems, setPrescriptionItems] = useState([]);
+  
   const handleSearchName = (event) => {
     setSearchName(event.target.value);
   };
@@ -17,7 +19,7 @@ function PrescriptionDrugsModal(props) {
       [e.target.name]:e.target.value
     })
   }, []);
-  const [prescriptionItems, setPrescriptionItems] = useState([]);
+
   useEffect(() => {
     if(props.show === true){
       setPrescriptionItems(props.itemList);
