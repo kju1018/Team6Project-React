@@ -46,7 +46,7 @@ function SearchPatient(props) {
     })
     setSearchList(patientList);
     setSearchName("");
-  }, [props.show])
+  }, [props.show, patientList])
 
   const checkPatient = (patient) => {
     setCheckedPatient(patient);
