@@ -1,5 +1,5 @@
 import { sendRedisMessage } from "apis/Redis";
-import { createXray, testlistByReceptionid } from "apis/test";
+import { createXray } from "apis/test";
 import { useEffect, useRef } from "react";
 import { useState } from "react";
 function TestResult(props) { 
@@ -45,6 +45,8 @@ function TestResult(props) {
     }
     console.log(treatmentid)
     sendRedisMessage({type:"testresult", treatmentid:treatmentid})//----------------redis 메세지
+    alert("사진첨부 완료")
+    inputFile.current.value = '';
   }
 
   const handleChange = (event) => { //사용자 입력시 상태 변경을 위해

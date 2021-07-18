@@ -1,5 +1,5 @@
 import { Accordion, Alert, Card } from "react-bootstrap";
-import Test from "./Test";
+import Test from "../Test";
 
 function PackageTest(props) {
   return (
