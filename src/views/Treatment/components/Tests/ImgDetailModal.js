@@ -9,7 +9,7 @@ function ImgDetailModal(props) {
       <Modal.Body >
         {props.selectedImg.imgid != null ? 
         <a href={`http://localhost:8080/treatment/imgdownload/${props.selectedImg.imgid}`}>
-          <img width={"100%"} height={"100%"}  src={`http://localhost:8080/treatment/imgdownload/${props.selectedImg.imgid}`}></img>
+          <img width={"100%"} height={"100%"} alt="xray"  src={`http://localhost:8080/treatment/imgdownload/${props.selectedImg.imgid}`}></img>
         </a>
         :
         null

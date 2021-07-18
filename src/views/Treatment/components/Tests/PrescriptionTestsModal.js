@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { Accordion, Button, Card, Modal, Nav, OverlayTrigger, Row, Tab, Tooltip } from "react-bootstrap";
+import { Accordion, Button, Card, Dropdown, DropdownButton, InputGroup, Modal, Nav, OverlayTrigger, Row, Tab, Tooltip } from "react-bootstrap";
 import { AutoSizer, List } from "react-virtualized";
 import PrescriptionPackageItem from "./PrescriptionPackageItem";
 import PrescriptionTestItem from "./PrescriptionTestItem";
@@ -13,9 +13,14 @@ function PrescriptionTestsModal(props) {
 
   const [prescriptionItems, setPrescriptionItems] = useState([]);
   const [groupTests, setGroupTests] = useState([]);
+  const [searchList, setSearchList] = useState([]);
+  const [selectValue, setSelectValue] = useState("dataid");
+  const [eventKey, setEventKey] = useState("test")
   useEffect(() => {
     if(props.show === true){
       setPrescriptionItems(props.itemList);
+      setSearchName("");
+      setSearchList(props.staticItemList);
     }
   },[props]);
 
@@ -35,6 +40,7 @@ function PrescriptionTestsModal(props) {
       return gt;
     }, {});
     setGroupTests(groupList);
+    setSearchList(props.staticItemList);
   }, [props.staticItemList])
 
   const prescribe = useCallback((items) => {
@@ -71,10 +77,18 @@ function PrescriptionTestsModal(props) {
     })
   }, [])
 
+  const search = useCallback((search) => {
+    setSearchList(() => {
+      const newTests = props.staticItemList.filter(test => test.testdataid.indexOf(search) !== -1);
+      return newTests;
+    });
+
+  }, [props.staticItemList]);
+
   const rowRenderer = ({index, key, style}) => {
     return (
       <div key={key} style={style}>
-        <PrescriptionTestItem item={props.staticItemList[index]} addItem={addItem}></PrescriptionTestItem>
+        <PrescriptionTestItem item={searchList[index]} addItem={addItem}></PrescriptionTestItem>
       </div>
     )
   }
@@ -86,6 +100,16 @@ function PrescriptionTestsModal(props) {
       </div>
     )
   }
+  console.log(selectValue);
+  const handleSelect = (event) => {
+    setSelectValue(event.target.value);
+  }
+
+  const selectNav = (key) => {
+    setEventKey(key);
+    setSelectValue("dataid");
+  }
+
   return (
     <Modal animation={false} show={props.show} onHide={props.handleClose} size="xl" centered>
       <Modal.Header closeButton style={{backgroundColor:"#1B296D"} }>
@@ -94,9 +118,15 @@ function PrescriptionTestsModal(props) {
       <Modal.Body >
         <div className="input-group d-flex pb-2 mb-1 justify-content-end border-bottom">
           <div className="d-flex">
-            <input type="text" onChange={handleSearchName}/>
+          <select className="custom-select" style={{width:"110px"}} onChange={handleSelect}>
+            <option value="dataid" selected={selectValue ==="dataid"}>처방코드</option>
+            <option value="dataname" selected={selectValue ==="dataname"}>처방명</option>
+            <option value="groupcode" selected={selectValue ==="groupcode"}>그룹코드</option>
+            <option value="groupname" selected={selectValue ==="groupname"}>그룹명</option>
+          </select>
+            <input type="text" value={searchName} onChange={handleSearchName}/>
             <div className="input-group-append">
-              {/* <button className="btn btn-outline-secondary btn-sm" type="button" onClick={ () => search(searchName)}>검색</button> */}
+              <button className="btn btn-outline-secondary btn-sm" type="button" onClick={ () => search(searchName)}>검색</button>
             </div>
           </div>
         </div>
@@ -137,17 +167,17 @@ function PrescriptionTestsModal(props) {
 
           <div className="pl-0 pr-0" style={{width:"506px"}}>
             <div style={{height:"550px"}}>
-              <Tab.Container defaultActiveKey="wait">
-                <Nav fill variant="tabs">
+              <Tab.Container defaultActiveKey="test">
+                <Nav fill variant="tabs" onSelect={selectNav}>
                   <Nav.Item>
-                    <Nav.Link eventKey="wait">개별 처방</Nav.Link>
+                    <Nav.Link eventKey="test">개별 처방</Nav.Link>
                   </Nav.Item>
                   <Nav.Item>
-                    <Nav.Link eventKey="complete">묶음 처방</Nav.Link>
+                    <Nav.Link eventKey="package">묶음 처방</Nav.Link>
                   </Nav.Item>
                 </Nav>
                 <Tab.Content  style={{height:"500px"}}>
-                  <Tab.Pane eventKey= "wait" className="pt-1">
+                  <Tab.Pane eventKey= "test" className="pt-1">
                   <div className="d-flex text-center align-items-center" style={{height:"40px", color:"#88888D", fontWeight:"bold"}}>
                     <div style={{width:"20%"}}>묶음코드</div>
                     <div style={{width:"20%"}}>묶음명</div>
@@ -161,7 +191,7 @@ function PrescriptionTestsModal(props) {
                         ({width, height}) => {
                           return (
                             <List width={width} height={height}
-                              rowCount={props.staticItemList.length}
+                              rowCount={searchList.length}
                               rowHeight={50}
                               rowRenderer={rowRenderer}
                               overscanRowCount={5}
@@ -173,7 +203,7 @@ function PrescriptionTestsModal(props) {
                   </div>
                   </Tab.Pane>
 
-                  <Tab.Pane eventKey="complete" className="pt-1">
+                  <Tab.Pane eventKey="package" className="pt-1">
                     <div className="d-flex text-center align-items-center" style={{height:"40px", color:"#88888D", fontWeight:"bold"}}>
                       <div style={{width:"40%"}}>묶음코드</div>
                       <div style={{width:"40%"}}>묶음명</div>
