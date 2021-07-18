@@ -1,9 +1,9 @@
 
 import { useState } from "react";
 
-import PrescriptionModal from "./components/PrescriptionDrugsModal"
+import PrescriptionModal from "./components/Drugs/PrescriptionDrugsModal"
 import ButtonHeader from "./components/ButtonHeader";
-import DrugsItem from "./components/DrugsItem";
+import DrugsItem from "./components/Drugs/DrugsItem";
 
 function DrugList(props) {
 

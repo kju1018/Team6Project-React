@@ -125,13 +125,18 @@ export function GetTestReceptionList(){
     return result;
 }
 
-//임직원 정보 가져오기
+//임직원 정보 가져오기(usertype)
 export function GetUsersData(usertype){
     const result = axios.get("/user/userlist",{
         params:{    
             usertype
         }
     });
+    return result;
+}
+//임직원 정보 가져오기(userid)
+export function GetUserData(userid){
+    const result = axios.get("reception/getuser/"+userid);
     return result;
 }
 

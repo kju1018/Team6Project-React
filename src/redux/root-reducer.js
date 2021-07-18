@@ -6,6 +6,7 @@ import receptionReducer from "./reception-reducer"
 import authReducer from "./auth-rducer"
 import realtimeReducer from "./realtime-reducer"
 import websocketReducer from "./websocket-reducer"
+import toastReducer from "./toast-reducer"
 const rootReducer = combineReducers({
   patientReducer,
   treatmentReducer,
@@ -13,7 +14,8 @@ const rootReducer = combineReducers({
   receptionReducer,
   authReducer,
   websocketReducer,
-  realtimeReducer
+  realtimeReducer,
+  toastReducer
 
 });
 
