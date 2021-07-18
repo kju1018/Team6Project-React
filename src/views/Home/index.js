@@ -25,7 +25,7 @@ function Home(props) {
       <User/>
       </div>
       <div className="p-2"></div>
-      <div className="col card"style={{height:"33vh"}}>
+      <div className="col card"style={{height:"33.7vh"}}>
       <Photo/>
       </div>
    </div>
