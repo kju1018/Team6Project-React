@@ -1,46 +1,49 @@
+import { useEffect, useState } from "react";
+import { getUserList } from "apis/Main";
+
 function User(props){
-  return(
+
+  const [UserList, setUserList] = useState([]);
+  const [board, setBoard] = useState({});
+
+  const work = async() => {
+    const response = await getUserList();    
+    setUserList(response.data);
+  }
+
+  useEffect(() => {
+    work();
+  },[])
+  
+  return(    
     <>
     <div className="scrollbar" id="style-7">
       <div className="force-overflow-auto">
       <table className="table table-hover">
         <thead className="card-header" style={{backgroundColor:"rgb(18, 60, 114)", color:"white"}}>
         <tr class="text-center">
-          <th scope="col">PHOTO</th>
+          <th scope="col">Room</th>
           <th scope="col">DOCTOR</th>
-          <th scope="col">ROOM</th>
+          <th scope="col">PHONE</th>
           <th scope="col">SEX</th>
         </tr>
         </thead>
         <tbody>
-          <tr className="text-center">
-            <th scope="row"><img src="/doctor1.png" width="30" height="30"/></th>
-            <th>김상중</th>
-            <th>1</th>
-            <th>M</th>
-          </tr>
-          <tr className="text-center">
-            <th scope="row"><img src="/doctor2.png" width="30" height="30"/></th>
-            <th>신용권</th>
-            <th>2</th>
-            <th>M</th>
-          </tr>
-          <tr className="text-center">
-            <th scope="row"><img src="/doctor3.png" width="30" height="30"/></th>
-            <th>홍미경</th>
-            <th>3</th>
-            <th>W</th>
-          </tr>
-          <tr className="text-center">
-            <th scope="row"><img src="/doctor3.png" width="30" height="30"/></th>
-            <th>최은지</th>
-            <th>4</th>
-            <th>W</th>
-          </tr>
+          {UserList.length != 0 &&
+          UserList.map((board) => {
+            return(
+                <tr>
+                  <th style={{width:"100px"}}>{board.userroom}</th>
+                  <th style={{width:"100px"}}>{board.username}</th>
+                  <th style={{width:"200px"}}>{board.phonenumber}</th>
+                  <th>{board.sex}</th>
+                </tr>
+            )
+          })}
         </tbody>
       </table>
       </div>
-  </div>
+   </div>
     </>
   )
 }
