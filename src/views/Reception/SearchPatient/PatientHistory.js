@@ -1,5 +1,5 @@
 import { GetTreatmentListBypatientid,GetTreatmentDetail } from "apis/Reception";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Spinner } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import { AutoSizer, List } from "react-virtualized";
@@ -62,9 +62,9 @@ function PatientHistory(props) {
     }
     
   },[selectedTreatment])
-  const click =(focusItem) =>{
-      setSelectedTreatment(focusItem);
-    }
+  const click =useCallback( (focusItem) =>{
+    setSelectedTreatment(focusItem);
+  },[])
 
     const treatmentProperty = ["treatmentid","patientname","username","status","treatmentdate"]  
   return (
