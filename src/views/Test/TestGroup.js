@@ -3,7 +3,7 @@ import { Badge, Button, Modal, Accordion, Card  } from "react-bootstrap";
 import xlsx from 'xlsx';
 import React from 'react';
 import Print from "./Print";
-import { startTests, cancelTests, finishTests, startPatient, cancelPatient, finishPatient, insertResult } from "apis/test";
+import { startTests, cancelTests, finishTests, startPatient, cancelPatient, finishPatient, insertResult, resultStatus } from "apis/test";
 import { sendRedisMessage } from "apis/Redis";
 
 function TestGroup(props) {
@@ -16,7 +16,8 @@ function TestGroup(props) {
   useEffect(()=>{ 
     setPatientid(props.clickdate)
     group();
-  }, [props.testdatas, props.clickdate.testreceptionid])
+    setData({})
+  }, [props.testdatas, props.clickdate])
 
   const group = () => {
     setExcel(props.testdatas)
@@ -40,6 +41,7 @@ function TestGroup(props) {
                   obj[title[i]].groupcode=props.testdatas[j].groupcode;
                   obj[title[i]].groupname=props.testdatas[j].groupname;
                   obj[title[i]].status=props.testdatas[j].status;
+                  obj[title[i]].chkresult=false;
                   obj[title[i]].ischeck=false;
                   if(props.testdatas[j].status === "검사완료") {
                     obj[title[i]].saveBtn=false;
@@ -93,8 +95,8 @@ function TestGroup(props) {
 
     if(flag === 0){
       try {
-        startTests(checkedList).then(()=>{props.gettest(props.clickdate.testreceptionid); group()});
-        startPatient(props.clickdate.testreceptionid).then(()=>{ props.getpatient(props.startdate, props.enddate)});
+        startTests(checkedList).then(()=>{props.gettest(props.clickdate); group()});
+        startPatient(props.clickdate).then(()=>{ props.getpatient(props.startdate, props.enddate)});
         sendRedisMessage({type:"test"})
       } catch (error) {
         console.log(error);
@@ -134,8 +136,8 @@ function TestGroup(props) {
 
     if(flag === 0){
       try {
-        startTests(checkedList).then(()=>{props.gettest(props.clickdate.testreceptionid); group()});
-        startPatient(props.clickdate.testreceptionid).then(()=>{props.getpatient(props.startdate, props.enddate)});
+        startTests(checkedList).then(()=>{props.gettest(props.clickdate); group()});
+        startPatient(props.clickdate).then(()=>{props.getpatient(props.startdate, props.enddate)});
         sendRedisMessage({type:"test"})
       } catch (error) {
         console.log(error);
@@ -166,8 +168,8 @@ function TestGroup(props) {
     });
     if(flag === 0){
       try {
-        cancelTests(checkedList).then(()=>{props.gettest(props.clickdate.testreceptionid); group()})
-        cancelPatient(props.clickdate.testreceptionid).then(()=>{props.getpatient(props.startdate, props.enddate)})
+        cancelTests(checkedList).then(()=>{props.gettest(props.clickdate); group()})
+        cancelPatient(props.clickdate).then(()=>{props.getpatient(props.startdate, props.enddate)})
         sendRedisMessage({type:"test"})
       } catch (error) {
         console.log(error);
@@ -199,7 +201,7 @@ function TestGroup(props) {
     });
     if(flag === 0){
       try {
-        finishTests(checkedList).then(()=>{props.gettest(props.clickdate.testreceptionid); group()})
+        finishTests(checkedList).then(()=>{props.gettest(props.clickdate); group()})
         let count = 0;
         console.log("클릭한 검사그룹 갯수", groupList.length)
         if(groupList.length > 0) {
@@ -212,7 +214,7 @@ function TestGroup(props) {
         }
           if(count === groupList.length-1) {
             console.log(count)
-            finishPatient(props.clickdate.testreceptionid).then(()=>{props.getpatient(props.startdate, props.enddate)})
+            finishPatient(props.clickdate).then(()=>{props.getpatient(props.startdate, props.enddate)})
           }
         }
         sendRedisMessage({type:"test"})
@@ -225,18 +227,39 @@ function TestGroup(props) {
 
   const handleAdd = async(event, test) => {
     event.preventDefault();
-    insertResult(data).then(()=>{group()});
+    console.log(data)
+    test.result = data[test.testdataid]
+    insertResult(test).then(()=>{
+      setData({...data});//이전에 입력한 결과값 초기화 
+      group();
+
+      let count = 0;
+      console.log(props.testdatas)
+      if(props.testdatas.length > 0) {
+        for(let i=0; i<props.testdatas.length; i++){
+          console.log(props.testdatas[i].result)
+        if(props.testdatas[i].result !== null || props.testdatas[i].result === ""){
+          count++;
+          console.log(count)
+        }
+      }
+        if(count === props.testdatas.length) {
+          console.log("전체 입력완료")
+          resultStatus(props.clickdate).then(()=>{props.getpatient(props.startdate, props.enddate)})
+        }
+      }
+    });
     sendRedisMessage({type:"testresult", treatmentid:test.treatmentid})//----------------redis 메세지
     //다시 검사리스트 가져오기
-    setData({});//이전에 입력한 결과값 초기화 
+  
   }
  
   const handleChange = (event, index, test) => { //사용자 입력시 상태 변경을 위해
     setData({
-      ...test,
+      ...data,
       [event.target.name]: event.target.value
     })
-    console.log(test)
+    console.log(data)
   }
 //{test test test}
   /*
@@ -258,7 +281,7 @@ function TestGroup(props) {
       <button type="button" className="btn btn-dark btn-sm mr-1" onClick={ handleExcel}>엑셀저장</button>
       <button type="button" className="btn btn-dark btn-sm mr-1" onClick={ () => {handleFinish(groupList) }} value="검사완료">검사완료</button>
     </div> 
-    <div>검사접수번호: {props.clickdate.testreceptionid}</div>
+    <div>검사접수번호: {props.clickdate}</div>
     <div className="overflow-auto" style={{height:"700px"}}>
       <Accordion defaultActiveKey="0">
        {groupList !=={} &&
@@ -290,7 +313,7 @@ function TestGroup(props) {
                     <div className="col-2 p-0 text-center">{test.status}</div>
                     <div className="col-4 p-0 pl-2 text-center" style={{display:"inline-flex"}}>
                       <form onSubmit={ event => {handleAdd(event, test)}}>
-                        {group.saveBtn?"":<div style={{float:"left", width:"60%"}}><input type="text" className="form-control" name="result" value={test.result} onChange={e => {handleChange(e, index, test)}}/></div>}
+                        {group.saveBtn?"":<div style={{float:"left", width:"60%"}}><input type="text" className="form-control" name={test.testdataid} value={test.result == data.result ? (data[test.testdataid] || "") : test.result} onChange={e => {handleChange(e, index, test)}}/></div>}
                         {group.saveBtn?"":<div style={{float:"right"}}><input type="submit" className="btn btn-primary btn-sm mr-2"  disabled={group.saveBtn} value="추가"/></div>}
                       </form>
                     </div>
