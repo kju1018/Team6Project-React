@@ -1,15 +1,15 @@
 import { useCallback, useEffect, useState } from "react";
 import { Button, Modal, OverlayTrigger, Tooltip } from "react-bootstrap";
 import { AutoSizer, List } from "react-virtualized";
-import PrescriptionDignosesItem from "./PrescriptionDignosesItem";
+import PrescriptionDiagnosesItem from "./PrescriptionDiagnosesItem";
 
-function PrescriptionDignosesModal(props) {
+function PrescriptionDiagnosesModal(props) {
 
   const [searchName, setSearchName] = useState("");
   const handleSearchName = (event) => {
     setSearchName(event.target.value);
   };
-  console.log("상병목록 리렌더링");
+
   const [prescriptionItems, setPrescriptionItems] = useState([]);
   useEffect(() => {
     if(props.show === true){
@@ -23,17 +23,22 @@ function PrescriptionDignosesModal(props) {
   }, [props]);
 
   const addItem = useCallback((item) => {
-    const compare = prescriptionItems.findIndex((obj) => obj.diagnosesdataid === item.diagnosesdataid);
-    if(compare >= 0){
-      alert("이미 처방받았습니다.");
-    } else {
       setPrescriptionItems((prevItems) => {
-        item.treatmentid=props.treatment.treatmentid;
-        const newItems = prevItems.concat(item);
-        return newItems;
+        const compare = prevItems.findIndex((obj) => obj.diagnosesdataid === item.diagnosesdataid);
+        if(compare >= 0){
+          alert("이미 처방받았습니다.");
+          return prevItems;
+        } else {
+          const newItem = {
+            ...item,
+            treatemntid:props.treatment.treatmentid
+          }
+          const newItems = prevItems.concat(newItem);
+          return newItems;
+        }
       });
-    }
-  },[props])
+  },[props.treatment]);
+
   const removeItem = useCallback((item) => {
     setPrescriptionItems((prevItems) => {
       const newItems = prevItems.filter(prevItem => prevItem.diagnosesdataid !== item.diagnosesdataid);
@@ -44,14 +49,13 @@ function PrescriptionDignosesModal(props) {
   const rowRenderer = ({index, key, style}) => {
     return (
       <div key={key} style={style}>
-        <PrescriptionDignosesItem item={props.staticItemList[index]} addItem={addItem}></PrescriptionDignosesItem>
+        <PrescriptionDiagnosesItem item={props.staticItemList[index]} addItem={addItem}></PrescriptionDiagnosesItem>
       </div>
     )
   }
-
   return (
     <Modal animation={false} show={props.show} onHide={props.handleClose} size="xl" centered>
-      <Modal.Header closeButton style={{backgroundColor:"#1B296D"} }>
+      <Modal.Header closeButton style={{backgroundColor:"#1B296D"}}>
         <Modal.Title style={{color:"#FFFFFF"}}>병명 입력</Modal.Title>
       </Modal.Header>
       <Modal.Body >
@@ -109,7 +113,6 @@ function PrescriptionDignosesModal(props) {
                   ({width, height}) => {
                     return(
                       <List width={width} height={height}
-                        list={props.staticItemList}
                         rowCount={props.staticItemList.length}
                         rowHeight={50}
                         rowRenderer={rowRenderer}
@@ -119,15 +122,6 @@ function PrescriptionDignosesModal(props) {
                   }
                 }
               </AutoSizer>
-              {/* props.staticItemList.map ((item, index) => {
-              if((item.diagnosesdataname.indexOf(searchName) != -1) 
-                  || (item.diagnosesdataename.indexOf(searchName) != -1)
-                  || (item.diagnosesdataid.indexOf(searchName) != -1)){
-                return (
-                  <PrescriptionDignosesItem key={item.diagnosesdataid} item={item} addItem={addItem}></PrescriptionDignosesItem>
-                );
-              }
-            }) */}
             </div>
           </div> 
         </div>
@@ -144,4 +138,4 @@ function PrescriptionDignosesModal(props) {
   );
 }
 
-export default PrescriptionDignosesModal;
+export default PrescriptionDiagnosesModal;

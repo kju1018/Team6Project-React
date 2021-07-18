@@ -1,15 +1,17 @@
 import { useEffect, useState } from "react";
 import { Accordion, Alert, Badge, Button, Card, Carousel, Col, Container, Image, Row, Toast } from "react-bootstrap";
 import ButtonHeader from "./components/ButtonHeader";
-import PackageImgTest from "./components/PackageImgTest";
-import PackageTest from "./components/PackageTest";
-import PrescriptionTestsModal from "./components/PrescriptionTestsModal";
+import PackageImgTest from "./components/Tests/PackageImgTest";
+import PackageTest from "./components/Tests/PackageTest";
+import PrescriptionTestsModal from "./components/Tests/PrescriptionTestsModal";
 
 function TestList(props) {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const [groupTests, setGroupTests] = useState({});
+
+
 
   const info = () => {
     alert("대기중인 진료를 선택해주세요.");
@@ -89,6 +91,9 @@ function TestList(props) {
             </Col>
           </Row>
         </div>
+
+
+
       </div>
     </>
   );

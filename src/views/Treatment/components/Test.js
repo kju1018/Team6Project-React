@@ -3,7 +3,7 @@ import { Accordion, Badge, Button, Card, Table } from "react-bootstrap";
 
 function Test(props) {
   return (
-    <Accordion className="mb-3">
+    <Accordion className="mb-3" defaultActiveKey={"0"}>
     <Card border="secondary">
       <Card.Header>
         <Accordion.Toggle block as={Button} size="sm" variant="outline-light" eventKey="0">
