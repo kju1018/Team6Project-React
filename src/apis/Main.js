@@ -17,3 +17,9 @@ export function deleteNotice(noticeid){
     const promise = axios.delete("/main/delete/" + noticeid);
     return promise;
 }
+
+//유저정보 가져오기
+export function getUserList() {
+    const promise = axios.get("/main/userList");
+    return promise;
+}
