@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import PeriodSearch from "./PeriodSearch";
 import TestGroup from "./TestGroup";
 import TestResult from "./TestResult";
 import { Nav, Row, Tab, Badge } from "react-bootstrap";
 import { testlistByDate, testlistByPatientid, testlistByReceptionid } from "apis/test";
 import moment from 'moment';
-import { useSelector } from "react-redux";
 
 function TestPage(props) {  
   console.log("리렌더링")
@@ -63,6 +63,7 @@ function TestPage(props) {
   },[testReception]);
 
   const ClickPatient = async(e, item, index) => {
+    console.log("dd"+item.testreceptionid)
     setProfile(item)
     const reset = false;
     setGroupShow(reset)
@@ -120,7 +121,7 @@ function TestPage(props) {
                   <div className="col-2 p-0 pt-1 pb-1 text-center">{item.patientid}</div>
                   <div className="col-2 p-0 text-center">{item.ssn1}</div>
                   <div className="col-2 p-0 text-center">{item.patientname}</div>
-                  <div className="col-4 p-0 text-center">{item.testdate}</div>
+                  <div className="col-4 p-0 text-center">{moment(item.testdate).format('YYYY-MM-DD')}</div>
                   <div className="col-2 p-0 text-center"><Badge className="mr-1" variant="light">{item.status}</Badge><Badge variant={(item.result == null)?"success":"danger"}>{(item.result == null)?"미입력":"입력완료"}</Badge></div>
                 </div>
               )})}
@@ -132,7 +133,7 @@ function TestPage(props) {
                   <div className="col-2 p-0 pt-1 pb-1 text-center">{item.patientid}</div>
                   <div className="col-2 p-0 text-center">{item.ssn1}</div>
                   <div className="col-2 p-0 text-center">{item.patientname}</div>
-                  <div className="col-4 p-0 text-center">{item.testdate}</div>
+                  <div className="col-4 p-0 text-center">{moment(item.testdate).format('YYYY-MM-DD')}</div>
                   <div className="col-2 p-0 text-center"><Badge className="mr-1" variant="success">{item.status}</Badge><Badge variant={(item.result == null)?"success":"danger"}>{(item.result == null)?"미입력":"입력완료"}</Badge></div>
                   </div>
               )})}
@@ -143,7 +144,7 @@ function TestPage(props) {
                 <div className="col-2 p-0 pt-1 pb-1 text-center">{item.patientid}</div>
                 <div className="col-2 p-0 text-center">{item.ssn1}</div>
                 <div className="col-2 p-0 text-center">{item.patientname}</div>
-                <div className="col-4 p-0 text-center">{item.testdate}</div>
+                <div className="col-4 p-0 text-center">{moment(item.testdate).format('YYYY-MM-DD')}</div>
                 <div className="col-2 p-0 text-center"><Badge className="mr-1" variant="primary">{item.status}</Badge><Badge variant={(item.result == null)?"success":"danger"}>{(item.result == null)?"미입력":"입력완료"}</Badge></div>
               </div>
               )})}
@@ -154,7 +155,7 @@ function TestPage(props) {
                 <div className="col-2 p-0 pt-1 pb-1 text-center">{item.patientid}</div>
                 <div className="col-2 p-0 text-center">{item.ssn1}</div>
                 <div className="col-2 p-0 text-center">{item.patientname}</div>
-                <div className="col-4 p-0 text-center">{item.testdate}</div>
+                <div className="col-4 p-0 text-center">{moment(item.testdate).format('YYYY-MM-DD')}</div>
                 <div className="col-2 p-0 text-center"><Badge className="mr-1" variant="danger">{item.status}</Badge><Badge variant={(item.result == null)?"success":"danger"}>{(item.result == null)?"미입력":"입력완료"}</Badge></div>
               </div>
               )})}

@@ -4,7 +4,7 @@ import { Form, Modal, Button } from "react-bootstrap";
 function WeeklyForm(props){
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
-  const handleShow = () =>{setShow(true); console.log("asd")} 
+  const handleShow = () => setShow(true);
 
   return (
     <>
