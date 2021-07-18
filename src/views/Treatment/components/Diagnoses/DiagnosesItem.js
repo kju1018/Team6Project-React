@@ -1,6 +1,6 @@
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
 
-function DignosesItem(props) {
+function DiagnosesItem(props) {
   
   return (
     <>
@@ -19,7 +19,7 @@ function DignosesItem(props) {
   );
 }
 
-export default DignosesItem;
+export default DiagnosesItem;
 
 
 

@@ -1,4 +1,4 @@
-import DiagnosisList from "./DignosisList";
+import DiagnosisList from "./DiagnosisList";
 import DrugList from "./DrugList";
 import PatientTreatment from "./PatientTreatment";
 import TestList from "./TestList";
@@ -24,9 +24,11 @@ function Treatment(props) {
     age:"-",
     phonenumber: "-", 
   });
+  
   const selectPatient = useCallback((patient) => {
     setPatient(patient);
   }, []);
+
   useEffect(() => {
     if(globalPatient.patientid != null){
       const response = getPatient(globalPatient.patientid);
@@ -106,6 +108,7 @@ function Treatment(props) {
 
   //testResult가 바뀔 때 
   useEffect(() => {
+    console.log(testResult);
     if(testResult.treatmentid != null && testResult.treatmentid === treatment.treatmentid){
       const response = getTestList(treatment.treatmentid);
       response.then((response) => {
@@ -124,7 +127,6 @@ function Treatment(props) {
         setTreatmentLoading(true);
         const response = await getAllTreatments(patient.patientid);
         if(response.data){
-          console.log(response.data);
           setPatientTreatments(() => {
             return response.data
           });
