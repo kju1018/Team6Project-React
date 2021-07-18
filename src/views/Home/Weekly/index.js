@@ -44,7 +44,7 @@ function Weekly(props) {
   </thead>
   <tbody>
     <tr className="text-center">
-      <td style={{height:"400px"}}><WeeklyForm/></td>
+      <td style={{height:"500px"}}><WeeklyForm/></td>
       <td style={{width:"150px"}}>
         <div className="banner1">신용권 원장님<div style={{float: "inline-end"}}><hr></hr>휴식 시간 오전 09:00 ~ 오전11:00</div></div>
       </td>
