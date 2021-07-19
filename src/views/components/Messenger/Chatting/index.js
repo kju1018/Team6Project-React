@@ -37,7 +37,6 @@ function Chatting(props){
         if(scrollRef.current){
             scrollRef.current.scrollIntoView({ behavior: 'smooth'});
         }
-        setMessage("");
     },[chatArray])
 
     window.onbeforeunload = function(e) {
@@ -47,7 +46,7 @@ function Chatting(props){
      })
       };
     useEffect(()=>{
-        let webSocket = new  WebSocket('ws://kosa3.iptime.org:50006/websocket/chatting')
+        let webSocket = new  WebSocket('ws://localhost:8080/websocket/chatting')
         webSocket.onopen = () =>{
             console.log("open!!!")
             //Back-end에서 이전 채팅기록 가져오기
@@ -105,9 +104,8 @@ function Chatting(props){
             else if(data.header==="CHATTING"){
 
                 dispatch(createSetToast({message:data.from+"님으로 부터 메시지 도착"}))
-                console.log(userInfo.username)
                 setChatArray((prev)=>{
-                    const chatObj = {username:data.from, from:data.from,role:data.role,message:data.message, dateTime:data.dateTime,isMe:data.from===userInfo.username, enabled:true}
+                    const chatObj = {username:data.from, from:data.from,role:data.role,message:data.message, dateTime:data.dateTime,isMe:data.from===globalUid, enabled:true}
                 return prev.concat(chatObj) 
                 })
             }
@@ -138,11 +136,12 @@ function Chatting(props){
         }
       websocket.send(JSON.stringify({
         header:"CHATTING",
-        from:userInfo.username,
+        from:globalUid,
         role:userInfo.role_authority,
         dateTime:new Date().toLocaleString(),
         message:message
     }))
+    setMessage("");
     }
     //채팅 내역 초기화
     const clear = () =>{
