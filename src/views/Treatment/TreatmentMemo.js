@@ -6,13 +6,6 @@ function TreatmentMemo(props) {
     props.setMemo(event.target.value);
   }
 
-  useEffect(() => {
-    return (() =>{
-      props.setMemo("")
-    });
-
-  }, [props.treatment])
-
   return (
   <>
     <div className="d-flex row pb-1" style={{height:"50px"}}><div className="p-2 ml-3 mr-2 text-center" style={{ backgroundColor:"#887BD2", width:"40px", color:"#FFFFFF"}}><i className="bi bi-clipboard-plus"></i></div><div className="d-flex align-items-center">진료 메모</div></div>
