@@ -35,11 +35,10 @@ function Chatting(props){
     // 채팅칠때 스크롤 내리기
     useEffect(()=>{
         if(scrollRef.current){
-            console.log("ASDf")
+            console.log(scrollRef.current)
             scrollRef.current.scrollIntoView({ behavior: 'smooth', block: 'end', inline: 'nearest'});
         }
     },[chatArray])
-
     window.onbeforeunload = function(e) {
          saveChatting(chatArray).then((result)=>{
              console.log("!!! save")
@@ -209,7 +208,7 @@ function Chatting(props){
             <div className="pl-1 pr-1 pb-3 border border-dark" style={{height:"100%"}}>
                 <div  className="overflow-auto mt-3" style={{height:"calc(92vh - 136px)"}}>
                 
-                <div  className=" d-flex flex-column justify-content-end bg-dark pl-3 pr-3" style={{minHeight:"calc(92vh - 136px)"}}>
+                <div ref={scrollRef}  className=" d-flex flex-column justify-content-end bg-dark pl-3 pr-3" style={{minHeight:"calc(92vh - 136px)"}}>
                     {chatArray&&chatArray.map((chat,index)=>{return(
                         <div  key={index}  className={chat.isMe?"row p-1 justify-content-end":"row  p-1  justify-content-start"}>
                             <div style={{ maxWidth:"70%"}}>
@@ -225,7 +224,7 @@ function Chatting(props){
                             </div>
                         </div>)
                     })}
-                    <div ref={scrollRef}></div>
+                    <div ></div>
                 </div>
                 </div>
                 <div className="align-items-end d-flex" >
