@@ -46,7 +46,7 @@ function Chatting(props){
      })
       };
     useEffect(()=>{
-        let webSocket = new  WebSocket('ws://kosa3.iptime.org:50006/websocket/chatting')
+        let webSocket = new  WebSocket('ws://localhost:8080/websocket/chatting')
         webSocket.onopen = () =>{
             console.log("open!!!")
             //Back-end에서 이전 채팅기록 가져오기
@@ -103,7 +103,9 @@ function Chatting(props){
 
                 dispatch(createSetToast({message:data.from+"님으로 부터 메시지 도착"}))
                 setChatArray((prev)=>{
+
                     const chatObj = {username:data.from, from:data.from,name:data.name ,role:data.role,message:data.message, dateTime:data.dateTime,isMe:data.from===globalUid, enabled:true}
+
                 return prev.concat(chatObj) 
                 })
             }
@@ -135,7 +137,9 @@ function Chatting(props){
       websocket.send(JSON.stringify({
         header:"CHATTING",
         from:globalUid,
+
         name:userInfo.username,
+
         role:userInfo.role_authority,
         dateTime:new Date().toLocaleString(),
         message:message
