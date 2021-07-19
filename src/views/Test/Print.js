@@ -2,11 +2,9 @@ import React from 'react';
 import { useBarcode } from 'react-barcodes';
 import moment from 'moment';
 
-function Print({clickdate, grouplist}) {
-  console.log(clickdate)
-  console.log(grouplist)
+function Print({selectpatientinfo, grouplist}) {
   const { inputRef } = useBarcode({
-    value: clickdate.patientid+"_"+clickdate.testreceptionid+moment().format('YYYYMMDD'),
+    value: selectpatientinfo.patientid+"_"+selectpatientinfo.testreceptionid+moment().format('YYYYMMDD'),
     options: {
       background: '#ffffff',
     }
