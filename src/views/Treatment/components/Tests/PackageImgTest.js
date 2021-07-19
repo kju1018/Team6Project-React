@@ -19,12 +19,13 @@ function PackageImgTest(props) {
 
   const work = async(treatmentid, testdataid) => {
     try {
+      setLoading(true);
       const response = await getTestImgs(treatmentid, testdataid);
       setImgList(response.data);
     } catch (error) {
       console.log(error);
     } finally {
-
+      setLoading(false);
     }
    
   }

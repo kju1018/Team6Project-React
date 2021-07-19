@@ -38,7 +38,6 @@ function PrescriptionDiagnosesModal(props) {
             ...item,
             treatmentid:props.treatment.treatmentid
           }
-          console.log(newItem);
           const newItems = prevItems.concat(newItem);
           return newItems;
         }

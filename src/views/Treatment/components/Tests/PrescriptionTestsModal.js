@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { Accordion, Button, Card, Dropdown, DropdownButton, InputGroup, Modal, Nav, OverlayTrigger, Row, Tab, Tooltip } from "react-bootstrap";
+import { Button, Modal, Nav, OverlayTrigger, Tab, Tooltip } from "react-bootstrap";
 import { AutoSizer, List } from "react-virtualized";
 import PrescriptionPackageItem from "./PrescriptionPackageItem";
 import PrescriptionTestItem from "./PrescriptionTestItem";
@@ -18,7 +18,7 @@ function PrescriptionTestsModal(props) {
   const handleSearchName = (event) => {
     setSearchName(event.target.value);
   };
-  console.log(eventKey);
+
   useEffect(() => {
     if(props.show === true){
       setPrescriptionItems(props.itemList);

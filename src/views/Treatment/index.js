@@ -50,7 +50,6 @@ function Treatment(props) {
     } else {
       setTreatment(treatment);
     }
-    
   }, [globalUserid])
 
   const [patientTreatments, setPatientTreatments] = useState([]);
@@ -114,11 +113,10 @@ function Treatment(props) {
 
   //testResult가 바뀔 때 
   useEffect(() => {
-    console.log(testResult);
+
     if(testResult.treatmentid != null && testResult.treatmentid === treatment.treatmentid){
       const response = getTestList(treatment.treatmentid);
       response.then((response) => {
-        console.log(response.data);
         setTreatmentTests(response.data);
       }).catch((error) => {
         console.log(error);
@@ -165,28 +163,35 @@ function Treatment(props) {
   const prescribeList = async() => {
     try {
       let prescription = {};
-      console.log(treatment.treatmentdate);
+
       let time = new Date(treatment.treatmentdate).getTime();
       const newTreatment = {
         ...treatment,
         treatmentdate:time,
         memo:memo
       }
-      console.log(newTreatment.treatmentdate);
+
       prescription.treatmentDrugs = [...treatmentDrugs];
       prescription.treatmentDiagnoses = [...treatmentDiagnoses];
-      console.log(prescription.treatmentDiagnoses);
+
       prescription.treatmentTests = [...treatmentTests];
       prescription.treatment = newTreatment;
-      prescription.userid ="user1";
+      prescription.userid = globalUserid;
       prescription.patientid = patient.patientid;
       const response = await prescribeTreatment(prescription);
       if(response.data === "success"){
         const response = await getAllTreatments(patient.patientid);
+
         if(response.data){
           setMemo("");
           setPatientTreatments(response.data);
+          const message = {
+            type:"treatment",
+            patientid:patient.patientid
+          };
+          sendRedisMessage(message);//진료가 완료 되었다는 사실을 접수처에 알림
         }
+        
       }
     } catch (error) {
       console.log(error);
@@ -197,11 +202,6 @@ function Treatment(props) {
     if(window.confirm("처방을 완료 하시겠습니까?") === true){
       prescribeList();
       setShow(true);
-      const message = {
-        type:"treatment",
-        patientid:patient.patientid
-      };
-      sendRedisMessage(message);//진료가 완료 되었다는 사실을 접수처에 알림
     }
   }
   const closeShow = () => {
