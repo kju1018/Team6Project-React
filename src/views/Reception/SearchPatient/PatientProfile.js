@@ -1,4 +1,3 @@
-import {getPatientData} from "../BackEnd/index"
 function PatientProfile(props) {
 
     
