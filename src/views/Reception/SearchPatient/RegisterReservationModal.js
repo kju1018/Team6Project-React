@@ -152,7 +152,7 @@ function RegisterReservationModal(props){
                     <div style={{width:"25%"}}>Phone</div>
                 </div>
                 
-                <div className="row d-flex justify-content-between text-center  " style={{borderRadius:"15px",width:"100%",marginLeft:"5px"}}>
+                <div className="row d-flex justify-content-between text-center  " style={{borderRadius:"15px"}}>
                   
                     <div style={{width:"10%"}}>{props.selectedPatient.patientid}</div>
                     <div style={{width:"10%"}}>{props.selectedPatient.patientname}</div>

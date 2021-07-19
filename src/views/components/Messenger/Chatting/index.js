@@ -1,18 +1,18 @@
 import { GetUserData } from "apis/Reception";
 import { loadChatting, saveChatting, clearChatting } from "apis/Redis";
-import { useContext, useEffect, useRef, useState } from "react"
+import {  useEffect, useRef, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { createSetToast } from "redux/toast-reducer";
 import ReceptionHeader from "views/Reception/components/ReceptionHeader";
 
-const initChatArray=  () =>{ 
-    const chatArray=[];
-    for(var i=0; i<5; i++){
-        const chatObj = {username:"user"+i, message:"messageasdfdsafd"+i, dateTime:new Date(),isMe:i%2===0, enabled:true}
-        chatArray.push(chatObj)
-    }
-    return chatArray;
-}
+// const initChatArray=  () =>{ 
+//     const chatArray=[];
+//     for(var i=0; i<5; i++){
+//         const chatObj = {username:"user"+i, message:"messageasdfdsafd"+i, dateTime:new Date(),isMe:i%2===0, enabled:true}
+//         chatArray.push(chatObj)
+//     }
+//     return chatArray;
+// }
 
 // const initConnectionArray=  () =>{ 
 //     const connectionArray=[];
@@ -40,8 +40,6 @@ function Chatting(props){
     },[chatArray])
 
     window.onbeforeunload = function(e) {
-        console.log("!!! before save!!")
-        console.log(chatArray)
          saveChatting(globalUid,chatArray).then((result)=>{
              console.log("!!! save!!")
              console.log(result.data)
@@ -54,8 +52,10 @@ function Chatting(props){
             //Back-end에서 이전 채팅기록 가져오기
             loadChatting(globalUid).then((result)=>{
                 console.log("load!!")
-                console.log(result.data )
-                setChatArray(result.data )
+                if(result.data===""){
+                    result.data = [];
+                }
+                    setChatArray(result.data )
             })
 
             console.log("sendHELLO!" + globalUid)
@@ -103,17 +103,14 @@ function Chatting(props){
             }
             //채팅 패킷 받았을때
             else if(data.header==="CHATTING"){
-
-                dispatch(createSetToast({message:data.from+"님으로 부터 메시지 도착"}))
+                console.log(data)
+                dispatch(createSetToast({message:data.name+"님으로 부터 메시지 도착"}))
                 setChatArray((prev)=>{
-                    const chatObj = {username:data.name, from:data.from,role:data.role,message:data.message, dateTime:data.dateTime,isMe:data.from===globalUid, enabled:true}
+                    const chatObj = {name:data.name, from:data.from,role:data.role,message:data.message, dateTime:data.dateTime,isMe:data.from===globalUid, enabled:true}
 
                 return prev.concat(chatObj) 
                 })
             }
-
-
-           
         }
         setWebsocket(webSocket)
 
@@ -214,6 +211,7 @@ function Chatting(props){
                 <div  className="overflow-auto mt-3" style={{height:"calc(92vh - 136px)"}}>
                 
                 <div  className=" d-flex flex-column justify-content-end bg-dark pl-3 pr-3" style={{minHeight:"calc(92vh - 136px)"}}>
+                    {console.log(chatArray)}
                     {chatArray&&chatArray.map((chat,index)=>{return(
                         <div ref={scrollRef} key={index}  className={chat.isMe?"row p-1 justify-content-end":"row  p-1  justify-content-start"}>
                             <div style={{ maxWidth:"70%"}}>

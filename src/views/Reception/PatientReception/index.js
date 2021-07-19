@@ -3,9 +3,8 @@ import ReceptionHeader from "../components/ReceptionHeader";
 import TestReception from "./TestReception";
 import TreatmentReception from "./TreatmentReception";
 
-import { useDispatch, useSelector } from "react-redux";
+import {useSelector } from "react-redux";
 import { GetTreatmentList,GetTestReceptionList,DeleteReceptionTreatment,DeleteReceptionTest } from "apis/Reception";
-import { createSetTestReception, createSetTreatmentReception } from "redux/reception-reducer";
 import { sendRedisMessage } from "apis/Redis";
 import { Spinner } from "react-bootstrap";
 
@@ -23,7 +22,6 @@ function PatientReception(props){
     useEffect(()=>{
         setLoading(true)
         GetTreatmentList().then((result)=>{
-            
             const userlist = result.data.userlist;
             
             const patientlist = result.data.patientlist;
@@ -37,7 +35,6 @@ function PatientReception(props){
     useEffect(()=>{
         setLoading(true)
         GetTestReceptionList().then((result)=>{
-            console.log(result.data)
             const patientlist = result.data.patientlist;
             const testlist = result.data.testlist.map((item, index)=>{
                 return {...item, patientname:patientlist[index].patientname }
