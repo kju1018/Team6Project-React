@@ -1,16 +1,13 @@
 import axios from "axios";
 
-const BASE_URL = "http://localhost:8080/";
-
-
 //예약정보 가져오기
 export function GetReservationList(){
-    const result = axios.get(BASE_URL+"reception/reservationlist");
+    const result = axios.get("reception/reservationlist");
     return result;
 }
 //예약정보 등록하기
 export function RegisterReservation(reservation, testlist){
-    const result = axios.post(BASE_URL+"reception/registerreservation",[reservation,testlist],{
+    const result = axios.post("reception/registerreservation",[reservation,testlist],{
         headers: {
             'Content-Type': 'application/json'
         }});
@@ -18,7 +15,7 @@ export function RegisterReservation(reservation, testlist){
 }
 //예약정보 삭제하기
 export function RemoveReservation(reservationid){
-    const result = axios.delete(BASE_URL+"reception/removereservation", {
+    const result = axios.delete("reception/removereservation", {
         data: { 
           reservationid 
         }
@@ -27,19 +24,19 @@ export function RemoveReservation(reservationid){
 }
 //예약정보 수정하기
 export function UpdateReservation(reservation){
-    let result = axios.put(BASE_URL+"reception/updatereservation",reservation);
+    let result = axios.put("reception/updatereservation",reservation);
     return result;
 }
 
 
 //환자정보가져오기
 export function GetPatientList(){
-    const result = axios.get(BASE_URL+"reception/patientlist");
+    const result = axios.get("reception/patientlist");
     return result;
 }
 //환자등록하기
 export function RegisterPatient(patient){
-    const result = axios.post(BASE_URL+"reception/registerpatient",patient,{
+    const result = axios.post("reception/registerpatient",patient,{
         headers: {
             'Content-Type': 'application/json'
         }});
@@ -47,7 +44,7 @@ export function RegisterPatient(patient){
 }
 //환자수정하기
 export function UpdatePatient(patient){
-    const result = axios.put(BASE_URL+"reception/updatepatient",patient,{
+    const result = axios.put("reception/updatepatient",patient,{
         headers: {
             'Content-Type': 'application/json'
         }});
@@ -56,13 +53,13 @@ export function UpdatePatient(patient){
 
 //환자의 진료정보 가져오기
 export function GetTreatmentListBypatientid(patientid){
-    const result = axios.get(BASE_URL+"reception/treatments/"+patientid);
+    const result = axios.get("reception/treatments/"+patientid);
     return result;
 }
 
 //환자의 진료상세정보 가져오기
 export function GetTreatmentDetail(treatmentid){
-    const result = axios.get(BASE_URL+"reception/treatmentdetail",{
+    const result = axios.get("reception/treatmentdetail",{
         params:{    
             treatmentid
         }
@@ -72,7 +69,7 @@ export function GetTreatmentDetail(treatmentid){
 
 //처방받은 검사데이터 가져오기
 export function PrescriptionTest(patientid){
-    const result = axios.get(BASE_URL+"reception/prescriptiontest",{
+    const result = axios.get("reception/prescriptiontest",{
         params:{    
             patientid
         }
@@ -81,7 +78,7 @@ export function PrescriptionTest(patientid){
 }
 //검사 접수하기
 export function ReceptionTest(receptiontestarg){
-    const result = axios.post(BASE_URL+"reception/receptiontest",receptiontestarg,{
+    const result = axios.post("reception/receptiontest",receptiontestarg,{
         headers: {
             'Content-Type': 'application/json'
         }});
@@ -89,7 +86,7 @@ export function ReceptionTest(receptiontestarg){
 }
 // 진료접수하기
 export function ReceptionTreatment(treatment){
-    const result = axios.post(BASE_URL+"reception/receptiontreatment",treatment,{
+    const result = axios.post("reception/receptiontreatment",treatment,{
         headers: {
             'Content-Type': 'application/json'
         }});
@@ -98,7 +95,7 @@ export function ReceptionTreatment(treatment){
 
 //검사접수 삭제하기
 export function DeleteReceptionTest(testreceptionid){
-    const result = axios.delete(BASE_URL+"reception/removetestreception", {
+    const result = axios.delete("reception/removetestreception", {
         data: { 
             testreceptionid
         }
@@ -109,7 +106,7 @@ export function DeleteReceptionTest(testreceptionid){
 
 //진료접수 삭제하기
 export function DeleteReceptionTreatment(treatmentid){
-    const result = axios.delete(BASE_URL+"reception/removereceptiontreatment", {
+    const result = axios.delete("reception/removereceptiontreatment", {
         data: { 
             treatmentid 
         }
@@ -119,18 +116,18 @@ export function DeleteReceptionTreatment(treatmentid){
 
 //그날의 진료접수정보 가져오기
 export function GetTreatmentList(){
-    const result = axios.get(BASE_URL+"reception/treatmentlist");
+    const result = axios.get("reception/treatmentlist");
     return result;
 }
 //그날의 검사접수정보 가져오기
 export function GetTestReceptionList(){
-    const result = axios.get(BASE_URL+"reception/testreceptionlist");
+    const result = axios.get("reception/testreceptionlist");
     return result;
 }
 
 //임직원 정보 가져오기(usertype)
 export function GetUsersData(usertype){
-    const result = axios.get(BASE_URL+"user/userlist",{
+    const result = axios.get("user/userlist",{
         params:{    
             usertype
         }
@@ -139,7 +136,7 @@ export function GetUsersData(usertype){
 }
 //임직원 정보 가져오기(userid)
 export function GetUserData(userid){
-    const result = axios.get(BASE_URL+"reception/getuser/"+userid);
+    const result = axios.get("reception/getuser/"+userid);
     return result;
 }
 

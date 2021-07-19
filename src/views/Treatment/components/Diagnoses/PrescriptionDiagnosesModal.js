@@ -82,7 +82,7 @@ function PrescriptionDiagnosesModal(props) {
   return (
     <Modal animation={false} show={props.show} onHide={props.handleClose} size="xl" centered>
       <Modal.Header closeButton style={{backgroundColor:"#1B296D"}}>
-        <Modal.Title style={{color:"#FFFFFF"}}>병명 입력</Modal.Title>
+        <Modal.Title style={{color:"#FFFFFF"}}>상병 목록</Modal.Title>
       </Modal.Header>
       <Modal.Body >
         <div className="input-group d-flex pb-2 justify-content-end border-bottom">
@@ -139,6 +139,11 @@ function PrescriptionDiagnosesModal(props) {
               <div style={{width:"25%"}}></div>
             </div>
             <div className="border" style={{height:"450px"}}>
+              {searchList.length === 0 ? 
+              <div className="h-100 d-flex align-items-center justify-content-center">
+                <i className="bi bi-x-octagon mr-2"></i>  검색 결과가 없습니다.
+              </div>
+              :
               <AutoSizer>
                 {
                   ({width, height}) => {
@@ -153,6 +158,7 @@ function PrescriptionDiagnosesModal(props) {
                   }
                 }
               </AutoSizer>
+              }
             </div>
           </div> 
         </div>

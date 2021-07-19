@@ -14,6 +14,7 @@ function Treatment(props) {
   const globalPatient = useSelector((state) => {
     return state.patientReducer.patient;
   })
+  const globalUserid = useSelector((state) => {return state.authReducer.userid});
 
   const [patient, setPatient] = useState({
 
@@ -44,8 +45,13 @@ function Treatment(props) {
   const [treatment, setTreatment] = useState({})
 
   const selectTreatment = useCallback((treatment) => {
-    setTreatment(treatment);
-  }, [])
+    if(treatment.userid !== globalUserid && treatment.status === "진료 대기"){
+      alert("해당 진료를 처방할 수 없습니다.");
+    } else {
+      setTreatment(treatment);
+    }
+    
+  }, [globalUserid])
 
   const [patientTreatments, setPatientTreatments] = useState([]);
   const [treatmentDrugs, setTreatmentDrugs] = useState([]);
