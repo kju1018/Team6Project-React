@@ -54,9 +54,7 @@ function Chatting(props){
                 console.log(result.data)
                 setChatArray(result.data )
             })
-            if(scrollRef.current){
-                scrollRef.current.scrollIntoView({ behavior: 'smooth'});
-            }
+
             console.log("sendHELLO!" + globalUid)
             //유저정보 불러오기
             GetUserData(globalUid).then((result)=>{
@@ -105,7 +103,9 @@ function Chatting(props){
 
                 dispatch(createSetToast({message:data.from+"님으로 부터 메시지 도착"}))
                 setChatArray((prev)=>{
-                    const chatObj = {username:data.from, from:data.from,role:data.role,message:data.message, dateTime:data.dateTime,isMe:data.from===globalUid, enabled:true}
+
+                    const chatObj = {username:data.from, from:data.from,name:data.name ,role:data.role,message:data.message, dateTime:data.dateTime,isMe:data.from===globalUid, enabled:true}
+
                 return prev.concat(chatObj) 
                 })
             }
@@ -137,6 +137,9 @@ function Chatting(props){
       websocket.send(JSON.stringify({
         header:"CHATTING",
         from:globalUid,
+
+        name:userInfo.username,
+
         role:userInfo.role_authority,
         dateTime:new Date().toLocaleString(),
         message:message
@@ -214,7 +217,7 @@ function Chatting(props){
                         <div ref={scrollRef} key={index}  className={chat.isMe?"row p-1 justify-content-end":"row  p-1  justify-content-start"}>
                             <div style={{ maxWidth:"70%"}}>
                                 <div style={{color:"white"}}>
-                                    {chat.from}({chat.role})
+                                    {chat.name}({chat.role})
                                 </div>
                                 <div className="border " style={ {backgroundColor:chat.isMe?"yellow":"gray",wordBreak:"break-all" }}>
                                     {chat.message}
