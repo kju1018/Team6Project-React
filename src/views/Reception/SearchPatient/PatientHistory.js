@@ -81,7 +81,7 @@ function PatientHistory(props) {
                 <div style={{width:"20%"}}>접수상태</div>
                 <div style={{width:"20%"}}>접수시간</div>
             </div>
-            <div className="overflow-auto  justify-content-center" style={{height:"calc(25vh - 70px)"}} >
+            <div className="  justify-content-center" style={{height:"calc(25vh - 70px)"}} >
             {/* Autosize최적화 */}
             <AutoSizer disableHeight>
                         {({width, height}) => {

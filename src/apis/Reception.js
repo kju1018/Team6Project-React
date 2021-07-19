@@ -27,8 +27,15 @@ export function UpdateReservation(reservation){
     let result = axios.put("reception/updatereservation",reservation);
     return result;
 }
-
-
+//특정 환자정보가져오기
+export function getPatient(patientid) {
+    const result = axios.get("reception/getpatient",{
+        params:{    
+            patientid
+        }
+    });
+    return result;
+  }
 //환자정보가져오기
 export function GetPatientList(){
     const result = axios.get("reception/patientlist");

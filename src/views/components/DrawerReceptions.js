@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import TestReception from "views/Reception/PatientReception/TestReception";
 import TreatmentReception from "views/Reception/PatientReception/TreatmentReception";
-import { GetTestReceptionList, GetTreatmentList,DeleteReceptionTreatment,DeleteReceptionTest } from "apis/Reception";
+import { GetTestReceptionList, GetTreatmentList } from "apis/Reception";
 import Chatting from "./Messenger/Chatting";
 import ReceptionHeader from "views/Reception/components/ReceptionHeader";
 import { ButtonGroup, Spinner, ToggleButton } from "react-bootstrap";

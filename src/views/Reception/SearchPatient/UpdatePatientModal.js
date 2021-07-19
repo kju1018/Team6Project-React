@@ -3,8 +3,7 @@ import { useForm } from "react-hook-form";
 import {UpdatePatient} from "apis/Reception"
 function RegisterPatientModal(props){
 
-    const [patient, setPatient] = useState({patientname:"",age:"",ssn1:"",ssn2:"",sex:"",phonenumber:""});
-    const { register, handleSubmit, watch, errors } = useForm();
+    const { register, handleSubmit, errors } = useForm();
   
     const onSubmit=(patient)=>{
         patient["patientid"] = props.selectedPatient.patientid

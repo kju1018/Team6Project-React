@@ -4,6 +4,7 @@ import {GetPatientList} from "apis/Reception"
 import { AutoSizer, List } from "react-virtualized";
 function SearchPatientModal(props){
     const property = ["patientid","patientname","ssn1","lasttreatment","registerday"]
+    const selectname = ["ID","이름","생년월일","최종진료일","등록일"]
     const [keyword, setKeyword] = useState("");
     const [select, setSelect] = useState(property[0]);
     //원본 list
@@ -53,7 +54,7 @@ function SearchPatientModal(props){
                 <label style={{marginRight:"10px"}}>검색</label>
                 <select onChange={ChangeSelect} style={{marginRight:"10px"}}>
                     {property.map((item,index)=>{return(
-                        <option key={index} value={item}>{item}</option>
+                        <option key={index} value={item}>{selectname[index]}</option>
                     )
                     })}
                 </select>
@@ -74,12 +75,20 @@ function SearchPatientModal(props){
                 <div style={{width:"20%"}}>등록일</div>
             </div>
             
-            <div className="overflow-auto  justify-content-center" style={{height:"300px"}} >
+            <div className=" justify-content-center" style={{height:"300px"}} >
             {/* Autosize최적화 */}
             <AutoSizer disableHeight>
             {({width, height}) => {
                 
-                let tmp = patientList.filter((item)=>{ return item[select].toString().indexOf(keyword)!=-1})
+                let tmp = patientList.filter((item)=>{
+                    if(item[select]!=null){
+                        return item[select].toString().indexOf(keyword)!=-1    
+                    }else{
+                        var empty=""
+                        return empty.indexOf(keyword)!=-1
+                    }
+                    
+                })
                 return(
                 <List width={width} height={300}
                         list={tmp}
