@@ -35,7 +35,8 @@ function Chatting(props){
     // 채팅칠때 스크롤 내리기
     useEffect(()=>{
         if(scrollRef.current){
-            scrollRef.current.scrollIntoView({ behavior: 'smooth'});
+            console.log("ASDf")
+            scrollRef.current.scrollIntoView({ behavior: 'smooth', block: 'end', inline: 'nearest'});
         }
     },[chatArray])
 
@@ -46,7 +47,7 @@ function Chatting(props){
      })
       };
     useEffect(()=>{
-        let webSocket = new  WebSocket('ws://localhost:8080/websocket/chatting')
+        let webSocket = new  WebSocket('ws://kosa3.iptime.org:50006/websocket/chatting')
         webSocket.onopen = () =>{
             console.log("open!!!")
             //Back-end에서 이전 채팅기록 가져오기
@@ -54,9 +55,7 @@ function Chatting(props){
                 console.log(result.data)
                 setChatArray(result.data )
             })
-            if(scrollRef.current){
-                scrollRef.current.scrollIntoView({ behavior: 'smooth'});
-            }
+
             console.log("sendHELLO!" + globalUid)
             //유저정보 불러오기
             GetUserData(globalUid).then((result)=>{
@@ -72,6 +71,7 @@ function Chatting(props){
                     connectioninfo:{userid:globalUid,username:result.data.username,userrole:result.data.role_authority,status:"접속중"},
                     message:""
                 }))
+
             })
             
         }
@@ -211,7 +211,7 @@ function Chatting(props){
                 
                 <div  className=" d-flex flex-column justify-content-end bg-dark pl-3 pr-3" style={{minHeight:"calc(92vh - 136px)"}}>
                     {chatArray&&chatArray.map((chat,index)=>{return(
-                        <div ref={scrollRef} key={index}  className={chat.isMe?"row p-1 justify-content-end":"row  p-1  justify-content-start"}>
+                        <div  key={index}  className={chat.isMe?"row p-1 justify-content-end":"row  p-1  justify-content-start"}>
                             <div style={{ maxWidth:"70%"}}>
                                 <div style={{color:"white"}}>
                                     {chat.from}({chat.role})
@@ -225,6 +225,7 @@ function Chatting(props){
                             </div>
                         </div>)
                     })}
+                    <div ref={scrollRef}></div>
                 </div>
                 </div>
                 <div className="align-items-end d-flex" >
