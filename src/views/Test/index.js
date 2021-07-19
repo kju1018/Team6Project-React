@@ -4,31 +4,30 @@ import PeriodSearch from "./PeriodSearch";
 import TestGroup from "./TestGroup";
 import TestResult from "./TestResult";
 import { Nav, Row, Tab, Badge } from "react-bootstrap";
-import { testlistByDate, testlistByPatientid, testlistByReceptionid } from "apis/test";
+import { testlistByDate, testlistByReceptionid } from "apis/test";
 import moment from 'moment';
 
 function TestPage(props) {  
   console.log("리렌더링")
-  const [color, setColor] = useState(true)
-
   const [patients, setPatient] = useState([]) //전체 환자
   const [waitings, setWaiting] = useState([]) //대기 환자
   const [progresss, setProgress] = useState([]) //진행 환자
   const [completes, setComplete] = useState([]) //완료 환자
 
-  const [clickdateList, setClickDateList] = useState([]); //환자의 검사접수기록
-  const [clickdate, setClickdate] = useState({}) //클릭한 날짜의 검사접수 상세정보
-  const [profile, setProfile] = useState({}); //클릭한 환자의 프로필
+  const [selectpatientinfo, setSelectpatientinfo] = useState({}) //클릭한 검사접수번호의 환자의 정보
  
   const [groupshow, setGroupShow] = useState(false) //testgroup 보여주는 show
  
   const [startdate, setStartdate] = useState(new Date());
   const [enddate, setEnddate] = useState(new Date());
+
   const [testdatas, setTestdatas] = useState([]);
 
-  const [chkresult, setChkresult] = useState();
-
   const testReception = useSelector((state)=>(state.receptionReducer.testreception)) //--------------redis
+  
+  useEffect(()=>{ //맨처음 기본설정 당일, testReception 바뀔때마다 랜더링
+    getpatient(moment().format('YYYY-MM-DD'), moment().format('YYYY-MM-DD'))
+  },[testReception]);
   
   const getpatient = async(startdate, enddate) => { //함수로 만든이유는 나중에 클릭할때도 사용
     try { 
@@ -36,7 +35,6 @@ function TestPage(props) {
       setEnddate(enddate)
       const response = await testlistByDate(moment(startdate).format('YYYY-MM-DD'), moment(new Date(enddate).getTime() + 1 * 24 * 60 * 60 * 1000).format('YYYY-MM-DD'));
       const patient = response.data;
-      console.log(patient)
       setPatient(response.data);
       const waiting = patient.filter(patient => patient.status === "대기중");
       setWaiting(waiting)
@@ -49,42 +47,24 @@ function TestPage(props) {
     }
   }
 
-  const gettest = (testreceptionid) => {
-    console.log(clickdate)
-    if(clickdate != null){
-      testlistByReceptionid(clickdate).then((response)=>{
-      setTestdatas(response.data);
-      console.log(response.data)
+  const gettest = (testreceptionid) => { //testreceptionid로 test 리스트를 가져옴
+    if(selectpatientinfo.testreceptionid != null){
+      testlistByReceptionid(selectpatientinfo.testreceptionid).then((response)=>{
+      setTestdatas(response.data); //가져온 리스트 상태 저장
       })
    }
   }
 
-  useEffect(()=>{
-    getpatient(moment().format('YYYY-MM-DD'), moment().format('YYYY-MM-DD'))
-    console.log(testReception)
-  },[testReception]);
-
   const ClickPatient = async(e, item, index) => {
-    console.log("dd"+item)
-    setProfile(item)
-    // const reset = false;
-    // setGroupShow(reset)
-    // const response = await testlistByPatientid(item.patientid);
-    // setClickDateList(response.data);
-    setClickdate(item.testreceptionid)
-    const value = true;
-    setGroupShow(value) //클릭시 show
+    setSelectpatientinfo(item) //클릭한 환자 검사 접수 저장
+ 
+    setGroupShow(true) //클릭시 show
   }
   
-  useEffect(()=>{
+  useEffect(()=>{ //환자접수 id가 바뀔때마다 가져와지는 데이터들이 다름
     gettest();
-  }, [clickdate])
+  }, [selectpatientinfo.testreceptionid])
 
-  const onClickDate = (e, date) => {  
-    setClickdate(date); //클릭한 날짜 저장
-    const value = true;
-    setGroupShow(value) //클릭시 show
-  }
   return (
     <div className="vh-100" style={{minWidth:"1000px"}}>
       <div className="row m-0">
@@ -111,7 +91,7 @@ function TestPage(props) {
           </Nav>
           
           <div className="pt-2 pb-2 mb-2 d-flex align-items-center" style={{ backgroundColor:"#ffffff", boxShadow:"rgb(0 0 0 / 8%) 0px 0px 5px 2px", borderRadius:"15px", fontSize:"13px"}}>
-            <div className="col-2 p-0 pt-1 pb-1 text-center">차트번호</div>
+            <div className="col-2 p-0 pt-1 pb-1 text-center">접수번호</div>
             <div className="col-2 p-0 text-center">생년월일</div>
             <div className="col-2 p-0 text-center">이름</div>
             <div className="col-4 p-0 text-center">검사날짜</div>
@@ -122,19 +102,18 @@ function TestPage(props) {
               <Tab.Pane eventKey= "total" className="pt-1">
               {patients.map((item, index)=>{return(
                 <div key={item.testreceptionid} className="pt-2 pb-2 mb-2 d-flex align-items-center" onClick={ e => {ClickPatient(e, item, index) }} style={{ fontSize:"13px", borderBottom:"1px solid #a6a6a6"}}>
-                  <div className="col-2 p-0 pt-1 pb-1 text-center">{item.patientid}</div>
+                  <div className="col-2 p-0 pt-1 pb-1 text-center">{item.testreceptionid}</div>
                   <div className="col-2 p-0 text-center">{item.ssn1}</div>
                   <div className="col-2 p-0 text-center">{item.patientname}</div>
                   <div className="col-4 p-0 text-center">{moment(item.testdate).format('YYYY-MM-DD')}</div>
-                  <div className="col-2 p-0 text-center"><Badge className="mr-1" variant="light">{item.status}</Badge><Badge variant={(item.result == null)?"success":"danger"}>{item.resultstatus}</Badge></div>
+                  <div className="col-2 p-0 text-center"><Badge className="mr-1" variant={(item.status == "검사완료")?"danger":"success"}>{item.status}</Badge><Badge variant={(item.resultstatus == "미입력")?"success":"danger"}>{item.resultstatus}</Badge></div>
                 </div>
               )})}
               </Tab.Pane>
               <Tab.Pane eventKey= "wait" className="pt-1">
               {waitings.map((item, index)=>{return(
                   <div key={item.testreceptionid} className="pt-2 pb-2 mb-2 d-flex align-items-center" onClick={ e => {ClickPatient(e, item) }} style={{ fontSize:"13px", borderBottom:"1px solid #a6a6a6"}} >
-
-                  <div className="col-2 p-0 pt-1 pb-1 text-center">{item.patientid}</div>
+                  <div className="col-2 p-0 pt-1 pb-1 text-center">{item.testreceptionid}</div>
                   <div className="col-2 p-0 text-center">{item.ssn1}</div>
                   <div className="col-2 p-0 text-center">{item.patientname}</div>
                   <div className="col-4 p-0 text-center">{moment(item.testdate).format('YYYY-MM-DD')}</div>
@@ -145,7 +124,7 @@ function TestPage(props) {
               <Tab.Pane eventKey= "progress" className="pt-1">
               {progresss.map((item, index)=>{return(
                 <div key={item.testreceptionid} className="pt-2 pb-2 mb-2 d-flex align-items-center" onClick={ e => {ClickPatient(e, item) }} style={{ fontSize:"13px", borderBottom:"1px solid #a6a6a6", backgroundColor:"color"}}>
-                <div className="col-2 p-0 pt-1 pb-1 text-center">{item.patientid}</div>
+                <div className="col-2 p-0 pt-1 pb-1 text-center">{item.testreceptionid}</div>
                 <div className="col-2 p-0 text-center">{item.ssn1}</div>
                 <div className="col-2 p-0 text-center">{item.patientname}</div>
                 <div className="col-4 p-0 text-center">{moment(item.testdate).format('YYYY-MM-DD')}</div>
@@ -156,7 +135,7 @@ function TestPage(props) {
               <Tab.Pane eventKey= "complete" className="pt-1">
               {completes.map((item, index)=>{return(
                 <div key={item.testreceptionid} className="pt-2 pb-2 mb-2 d-flex align-items-center" onClick={ e => {ClickPatient(e, item) }} style={{ fontSize:"13px", borderBottom:"1px solid #a6a6a6", backgroundColor:"color"}}>
-                <div className="col-2 p-0 pt-1 pb-1 text-center">{item.patientid}</div>
+                <div className="col-2 p-0 pt-1 pb-1 text-center">{item.testreceptionid}</div>
                 <div className="col-2 p-0 text-center">{item.ssn1}</div>
                 <div className="col-2 p-0 text-center">{item.patientname}</div>
                 <div className="col-4 p-0 text-center">{moment(item.testdate).format('YYYY-MM-DD')}</div>
@@ -168,44 +147,37 @@ function TestPage(props) {
           </Tab.Container>
           </div>
         </div>
+
         <div className="col-5 pt-3">
           <div className="d-flex pl-3 ml-0 mb-3 p-0" style={{backgroundColor: "#ffffff", width:"85%"}}><div className="pr-3 pl-3 pt-2 pb-2" style={{ backgroundColor:"#F2E18D"}}><i class="bi bi-droplet" style={{ fontSize:"22px"}}></i></div><div className="ml-4 pt-2">검사 처방 목록</div></div>
           <div className="d-flex align-items-center pl-3 pr-3" style={{ backgroundColor:"#ffffff", boxShadow:"rgb(0 0 0 / 8%) 0px 0px 5px 2px", borderRadius:"15px", fontSize:"13px", height:"40px"}}>
             <div className="col p-0 pt-1 pb-1 text-center">차트번호 :</div>
-            <div className="col p-0 pt-1 pb-1 text-center border-right">{profile.patientid}</div>
+            <div className="col p-0 pt-1 pb-1 text-center border-right">{selectpatientinfo.patientid}</div>
             <div className="col p-0 pt-1 pb-1 text-center">생년월일 :</div>
-            <div className="col p-0 pt-1 pb-1 text-center border-right">{profile.ssn1}</div>
+            <div className="col p-0 pt-1 pb-1 text-center border-right">{selectpatientinfo.ssn1}</div>
             <div className="col p-0 pt-1 pb-1 text-center">성별 :</div>
-            <div className="col p-0 pt-1 pb-1 text-center border-right">{profile.sex}</div>
+            <div className="col p-0 pt-1 pb-1 text-center border-right">{selectpatientinfo.sex}</div>
             <div className="col p-0 pt-1 pb-1 text-center">이름 :</div>
-            <div className="col p-0 pt-1 pb-1 text-center">{profile.patientname}</div>
+            <div className="col p-0 pt-1 pb-1 text-center">{selectpatientinfo.patientname}</div>
           </div>
-            <div className="d-flex pt-3">
-              {/* <div style={{width:"20%", marginRight:"3%", marginLeft:"2%"}}>
-                <div className="mb-3">검사 날짜: </div>
-                <div className="pr-4 overflow-auto" style={{height:"720px"}}>  
-                <div> 
-                  {clickdateList.map((date)=>{return(   
-                  <div key={date.testreceptionid} className="pt-2 pb-2 mb-2 align-items-center" onClick={ e => { onClickDate(e, date) }} style={{border:"1px solid #dadada", borderRadius:"15px", textAlign:"center", backgroundColor:"#ffffff", width:"116px"}}>
-                    <div>{moment(date.testdate).format('YYYY-MM-DD')}</div>
-                  </div>
-                  )})}
-                  </div>
-                </div>
-              </div> */}
-              <div style={{width:"87%", marginRight:"1%"}}>{groupshow?<TestGroup startdate={startdate} enddate={enddate} getpatient={getpatient} clickdate={clickdate} testdatas={testdatas} gettest={gettest} setTestdatas={setTestdatas}/>:""}</div>
-            </div>
+          <div className="d-flex pt-3">
+            <div style={{width:"96%", marginLeft:"2%"}}>{groupshow?<TestGroup startdate={startdate} enddate={enddate} getpatient={getpatient} selectpatientinfo={selectpatientinfo} testdatas={testdatas} gettest={gettest} setTestdatas={setTestdatas}/>:""}</div>
+          </div>
         </div>
+
         <div className="col-4 pt-3" style={{borderLeft:"1px solid #dadada"}}>
-          <div className="row pl-3 10vh ml-0" style={{backgroundColor: "#ffffff", width:"85%"}}><div className="pr-3 pl-3 pt-2 pb-2" style={{ backgroundColor:"#3EB2A2"}}><i class="bi bi-display" style={{ fontSize:"22px"}}></i></div><div className="ml-4 pt-2">결과 입력</div></div>
-
-          <div className="row" style={{height:"2%"}}>      
+          <div className="row pl-3 10vh ml-0" style={{backgroundColor: "#ffffff", width:"85%"}}>
+            <div className="pr-3 pl-3 pt-2 pb-2" style={{ backgroundColor:"#3EB2A2"}}>
+              <i class="bi bi-display" style={{ fontSize:"22px"}}></i>
+            </div>
+            <div className="ml-4 pt-2">결과 입력</div>
           </div>
-          <div style={{height:"65%"}}><TestResult clickdate={clickdate} testdatas={testdatas}/> </div>
 
-          <div style={{height:"10%"}}>
-          
+          <div className="row" style={{height:"2%"}}></div>
+          <div style={{height:"65%"}}>
+            <TestResult selectpatientinfo={selectpatientinfo} testdatas={testdatas} gettest={gettest} startdate={startdate} enddate={enddate} getpatient={getpatient}/>
           </div>
+          <div style={{height:"10%"}}></div>
         </div>
 
       </div> 

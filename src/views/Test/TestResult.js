@@ -1,7 +1,8 @@
 import { sendRedisMessage } from "apis/Redis";
-import { createXray } from "apis/test";
+import { createXray, resultStatus } from "apis/test";
 import { useEffect, useRef } from "react";
 import { useState } from "react";
+
 function TestResult(props) { 
   const [show, setShow] = useState();
   const [treatmentid, setTreatmentid] = useState();
@@ -12,11 +13,11 @@ function TestResult(props) {
   }, [props.testdatas])
 
   const group = () => {
-    for(let i=0; i<props.testdatas.length; i++){
+    for(let i=0; i<props.testdatas.length; i++){ //전체 testdata 리스트의 testdataid 조회
       if(props.testdatas[i]){ 
         if(props.testdatas[i].testdataid === "xray") {
           setTreatmentid(props.testdatas[i].treatmentid);
-          setShow(true);
+          setShow(true); //testdataid가 xray일 경우에만 보이기
         } else {
           setShow(false)
         }
@@ -32,8 +33,7 @@ function TestResult(props) {
   const inputFile = useRef();
 
   const handleAdd = async(event) => {
-    event.preventDefault();
-    //console.log(board);
+    event.preventDefault(); //고유 동작을 중단
     try{
       const formData = new FormData(); //multipart로 만드는법
       formData.append("treatmentid", treatmentid);
@@ -43,10 +43,26 @@ function TestResult(props) {
     }catch(error){
       console.log(error);
     }
-    console.log(treatmentid)
     sendRedisMessage({type:"testresult", treatmentid:treatmentid})//----------------redis 메세지
     alert("사진첨부 완료")
-    inputFile.current.value = '';
+
+    inputFile.current.value = ''; //저장후 값 클리어
+
+    let count = 0;
+      console.log(props.testdatas)
+      if(props.testdatas.length > 0) {
+        for(let i=0; i<props.testdatas.length; i++){
+          console.log(props.testdatas[i].result)
+        if(props.testdatas[i].result !== null || props.testdatas[i].result === ""){
+          count++;
+          console.log(count)
+        }
+      }
+        if(count+1 === props.testdatas.length) {
+          console.log("전체 입력완료")
+          resultStatus(props.selectpatientinfo.testreceptionid).then(()=>{props.getpatient(props.startdate, props.enddate)})
+        }
+      }
   }
 
   const handleChange = (event) => { //사용자 입력시 상태 변경을 위해
@@ -62,10 +78,10 @@ function TestResult(props) {
       <div className="card-header">
         xray
       </div>
-      {show?<div className="card-body">
+      {show ?
+      <div className="card-body">
         <div>
-          <div>환자차트번호: {props.clickdate.patientid}</div>
-          <div>환자접수번호: {props.clickdate.testreceptionid}</div>
+          <div>접수번호: {props.selectpatientinfo.testreceptionid}</div>
         </div>
         <hr/>
         <form onSubmit={handleAdd}>
