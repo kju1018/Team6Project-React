@@ -51,7 +51,7 @@ function DrawerReceptions(props){
     return(
         <>
          <ButtonGroup toggle>
-                 <ToggleButton type="radio" style={{color:"white"}}  variant= {`${listtype === "접수목록" ? "success" : "" }`} name="type"  checked={listtype==="접수목록"} value="접수목록" onChange={handleChange}><div className="ml-5 mr-5">접수목록</div></ToggleButton>
+                 <ToggleButton type="radio" style={{color:"white"}}  variant= {`${listtype === "접수목록" ? "success" : "" }`} name="type"  checked={listtype==="접수목록"} value="접수목록" onChange={handleChange}><div className="ml-5 mr-5">접수목록(당일)</div></ToggleButton>
                 <ToggleButton type="radio" style={{color:"white"}} variant={`${listtype === "메신저" ? "success" : "" }`} name="type"  checked={listtype==="메신저"} value="메신저" onChange={handleChange}><div className="ml-5 mr-5">메신저</div></ToggleButton>
         </ButtonGroup>
         <div className="bg-white row p-2" style={{height:"calc(100vh-38px)"}}>

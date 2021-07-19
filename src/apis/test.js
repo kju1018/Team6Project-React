@@ -1,17 +1,16 @@
 import axios from "axios";
-const BASEURL = "http://localhost:8080/";
 
 export function testlistByDate(startdate, enddate) {
-  const promise = axios.get(BASEURL+"test/patientbytestdate", {params:{startdate, enddate}})
+  const promise = axios.get("test/patientbytestdate", {params:{startdate, enddate}})
   return promise
 }
 export function testlistByPatientid(patientid) {
-  const promise = axios.get(BASEURL+"test/testreceptionbypatientid", {params: {patientid}})
+  const promise = axios.get("test/testreceptionbypatientid", {params: {patientid}})
   return promise
 }
 
 export function testlistByReceptionid(testreceptionid) {
-  const promise = axios.get(BASEURL+"test/testlistbyreceptionid", {params: {testreceptionid}})
+  const promise = axios.get("test/testlistbyreceptionid", {params: {testreceptionid}})
   return promise
 }
 
@@ -27,7 +26,7 @@ export function insertResult(test){
 }
 
 export function resultStatus(testreceptionid) {
-  const promise = axios.put(BASEURL+"test/resultstatus/"+testreceptionid)
+  const promise = axios.put("test/resultstatus/"+testreceptionid)
   return promise
 }
 
@@ -40,14 +39,14 @@ export function startTests(checkedList) {
     }
     return val;
   });
-  const promise = axios.put(BASEURL + "test/starttest", tests);
+  const promise = axios.put("test/starttest", tests);
   
   return promise;
 }
 
 export function startPatient(testreceptionid) {
   console.log(testreceptionid)
-  const promise = axios.put(BASEURL+"test/teststartpatient/"+testreceptionid)
+  const promise = axios.put("test/teststartpatient/"+testreceptionid)
   return promise
 }
 
@@ -60,14 +59,14 @@ export function cancelTests(checkedList) {
     }
     return val;
   });
-  const promise = axios.put(BASEURL + "test/canceltest", tests);
+  const promise = axios.put("test/canceltest", tests);
   
   return promise;
 }
 
 export function cancelPatient(testreceptionid) {
   console.log(testreceptionid)
-  const promise = axios.put(BASEURL+"test/testcancelpatient/"+testreceptionid)
+  const promise = axios.put("test/testcancelpatient/"+testreceptionid)
   return promise
 }
 
@@ -80,13 +79,13 @@ export function finishTests(checkedList) {
     }
     return val;
   });
-  const promise = axios.put(BASEURL + "test/finishtest", tests);
+  const promise = axios.put("test/finishtest", tests);
   console.log(promise)
   return promise;
 }
 
 export function finishPatient(testreceptionid) {
   console.log(testreceptionid)
-  const promise = axios.put(BASEURL+"test/testfinishpatient/"+testreceptionid)
+  const promise = axios.put("test/testfinishpatient/"+testreceptionid)
   return promise
 }
