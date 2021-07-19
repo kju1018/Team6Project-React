@@ -55,7 +55,7 @@ function Chatting(props){
             loadChatting(globalUid).then((result)=>{
                 console.log("load!!")
                 console.log(result.data )
-               // setChatArray(result.data )
+                setChatArray(result.data )
             })
 
             console.log("sendHELLO!" + globalUid)
