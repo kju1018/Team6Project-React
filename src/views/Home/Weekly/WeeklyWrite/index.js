@@ -1,15 +1,11 @@
 import React, { useState } from "react";
 import { Form, Modal, Button } from "react-bootstrap";
 
-function WeeklyForm(props){
-  const [show, setShow] = useState(false);
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+function WeeklyWrite(props){
 
   return (
     <>
-    <div onClick = {handleShow}>&nbsp;</div>
-    <Modal show={show} onHide={handleClose}>
+    <Modal show={props.show} onHide={props.handleClose}>
               <Form>
                 <h4 className="text-center">WEEKLY <img src="/weekly.png"width="25"height="25"/></h4>
                 <hr></hr>
@@ -19,10 +15,10 @@ function WeeklyForm(props){
                 </Form.Group>
               </Form>
               <Modal.Footer>
-              <Button variant="primary" onClick={handleClose}>
+              <Button variant="primary" onClick={props.handleClose1}>
                   ADD
                 </Button>
-                <Button variant="danger" onClick={handleClose}>
+                <Button variant="danger" onClick={props.handleClose1}>
                   CLOSE
                 </Button>
               </Modal.Footer>
@@ -31,4 +27,4 @@ function WeeklyForm(props){
   );
 };
 
-export default WeeklyForm;
+export default WeeklyWrite;

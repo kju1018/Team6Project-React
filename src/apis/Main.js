@@ -23,3 +23,15 @@ export function getUserList() {
     const promise = axios.get("/main/userList");
     return promise;
 }
+
+//스케쥴 가져오기
+export function getScheduleList(startDate) {
+    const promise = axios.get("/main/ScheduleList/" + startDate);
+    return promise;
+}
+
+//스케줄 등록
+export function scheduleUpdate(newBoard) {
+    const promise = axios.post("/main/scheduleUpdate", newBoard);
+    return promise;
+}

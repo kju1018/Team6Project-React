@@ -4,7 +4,6 @@ import { getUserList } from "apis/Main";
 function User(props){
 
   const [UserList, setUserList] = useState([]);
-  const [board, setBoard] = useState({});
 
   const work = async() => {
     const response = await getUserList();    
@@ -21,7 +20,7 @@ function User(props){
       <div className="force-overflow-auto">
       <table className="table table-hover">
         <thead className="card-header" style={{backgroundColor:"rgb(18, 60, 114)", color:"white"}}>
-        <tr class="text-center">
+        <tr>
           <th scope="col">Room</th>
           <th scope="col">DOCTOR</th>
           <th scope="col">PHONE</th>
@@ -34,8 +33,8 @@ function User(props){
             return(
                 <tr>
                   <th style={{width:"100px"}}>{board.userroom}</th>
-                  <th style={{width:"100px"}}>{board.username}</th>
-                  <th style={{width:"200px"}}>{board.phonenumber}</th>
+                  <th style={{width:"110px"}}>{board.username}</th>
+                  <th style={{width:"210px"}}>{board.phonenumber}</th>
                   <th>{board.sex}</th>
                 </tr>
             )
