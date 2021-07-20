@@ -46,15 +46,18 @@ function PatientReception(props){
     //진료접수삭제
     const deleteTreatmentsData=(treatment_id)=>{
         let modify = []
+        let selectedtreatment= null
         for(var i=0; i<treatementsData.length; i++){
             if(treatementsData[i].treatmentid!==treatment_id){
                 modify.push(treatementsData[i]);
+            }else{
+                selectedtreatment = treatementsData[i]
             }
         }
         //DB에서 삭제
         DeleteReceptionTreatment(treatment_id).then(()=>{
             setTreatmentsData(modify)
-            sendRedisMessage({type:"treatment"})
+            sendRedisMessage({type:"treatment", patientid:selectedtreatment.patientid , status:"취소"})
             
         })
         
