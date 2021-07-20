@@ -1,25 +1,19 @@
 import { Button, Modal } from "react-bootstrap";
 
-function NoticeDetail(props) {
-  
-  const handleRemove =(event) =>{
-    props.deleteNoticeState(props.board.noticeid);
-    props.handleClose();
-    alert('공지사항을 삭제 하였습니다!');
-  };
+function WeeklyDetail(props) {
 
   return(
     <>
     <Modal show={props.show} onHide={props.handleClose}>
     <Modal.Header closeButton style={{backgroundColor:"rgb(18, 60, 114)", color:"white"}}>
-          <Modal.Title><strong>{props.board.title}</strong></Modal.Title>
+          <Modal.Title><strong>{props.board.userid}</strong></Modal.Title>
           </Modal.Header>
           <Modal.Body>{props.board.content}</Modal.Body>
           <Modal.Footer>
-            <Button variant="primary" onClick={props.handleClose}>
+            <Button variant="primary" onClick={props.handleClose1}>
               CLOSE
             </Button>
-            <Button variant="danger" onClick={handleRemove}>
+            <Button variant="danger" onClick={props.handleClose}>
               DELETE
             </Button>
           </Modal.Footer>
@@ -28,4 +22,4 @@ function NoticeDetail(props) {
   )
 }
 
-export default NoticeDetail;
+export default WeeklyDetail;

@@ -35,3 +35,9 @@ export function scheduleUpdate(newBoard) {
     const promise = axios.post("/main/scheduleUpdate", newBoard);
     return promise;
 }
+
+//스케줄 삭제
+export function deleteSchedule(scheduleid) {
+    const promise = axios.delete("/main/scheduleDelete/" + scheduleid);
+    return promise;
+}

@@ -1,14 +1,15 @@
 import { forwardRef, useEffect, useState } from "react";
-import { Button, Table } from "react-bootstrap";
-import WeeklyForm from "./WeeklyWrite";
+import { Button } from "react-bootstrap";
 import DatePicker from "react-datepicker";
 import { getScheduleList } from "apis/Main";
 import "./scrollbar.css";
 import "./boxstyle.css";
 import moment from "moment";
 import WeeklyWrite from "./WeeklyWrite";
+import WeeklyDetail from "./WeeklyDetail";
 
 function Weekly(props) {
+  const [show, setShow] = useState(false);
   const [show1, setShow1] = useState(false);
 
   const [startDate, setStartDate] = useState(new Date());
@@ -19,6 +20,7 @@ function Weekly(props) {
   ));
 
   const [scheduleList, setScheduleList] = useState([]);
+  const [board, setBoard] = useState({});
 
   const work = async() => {
     console.log(moment(startDate).format('YYYY-MM-DD'))
@@ -31,8 +33,6 @@ function Weekly(props) {
   console.log(startDate);
   console.log(startDate.getTime());
 
-  console.log(213);
-
   useEffect(() => {
     work();
   }, [startDate])
@@ -40,6 +40,11 @@ function Weekly(props) {
   const handleClose1 = () => setShow1(false);
   const handleShow1 = () => setShow1(true);
 
+  const handleClose = () => setShow(false);
+  const handleShow = (board) => { 
+    setShow(true); 
+    setBoard(board); 
+  }
   return(
     <>
     <h5>WEEKLY <img src="/weekly.png"width="30"height="30"/>
@@ -70,7 +75,7 @@ function Weekly(props) {
        {scheduleList.length != 0 &&
        scheduleList.map((board,index) => {
          return(
-           <tr>
+           <tr onClick={() => {handleShow(board);}}>
              <th style={{width:"100px"}}>{index}</th>
              <th style={{width:"200px"}}>{board.userid}</th>
              <th>{board.content}</th>
@@ -82,6 +87,8 @@ function Weekly(props) {
     </table>
     </div>
     </div>
+
+    <WeeklyDetail board={board} show={show} handleClose1={handleClose}></WeeklyDetail>
     </>
   )
 }
