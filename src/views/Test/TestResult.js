@@ -39,12 +39,13 @@ function TestResult(props) {
       formData.append("treatmentid", treatmentid);
       formData.append("testdataid", "xray");
       formData.append("battach", inputFile.current.files[0]);
-      createXray(formData);
+      await createXray(formData);
+      sendRedisMessage({type:"testresult", treatmentid:treatmentid})//----------------redis 메세지
+      alert("사진첨부 완료")
     }catch(error){
       console.log(error);
     }
-    sendRedisMessage({type:"testresult", treatmentid:treatmentid})//----------------redis 메세지
-    alert("사진첨부 완료")
+    
 
     inputFile.current.value = ''; //저장후 값 클리어
 
