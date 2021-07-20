@@ -53,13 +53,13 @@ const Redis = () => {
       // 여기서 각 topic에 따라 dispatch!!
       //{type: , treatmentid: , newDate()}
       if(message.type==="treatment"){
-        dispatch(createSetTreatmentReception({patientid:message.patientid}))
+        console.log(message);
+        dispatch(createSetTreatmentReception({patientid:message.patientid, status:message.status}))
       }else if(message.type==="test"){
         dispatch(createSetTestReception(new Date()))
       }else if(message.type==="testresult"){
         dispatch(createSetTestResult({treatmentid:message.treatmentid}))
       }
-
 
       setContents((contents) => {
         return contents.concat(message.topic + ": " + message.content);
