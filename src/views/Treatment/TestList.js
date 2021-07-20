@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Col, Row, Toast } from "react-bootstrap";
+import { useSelector } from "react-redux";
 import ButtonHeader from "./components/ButtonHeader";
 import PackageImgTest from "./components/Tests/PackageImgTest";
 import PackageTest from "./components/Tests/PackageTest";
@@ -11,7 +12,11 @@ function TestList(props) {
   const handleShow = () => setShow(true);
   const [groupTests, setGroupTests] = useState({});
 
+  const [receptionToast, setReceptionToast] = useState(false);
+  const receptionToastShow = () => setReceptionToast(true);
+  const receptionToastClose = () => setReceptionToast(false);
 
+  const treatmentReception = useSelector((state)=>(state.receptionReducer.treatmentreception)) 
 
   const info = () => {
     alert("대기중인 진료를 선택해주세요.");
@@ -41,6 +46,13 @@ function TestList(props) {
     }, {});
     setGroupTests(group);
   }, [props.treatmentTests])
+
+  useEffect(() => {
+    console.log(treatmentReception);
+    if(treatmentReception.status === "접수"){
+      receptionToastShow();
+    }
+  }, [treatmentReception])
 
   return (
     <>
@@ -78,7 +90,7 @@ function TestList(props) {
             )
           )
         }
-        <div style={{position: "absolute", bottom: "40px", right: "30px"}}>
+        <div style={{position: "absolute", bottom: "40px", right: "30px", zIndex:"1000"}}>
           <Row>
             <Col style={{width:"400px"}}>
               <Toast onClose={toastClose} show={props.toastShow} delay={5000} autohide>
@@ -86,13 +98,24 @@ function TestList(props) {
                   <strong className="mr-auto" style={{color:"white"}}>Message</strong>
                   <small>complete</small>
                 </Toast.Header>
-                <Toast.Body>진료 완료!</Toast.Body>
+                <Toast.Body style={{backgroundColor:"white"}}>진료 완료!</Toast.Body>
               </Toast>
             </Col>
           </Row>
         </div>
 
-
+        <div style={{position: "absolute", bottom: "40px", right: "30px", zIndex:"990"}}>
+          <Row>
+            <Col style={{width:"400px"}}>
+              <Toast onClose={receptionToastClose} show={receptionToast} delay={4000} autohide>
+                <Toast.Header style={{backgroundColor:"green"}}>
+                  <strong className="mr-auto" style={{color:"white"}}>Message</strong>
+                </Toast.Header>
+                <Toast.Body>진료가 접수 되었습니다.</Toast.Body>
+              </Toast>
+            </Col>
+          </Row>
+        </div>
 
       </div>
     </>

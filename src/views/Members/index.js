@@ -58,8 +58,8 @@ function Members(props) {
                     <div key={user.userid} className="d-flex text-center pt-1 pb-1 align-items-center border-bottom" style={{height:"60px", fontWeight:"bold"}}>
                       <div style={{width:"10%"}}>
                         {user.sex === "남자" ? 
-                          <img src="/doctor2.png" width="30" height="30"/> :
-                          <img src="/doctor3.png" width="30" height="30"/>
+                          <img src="/doctor2.png" alt="man" width="30" height="30"/> :
+                          <img src="/doctor3.png" alt="woman" width="30" height="30"/>
                         }  
                       </div>
                       <div style={{width:"12%"}}>{user.userid}</div>

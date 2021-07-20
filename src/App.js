@@ -1,6 +1,5 @@
 
 import { AppContextProvider } from "AppContext";
-import AppRoute from "AppRoute";
 import Main from "Main";
 import { Redirect, Route, Switch } from "react-router-dom";
 import Hospital from "views/hospital";
