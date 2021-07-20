@@ -113,7 +113,7 @@ function Treatment(props) {
 
   //testResult가 바뀔 때 
   useEffect(() => {
-
+    console.log("testResul;t q바뀜")
     if(testResult.treatmentid != null && testResult.treatmentid === treatment.treatmentid){
       const response = getTestList(treatment.treatmentid);
       response.then((response) => {
