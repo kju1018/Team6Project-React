@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { ToggleButton } from "react-bootstrap";
 import { ButtonGroup } from "react-bootstrap";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import Item from "views/components/Item";
 import {createSetPatient} from"redux/patient-reducer"
 import moment from 'moment';
@@ -49,12 +49,11 @@ function TestReception(props){
                 <div style={{width:"20%"}}>접수상태</div>
                 <div style={{width:"20%"}}>접수시간</div>
             </div>
-            <div className="overflow-auto  justify-content-center" style={{height:"calc(40vh - 200px)"}} >
+            <div className=" justify-content-center" style={{height:"calc(40vh - 200px)"}} >
                
             {props.testList?
             <AutoSizer disableHeight>
                         {({width, height}) => {
-                            
                             let result = props.testList.filter((item)=>listtype==="all"||item.status===listtype) 
                             return(
                             <List width={width} height={Math.round(window.innerHeight / (100 / 40))-200}

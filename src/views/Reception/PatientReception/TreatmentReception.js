@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
+import {  useState } from "react";
 import { ToggleButton } from "react-bootstrap";
 import { ButtonGroup } from "react-bootstrap";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch} from "react-redux";
 import Item from "views/components/Item";
 import {createSetPatient} from"redux/patient-reducer"
 import moment from 'moment';
@@ -25,6 +25,7 @@ function TreatmentReception(props){
             props.deleteTreatmentReception(selectedTreatmetReception.treatmentid)
         }
     }
+    
     const treatmentProperty = ["treatmentid","patientname","username","status","treatmentdate"]  
     return(
         <div className="pl-3 pr-3 pb-3" style={{ backgroundColor:"white"}}>
@@ -49,7 +50,7 @@ function TreatmentReception(props){
         
         
             </div>
-            <div className="overflow-auto  justify-content-center" style={{height:"calc(40vh - 200px)"}} >
+            <div className="justify-content-center" style={{height:"calc(40vh - 200px)"}} >
             {props.treatmentList?
             <AutoSizer disableHeight>
                         {({width, height}) => {

@@ -1,27 +1,11 @@
 import Reservation from "./Reservation";
 import SearchPatient from"./SearchPatient";
-import { useState } from "react";
 import "./font.css"
 import PatientReception from "./PatientReception";
-import { LoginApi,test, test2 } from "apis/Auth";
-import config, { addAuthHeader } from "apis/axiosConfig";
-import { GetReservationList } from "apis/Reception";
+
 
 function Reception(props){
-    
-    const login =async(user) =>{
-        const result = await LoginApi({uid:"b", upassword:"b"})
-        addAuthHeader(result.data.authToken)
-        console.log(result.data.authToken);
-        console.log(result)
-    }
-    const tests =() =>{
-      
-    }
-    const tests2 =() =>{
-        const result = test2()
-        console.log(result)
-    }
+
     return( 
     <>
     <div className="container-fluid  d-flex p-0 " style={{minWidth:"1200px", fontFamily:"Noto Sans KR"}}>

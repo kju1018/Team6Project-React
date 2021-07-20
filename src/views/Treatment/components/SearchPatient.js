@@ -50,7 +50,6 @@ function SearchPatient(props) {
 
   const checkPatient = (patient) => {
     setCheckedPatient(patient);
-    console.log(patient);
   }
 
   const selectedComplete = (patient) => {
@@ -67,7 +66,6 @@ function SearchPatient(props) {
       const newPatient = patientList.filter(patient => patient.patientname.indexOf(name) !== -1);
       return newPatient;
     })
-    console.log(name);
   }, []);//useCallback로 받으면 () =>      ()괄호안에 매개변수를 받아야함
 
   const rowRenderer = ({index, key, style}) => {

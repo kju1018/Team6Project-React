@@ -2,11 +2,9 @@ import Calendar from "../SearchPatient/Calendar"
 import Item from "views/components/Item";
 import { useEffect, useState } from "react";
 import ReceptionHeader from "../components/ReceptionHeader";
-import { ReceptionTest,cancelReservationData} from "views/Reception/BackEnd/index"
-import { useDispatch, useSelector } from "react-redux";
+import {useSelector } from "react-redux";
 import { Modal,Spinner } from "react-bootstrap";
 import ReservationUpdateModal from "./ReservationUpdateModal";
-import { createSetTestReception } from "redux/reception-reducer";
 import DoctorSelectorModal from "../SearchPatient/DoctorSelectorModal";
 import { GetReservationList,RemoveReservation } from "apis/Reception";
 import moment from 'moment';
@@ -27,7 +25,6 @@ function Reservation(props){
     const click = (focusItem) =>{
         setSelectedReservation(focusItem)
     }
-    const dispatch = useDispatch();
      //모달창 닫는 함수
      const closeModal= (modalname) =>{
         // 모달일때 모달종류에 따라 닫아줌
@@ -110,18 +107,18 @@ const CancelReservation=()=>{
     }
 
   //진료접수시 상태변경함수
-  const modifyReservationList = () =>{
-    const modify = reservationList.map((item)=>{
+  // const modifyReservationList = () =>{
+  //   const modify = reservationList.map((item)=>{
         
-      if(item.reservationid===selectedReservation.reservationid){
-          item.status="접수완료"
-      }
-      return item;      
+  //     if(item.reservationid===selectedReservation.reservationid){
+  //         item.status="접수완료"
+  //     }
+  //     return item;      
       
-    })
-    //상태변경된 예약 수정
-    setReservationList(modify)
-  }
+  //   })
+  //   //상태변경된 예약 수정
+  //   setReservationList(modify)
+  // }
     //진료접수하기
     const ResisterTreatment = () =>{
              //모달창 open
