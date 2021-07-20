@@ -1,10 +1,7 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect } from "react";
 import TreatmentItem from "./components/TreatmentItem";
-import { getAllTreatments } from "apis/Treatment"
 import moment from 'moment';
 function PatientTreatment(props) {
-
-  // console.log("PatientTreatment");
 
   const selectTreatment = useCallback((treatment) => {
     props.selectTreatment(treatment);

@@ -100,8 +100,10 @@ function TestGroup(props) {
     if(flag === 0){
       try {
         startTests(checkedList).then(()=>{props.gettest(props.selectpatientinfo.testreceptionid); group()});
-        startPatient(props.selectpatientinfo.testreceptionid).then(()=>{ props.getpatient(props.startdate, props.enddate)});
-        sendRedisMessage({type:"test"})
+        startPatient(props.selectpatientinfo.testreceptionid).then(()=>{ 
+          props.getpatient(props.startdate, props.enddate)
+          sendRedisMessage({type:"test"})
+        });
       } catch (error) {
         console.log(error);
       }
@@ -135,8 +137,10 @@ function TestGroup(props) {
     if(flag === 0){
       try {
         startTests(checkedList).then(()=>{props.gettest(props.selectpatientinfo.testreceptionid); group()});
-        startPatient(props.selectpatientinfo.testreceptionid).then(()=>{props.getpatient(props.startdate, props.enddate)});
-        sendRedisMessage({type:"test"})
+        startPatient(props.selectpatientinfo.testreceptionid).then(()=>{
+          props.getpatient(props.startdate, props.enddate)
+          sendRedisMessage({type:"test"})
+        });
       } catch (error) {
         console.log(error);
       }
@@ -168,8 +172,10 @@ function TestGroup(props) {
     if(flag === 0){
       try {
         cancelTests(checkedList).then(()=>{props.gettest(props.selectpatientinfo.testreceptionid); group()})
-        cancelPatient(props.selectpatientinfo.testreceptionid).then(()=>{props.getpatient(props.startdate, props.enddate)})
-        sendRedisMessage({type:"test"})
+        cancelPatient(props.selectpatientinfo.testreceptionid).then(()=>{
+          props.getpatient(props.startdate, props.enddate)
+          sendRedisMessage({type:"test"})
+        }) 
       } catch (error) {
         console.log(error);
       }
@@ -211,12 +217,26 @@ function TestGroup(props) {
             console.log(count)
           }
         }
+
+        if(checkedList.length === 1 ) {
           if(count === groupList.length-1) {
             console.log(count)
-            finishPatient(props.selectpatientinfo.testreceptionid).then(()=>{props.getpatient(props.startdate, props.enddate)})
+            finishPatient(props.selectpatientinfo.testreceptionid).then(()=>{
+              props.getpatient(props.startdate, props.enddate)
+              sendRedisMessage({type:"test"})
+            })
+          }
+        } else {
+          if(count === groupList.length-checkedList.length) {
+            finishPatient(props.selectpatientinfo.testreceptionid).then(()=>{
+              props.getpatient(props.startdate, props.enddate)
+              sendRedisMessage({type:"test"})
+            })
           }
         }
-        sendRedisMessage({type:"test"})
+        }
+        
+       
       } catch (error) {
         console.log(error);
       }
