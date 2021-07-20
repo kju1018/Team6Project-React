@@ -11,7 +11,7 @@ import HospitalNoticeDetail from "./HospitalNoticeDetail";
 
 const errorMsg = {
   password_empty : '비밀번호를 입력해주세요.',
-  code_empty : '병원코드를 입력해주세요.',
+  code_empty : '병원코드를 입력해주세요.', 
   err_password: '비밀번호가 틀렸습니다.',
   err_code:'병원코드가 틀렸습니다.'
 }
