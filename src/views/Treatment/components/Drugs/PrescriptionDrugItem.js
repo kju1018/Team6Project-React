@@ -2,7 +2,6 @@ import React from "react";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
 
 function PrescriptionDrugItem(props) {
-  console.log(props.item.drugid," 렌더링");
 
   const handleChange = (event) => {
     props.onChangeQuantity(event, props.quantityArr);

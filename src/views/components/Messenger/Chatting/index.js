@@ -22,7 +22,12 @@ import ReceptionHeader from "views/Reception/components/ReceptionHeader";
 //     }
 //     return connectionArray;
 // }
+
+
+//나중에 로그아웃때 넘길 chatArray 값
+let chatarray = [];
 function Chatting(props){
+    const [test, setTest] = useState("test!!")
     const [chatArray, setChatArray] = useState([]);
     const [connectionList,setConnectionList] = useState([]);
     const [message, setMessage] = useState("");
@@ -37,6 +42,8 @@ function Chatting(props){
         if(scrollRef.current){
             scrollRef.current.scrollIntoView({ behavior: 'smooth'});
         }
+        //나중에 로그아웃때 넘길 chatArray 값 저장
+        chatarray = chatArray;
     },[chatArray])
 
     window.onbeforeunload = function(e) {
@@ -46,7 +53,9 @@ function Chatting(props){
      })
       };
     useEffect(()=>{
-        let webSocket = new  WebSocket('ws://localhost:8080/websocket/chatting')
+        //let webSocket = new  WebSocket('ws://localhost:8080/websocket/chatting')
+        let webSocket = new WebSocket("ws://kosa3.iptime.org:50006/websocket/chatting")
+      
         webSocket.onopen = () =>{
             console.log("open!!!")
             //Back-end에서 이전 채팅기록 가져오기
@@ -78,10 +87,9 @@ function Chatting(props){
         }
         webSocket.onclose=()=>{
             console.log("sendBYE!")
-            webSocket.close()
         }
         webSocket.onmessage = (event) =>{
-            
+           
             
             var data = JSON.parse(event.data);
             console.log("receive" + data.header)
@@ -99,6 +107,7 @@ function Chatting(props){
             else if(data.header==="BYE"){
                 //동기화할 유저정보 리스트
                 console.log("byte!!")
+                console.log(chatArray)
                 setConnectionList(data.connectionlist)
             }
             //채팅 패킷 받았을때
@@ -114,11 +123,15 @@ function Chatting(props){
         }
         setWebsocket(webSocket)
 
-        return(()=>{
-            webSocket.close()
-        })
+        return()=>{
+            console.log("로그아웃??")
+        saveChatting(globalUid,chatarray).then((result)=>{
+            console.log("!!! save!!")
+
+        })}
 
     },[])
+
     const onChangeMessage = (event) =>{
         setMessage(event.target.value);
     } 

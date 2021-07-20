@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Accordion, Alert, Badge, Button, Card, Carousel, Col, Container, Image, Row, Toast } from "react-bootstrap";
+import { Col, Row, Toast } from "react-bootstrap";
 import ButtonHeader from "./components/ButtonHeader";
 import PackageImgTest from "./components/Tests/PackageImgTest";
 import PackageTest from "./components/Tests/PackageTest";
@@ -24,7 +24,7 @@ function TestList(props) {
   const prescribeTests = (prescriptionItems) => {
     props.prescribeTests(prescriptionItems);
   }
-  console.log("TestList");
+
   useEffect(() => {
     const group = props.treatmentTests.reduce((gt, t) => {
       if(!gt[t.groupcode]){

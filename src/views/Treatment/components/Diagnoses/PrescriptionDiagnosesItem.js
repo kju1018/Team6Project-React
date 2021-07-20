@@ -3,7 +3,6 @@ import { OverlayTrigger, Tooltip } from "react-bootstrap";
 
 function PrescriptionDiagnosesItem(props) {
 
-  console.log(props.item.diagnosesdataid," 렌더링");
   return (
     <div className="d-flex text-center pt-1 pb-1 align-items-center border-bottom" style={{height:"50px", fontWeight:"bold"}}>
       <div style={{width:"25%"}}>{props.item.diagnosesdataid}</div>

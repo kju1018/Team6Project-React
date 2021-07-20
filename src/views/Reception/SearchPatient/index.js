@@ -68,7 +68,6 @@ function SearchPatient(props){
         registerday: patient.registerday,
         lasttreatment: patient.lasttreatment?patient.lasttreatment:"-"
       }
-      console.log(tmpPatient)
       setSelectedPatient(tmpPatient)
      }
   }
