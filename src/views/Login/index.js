@@ -108,11 +108,11 @@ function Login(props) { //컴포넌트 이름
   return (
     <div style={{backgroundColor:"#F9F7F9", height:"100vh"}}>
       <div className="row mr-0 ml-0" style={{alignItems:"center"}}><img src="logo.png" className="mt-3 ml-4" style={{width: "50px"}}/><div className="mt-3 ml-2" style={{fontSize:"26px"}}>더조은 병원</div></div>
-      <div style={{height:"500px"}}>
+
         <div className="row ml-0 mr-0 mt-2">
           <div className="col-6">
-            <div className="logintitle"><h1>Let's start</h1><span>It's going to take only a few minutes</span></div>
-            <div className="pr-5 pl-3">
+            <div className="logintitle text-center"><h1>Let's start</h1><span>It's going to take only a few minutes</span></div>
+            <div className="pr-5 pl-3" style={{width:"700px", marginLeft:"auto", marginRight:"auto"}}>
               <Form noValidate validated={validated} onSubmit={handleLogin}>
                 <Form.Group controlId="formBasicID">
                   <Form.Label>UserID</Form.Label>
@@ -140,7 +140,7 @@ function Login(props) { //컴포넌트 이름
             <img src="Doctors-rafiki.png" width="90%"/>
           </div>
         </div>
-      </div>
+
 
     </div>
   );
