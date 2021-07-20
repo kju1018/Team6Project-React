@@ -43,7 +43,7 @@ return(
     selectedNotice.map((board, index) => {
       return (
         <div key={board.bno} onClick={() => {handleShow(board)}} className="border-bottom d-flex text-center" style={{heght:"40px", cursor:"pointer"}}>
-          <div style={{width:"90px", fontWeight:"bold", padding:"12px"}}>{index}</div>
+          <div style={{width:"90px", fontWeight:"bold", padding:"12px"}}>{board.bno}</div>
           <div style={{width:"153px", padding:"12px"}}>{board.bwriter}</div>
           <div style={{width:"170px", padding:"12px"}}>{board.btitle}</div>
           <div style={{width:"170px", padding:"12px"}}>{board.bdate}</div>
