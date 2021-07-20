@@ -127,7 +127,7 @@ function Chatting(props){
             console.log("로그아웃??")
         saveChatting(globalUid,chatarray).then((result)=>{
             console.log("!!! save!!")
-
+            webSocket.close();
         })}
 
     },[])
