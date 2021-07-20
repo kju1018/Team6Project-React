@@ -78,7 +78,7 @@ function PackageImgTest(props) {
                                 <Carousel.Item key={img.imgid}>
                                   <img
                                     className="d-block"
-                                    src={`http://localhost:8080/treatment/imgdownload/${img.imgid}`}
+                                    src={`http://kosa3.iptime.org:50006/treatment/imgdownload/${img.imgid}`}
                                     width="100%"
                                     height="536px"
                                     onClick={() => { showImgModal(img) }}
