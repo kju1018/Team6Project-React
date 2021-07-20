@@ -8,8 +8,8 @@ function ImgDetailModal(props) {
       </Modal.Header>
       <Modal.Body >
         {props.selectedImg.imgid != null ? 
-        <a href={`http://localhost:8080/treatment/imgdownload/${props.selectedImg.imgid}`}>
-          <img width={"100%"} height={"100%"} alt="xray"  src={`http://localhost:8080/treatment/imgdownload/${props.selectedImg.imgid}`}></img>
+        <a href={`http://kosa3.iptime.org:50006/treatment/imgdownload/${props.selectedImg.imgid}`}>
+          <img width={"100%"} height={"100%"} alt="xray"  src={`http://kosa3.iptime.org:50006/treatment/imgdownload/${props.selectedImg.imgid}`}></img>
         </a>
         :
         null
