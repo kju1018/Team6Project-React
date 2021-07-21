@@ -108,7 +108,7 @@ function Hospital(props) {
     }
 
   }
-
+ 
   
   return (
     <div style={{height:"100vh"}}>
