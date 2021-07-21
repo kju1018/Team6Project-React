@@ -116,11 +116,11 @@ function Hospital(props) {
       <div className="d-flex">
         <div className="col-6">
           <div className="pt-5 pl-5">
-            <div className="card" style={{width:"70%", marginLeft:"115px", marginTop:"0px"}}>
+            <div className="card" style={{width:"70%",height:"790px", marginLeft:"115px", marginTop:"0px"}}>
               <div className="card-header" style={{backgroundColor:"rgb(18, 60, 114)", color:"white"}}>System Login</div>
                 <div className="card-body">
                 <div>
-                  <img src="Login-amico.png" alt="img" width="80%"/>
+                  <img src="Login-amico.png" alt="img" width="70%"/>
                 </div>
                   <Form noValidate validated={validated} onSubmit={handleLogin}>
                     <Form.Group controlId="formBasicID">
