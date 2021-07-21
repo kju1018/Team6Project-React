@@ -115,8 +115,8 @@ function Hospital(props) {
       <div className="d-flex">
             <div className="card" style={{width:"50%", height:"30%", marginLeft:"25%", marginTop:"12%"}}>
               <div className="card-header" style={{backgroundColor:"rgb(18, 60, 114)", color:"white", fontWeight:"bold", fontSize:"24px"}}>LOGIN</div>
-                <div className="card-body row mt-5 ml-2" style={{height:"390px"}}>
-                <div className="col-5">
+                <div className="card-body row mt-4 ml-2" style={{height:"410px"}}>
+                <div className="col-5" style={{height:"390px"}}>
                 <Form noValidate validated={validated} onSubmit={handleLogin}>
 
                     <Form.Group controlId="formBasicID">
@@ -136,7 +136,7 @@ function Hospital(props) {
                       <Form.Control required type="password" autoComplete="off" name="userpassword" placeholder="비밀번호를 입력하세요." value={loginForm.userpassword} onChange={handleChange} isInvalid={isInvalidPassword}/>
                       <Form.Control.Feedback type="invalid">{errorMessagePassword}</Form.Control.Feedback>
                     </Form.Group>
-                    <div className="text-center mt-5">
+                    <div className="text-center mt-4">
                       <Button variant="dark" block type="submit">
                         로그인
                       </Button>
