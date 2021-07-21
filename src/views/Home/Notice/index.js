@@ -73,7 +73,7 @@ return(
        {selectedNotice.length != 0 &&
        selectedNotice.map((board,index) => {
          return(
-           <tr key={board.noticeid} onClick={()=>{handleShow(board);}} /*onClick={handleShow(board)}*/ >
+           <tr key={board.noticeid} onClick={()=>{handleShow(board);}}>
              <th style={{width:"100px"}}>{index}</th>
              <th style={{width:"200px"}}>{board.userid}</th>
              <th>{board.title}</th>
