@@ -112,7 +112,6 @@ function Chatting(props){
             }
             //채팅 패킷 받았을때
             else if(data.header==="CHATTING"){
-                console.log(data)
                 dispatch(createSetToast({message:data.name+"님으로 부터 메시지 도착"}))
                 setChatArray((prev)=>{
                     const chatObj = {name:data.name, from:data.from,role:data.role,message:data.message, dateTime:data.dateTime,isMe:data.from===globalUid, enabled:true}
@@ -224,7 +223,6 @@ function Chatting(props){
                 <div  className="overflow-auto mt-3" style={{height:"calc(92vh - 136px)"}}>
                 
                 <div  className=" d-flex flex-column justify-content-end bg-dark pl-3 pr-3" style={{minHeight:"calc(92vh - 136px)"}}>
-                    {console.log(chatArray)}
                     {chatArray&&chatArray.map((chat,index)=>{return(
                         <div ref={scrollRef} key={index}  className={chat.isMe?"row p-1 justify-content-end":"row  p-1  justify-content-start"}>
                             <div style={{ maxWidth:"70%"}}>

@@ -108,16 +108,17 @@ function Hospital(props) {
     }
 
   }
-
+ 
   
   return (
     <div style={{height:"100vh", backgroundImage:'url(/assets/docc.jpg)', backgroundRepeat:"no-repeat"}}>
       <div className="d-flex">
             <div className="card" style={{width:"50%", height:"30%", marginLeft:"25%", marginTop:"12%"}}>
-              <div className="card-header" style={{backgroundColor:"rgb(18, 60, 114)", color:"white"}}>LOGIN</div>
+              <div className="card-header" style={{backgroundColor:"rgb(18, 60, 114)", color:"white", fontWeight:"bold", fontSize:"24px"}}>LOGIN</div>
                 <div className="card-body row mt-5 ml-2" style={{height:"390px"}}>
                 <div className="col-5">
                 <Form noValidate validated={validated} onSubmit={handleLogin}>
+
                     <Form.Group controlId="formBasicID">
                       <Form.Label><div style={{fontWeight:"bold"}}>Hospital Code</div></Form.Label>
                       <Form.Control required type="text" name="codenumber" placeholder="병원코드(숫자)를 입력하세요." value={loginForm.codenumber} onChange={handleChange} isInvalid={isInvalidCode}/>
