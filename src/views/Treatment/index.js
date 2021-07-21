@@ -8,6 +8,7 @@ import { useSelector } from "react-redux";
 import PatientProfile from "./components/PatientProfile";
 import { getPatient, getStaticDiagnoses, getStaticDrugs, getPrescriptionList, prescribeTreatment, getAllTreatments, getStaticTests, getTestList } from "apis/Treatment";
 import { sendRedisMessage } from "apis/Redis";
+import { Col, Row, Toast } from "react-bootstrap";
 
 function Treatment(props) {
 
@@ -113,7 +114,6 @@ function Treatment(props) {
 
   //testResult가 바뀔 때 
   useEffect(() => {
-    console.log("testResul;t q바뀜")
     if(testResult.treatmentid != null && testResult.treatmentid === treatment.treatmentid){
       const response = getTestList(treatment.treatmentid);
       response.then((response) => {
@@ -165,7 +165,7 @@ function Treatment(props) {
       let prescription = {};
 
       let time = new Date(treatment.treatmentdate).getTime();
-      const newTreatment = {
+      let newTreatment = {
         ...treatment,
         treatmentdate:time,
         memo:memo
@@ -189,7 +189,9 @@ function Treatment(props) {
             type:"treatment",
             patientid:patient.patientid
           };
+          newTreatment.status = "진료 완료"
           sendRedisMessage(message);//진료가 완료 되었다는 사실을 접수처에 알림
+          setTreatment(newTreatment);
         }
         
       }

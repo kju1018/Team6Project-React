@@ -2,7 +2,7 @@
 const initState = {
     userid:"",
     role_authority:"",
-    autToken:"",
+    authToken:"",
     codenumber:""
 }
 const SET_USERID = "auth/set_userid"

@@ -53,7 +53,7 @@ function Chatting(props){
      })
       };
     useEffect(()=>{
-        //let webSocket = new  WebSocket('ws://localhost:8080/websocket/chatting')
+        // let webSocket = new  WebSocket('ws://localhost:8080/websocket/chatting')
         let webSocket = new WebSocket("ws://kosa3.iptime.org:50006/websocket/chatting")
       
         webSocket.onopen = () =>{
@@ -127,7 +127,7 @@ function Chatting(props){
             console.log("로그아웃??")
         saveChatting(globalUid,chatarray).then((result)=>{
             console.log("!!! save!!")
-
+            webSocket.close();
         })}
 
     },[])
