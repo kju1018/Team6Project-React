@@ -106,7 +106,7 @@ function TestPage(props) {
                   <div className="col-2 p-0 text-center">{item.ssn1}</div>
                   <div className="col-2 p-0 text-center">{item.patientname}</div>
                   <div className="col-4 p-0 text-center">{moment(item.testdate).format('YYYY-MM-DD')}</div>
-                  <div className="col-2 p-0 text-center"><Badge className="mr-1" variant={(item.status == "검사완료")?"danger":"success"}>{item.status}</Badge><Badge variant={(item.resultstatus == "미입력")?"success":"danger"}>{item.resultstatus}</Badge></div>
+                  <div className="col-2 p-0 text-center"><Badge className="mr-1" variant={(item.status == "검사완료")?"danger":"success"}>{item.status}</Badge><Badge variant={(item.resultstatus == "입력완료")?"info":"warning"}>{item.resultstatus}</Badge></div>
                 </div>
               )})}
               </Tab.Pane>
@@ -117,7 +117,7 @@ function TestPage(props) {
                   <div className="col-2 p-0 text-center">{item.ssn1}</div>
                   <div className="col-2 p-0 text-center">{item.patientname}</div>
                   <div className="col-4 p-0 text-center">{moment(item.testdate).format('YYYY-MM-DD')}</div>
-                  <div className="col-2 p-0 text-center"><Badge className="mr-1" variant="success">{item.status}</Badge><Badge variant={(item.result == null)?"success":"danger"}>{item.resultstatus}</Badge></div>
+                  <div className="col-2 p-0 text-center"><Badge className="mr-1" variant="success">{item.status}</Badge><Badge variant={(item.resultstatus == "입력완료")?"info":"warning"}>{item.resultstatus}</Badge></div>
                   </div>
               )})}
               </Tab.Pane>
@@ -128,7 +128,7 @@ function TestPage(props) {
                 <div className="col-2 p-0 text-center">{item.ssn1}</div>
                 <div className="col-2 p-0 text-center">{item.patientname}</div>
                 <div className="col-4 p-0 text-center">{moment(item.testdate).format('YYYY-MM-DD')}</div>
-                <div className="col-2 p-0 text-center"><Badge className="mr-1" variant="primary">{item.status}</Badge><Badge variant={(item.result == null)?"success":"danger"}>{item.resultstatus}</Badge></div>
+                <div className="col-2 p-0 text-center"><Badge className="mr-1" variant="primary">{item.status}</Badge><Badge variant={(item.resultstatus == "입력완료")?"info":"warning"}>{item.resultstatus}</Badge></div>
               </div>
               )})}
               </Tab.Pane>
@@ -139,7 +139,7 @@ function TestPage(props) {
                 <div className="col-2 p-0 text-center">{item.ssn1}</div>
                 <div className="col-2 p-0 text-center">{item.patientname}</div>
                 <div className="col-4 p-0 text-center">{moment(item.testdate).format('YYYY-MM-DD')}</div>
-                <div className="col-2 p-0 text-center"><Badge className="mr-1" variant="danger">{item.status}</Badge><Badge variant={(item.result == null)?"success":"danger"}>{item.resultstatus}</Badge></div>
+                <div className="col-2 p-0 text-center"><Badge className="mr-1" variant="danger">{item.status}</Badge><Badge variant={(item.resultstatus == "입력완료")?"info":"warning"}>{item.resultstatus}</Badge></div>
               </div>
               )})}
               </Tab.Pane>

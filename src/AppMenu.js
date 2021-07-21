@@ -3,7 +3,7 @@ import { removeAuthHeader } from "apis/axiosConfig";
 import { Button } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
-import { createSetAuthTokenAction, createSetUseridAction } from "redux/auth-rducer";
+import { createSetAuthTokenAction, createSetCodeNumberAction, createSetRoleAuthority, createSetUseridAction } from "redux/auth-rducer";
 
 
 function AppMenu() {
@@ -11,12 +11,12 @@ function AppMenu() {
 
     const globalUserRole = useSelector((state) => { return state.authReducer.role_authority });
 
-    console.log(globalUserRole);
-
     const logout = () => {
       //Redux를 이용
       dispatch(createSetUseridAction(""));
       dispatch(createSetAuthTokenAction(""));
+      dispatch(createSetCodeNumberAction(""));
+      dispatch(createSetRoleAuthority(""));
 
       //요청헤더에 authToken제거
       removeAuthHeader();
@@ -24,6 +24,8 @@ function AppMenu() {
       //SessionStorage에 인증 내용 제거
       sessionStorage.removeItem("userid");
       sessionStorage.removeItem("authToken");    
+      sessionStorage.removeItem("codenumber");
+      sessionStorage.removeItem("role_authority");
     }
 
     return (
