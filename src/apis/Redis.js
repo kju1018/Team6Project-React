@@ -1,5 +1,5 @@
 import axios from "axios";
-//const BASE_URL = "http://localhost:8080/";
+// const BASE_URL = "http://localhost:8080/";
 const BASE_URL ="http://kosa3.iptime.org:50006/";
 export function sendRedisMessage(content) {
     content =JSON.stringify(content)

@@ -3,17 +3,14 @@ import { AppContextProvider } from "AppContext";
 import Main from "Main";
 import { Redirect, Route, Switch } from "react-router-dom";
 import Hospital from "views/hospital";
-import Login from "views/Login";
 import './App.css';
 import axiosConfig from "apis/axiosConfig"
-
 
 function App(props) {
   return (
     <div className="d-flex flex-column vh-100" style={{width:"1920px", backgroundColor:"#F9F7F9"}}>
       <Switch>
         <Route path="/" exact component={Hospital}/>
-        <Route path="/login" exact component={Login}/>
         <AppContextProvider>
         <Route path="/main" component={Main}/>
         </AppContextProvider>

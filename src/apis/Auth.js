@@ -8,19 +8,12 @@ export function LogoutApi(){
     axios.get("/Auth/logout")
 }
 
-export function LoginCode(code){
-    const result = axios.post("/auth/codelogin", code);
-    return result;
-}
-
-
 export function test(){
     axios.get("/Auth/test", {
         headers: {
             'Content-Type': 'application/json'
         }});
 }
-
 
 export function test2(){
     axios.get("/Auth/test2", {
