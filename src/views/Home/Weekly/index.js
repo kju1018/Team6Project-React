@@ -33,7 +33,9 @@ function Weekly(props) {
   }
 
   const deleteScheduleState = (scheduleid, startDate) => {
+
     deleteSchedule(scheduleid, startDate).then((response) => {
+      console.log(response.data);
       setScheduleList(response.data);
     });
   }
@@ -92,8 +94,9 @@ function Weekly(props) {
     </table>
     </div>
     </div>
+    {/* 함수명()  <- 함수를 실행하겠다는 뜻  */}
 
-    <WeeklyDetail deleteScheduleState = {()=>{deleteScheduleState(props.scheduleid, startDate)}} board={board} show={show} handleClose1={handleClose}></WeeklyDetail>
+    <WeeklyDetail deleteScheduleState = {deleteScheduleState} board={board} show={show} handleClose1={handleClose}></WeeklyDetail>
     </>
   )
 }

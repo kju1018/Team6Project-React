@@ -3,7 +3,7 @@ import { Button, Modal } from "react-bootstrap";
 function WeeklyDetail(props) {
 
   const handleRemove = (event) => {
-    props.deleteScheduleState(props.board.scheduleid);
+    props.deleteScheduleState(props.board.scheduleid, props.board.date);
     props.handleClose1();
     alert('스케쥴을 삭제 하였습니다!');
   };
