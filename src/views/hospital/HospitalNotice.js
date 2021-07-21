@@ -28,7 +28,7 @@ function HospitalNotice(props){
 return(
   <>
   <h5>NOTICE <img src="/pencil.png" width="25"height="25"/></h5> 
-  <div className="overflow-auto" style={{height:"400px"}}>
+  <div className="overflow-auto mt-3" style={{height:"345px"}}>
     <table className="table table-hover mb-0" style={{backgroundColor:"#f6f6f6"}}>
       <thead className="card-header text-center">
         <tr>
