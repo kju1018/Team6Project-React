@@ -28,11 +28,11 @@ function HospitalNotice(props){
 return(
   <>
   <h5>NOTICE <img src="/pencil.png" width="25"height="25"/></h5> 
-  <div className="overflow-auto" style={{height:"718px"}}>
-    <table className="table table-hover mb-0" style={{backgroundColor:"rgb(18, 60, 114)", color:"white"}}>
+  <div className="overflow-auto" style={{height:"400px"}}>
+    <table className="table table-hover mb-0" style={{backgroundColor:"#f6f6f6"}}>
       <thead className="card-header text-center">
         <tr>
-          <th width="90px">#</th>
+          <th width="90px"></th>
           <th width="153px">작성자</th>
           <th width="170px">제목</th>
           <th width="170px">날짜</th>

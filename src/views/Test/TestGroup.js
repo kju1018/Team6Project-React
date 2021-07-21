@@ -87,7 +87,6 @@ function TestGroup(props) {
         group.ischeck = false;
         if(group.status === "대기중"){
           checkedList.push(group);
-          
         } else {
           alert("검사가 이미 진행중이거나 완료 되었습니다.")
           flag = 1;
