@@ -24,7 +24,7 @@ function WeeklyWrite(props){
     event.preventDefault();
     const newBoard = {...board};
     newBoard.userid = globalUserid;
-    newBoard.date = new Date();
+    newBoard.date = props.startDate;
     await scheduleUpdate(newBoard);
     props.handleClose1();
     props.work();

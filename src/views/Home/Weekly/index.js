@@ -1,7 +1,7 @@
 import { forwardRef, useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
 import DatePicker from "react-datepicker";
-import { getScheduleList } from "apis/Main";
+import { deleteSchedule, getScheduleList } from "apis/Main";
 import "./scrollbar.css";
 import "./boxstyle.css";
 import moment from "moment";
@@ -19,6 +19,7 @@ function Weekly(props) {
     </button>
   ));
 
+
   const [scheduleList, setScheduleList] = useState([]);
   const [board, setBoard] = useState({});
 
@@ -30,8 +31,12 @@ function Weekly(props) {
     console.log(response.data);
     setScheduleList(response.data);
   }
-  console.log(startDate);
-  console.log(startDate.getTime());
+
+  const deleteScheduleState = (scheduleid, startDate) => {
+    deleteSchedule(scheduleid, startDate).then((response) => {
+      setScheduleList(response.data);
+    });
+  }
 
   useEffect(() => {
     work();
@@ -50,7 +55,7 @@ function Weekly(props) {
     <h5>WEEKLY <img src="/weekly.png"width="30"height="30"/>
     <Button variant="outline-primary" style={{float: "right"}} onClick={handleShow1}>
       <img src="/pen.png"width="25"height="25"/></Button>
-    <WeeklyWrite show={show1} handleClose1={handleClose1} work={work}></WeeklyWrite>
+    <WeeklyWrite show={show1} handleClose1={handleClose1} work={work} startDate={startDate}></WeeklyWrite>
     <div className="text-center">
     <DatePicker
       selected={startDate}
@@ -88,7 +93,7 @@ function Weekly(props) {
     </div>
     </div>
 
-    <WeeklyDetail board={board} show={show} handleClose1={handleClose}></WeeklyDetail>
+    <WeeklyDetail deleteScheduleState = {()=>{deleteScheduleState(props.scheduleid, startDate)}} board={board} show={show} handleClose1={handleClose}></WeeklyDetail>
     </>
   )
 }
