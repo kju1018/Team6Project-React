@@ -29,12 +29,12 @@ function Main(props) {
           <Redis/>
           <div className="col-11 pl-0 pr-0" >
           <Switch>
-            <Route path={`${props.match.url}/home`} exact component={Home}/>
-            <Route path={`${props.match.url}/reception`} exact component={Reception}/>
-            <Route path={`${props.match.url}/treatment`} exact component={Treatment}/>
-            <Route path={`${props.match.url}/test`} exact component={Test}/>
-            <Route path={`${props.match.url}/members`} exact component={Members}/>
-            <Redirect to={`${props.match.url}/home`} />
+            <Route path="/main/home" component={Home}/>
+            <Route path="/main/reception" component={Reception}/>
+            <Route path="/main/treatment" component={Treatment}/>
+            <Route path="/main/test" component={Test}/>
+            <Route path="/main/members" component={Members}/>
+            <Redirect to="/main/home"/>
           {/* 어느 누구도 해당하지 않으면 home으로 감  */}
           </Switch>
           </div>

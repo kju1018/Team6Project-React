@@ -129,10 +129,10 @@ const CancelReservation=()=>{
     return(
     <div className="pl-3 pr-3 pb-3 border border-dark" style={{height:"50vh", backgroundColor:"white"}}>
         <ReceptionHeader headertitle="예약" iclassName="bi bi-calendar-event " color="#ffcd82">
-            <button style={{margin:"0px 10px"}} disabled={!(selectedReservation)}onClick={()=>{setReservationUpdateModalshow(true)}} className="btn btn-outline-dark btn-sm">예약수정</button>
-            <button style={{margin:"0px 10px"}} disabled={!(selectedReservation&&selectedReservation.type==="검사" &&selectedReservation.status==="대기" )} onClick={ResisterTest} className="btn btn-outline-dark btn-sm">검사접수</button>
-            <button style={{margin:"0px 10px"}} disabled={!(selectedReservation&&selectedReservation.type==="진료"&&selectedReservation.status==="대기" )} onClick={ResisterTreatment} className="btn btn-outline-dark btn-sm">진료접수</button>
-            <button style={{margin:"0px 10px"}} disabled={!(selectedReservation)}onClick={CancelReservation} className="btn btn-outline-dark btn-sm">예약취소</button>
+            <button style={{marginRight:"10px"}} disabled={!(selectedReservation)}onClick={()=>{setReservationUpdateModalshow(true)}} className="btn btn-dark btn-sm">예약수정</button>
+            <button style={{marginRight:"10px"}} disabled={!(selectedReservation&&selectedReservation.type==="검사" &&selectedReservation.status==="대기" )} onClick={ResisterTest} className="btn btn-dark btn-sm">검사접수</button>
+            <button style={{marginRight:"10px"}} disabled={!(selectedReservation&&selectedReservation.type==="진료"&&selectedReservation.status==="대기" )} onClick={ResisterTreatment} className="btn btn-dark btn-sm">진료접수</button>
+            <button style={{marginRight:"10px"}} disabled={!(selectedReservation)}onClick={CancelReservation} className="btn btn-dark btn-sm">예약취소</button>
         </ReceptionHeader>
         <Calendar setSelectDate = {(date)=>{setSelectDate(date)}}/>
         <div className="rounded-lg justify-content-center">

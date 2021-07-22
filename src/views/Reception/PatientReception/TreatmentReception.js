@@ -36,7 +36,7 @@ function TreatmentReception(props){
                 <ToggleButton type="radio" variant={`${listtype === "진료 완료" ? "secondary" : "light" }`} name="type"  checked={listtype==="진료 완료"} value="진료 완료" onChange={handleChange}><div className="ml-5 mr-5">진료 완료</div></ToggleButton>
             </ButtonGroup>
             <div>
-                {props.isDrawer===false&&<button style={{marginRight:"10px"}} onClick={deleteReceptionTreatment} className="btn btn-outline-dark btn-sm">취소</button>}
+                {props.isDrawer===false&&<button style={{marginRight:"10px"}} onClick={deleteReceptionTreatment} className="btn btn-dark btn-sm">취소</button>}
             </div>
         </div>
         <div className="rounded-lg justify-content-center">

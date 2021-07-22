@@ -53,8 +53,8 @@ function Chatting(props){
      })
       };
     useEffect(()=>{
-        // let webSocket = new  WebSocket('ws://localhost:8080/websocket/chatting')
-        let webSocket = new WebSocket("ws://kosa3.iptime.org:50006/websocket/chatting")
+        let webSocket = new  WebSocket('ws://localhost:8080/websocket/chatting')
+        // let webSocket = new WebSocket("ws://kosa3.iptime.org:50006/websocket/chatting")
       
         webSocket.onopen = () =>{
             console.log("open!!!")
@@ -112,7 +112,9 @@ function Chatting(props){
             }
             //채팅 패킷 받았을때
             else if(data.header==="CHATTING"){
-                dispatch(createSetToast({message:data.name+"님으로 부터 메시지 도착"}))
+                if(data.from!==globalUid){
+                    dispatch(createSetToast({message:data.name+"님으로 부터 메시지 도착"}))
+                }
                 setChatArray((prev)=>{
                     const chatObj = {name:data.name, from:data.from,role:data.role,message:data.message, dateTime:data.dateTime,isMe:data.from===globalUid, enabled:true}
 

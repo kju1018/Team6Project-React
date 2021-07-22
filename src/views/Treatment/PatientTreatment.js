@@ -29,7 +29,7 @@ function PatientTreatment(props) {
             (
               (props.patientTreatments == null || props.patientTreatments.length === 0) ?  
               <div className="overflow-auto p-3 border-top justify-content-center d-flex align-items-center" style={{height:"100%"}}>
-                <span><i className="bi bi-clipboard-x mr-1"></i>선택한 환자의 진료내역이 없습니다.</span>
+                <span><div style={{textAlign:"center", color:"#999999"}}><div><i class="bi bi-clipboard-x" style={{fontSize:"120px"}}></i></div><div style={{fontSize:"16px"}}>선택한 환자의 진료내역이 없습니다.</div></div></span>
               </div>
               : 
               props.patientTreatments.map (treatment => {
@@ -44,7 +44,7 @@ function PatientTreatment(props) {
       </>
       :
       <div className="overflow-auto p-3 border-top justify-content-center d-flex align-items-center" style={{height:"calc(100% - 100px)"}}>
-        <span><i className="bi bi-file-person mr-1"></i>환자를 선택해주세요.</span>
+        <span><div style={{textAlign:"center", color:"#999999", marginTop:"2px"}}><div><i class="bi bi-person-x" style={{fontSize:"100px"}}></i></div><div style={{fontSize:"20px"}}>환자를 선택해주세요</div></div></span>
       </div>
       }
 
