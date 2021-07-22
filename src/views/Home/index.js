@@ -17,16 +17,18 @@ function Home(props) {
       </div>
    </div>
    <div className="col-4">
-   <div className="col p-0 pt-4" style={{height:"30vh"}}>
+   <div className="col p-0 pt-0" style={{height:"30vh"}}>
+     <div className="pb-2 text-center" style={{fontSize:"20px", fontWeight:"bold", }}>Hospital Calender</div>
       <Calendar/>
       </div>
       <div className="p-2"></div>
-      <div className="col p-0 pl-2 pt-3 ml-4"style={{height:"30vh"}}>
+      <div className="col p-0 pl-2 pt-0 ml-4"style={{height:"30vh"}}>
       <div className="pb-1" style={{fontSize:"20px", fontWeight:"bold"}}>Doctor's Contact Info: </div>
       <User/>
       </div>
-      <div className="p-2 pt-3"></div>
+      <div className="p-2 pt-2"></div>
       <div className="col"style={{height:"33.7vh"}}>
+        <div className="pb-1" style={{fontSize:"20px", fontWeight:"bold"}}>COVID-19 Card News:</div>
       <Photo/>
       </div>
    </div>

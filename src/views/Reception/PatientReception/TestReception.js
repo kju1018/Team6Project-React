@@ -38,7 +38,7 @@ function TestReception(props){
                 <ToggleButton type="radio" variant={`${listtype === "검사완료" ? "secondary" : "light" }`} name="type"  checked={listtype==="검사완료"} value="검사완료" onChange={handleChange}><div className="ml-5 mr-5">검사완료</div></ToggleButton>
             </ButtonGroup>
             <div>
-                {props.isDrawer===false&&<button style={{marginRight:"10px"}} onClick={deleteReceptionTest} className="btn btn-outline-dark btn-sm">취소</button>}
+                {props.isDrawer===false&&<button style={{marginRight:"10px"}} onClick={deleteReceptionTest} className="btn btn-dark btn-sm">취소</button>}
             </div>
         </div>
         <div className="rounded-lg justify-content-center">
