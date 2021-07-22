@@ -2,6 +2,7 @@ import { sendRedisMessage } from "apis/Redis";
 import { createXray, resultStatus } from "apis/test";
 import { useEffect, useRef } from "react";
 import { useState } from "react";
+import Banner from "./Banner";
 
 function TestResult(props) { 
   const [show, setShow] = useState();
@@ -77,7 +78,7 @@ function TestResult(props) {
 
   return (
     <>
-    <div className="card">
+    <div className="card" style={{marginBottom:"200px", height:"70%"}}>
       <div className="card-header">
         xray
       </div>
@@ -114,7 +115,8 @@ function TestResult(props) {
         </form>
       </div>:""}
     </div>
-    <div>
+    <div style={{height:"20%"}}>
+      <Banner/>
     </div>
     </>
   );
