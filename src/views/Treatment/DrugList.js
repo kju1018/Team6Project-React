@@ -27,7 +27,7 @@ function DrugList(props) {
       {
         props.treatment.treatmentid == null ? 
         <div className="h-100 d-flex align-items-center justify-content-center">
-          진료를 선택해주세요.
+          <div style={{textAlign:"center", color:"#999999", marginTop:"2px"}}><div><i class="bi bi-folder-check" style={{fontSize:"100px"}}></i></div><div style={{fontSize:"16px"}}>진료를 선택해주세요.</div></div>
         </div>
         :
         ( 
@@ -49,7 +49,7 @@ function DrugList(props) {
             })
             :
             <div className="h-100 d-flex align-items-center justify-content-center">
-              처방 받은 내역이 없습니다.
+              <div style={{textAlign:"center", color:"#999999", marginTop:"2px"}}><div><i class="bi bi-plus-square" style={{fontSize:"100px"}}></i></div><div style={{fontSize:"16px"}}>처방 받은 내역이 없습니다.</div></div>
             </div>
           )
         )
