@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import ReceptionHeader from "../components/ReceptionHeader";
 import TestReception from "./TestReception";
 import TreatmentReception from "./TreatmentReception";
-
+import { Col, Row, Toast } from "react-bootstrap";
 import {useSelector } from "react-redux";
 import { GetTreatmentList,GetTestReceptionList,DeleteReceptionTreatment,DeleteReceptionTest } from "apis/Reception";
 import { sendRedisMessage } from "apis/Redis";
@@ -19,6 +19,9 @@ function PatientReception(props){
     const [treatementsData, setTreatmentsData] = useState()
     const [testReceptionsData, setTestReceptionsData] = useState()
     const [loading,setLoading] = useState(false);
+    const [showToast,setShowToast] = useState({onoff:false, patientname:""}); 
+    const toggleShowToast = () => {setShowToast((prev)=>({...prev,onoff:!prev.onoff}))}
+
     useEffect(()=>{
         setLoading(true)
         GetTreatmentList().then((result)=>{
@@ -30,6 +33,12 @@ function PatientReception(props){
             })
             setTreatmentsData(treatmentlist);
             setLoading(false)
+            //진료접수가 완료되면 토스트
+            if(treatmentReception.patientid &&treatmentReception.status==undefined ){
+                var patientname = treatmentlist.filter((item)=>{return item.patientid===treatmentReception.patientid})[0].patientname
+                setShowToast((prev)=>({patientname,onoff:true}))
+            }
+            
         })
     },[treatmentReception])
     useEffect(()=>{
@@ -91,6 +100,20 @@ function PatientReception(props){
           
             {select==="treatmentreception"?<TreatmentReception isDrawer={false} deleteTreatmentReception={deleteTreatmentsData} treatmentList={treatementsData}/>:<TestReception isDrawer={false} deleteTestReception={deleteTestsData} testList={testReceptionsData}/>}
 
+
+            <div style={{position: "fixed", bottom: "130px", right: "40px",zIndex:"1000"}}>
+          <Row>
+            <Col style={{width:"400px"}}>
+                {console.log(showToast)}
+              <Toast onClose={toggleShowToast} show={showToast.onoff} delay={5000} autohide >
+                <Toast.Header style={{backgroundColor:"#E89677"}}>
+                  <strong className="mr-auto" style={{color:"white"}}>진료완료</strong>
+                </Toast.Header>
+                <Toast.Body>{showToast.patientname}님의 진료가 완료되었습니다.  </Toast.Body>
+              </Toast>
+            </Col>
+          </Row>
+        </div>
         </div>
     )
 }
