@@ -71,10 +71,11 @@ function Weekly(props) {
    <table className="table table-hover">
      <thead className="card-header" style={{backgroundColor:"rgb(18, 60, 114)", color:"white"}}>
        <tr>
-         <th scope="col">#</th>
+        <th scope="col">날짜</th>
+        <th scope="col">일정</th>
          <th scope="col">작성자</th>
-         <th scope="col">내용</th>
-         <th scope="col">날짜</th>
+      
+        
        </tr>
      </thead>
      <tbody>
@@ -83,10 +84,9 @@ function Weekly(props) {
        scheduleList.map((board,index) => {
          return(
            <tr onClick={() => {handleShow(board);}}>
-             <th style={{width:"100px"}}>{index}</th>
+            <th style={{width:"200px"}}>{board.date}</th>
+            <th>{board.content}</th>
              <th style={{width:"200px"}}>{board.userid}</th>
-             <th>{board.content}</th>
-             <th style={{width:"200px"}}>{board.date}</th>
            </tr>
           )
        })}
