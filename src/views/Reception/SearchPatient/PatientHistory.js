@@ -118,7 +118,7 @@ function PatientHistory(props) {
             </div>
         </div>
 
-        <div className="d-flex border mt-4" style={{height:"calc(35vh - 65px)"}}>
+        <div className="d-flex  mt-4" style={{height:"calc(35vh - 65px)"}}>
            <div className="col-4">
            진단기록
            <div className="overflow-auto  justify-content-center border" style={{height:"calc(35vh - 100px)"}} >
