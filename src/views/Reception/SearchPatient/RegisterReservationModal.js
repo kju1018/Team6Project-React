@@ -141,7 +141,7 @@ function RegisterReservationModal(props){
             })
     }
     return(
-        <div className="conatainer" style={{height:"60vh"}}>
+        <div className="conatainer" style={{height:"50vh"}}>
             <div style={{height:"15%"}}>
                <div className="row d-flex justify-content-between text-center border " style={{borderRadius:"15px"}}>
                     <div style={{width:"10%"}}>ID</div>
@@ -162,8 +162,8 @@ function RegisterReservationModal(props){
                     <div style={{width:"25%"}}>{props.selectedPatient.phonenumber}</div>
                 </div>
             </div>
-            <div className="row" style={{height:"80%"}}>
-                <div className="col-6 text-center" style={{margin:"10px",marginTop:"5%", height:"100%"}} >
+            <div className="row" style={{height:"90%"}}>
+                <div className="col-6 text-center" style={{margin:"10px",marginTop:"2%", height:"100%"}} >
                     <ReactDatePicker 
                     selected={startDate}
                     onChange={(date) => setStartDate(date)}
@@ -177,15 +177,15 @@ function RegisterReservationModal(props){
                     inline
                     dateFormat="yyyy-MM-dd hh:mm"
                     />
-                    <div className="border text-center" style={{borderRadius:"15px"}}> 
+                </div>                
+                <div className="col-5 " style={{margin:"10px", height:"100%", padding:"0px" ,marginTop:"2%"  }}>
+                    <div className="border text-center mb-4" style={{borderRadius:"15px"}}> 
                         예약날짜<br/>{getReservationDate()}
                    </div>
-                </div>                
-                <div className="col-5 " style={{margin:"10px", height:"80%", padding:"0px" ,marginTop:"5%"  }}>
-                    <button onClick={()=>{handleReservation(true)}} style={{backgroundColor:reservationType? "#ffcd82":"white",border:"2px solid #ffcd82",borderRadius:"15px",width:"47%",height:"70%", fontSize:"2em"}} className="  mr-1 ">진료</button>
+                    <button onClick={()=>{handleReservation(true)}} style={{backgroundColor:reservationType? "#ffcd82":"white",border:"2px solid #ffcd82",borderRadius:"15px",width:"47%",height:"30%", fontSize:"1.8em"}} className="  mr-1 ">진료</button>
                         
                         
-                    <button onClick={()=>{handleReservation(false)}}  style={{backgroundColor:!reservationType? "#ffcd82":"white",border:"2px solid #ffcd82",borderRadius:"15px",width:"47%",height:"70%", fontSize:"2em"}} className=" ">검사</button>
+                    <button onClick={()=>{handleReservation(false)}}  style={{backgroundColor:!reservationType? "#ffcd82":"white",border:"2px solid #ffcd82",borderRadius:"15px",width:"47%",height:"30%", fontSize:"1.8em"}} className=" ">검사</button>
 
                         {/* {!reservationType&&
                             testList&&testList.map((item,index)=>{return(
@@ -197,7 +197,7 @@ function RegisterReservationModal(props){
                             )})
                         } */}
                    
-                    <button className="btn btn-outline-dark btn-sm" style={{borderRadius:"15px",  marginTop:"10px", width:"100%", fontSize:"1.5em"}} /*disabled={reservationType===false&&(testList==null || (testList.filter((item)=>(item.ischeck===true)).length<1)) }*/  onClick={ResisterReservation}>예약등록</button>
+                    <button className="btn btn-dark btn-sm mt-4" style={{borderRadius:"15px",  marginTop:"10px", width:"100%", fontSize:"1.3em"}} /*disabled={reservationType===false&&(testList==null || (testList.filter((item)=>(item.ischeck===true)).length<1)) }*/  onClick={ResisterReservation}>예약</button>
                    
                 </div>
 

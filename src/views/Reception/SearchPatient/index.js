@@ -79,12 +79,12 @@ function SearchPatient(props){
     return(
    <div className="pl-3 pr-3 pb-3 border border-dark" style={{height:"96vh", backgroundColor:"white"}} >
         <ReceptionHeader headertitle="환자정보" iclassName="bi bi-person-square " color="#9ACAA1">
-                <button  style={{marginRight:"10px"}} className="btn btn-outline-dark btn-sm" onClick={()=>{setSearchModalshow(true)}}>환자검색</button>
-                 <button disabled={selectedPatient.patientname!=="-"?false:true} style={{marginRight:"10px"}} className="btn btn-outline-dark btn-sm" onClick={()=>{setreservationRegisterhModalshow(true)}}>예약</button>
-                 <button style={{marginRight:"10px"}} className="btn btn-outline-dark btn-sm" onClick={()=>{setPatientRegisterhModalshow(true)}}>신규등록</button>
-               <button disabled={selectedPatient.patientname!=="-"?false:true} style={{marginRight:"10px"}} className="btn btn-outline-dark btn-sm" onClick={()=>{setPatientUpdateModalshow(true)}}>환자수정</button>
-                <button disabled={selectedPatient.patientname!=="-"?false:true} style={{marginRight:"10px"}} className="btn btn-outline-dark btn-sm" onClick={()=>{setTestSelectorModalshow(true)}}>검사접수</button>
-                 <button disabled={selectedPatient.patientname!=="-"?false:true} style={{marginRight:"10px"}} className="btn btn-outline-dark btn-sm" onClick={()=>{setDoctorSelectorModalshow(true)}}>진료접수</button>
+                <button  style={{marginRight:"10px"}} className="btn btn-dark btn-sm" onClick={()=>{setSearchModalshow(true)}}>환자검색</button>
+                 <button disabled={selectedPatient.patientname!=="-"?false:true} style={{marginRight:"10px"}} className="btn btn-dark btn-sm" onClick={()=>{setreservationRegisterhModalshow(true)}}>예약</button>
+                 <button style={{marginRight:"10px"}} className="btn btn-dark btn-sm" onClick={()=>{setPatientRegisterhModalshow(true)}}>신규등록</button>
+               <button disabled={selectedPatient.patientname!=="-"?false:true} style={{marginRight:"10px"}} className="btn btn-dark btn-sm" onClick={()=>{setPatientUpdateModalshow(true)}}>환자수정</button>
+                <button disabled={selectedPatient.patientname!=="-"?false:true} style={{marginRight:"10px"}} className="btn btn-dark btn-sm" onClick={()=>{setTestSelectorModalshow(true)}}>검사접수</button>
+                 <button disabled={selectedPatient.patientname!=="-"?false:true} style={{marginRight:"10px"}} className="btn btn-dark btn-sm" onClick={()=>{setDoctorSelectorModalshow(true)}}>진료접수</button>
         </ReceptionHeader>
         <PatientProfile className="mt-1" selectedPatient={selectedPatient}/>
         <PatientHistory selectedPatient={selectedPatient}/> 
