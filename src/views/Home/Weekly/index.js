@@ -58,7 +58,7 @@ function Weekly(props) {
     <Button variant="outline-primary" style={{float: "right"}} onClick={handleShow1}>
       <img src="/pen.png"width="25"height="25"/></Button>
     <WeeklyWrite show={show1} handleClose1={handleClose1} work={work} startDate={startDate}></WeeklyWrite>
-    <div className="text-center">
+    <div className="text-center p-4">
     <DatePicker
       selected={startDate}
       onChange={(date) => setStartDate(date)}
