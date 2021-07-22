@@ -21,15 +21,15 @@ function PatientList(props) {
             </Row>
           </Nav>
           
-          <div className="pt-2 pb-2 mb-2 d-flex align-items-center" style={{ backgroundColor:"#ffffff", boxShadow:"rgb(0 0 0 / 8%) 0px 0px 5px 2px", borderRadius:"15px", fontSize:"13px"}}>
+          <div className="pt-2 pb-2 mb-2 d-flex align-items-center" style={{ backgroundColor:"#D5D5D5", color:"black", borderBottom:"1px solid gray", borderTop:"1px solid gray", fontSize:"14.5px"}}>
             <div className="col-2 p-0 pt-1 pb-1 text-center">접수번호</div>
-            <div className="col-2 p-0 text-center">생년월일</div>
+            <div className="col-3 p-0 text-center">생년월일</div>
             <div className="col-2 p-0 text-center">이름</div>
-            <div className="col-4 p-0 text-center">검사날짜</div>
+            <div className="col-3 p-0 text-center">검사날짜</div>
             <div className="col-2 p-0 text-center">상태</div>
           </div>
 
-          <Tab.Content className="overflow-auto" style={{height:"550px"}}>
+          <Tab.Content className="overflow-auto" id="style-7" style={{height:"550px"}}>
             {props.patients.length === 0? 
             <Tab.Pane eventKey= "total" className="pt-1">
               <div style={{textAlign:"center", color:"#999999"}}><div><i class="bi bi-person-x" style={{fontSize:"180px"}}></i></div><div style={{fontSize:"30px"}}>해당되는 환자가 없습니다.</div></div>
@@ -39,10 +39,10 @@ function PatientList(props) {
               {props.patients.map((item, index)=>{return(
                 <div key={item.testreceptionid} className="pt-2 pb-2 mb-2 d-flex align-items-center" onClick={ e => {props.ClickPatient(e, item, index) }} style={{ fontSize:"13px", borderBottom:"1px solid #a6a6a6"}}>
                   <div className="col-2 p-0 pt-1 pb-1 text-center">{item.testreceptionid}</div>
-                  <div className="col-2 p-0 text-center">{item.ssn1}</div>
+                  <div className="col-3 p-0 text-center">{item.ssn1}</div>
                   <div className="col-2 p-0 text-center">{item.patientname}</div>
-                  <div className="col-4 p-0 text-center">{moment(item.testdate).format('YYYY-MM-DD')}</div>
-                  <div className="col-2 p-0 text-center"><Badge className="mr-1" variant={(item.status == "검사완료")?"danger":"success"}>{item.status}</Badge><Badge variant={(item.resultstatus == "입력완료")?"info":"warning"}>{item.resultstatus}</Badge></div>
+                  <div className="col-3 p-0 text-center">{moment(item.testdate).format('YYYY-MM-DD')}</div>
+                  <div className="col-2 p-0 text-center" style={{fontSize:"17px"}}><Badge variant={(item.resultstatus == "입력완료")?"info":"warning"}>{item.resultstatus}</Badge></div>
                 </div>
               )})}
               </Tab.Pane>}
@@ -56,10 +56,10 @@ function PatientList(props) {
               {props.waitings.map((item, index)=>{return(
                   <div key={item.testreceptionid} className="pt-2 pb-2 mb-2 d-flex align-items-center" onClick={ e => {props.ClickPatient(e, item) }} style={{ fontSize:"13px", borderBottom:"1px solid #a6a6a6"}} >
                   <div className="col-2 p-0 pt-1 pb-1 text-center">{item.testreceptionid}</div>
-                  <div className="col-2 p-0 text-center">{item.ssn1}</div>
+                  <div className="col-3 p-0 text-center">{item.ssn1}</div>
                   <div className="col-2 p-0 text-center">{item.patientname}</div>
-                  <div className="col-4 p-0 text-center">{moment(item.testdate).format('YYYY-MM-DD')}</div>
-                  <div className="col-2 p-0 text-center"><Badge className="mr-1" variant="success">{item.status}</Badge><Badge variant={(item.resultstatus == "입력완료")?"info":"warning"}>{item.resultstatus}</Badge></div>
+                  <div className="col-3 p-0 text-center">{moment(item.testdate).format('YYYY-MM-DD')}</div>
+                  <div className="col-2 p-0 text-center" style={{fontSize:"15px"}}><Badge className="mr-1" variant="success">{item.status}</Badge><Badge variant={(item.resultstatus == "입력완료")?"info":"warning"}>{item.resultstatus}</Badge></div>
                   </div>
               )})}
               </Tab.Pane>}
@@ -73,10 +73,10 @@ function PatientList(props) {
               {props.progresss.map((item, index)=>{return(
                 <div key={item.testreceptionid} className="pt-2 pb-2 mb-2 d-flex align-items-center" onClick={ e => {props.ClickPatient(e, item) }} style={{ fontSize:"13px", borderBottom:"1px solid #a6a6a6", backgroundColor:"color"}}>
                 <div className="col-2 p-0 pt-1 pb-1 text-center">{item.testreceptionid}</div>
-                <div className="col-2 p-0 text-center">{item.ssn1}</div>
+                <div className="col-3 p-0 text-center">{item.ssn1}</div>
                 <div className="col-2 p-0 text-center">{item.patientname}</div>
-                <div className="col-4 p-0 text-center">{moment(item.testdate).format('YYYY-MM-DD')}</div>
-                <div className="col-2 p-0 text-center"><Badge className="mr-1" variant="primary">{item.status}</Badge><Badge variant={(item.resultstatus == "입력완료")?"info":"warning"}>{item.resultstatus}</Badge></div>
+                <div className="col-3 p-0 text-center">{moment(item.testdate).format('YYYY-MM-DD')}</div>
+                <div className="col-2 p-0 text-center" style={{fontSize:"15px"}}><Badge className="mr-1" variant="primary">{item.status}</Badge><Badge variant={(item.resultstatus == "입력완료")?"info":"warning"}>{item.resultstatus}</Badge></div>
               </div>
               )})}
               </Tab.Pane>}
@@ -90,10 +90,10 @@ function PatientList(props) {
               {props.completes.map((item, index)=>{return(
                 <div key={item.testreceptionid} className="pt-2 pb-2 mb-2 d-flex align-items-center" onClick={ e => {props.ClickPatient(e, item) }} style={{ fontSize:"13px", borderBottom:"1px solid #a6a6a6", backgroundColor:"color"}}>
                 <div className="col-2 p-0 pt-1 pb-1 text-center">{item.testreceptionid}</div>
-                <div className="col-2 p-0 text-center">{item.ssn1}</div>
+                <div className="col-3 p-0 text-center">{item.ssn1}</div>
                 <div className="col-2 p-0 text-center">{item.patientname}</div>
-                <div className="col-4 p-0 text-center">{moment(item.testdate).format('YYYY-MM-DD')}</div>
-                <div className="col-2 p-0 text-center"><Badge className="mr-1" variant="danger">{item.status}</Badge><Badge variant={(item.resultstatus == "입력완료")?"info":"warning"}>{item.resultstatus}</Badge></div>
+                <div className="col-3 p-0 text-center">{moment(item.testdate).format('YYYY-MM-DD')}</div>
+                <div className="col-2 p-0 text-center" style={{fontSize:"15px"}}><Badge className="mr-1" variant="danger">{item.status}</Badge><Badge variant={(item.resultstatus == "입력완료")?"info":"warning"}>{item.resultstatus}</Badge></div>
               </div>
               )})}
               </Tab.Pane>}
