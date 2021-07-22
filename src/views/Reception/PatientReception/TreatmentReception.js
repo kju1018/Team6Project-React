@@ -26,7 +26,7 @@ function TreatmentReception(props){
         }
     }
     
-    const treatmentProperty = ["treatmentid","patientname","username","status","treatmentdate"]  
+    const treatmentProperty = ["patientname","username","userroom","status","treatmentdate"]  
     return(
         <div className="pl-3 pr-3 pb-3" style={{ backgroundColor:"white"}}>
         <div className="mt-3 d-flex justify-content-between">
@@ -42,9 +42,9 @@ function TreatmentReception(props){
         <div className="rounded-lg justify-content-center">
             <div className="d-flex justify-content-between text-center border " style={{borderRadius:"15px",marginTop:"10px",marginBottom:"10px"}}>
                 <div style={{width:"20%"}}>순번</div>
-                <div style={{width:"20%"}}>진료ID</div>
                 <div style={{width:"20%"}}>환자</div>
                 <div style={{width:"20%"}}>진료자</div>
+                <div style={{width:"20%"}}>진료실</div>
                 <div style={{width:"20%"}}>접수상태</div>
                 <div style={{width:"20%"}}>접수시간</div>
         

@@ -26,7 +26,7 @@ function PatientReception(props){
             
             const patientlist = result.data.patientlist;
             const treatmentlist = result.data.treatmentlist.map((item, index)=>{
-                return {...item, patientname:patientlist[index].patientname,username:userlist[index].username }
+                return {...item, patientname:patientlist[index].patientname,username:userlist[index].username,userroom:userlist[index].userroom }
             })
             setTreatmentsData(treatmentlist);
             setLoading(false)
