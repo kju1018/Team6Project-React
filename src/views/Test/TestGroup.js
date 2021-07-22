@@ -3,6 +3,7 @@ import { Badge, Button, Modal, Accordion, Card  } from "react-bootstrap";
 import xlsx from 'xlsx';
 import React from 'react';
 import Print from "./Print";
+import "./scrollbar.css";
 import { startTests, cancelTests, finishTests, startPatient, cancelPatient, finishPatient, insertResult, resultStatus } from "apis/test";
 import { sendRedisMessage } from "apis/Redis";
 
@@ -44,12 +45,15 @@ function TestGroup(props) {
                   if(props.testdatas[j].status === "검사완료") {
                     obj[title[i]].saveBtn=false;
                     obj[title[i]].label = "danger";
+                    obj[title[i]].tcolor = "red";
                   } else if (props.testdatas[j].status === "진행중") {
                     obj[title[i]].saveBtn=true;
                     obj[title[i]].label = "primary";
+                    obj[title[i]].tcolor = "blue";
                   } else {
                     obj[title[i]].saveBtn=true;
                     obj[title[i]].label = "success";
+                    obj[title[i]].tcolor = "black";
                   };
                   obj[title[i]].tests=[];
                   obj[title[i]].tests.push(props.testdatas[j]);
@@ -171,10 +175,34 @@ function TestGroup(props) {
     if(flag === 0){
       try {
         cancelTests(checkedList).then(()=>{props.gettest(props.selectpatientinfo.testreceptionid); group()})
-        cancelPatient(props.selectpatientinfo.testreceptionid).then(()=>{
-          props.getpatient(props.startdate, props.enddate)
-          sendRedisMessage({type:"test"})
-        }) 
+        let count = 0;
+        console.log("클릭한 검사그룹 갯수", groupList.length)
+        if(groupList.length > 0) {
+          for(let i=0; i<groupList.length; i++){
+            console.log(groupList[i].status)
+          if(groupList[i].status === "대기중"){
+            count++;
+            console.log(count)
+          }
+        }
+
+        if(checkedList.length === 1 ) {
+          if(count === groupList.length-1) {
+            console.log(count)
+            cancelPatient(props.selectpatientinfo.testreceptionid).then(()=>{
+              props.getpatient(props.startdate, props.enddate)
+              sendRedisMessage({type:"test"})
+            }) 
+          }
+        } else {
+          if(count === groupList.length-checkedList.length) {
+            cancelPatient(props.selectpatientinfo.testreceptionid).then(()=>{
+              props.getpatient(props.startdate, props.enddate)
+              sendRedisMessage({type:"test"})
+            }) 
+          }
+        }
+      }
       } catch (error) {
         console.log(error);
       }
@@ -277,7 +305,7 @@ function TestGroup(props) {
       [event.target.name]: event.target.value
     })
   }
-  
+  console.log(groupList)
   return (
     <>
     <div>
@@ -289,22 +317,23 @@ function TestGroup(props) {
         <button type="button" className="btn btn-dark btn-sm mr-1" onClick={ () => {handleFinish(groupList) }} value="검사완료">검사완료</button>
       </div> 
       <div>검사접수번호: {props.selectpatientinfo.testreceptionid}</div>
-      <div className="overflow-auto" style={{height:"700px"}}>
+      <div className="overflow-auto" id="style-7" style={{height:"700px"}}>
         <Accordion defaultActiveKey="0">
         {groupList !=={} &&
         Object.values(groupList).map((group, index)=> {
           return (
             <Card key={group.groupcode}>
-            <Card.Header className="row" style={{backgroundColor:"#D5D5D5", height:"60px", alignItems:"center"}}>
+            <Card.Header className="row p-0 pl-4" style={{backgroundColor:"#D5D5D5", height:"50px", alignItems:"center"}}>
+            <input className="mr-2" type="checkbox"  onChange={e => {changeHandler(e, group.groupcode)}} checked={group.ischeck}/>
               <Accordion.Toggle as={Card.Header} eventKey={index.toString()}>
                 {/* checked: 체크박스 체크 유무 */}
-                <div><input className="mr-2" type="checkbox"  onChange={e => {changeHandler(e, group.groupcode)}} checked={group.ischeck}/>그룹코드: {group.groupcode}<Badge className="ml-3" variant={group.label}>{group.status}</Badge></div>
+                <div className="row">그룹코드:<div style={{fontSize:"16px", fontWeight:"bold", paddingLeft:"8px"}}> {group.groupcode}</div> <Badge className="ml-3 pt-2" variant={group.label}  style={{fontSize:"12px"}}>{group.status}</Badge></div>
               </Accordion.Toggle>
               <div></div>
             </Card.Header>
             <Accordion.Collapse eventKey={index.toString()}>
               <Card.Body>
-                <div className="pt-2 pb-2 mb-2 d-flex align-items-center" style={{ fontSize:"13px", borderBottom:"1px solid #a6a6a6"}}>
+                <div className="pt-2 pb-2 mb-2 d-flex align-items-center" style={{ fontWeight:"bold", fontSize:"14.5px", borderBottom:"1px solid #a6a6a6"}}>
                   <div className="col-2 p-0 text-center">처방코드</div>
                   <div className="col-3 p-0 text-center">검사명</div>
                   <div className="col-1 p-0 text-center">용기</div>
@@ -313,11 +342,11 @@ function TestGroup(props) {
                 </div>
                 {group.tests.map((test, index) => {
                   return (
-                    <div key={test.testdataid} className="pt-2 pb-2 mb-2 d-flex align-items-center" style={{ fontSize:"13px", borderBottom:"1px solid #a6a6a6"}}>
-                      <div className="col-2 p-0 text-center">{test.testdataid}</div>
+                    <div key={test.testdataid} className="pt-2 pb-2 mb-2 d-flex align-items-center" style={{fontSize:"14.5px", borderBottom:"1px solid #a6a6a6"}}>
+                      <div className="col-2 p-0 text-center" style={{fontWeight:"bold"}}>{test.testdataid}</div>
                       <div className="col-3 p-0 text-center">{test.testdataname}</div>
-                      <div className="col-1 p-0 text-center" style={{ color:test.testcontainer == "EDTA"?"orange":"purple", fontWeight:"bold"}}>{test.testcontainer}</div>
-                      <div className="col-2 p-0 text-center">{test.status}</div>
+                      <div className="col-1 p-0 text-center" style={{ color:test.testcontainer == "EDTA"?"orange":"purple", fontWeight:"bold", fontSize:"16px"}}>{test.testcontainer}</div>
+                      <div className="col-2 p-0 text-center" style={{color:group.tcolor, fontWeight:"bold"}}>{test.status}</div>
                       {test.testdataid === "xray"?
                       <div style={{marginLeft:"80px"}}>{test.result}</div>:
                       <div className="col-4 p-0 pl-2 text-center" style={{display:"inline-flex"}}>
