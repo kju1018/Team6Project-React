@@ -82,7 +82,7 @@ function AppMenu() {
             null
           }
 
-          <Button style={{marginTop:"20px", marginLeft:"35px"}} variant="outline-dark" onClick={logout}>로그아웃</Button>
+          <Button style={{marginTop:"20px", marginLeft:"35px"}} variant="dark" onClick={logout}>로그아웃</Button>
         </li>
       </ul>
     </div>
