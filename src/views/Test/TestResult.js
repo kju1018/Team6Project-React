@@ -78,12 +78,13 @@ function TestResult(props) {
 
   return (
     <>
-    <div className="card" style={{marginBottom:"200px", height:"70%"}}>
-      <div className="card-header">
-        xray
+    <div style={{marginBottom:"180px", height:"70%"}}>
+    {show ?
+    <div className="card">
+      <div className="card-header" style={{fontWeight:"bold"}}>
+        X-RAY 결과 입력창
       </div>
-      {show ?
-      <div className="card-body">
+      <div className="card-body mt-4">
         <div>
           <div>접수번호: {props.selectpatientinfo.testreceptionid}</div>
         </div>
@@ -108,15 +109,18 @@ function TestResult(props) {
               </div>
           </div> 
           <div className="form-group row">
-            <div className="col-sm-12 d-flex justify-content-center">
-              <input type="submit" className="btn btn-primary btn-sm mr-2" value="추가"/>
+            <div className="col-sm-12 mt-3 d-flex justify-content-center">
+              <input type="submit" className="btn btn-dark btn-m mr-2 btn-block" value="추가"/>
             </div>
           </div>
         </form>
-      </div>:""}
+      </div>
     </div>
-    <div style={{height:"20%"}}>
-      <Banner/>
+    :<div style={{textAlign:"center", color:"#999999"}}><div><i class="bi bi-cloud-arrow-up" style={{fontSize:"180px"}}></i></div><div style={{fontSize:"40px"}}>검사 없음</div></div>}
+   </div>
+    <div style={{height:"15%"}}>
+      <div style={{fontSize:"22px", fontWeight:"bold", marginBottom:"3px"}}><i class="bi bi-exclamation-octagon-fill" style={{color:"orange"}}></i> 검사실 주의사항</div>
+      <div style={{border:"1px solid black"}}><Banner/></div>
     </div>
     </>
   );

@@ -9,6 +9,7 @@ function Banner() {
           src="/1.png"
           alt="Second slide"
           height="227px"
+          border="1px solid gray"
         />
       </Carousel.Item>
       <Carousel.Item>
@@ -17,6 +18,7 @@ function Banner() {
           src="/process.png"
           alt="Second slide"
           height="227px"
+          border="1px solid gray"
         />
       </Carousel.Item>
       <Carousel.Item>
@@ -25,6 +27,7 @@ function Banner() {
           src="/2.png"
           alt="First slide"
           height="227px"
+          border="1px solid gray"
         />
       </Carousel.Item>
     </Carousel>

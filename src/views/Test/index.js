@@ -161,7 +161,8 @@ function TestPage(props) {
             <div className="col p-0 pt-1 pb-1 text-center">{selectpatientinfo.patientname}</div>
           </div>
           <div className="d-flex pt-3">
-            <div style={{width:"96%", marginLeft:"2%"}}>{groupshow?<TestGroup startdate={startdate} enddate={enddate} getpatient={getpatient} selectpatientinfo={selectpatientinfo} testdatas={testdatas} gettest={gettest} setTestdatas={setTestdatas}/>:""}</div>
+            <div style={{width:"96%", marginLeft:"2%"}}>{groupshow?<TestGroup startdate={startdate} enddate={enddate} getpatient={getpatient} selectpatientinfo={selectpatientinfo} testdatas={testdatas} gettest={gettest} setTestdatas={setTestdatas}/>
+            :<div style={{textAlign:"center", color:"#999999"}}><div><i class="bi bi-clipboard-plus" style={{fontSize:"180px"}}></i></div><div style={{fontSize:"35px"}}>환자를 선택해주세요</div></div>}</div>
           </div>
         </div>
 
@@ -170,7 +171,7 @@ function TestPage(props) {
             <div className="pr-3 pl-3 pt-2 pb-2" style={{ backgroundColor:"#3EB2A2"}}>
               <i class="bi bi-display" style={{ fontSize:"22px"}}></i>
             </div>
-            <div className="ml-4 pt-2">결과 입력</div>
+            <div className="ml-4 pt-2">X-RAY 결과 입력</div>
           </div>
 
           <div className="row" style={{height:"2%"}}></div>
