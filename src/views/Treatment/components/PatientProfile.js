@@ -35,8 +35,8 @@ function PatientProfile(props) {
             <div className="text-center pt-1 pb-1 pl-0 pr-0 ml-0 mr-0 col-6" style={{boxShadow:"rgb(0 0 0 / 8%) 0px 0px 5px 2px", borderRadius:"7px", fontSize:"14px", backgroundColor:"#FFFFFF"}}>{props.selectedPatient.ssn1} - {props.selectedPatient.ssn2}</div>
           </div>
           <div className="col-2 pl-3 pr-0  text-right">
-              <button className="btn btn-dark btn-sm" onClick={handleShow}>환자 검색</button>
-              <button className={`btn btn-dark btn-sm ml-2 mr-5`} disabled={props.treatment.status === "진료 대기"? false : true} onClick={props.saveTreatment}>저장</button>
+              <button className="btn btn-light btn-sm" style={{fontWeight:"bold", fontSize:"15px"}} onClick={handleShow}>환자 검색</button>
+              <button className={`btn btn-primary btn-sm ml-2 mr-5`} disabled={props.treatment.status === "진료 대기"? false : true} onClick={props.saveTreatment}>저장</button>
           </div>
         </div>
       </div>
