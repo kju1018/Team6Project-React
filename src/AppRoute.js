@@ -1,6 +1,5 @@
 import { Redirect, Route, Switch } from "react-router-dom";
 import Home from "views/Home";
-import Login from "views/Login";
 import Reception from "views/Reception";
 import Treatment from "views/Treatment";
 import Test from "views/Test";
