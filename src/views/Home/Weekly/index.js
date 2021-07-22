@@ -54,7 +54,7 @@ function Weekly(props) {
   }
   return(
     <>
-    <h5>WEEKLY <img src="/weekly.png"width="30"height="30"/>
+    <h5>WEEKLY <img src="/appointment.png"width="30"height="30"/>
     <Button variant="outline-primary" style={{float: "right"}} onClick={handleShow1}>
       <img src="/pen.png"width="25"height="25"/></Button>
     <WeeklyWrite show={show1} handleClose1={handleClose1} work={work} startDate={startDate}></WeeklyWrite>
