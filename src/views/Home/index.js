@@ -18,7 +18,6 @@ function Home(props) {
    </div>
    <div className="col-4">
    <div className="col p-0 pt-0" style={{height:"30vh"}}>
-     <div className="pb-2 text-center" style={{fontSize:"20px", fontWeight:"bold", }}>Hospital Calender</div>
       <Calendar/>
       </div>
       <div className="p-2"></div>

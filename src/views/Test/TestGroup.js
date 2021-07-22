@@ -280,61 +280,63 @@ function TestGroup(props) {
   
   return (
     <>
-    <div className="mt-2 mb-2 text-right">
-      <button type="button" className="btn btn-dark btn-sm mr-1" onClick={ () => { handleStart(groupList) }} value="검사시작">검사시작</button>
-      <button type="button" className="btn btn-dark btn-sm mr-1" onClick={ () => {handlePrint(groupList) }} value="바코드출력">바코드출력</button>
-      <button type="button" className="btn btn-dark btn-sm mr-1" onClick={ () => {handleCancel(groupList) }} value="접수취소">접수취소</button>
-      <button type="button" className="btn btn-dark btn-sm mr-1" onClick={ handleExcel}>엑셀저장</button>
-      <button type="button" className="btn btn-dark btn-sm mr-1" onClick={ () => {handleFinish(groupList) }} value="검사완료">검사완료</button>
-    </div> 
-    <div>검사접수번호: {props.selectpatientinfo.testreceptionid}</div>
-    <div className="overflow-auto" style={{height:"700px"}}>
-      <Accordion defaultActiveKey="0">
-       {groupList !=={} &&
-       Object.values(groupList).map((group, index)=> {
-         return (
-          <Card key={group.groupcode}>
-          <Card.Header className="row" style={{backgroundColor:"#D5D5D5", height:"60px", alignItems:"center"}}>
-            <Accordion.Toggle as={Card.Header} eventKey={index.toString()}>
-              {/* checked: 체크박스 체크 유무 */}
-              <div><input className="mr-2" type="checkbox"  onChange={e => {changeHandler(e, group.groupcode)}} checked={group.ischeck}/>그룹코드: {group.groupcode}<Badge className="ml-3" variant={group.label}>{group.status}</Badge></div>
-            </Accordion.Toggle>
-            <div></div>
-          </Card.Header>
-          <Accordion.Collapse eventKey={index.toString()}>
-            <Card.Body>
-              <div className="pt-2 pb-2 mb-2 d-flex align-items-center" style={{ fontSize:"13px", borderBottom:"1px solid #a6a6a6"}}>
-                <div className="col-2 p-0 text-center">처방코드</div>
-                <div className="col-3 p-0 text-center">검사명</div>
-                <div className="col-1 p-0 text-center">용기</div>
-                <div className="col-2 p-0 text-center">상태</div>
-                <div className="col-4 p-0 text-center">결과값</div>
-              </div>
-              {group.tests.map((test, index) => {
-                return (
-                  <div key={test.testdataid} className="pt-2 pb-2 mb-2 d-flex align-items-center" style={{ fontSize:"13px", borderBottom:"1px solid #a6a6a6"}}>
-                    <div className="col-2 p-0 text-center">{test.testdataid}</div>
-                    <div className="col-3 p-0 text-center">{test.testdataname}</div>
-                    <div className="col-1 p-0 text-center" style={{ color:test.testcontainer == "EDTA"?"orange":"purple", fontWeight:"bold"}}>{test.testcontainer}</div>
-                    <div className="col-2 p-0 text-center">{test.status}</div>
-                    {test.testdataid === "xray"?
-                    <div style={{marginLeft:"80px"}}>{test.result}</div>:
-                    <div className="col-4 p-0 pl-2 text-center" style={{display:"inline-flex"}}>
-                    <form onSubmit={ event => {handleAdd(event, test)}}>
-                      {group.saveBtn?"":<div style={{float:"left", width:"60%"}}><input type="text" className="form-control" name={test.testdataid} value={test.result == resultlist.result ? (resultlist[test.testdataid] || "") : test.result} onChange={e => {handleChange(e, index, test)}}/></div>}
-                      {group.saveBtn?"":<div style={{float:"right"}}><input type="submit" className="btn btn-primary btn-sm mr-2"  disabled={group.saveBtn} value="추가"/></div>}
-                    </form>
-                  </div>
-                    }
-                  </div>
-                )
-              })}
-            </Card.Body>
-          </Accordion.Collapse>
-        </Card>
-         )
-       })}
-      </Accordion>
+    <div>
+      <div className="mt-2 mb-2 text-right">
+        <button type="button" className="btn btn-dark btn-sm mr-1" onClick={ () => { handleStart(groupList) }} value="검사시작">검사시작</button>
+        <button type="button" className="btn btn-dark btn-sm mr-1" onClick={ () => {handlePrint(groupList) }} value="바코드출력">바코드출력</button>
+        <button type="button" className="btn btn-dark btn-sm mr-1" onClick={ () => {handleCancel(groupList) }} value="접수취소">접수취소</button>
+        <button type="button" className="btn btn-dark btn-sm mr-1" onClick={ handleExcel}>엑셀저장</button>
+        <button type="button" className="btn btn-dark btn-sm mr-1" onClick={ () => {handleFinish(groupList) }} value="검사완료">검사완료</button>
+      </div> 
+      <div>검사접수번호: {props.selectpatientinfo.testreceptionid}</div>
+      <div className="overflow-auto" style={{height:"700px"}}>
+        <Accordion defaultActiveKey="0">
+        {groupList !=={} &&
+        Object.values(groupList).map((group, index)=> {
+          return (
+            <Card key={group.groupcode}>
+            <Card.Header className="row" style={{backgroundColor:"#D5D5D5", height:"60px", alignItems:"center"}}>
+              <Accordion.Toggle as={Card.Header} eventKey={index.toString()}>
+                {/* checked: 체크박스 체크 유무 */}
+                <div><input className="mr-2" type="checkbox"  onChange={e => {changeHandler(e, group.groupcode)}} checked={group.ischeck}/>그룹코드: {group.groupcode}<Badge className="ml-3" variant={group.label}>{group.status}</Badge></div>
+              </Accordion.Toggle>
+              <div></div>
+            </Card.Header>
+            <Accordion.Collapse eventKey={index.toString()}>
+              <Card.Body>
+                <div className="pt-2 pb-2 mb-2 d-flex align-items-center" style={{ fontSize:"13px", borderBottom:"1px solid #a6a6a6"}}>
+                  <div className="col-2 p-0 text-center">처방코드</div>
+                  <div className="col-3 p-0 text-center">검사명</div>
+                  <div className="col-1 p-0 text-center">용기</div>
+                  <div className="col-2 p-0 text-center">상태</div>
+                  <div className="col-4 p-0 text-center">결과값</div>
+                </div>
+                {group.tests.map((test, index) => {
+                  return (
+                    <div key={test.testdataid} className="pt-2 pb-2 mb-2 d-flex align-items-center" style={{ fontSize:"13px", borderBottom:"1px solid #a6a6a6"}}>
+                      <div className="col-2 p-0 text-center">{test.testdataid}</div>
+                      <div className="col-3 p-0 text-center">{test.testdataname}</div>
+                      <div className="col-1 p-0 text-center" style={{ color:test.testcontainer == "EDTA"?"orange":"purple", fontWeight:"bold"}}>{test.testcontainer}</div>
+                      <div className="col-2 p-0 text-center">{test.status}</div>
+                      {test.testdataid === "xray"?
+                      <div style={{marginLeft:"80px"}}>{test.result}</div>:
+                      <div className="col-4 p-0 pl-2 text-center" style={{display:"inline-flex"}}>
+                      <form onSubmit={ event => {handleAdd(event, test)}}>
+                        {group.saveBtn?"":<div style={{float:"left", width:"60%"}}><input type="text" className="form-control" name={test.testdataid} value={test.result == resultlist.result ? (resultlist[test.testdataid] || "") : test.result} onChange={e => {handleChange(e, index, test)}}/></div>}
+                        {group.saveBtn?"":<div style={{float:"right"}}><input type="submit" className="btn btn-primary btn-sm mr-2"  disabled={group.saveBtn} value="추가"/></div>}
+                      </form>
+                    </div>
+                      }
+                    </div>
+                  )
+                })}
+              </Card.Body>
+            </Accordion.Collapse>
+          </Card>
+          )
+        })}
+        </Accordion>
+      </div>
     </div>
 
     <Modal show={open} onHide={handleExit} animation={false}>
