@@ -53,8 +53,8 @@ function Chatting(props){
      })
       };
     useEffect(()=>{
-        let webSocket = new  WebSocket('ws://localhost:8080/websocket/chatting')
-        // let webSocket = new WebSocket("ws://kosa3.iptime.org:50006/websocket/chatting")
+        // let webSocket = new  WebSocket('ws://localhost:8080/websocket/chatting')
+        let webSocket = new WebSocket("ws://kosa3.iptime.org:50006/websocket/chatting")
       
         webSocket.onopen = () =>{
             console.log("open!!!")
