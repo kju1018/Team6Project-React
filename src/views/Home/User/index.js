@@ -27,7 +27,7 @@ function User(props){
           <th scope="col">SEX</th>
         </tr>
         </thead>
-        <tbody>
+        <tbody style={{backgroundColor:"white"}}>
           {UserList.length != 0 &&
           UserList.map((board) => {
             return(
