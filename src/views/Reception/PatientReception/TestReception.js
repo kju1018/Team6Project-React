@@ -23,6 +23,7 @@ function TestReception(props){
     const deleteReceptionTest = () =>{
         if(selectedTestReception){
             props.deleteTestReception(selectedTestReception.testreceptionid)
+            setSelectedTestReception(null)
         }
        
     }

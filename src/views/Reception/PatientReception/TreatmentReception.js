@@ -23,6 +23,7 @@ function TreatmentReception(props){
     const deleteReceptionTreatment = () =>{
         if(selectedTreatmetReception){
             props.deleteTreatmentReception(selectedTreatmetReception.treatmentid)
+            setSelectedTreatmetReception(null)
         }
     }
     
@@ -33,6 +34,7 @@ function TreatmentReception(props){
             <ButtonGroup toggle>
                 <ToggleButton type="radio" variant={`${listtype === "all" ? "secondary" : "light" }`} name="type"  checked={listtype==="all"} value="all" onChange={handleChange}><div className="ml-5 mr-5">전체</div></ToggleButton>
                 <ToggleButton type="radio" variant={`${listtype === "진료 대기" ? "secondary" : "light" }`} name="type"  checked={listtype==="진료 대기"} value="진료 대기" onChange={handleChange}><div className="ml-5 mr-5">진료 대기</div></ToggleButton>
+                <ToggleButton type="radio" variant={`${listtype === "진료중" ? "secondary" : "light" }`} name="type"  checked={listtype==="진료중"} value="진료중" onChange={handleChange}><div className="ml-5 mr-5">진료중</div></ToggleButton>
                 <ToggleButton type="radio" variant={`${listtype === "진료 완료" ? "secondary" : "light" }`} name="type"  checked={listtype==="진료 완료"} value="진료 완료" onChange={handleChange}><div className="ml-5 mr-5">진료 완료</div></ToggleButton>
             </ButtonGroup>
             <div>

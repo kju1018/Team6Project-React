@@ -72,6 +72,7 @@ const UpdateReservation=(newreservation)=>{
             return Number(new Date(r1.reservationdate)) - Number(new Date(r2.reservationdate))
         }) 
         setReservationList(tmplist)
+        setSelectedReservation(null)
     }
     
 }
@@ -91,7 +92,9 @@ const CancelReservation=()=>{
                 return Number(new Date(r1.reservationdate)) - Number(new Date(r2.reservationdate))
             }) 
             setReservationList(tmplist)
+
         })
+        setSelectedReservation(null)
             
         
     }
@@ -103,7 +106,6 @@ const CancelReservation=()=>{
     const ResisterTest = () =>{
       //모달창 open
       setTestSelectorModalshow(true)
-        
     }
 
   //진료접수시 상태변경함수
