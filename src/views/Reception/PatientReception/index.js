@@ -37,7 +37,7 @@ function PatientReception(props){
             //진료접수가 완료되면 토스트
             if((treatmentReception.status==="완료") || (treatmentReception.status==="진행") ){
                 var patientname = treatmentlist.filter((item)=>{return item.patientid===treatmentReception.patientid})[0].patientname
-                setShowToast((prev)=>({...prev,patientname,onoff:true}))
+                setShowToast((prev)=>({status:treatmentReception.status,patientname,onoff:true}))
             }
             
         })
