@@ -23,7 +23,6 @@ function PeriodSearch(props) {
     props.getpatient(start, end) //mysql between 이상~초과 여서 인식불가. 1일 추가해줘야함
     props.setStartdate(start)
     props.setEnddate(end)
-    console.log("아")
   }
 
   const handleBtnClicked = (e) => {

@@ -104,7 +104,6 @@ function TestGroup(props) {
       try {
         startTests(checkedList).then(()=>{props.gettest(props.selectpatientinfo.testreceptionid); group()});
         startPatient(props.selectpatientinfo.testreceptionid).then(()=>{ 
-          console.log(props.startdate)
           props.getpatient(props.startdate, props.enddate)
           sendRedisMessage({type:"test"})
         });
@@ -177,19 +176,15 @@ function TestGroup(props) {
       try {
         cancelTests(checkedList).then(()=>{props.gettest(props.selectpatientinfo.testreceptionid); group()})
         let count = 0;
-        console.log("클릭한 검사그룹 갯수", groupList.length)
         if(groupList.length > 0) {
           for(let i=0; i<groupList.length; i++){
-            console.log(groupList[i].status)
           if(groupList[i].status === "대기중"){
             count++;
-            console.log(count)
           }
         }
 
         if(checkedList.length === 1 ) {
           if(count === groupList.length-1) {
-            console.log(count)
             cancelPatient(props.selectpatientinfo.testreceptionid).then(()=>{
               props.getpatient(props.startdate, props.enddate)
               sendRedisMessage({type:"test"})
@@ -236,19 +231,15 @@ function TestGroup(props) {
       try {
         finishTests(checkedList).then(()=>{props.gettest(props.selectpatientinfo.testreceptionid); group()})
         let count = 0;
-        console.log("클릭한 검사그룹 갯수", groupList.length)
         if(groupList.length > 0) {
           for(let i=0; i<groupList.length; i++){
-            console.log(groupList[i].status)
           if(groupList[i].status === "검사완료"){
             count++;
-            console.log(count)
           }
         }
 
         if(checkedList.length === 1 ) {
           if(count === groupList.length-1) {
-            console.log(count)
             finishPatient(props.selectpatientinfo.testreceptionid).then(()=>{
               props.getpatient(props.startdate, props.enddate)
               sendRedisMessage({type:"test"})
@@ -262,9 +253,7 @@ function TestGroup(props) {
             })
           }
         }
-        }
-        
-       
+        } 
       } catch (error) {
         console.log(error);
       }
@@ -280,17 +269,13 @@ function TestGroup(props) {
       group();
 
       let count = 0;
-      console.log(props.testdatas)
       if(props.testdatas.length > 0) {
         for(let i=0; i<props.testdatas.length; i++){
-          console.log(props.testdatas[i].result)
         if(props.testdatas[i].result !== null || props.testdatas[i].result === ""){
           count++;
-          console.log(count)
         }
       }
         if(count === props.testdatas.length) {
-          console.log("전체 입력완료")
           resultStatus(props.selectpatientinfo.testreceptionid).then(()=>{props.getpatient(props.startdate, props.enddate)})
         }
       }
@@ -306,7 +291,6 @@ function TestGroup(props) {
       [event.target.name]: event.target.value
     })
   }
-  console.log(groupList)
   return (
     <>
     <div>
