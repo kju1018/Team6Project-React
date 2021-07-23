@@ -26,15 +26,12 @@ function TestPage(props) {
   const testReception = useSelector((state)=>(state.receptionReducer.testreception)) //--------------redis
   
   useEffect(()=>{ //맨처음 기본설정 당일, testReception 바뀔때마다 랜더링
-    getpatient(moment(new Date()).format('YYYY-MM-DD'), moment(new Date()).format('YYYY-MM-DD'))
+    getpatient(moment(startdate).format('YYYY-MM-DD'), moment(enddate).format('YYYY-MM-DD'))
     console.log("이건가")
   },[testReception]);
   
   const getpatient = async(startdate, enddate) => { //함수로 만든이유는 나중에 클릭할때도 사용
     try { 
-      setStartdate(startdate)
-      console.log(startdate)
-      setEnddate(enddate)
       const response = await testlistByDate(moment(startdate).format('YYYY-MM-DD'), moment(new Date(enddate).getTime() + 1 * 24 * 60 * 60 * 1000).format('YYYY-MM-DD'));
       const patient = response.data;
       setPatient(response.data);
@@ -78,7 +75,7 @@ function TestPage(props) {
       <div className="col-3 pt-3" style={{borderRight:"1px solid #dadada"}}>
           <div className="row pl-3 ml-0" style={{backgroundColor: "#ffffff", width:"85%"}}><div className="pr-3 pl-3 pt-2 pb-2" style={{ backgroundColor:"#FF8C64"}}><i class="bi bi-calendar4-week" style={{ fontSize:"22px"}}></i></div><div className="ml-4" style={{fontWeight:"bold", paddingTop:"12px"}}>검사 대기 목록</div></div>
           <div style={{height:"88vh"}}>
-          <PeriodSearch getpatient={getpatient}/>
+          <PeriodSearch getpatient={getpatient} setStartdate={setStartdate} setEnddate={setEnddate}/>
           <PatientList getpatient={getpatient} select={select} patients={patients} waitings={waitings} progresss={progresss} completes={completes} ClickPatient={ClickPatient}/>
           </div>
         </div>
