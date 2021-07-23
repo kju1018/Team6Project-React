@@ -8,7 +8,6 @@ import moment from 'moment';
 import PatientList from "./PatientList";
 
 function TestPage(props) {  
-  console.log("리렌더링")
   const [patients, setPatient] = useState([]) //전체 환자
   const [waitings, setWaiting] = useState([]) //대기 환자
   const [progresss, setProgress] = useState([]) //진행 환자
@@ -27,7 +26,6 @@ function TestPage(props) {
   
   useEffect(()=>{ //맨처음 기본설정 당일, testReception 바뀔때마다 랜더링
     getpatient(moment(startdate).format('YYYY-MM-DD'), moment(enddate).format('YYYY-MM-DD'))
-    console.log("이건가")
   },[testReception]);
   
   const getpatient = async(startdate, enddate) => { //함수로 만든이유는 나중에 클릭할때도 사용
@@ -41,8 +39,6 @@ function TestPage(props) {
       setProgress(progress)
       const complete = patient.filter(patient => patient.status === "검사완료");
       setComplete(complete)
-      console.log(startdate)
-      console.log("작동")
     } catch (error) {
       console.error(error)
     }

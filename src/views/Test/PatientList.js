@@ -3,8 +3,6 @@ import moment from 'moment';
 import { useEffect } from "react";
 
 function PatientList(props) {
-  console.log("뭐지")
- 
   return (
     <Tab.Container id="left-tabs-example" defaultActiveKey="wait">
           <Nav fill variant="tabs" className="flex-column mb-2">
