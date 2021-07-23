@@ -11,7 +11,7 @@ function DiagnosisList(props) {
   const handleShow = () => setShow(true);
 
   const info = () => {
-    alert("대기중인 진료를 선택해주세요.");
+    alert("진료중인 진료를 선택해주세요.");
   }
   const prescribeDiagnoses =  (prescriptionItems) => {
     props.prescribeDiagnoses(prescriptionItems);
@@ -19,7 +19,7 @@ function DiagnosisList(props) {
 
   return (
     <>
-      <ButtonHeader headertitle="상병 목록" iclassName="bi bi-check2-square" color="#D27E7B" btnicon="bi bi-plus-square" onclick={props.treatment.status==="진료 대기"? handleShow : info}/>
+      <ButtonHeader headertitle="상병 목록" iclassName="bi bi-check2-square" color="#D27E7B" btnicon="bi bi-plus-square" onclick={props.treatment.status==="진료중"? handleShow : info}/>
       <PrescriptionDiagnosesModal show={show} treatment={props.treatment} handleClose={handleClose} staticItemList={props.staticDignoses} itemList={props.treatmentDiagnoses} prescribe={prescribeDiagnoses}></PrescriptionDiagnosesModal>
       <div className="overflow-auto p-3" style={{height:"calc(100% - 50px"}}>
 

@@ -33,9 +33,12 @@ function PatientTreatment(props) {
               </div>
               : 
               props.patientTreatments.map (treatment => {
-
+                let selected = 0;
+                if(treatment.treatmentid === props.treatment.treatmentid){
+                  selected = 1;
+                } 
                 return (
-                  <TreatmentItem key={treatment.treatmentid} item={{...treatment, treatmentdate: moment(treatment.treatmentdate).format("YYYY-MM-DD")}} property={["treatmentid", "treatmentdate", "status"]} onClick={selectTreatment}></TreatmentItem>
+                  <TreatmentItem key={treatment.treatmentid} selected={selected} item={{...treatment, treatmentdate: moment(treatment.treatmentdate).format("YYYY-MM-DD")}} property={["treatmentid", "treatmentdate", "status"]} onClick={selectTreatment}></TreatmentItem>
                 );
               })
             )
