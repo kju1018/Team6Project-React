@@ -19,7 +19,7 @@ function TestList(props) {
   const treatmentReception = useSelector((state)=>(state.receptionReducer.treatmentreception)) 
 
   const info = () => {
-    alert("대기중인 진료를 선택해주세요.");
+    alert("진료중인 진료를 선택해주세요.");
   }
 
   const toastClose = () => {
@@ -48,7 +48,6 @@ function TestList(props) {
   }, [props.treatmentTests])
 
   useEffect(() => {
-    console.log(treatmentReception);
     if(treatmentReception.status === "접수"){
       receptionToastShow();
     }
@@ -56,7 +55,7 @@ function TestList(props) {
 
   return (
     <>
-      <ButtonHeader headertitle="검사 목록" iclassName="bi bi-droplet" color="#E89677" btnicon="bi bi-plus-square" onclick={props.treatment.status==="진료 대기"? handleShow : info}/>
+      <ButtonHeader headertitle="검사 목록" iclassName="bi bi-droplet" color="#E89677" btnicon="bi bi-plus-square" onclick={props.treatment.status==="진료중"? handleShow : info}/>
       <PrescriptionTestsModal show={show} handleClose={handleClose} staticItemList={props.staticTests} itemList={props.treatmentTests} prescribe={prescribeTests}></PrescriptionTestsModal>
       <div className="overflow-auto p-3" style={{height:"calc(100% - 50px)"}}>
         {

@@ -23,28 +23,30 @@ function TreatmentReception(props){
     const deleteReceptionTreatment = () =>{
         if(selectedTreatmetReception){
             props.deleteTreatmentReception(selectedTreatmetReception.treatmentid)
+            setSelectedTreatmetReception(null)
         }
     }
     
-    const treatmentProperty = ["treatmentid","patientname","username","status","treatmentdate"]  
+    const treatmentProperty = ["patientname","username","userroom","status","treatmentdate"]  
     return(
         <div className="pl-3 pr-3 pb-3" style={{ backgroundColor:"white"}}>
         <div className="mt-3 d-flex justify-content-between">
             <ButtonGroup toggle>
                 <ToggleButton type="radio" variant={`${listtype === "all" ? "secondary" : "light" }`} name="type"  checked={listtype==="all"} value="all" onChange={handleChange}><div className="ml-5 mr-5">전체</div></ToggleButton>
                 <ToggleButton type="radio" variant={`${listtype === "진료 대기" ? "secondary" : "light" }`} name="type"  checked={listtype==="진료 대기"} value="진료 대기" onChange={handleChange}><div className="ml-5 mr-5">진료 대기</div></ToggleButton>
+                <ToggleButton type="radio" variant={`${listtype === "진료중" ? "secondary" : "light" }`} name="type"  checked={listtype==="진료중"} value="진료중" onChange={handleChange}><div className="ml-5 mr-5">진료중</div></ToggleButton>
                 <ToggleButton type="radio" variant={`${listtype === "진료 완료" ? "secondary" : "light" }`} name="type"  checked={listtype==="진료 완료"} value="진료 완료" onChange={handleChange}><div className="ml-5 mr-5">진료 완료</div></ToggleButton>
             </ButtonGroup>
             <div>
-                {props.isDrawer===false&&<button style={{marginRight:"10px"}} onClick={deleteReceptionTreatment} className="btn btn-dark btn-sm">취소</button>}
+                {props.isDrawer===false&&<button style={{marginRight:"10px"}} onClick={deleteReceptionTreatment} disabled={selectedTreatmetReception==null || selectedTreatmetReception.status!=="진료 대기"} className="btn btn-dark btn-sm">취소</button>}
             </div>
         </div>
         <div className="rounded-lg justify-content-center">
             <div className="d-flex justify-content-between text-center border " style={{borderRadius:"15px",marginTop:"10px",marginBottom:"10px"}}>
                 <div style={{width:"20%"}}>순번</div>
-                <div style={{width:"20%"}}>진료ID</div>
                 <div style={{width:"20%"}}>환자</div>
                 <div style={{width:"20%"}}>진료자</div>
+                <div style={{width:"20%"}}>진료실</div>
                 <div style={{width:"20%"}}>접수상태</div>
                 <div style={{width:"20%"}}>접수시간</div>
         

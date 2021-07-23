@@ -72,6 +72,7 @@ const UpdateReservation=(newreservation)=>{
             return Number(new Date(r1.reservationdate)) - Number(new Date(r2.reservationdate))
         }) 
         setReservationList(tmplist)
+        setSelectedReservation(null)
     }
     
 }
@@ -91,7 +92,9 @@ const CancelReservation=()=>{
                 return Number(new Date(r1.reservationdate)) - Number(new Date(r2.reservationdate))
             }) 
             setReservationList(tmplist)
+
         })
+        setSelectedReservation(null)
             
         
     }
@@ -103,7 +106,6 @@ const CancelReservation=()=>{
     const ResisterTest = () =>{
       //모달창 open
       setTestSelectorModalshow(true)
-        
     }
 
   //진료접수시 상태변경함수
@@ -160,21 +162,21 @@ const CancelReservation=()=>{
             </div>
         </div>
         <Modal backdrop="static" size="lg" show={reservationUpdateModalshow}  onHide={()=>{setReservationUpdateModalshow(false)}}>
-        <Modal.Header closeButton>
-        <Modal.Title>예약수정</Modal.Title>
+        <Modal.Header style={{backgroundColor:"rgb(27, 41, 109)"}}  closeButton>
+        <Modal.Title style={{color:"white"}}>예약수정</Modal.Title>
         </Modal.Header>
         <Modal.Body><ReservationUpdateModal closeModal={closeModal} selectedReservation={selectedReservation} UpdateReservation={UpdateReservation}/></Modal.Body>
         </Modal>
-        <Modal  backdrop="static" show={testSelectorModalshow} onHide={()=>{setTestSelectorModalshow(false)}}>
-        <Modal.Header closeButton>
-          <Modal.Title>검사선택</Modal.Title>
+        <Modal  backdrop="static" size="lg" show={testSelectorModalshow} onHide={()=>{setTestSelectorModalshow(false)}}>
+        <Modal.Header style={{backgroundColor:"rgb(27, 41, 109)"}}  closeButton>
+          <Modal.Title style={{color:"white"}}>검사선택</Modal.Title>
           {loading?<Spinner as="span" animation="border" variant="info" size="lg" role="status" className="ml-2"/>:null}
         </Modal.Header>
         <Modal.Body><TestSelectorModal CancelReservation={CancelReservation} controlLoading={ControlLoading} closeModal={closeModal} selectedPatient={selectedReservation}/></Modal.Body>
       </Modal>
         <Modal  backdrop="static" show={doctorSelectorModalshow} onHide={()=>{setDoctorSelectorModalshow(false)}}>
-        <Modal.Header closeButton>
-          <Modal.Title>의사선택</Modal.Title>
+        <Modal.Header style={{backgroundColor:"rgb(27, 41, 109)"}}  closeButton>
+          <Modal.Title style={{color:"white"}}>의사선택</Modal.Title>
           {loading?<Spinner as="span" animation="border" variant="info" size="lg" role="status" className="ml-2"/>:null}
         </Modal.Header>
         <Modal.Body><DoctorSelectorModal CancelReservation={CancelReservation} controlLoading={ControlLoading} closeModal={closeModal} selectedPatient={selectedReservation}/></Modal.Body>

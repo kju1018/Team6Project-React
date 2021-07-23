@@ -86,7 +86,7 @@ function PrescriptionDiagnosesModal(props) {
       <Modal.Body >
         <div className="input-group d-flex pb-2 justify-content-end border-bottom">
           <div className="d-flex">
-          <select className="custom-select" style={{width:"110px"}} onChange={selectType}>
+          <select className="custom-select" defaultValue="dataid" style={{width:"110px"}} onChange={selectType}>
             <option value="dataid" selected={searchType ==="dataid"}>질병코드</option>
             <option value="kname" selected={searchType ==="kname"}>질병명(한글)</option>
             <option value="ename" selected={searchType ==="ename"}>질병명(영어)</option>

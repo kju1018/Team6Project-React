@@ -90,8 +90,8 @@ function SearchPatient(props){
         <PatientHistory selectedPatient={selectedPatient}/> 
         
       <Modal backdrop="static" size="lg" show={searchModalshow}  onHide={()=>{setSearchModalshow(false)}}>
-        <Modal.Header closeButton>
-          <Modal.Title>환자검색</Modal.Title>
+        <Modal.Header style={{backgroundColor:"rgb(27, 41, 109)"}}  closeButton>
+          <Modal.Title  style={{color:"white"}}>환자검색</Modal.Title>
           {loading?<Spinner as="span" animation="border" variant="info" size="lg" role="status" className="ml-2"/>:null}
          
         </Modal.Header>
@@ -99,35 +99,35 @@ function SearchPatient(props){
       </Modal>
 
       <Modal  backdrop="static" size="lg" show={reservationRegisterhModalshow} onHide={()=>{setreservationRegisterhModalshow(false)}}>
-        <Modal.Header closeButton>
-          <Modal.Title>예약등록</Modal.Title>
+        <Modal.Header style={{backgroundColor:"rgb(27, 41, 109)"}}  closeButton>
+          <Modal.Title  style={{color:"white"}}>예약등록</Modal.Title>
         </Modal.Header>
         <Modal.Body><RegisterReservationModal closeModal={closeModal} selectedPatient={selectedPatient}/></Modal.Body>
       </Modal>
 
       <Modal  backdrop="static"  show={patientRegisterhModalshow} onHide={()=>{setPatientRegisterhModalshow(false)}}>
-        <Modal.Header closeButton>
-          <Modal.Title>신규등록</Modal.Title>
+        <Modal.Header style={{backgroundColor:"rgb(27, 41, 109)"}}  closeButton>
+          <Modal.Title  style={{color:"white"}}>신규등록</Modal.Title>
         </Modal.Header>
         <Modal.Body><RegisterPatientModal closeModal={closeModal} setSelectedPatient={setPatient}/></Modal.Body>
       </Modal>
       <Modal  backdrop="static"  show={patientUpdateModalshow} onHide={()=>{setPatientUpdateModalshow(false)}}>
-        <Modal.Header closeButton>
-          <Modal.Title>환자수정</Modal.Title>
+        <Modal.Header style={{backgroundColor:"rgb(27, 41, 109)"}} closeButton>
+          <Modal.Title  style={{color:"white"}}>환자수정</Modal.Title>
         </Modal.Header>
         <Modal.Body><UpdatePatientModal closeModal={closeModal} selectedPatient={selectedPatient} setSelectedPatient={setPatient}/></Modal.Body>
       </Modal>
 
-      <Modal  backdrop="static" show={testSelectorModalshow} onHide={()=>{setTestSelectorModalshow(false)}}>
-        <Modal.Header closeButton>
-          <Modal.Title>검사선택</Modal.Title>
+      <Modal size="lg"  backdrop="static" show={testSelectorModalshow} onHide={()=>{setTestSelectorModalshow(false)}}>
+        <Modal.Header style={{backgroundColor:"rgb(27, 41, 109)"}} closeButton>
+          <Modal.Title style={{color:"white"}}>검사선택</Modal.Title>
           {loading?<Spinner as="span" animation="border" variant="info" size="lg" role="status" className="ml-2"/>:null}
           </Modal.Header>
         <Modal.Body><TestSelectorModal controlLoading={ControlLoading} closeModal={closeModal} selectedPatient={selectedPatient}/></Modal.Body>
       </Modal>
       <Modal  backdrop="static" show={doctorSelectorModalshow} onHide={()=>{setDoctorSelectorModalshow(false)}}>
-        <Modal.Header closeButton>
-          <Modal.Title>의사선택</Modal.Title>
+        <Modal.Header style={{backgroundColor:"rgb(27, 41, 109)"}} closeButton>
+          <Modal.Title  style={{color:"white"}}>의사선택</Modal.Title>
           {loading?<Spinner as="span" animation="border" variant="info" size="lg" role="status" className="ml-2"/>:null}
            </Modal.Header>
         <Modal.Body><DoctorSelectorModal controlLoading={ControlLoading} closeModal={closeModal} selectedPatient={selectedPatient}/></Modal.Body>

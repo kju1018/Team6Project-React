@@ -58,22 +58,42 @@ function TestSelectorModal(props){
        
     }
     return(
-    <div className="conatainer" style={{height:"400px"}}>
-      <div className="col border" style={{overflow:"auto" ,borderRadius:"15px",  marginTop:"15px", height:"70%"}}> 
+    <div className="conatainer" style={{height:"400px"}} >
+      <div className="col border" style={{overflow:"auto" ,  marginTop:"15px", height:"70%", padding:0}}> 
                         {/* testList => {groupcode1:[testdata1, testdata2],groupcode2:[testdata3, testdata4]... } */}
+                        
+                        <table className="table">
+                                    <thead  style={{backgroundColor:"#e9ecef"}}>
+                                        <tr>
+                                            <th>체크</th>
+                                            <th>그룹코드</th>
+                                            <th >검사명</th>
+                                        </tr>
+                                    </thead>
+                                <tbody>
                         {testList&&testList.map((item,index)=>{
                             
                             return(
-                                <div key={index}>
-                                <input type="checkbox" onChange={(e)=>{handleTestList(e,index)}} value={testList[index].ischeck}/>
-                                <span style={{marginLeft:"5px"}}>그룹코드 : {item[0]}</span>
-                                {<span> 검사 : </span>}
-                                {item[1].map((data,index)=>{
-                                    return(<span>{data.testdataname} / </span>)
+                                <>
+                                <tr>
+                                    <td rowSpan={item[1].length+1} ><input type="checkbox" onChange={(e)=>{handleTestList(e,index)}} value={testList[index].ischeck}/></td>
+                                    <td className="border-right  border-bottom-0   " rowSpan={item[1].length+1}>{item[0]}</td>
+                                </tr>
+                                    
+                                {item[1].map((data,index2)=>{
+                                    return(
+                                    <tr>
+                                        <td>{data.testdataname}</td>
+                                    </tr>
+                                        
+                                        )
                                 })}
-                                </div>
+                                </>
                             )})
+                            
                         }
+        </tbody>
+        </table>
         </div>
         <div className="col d-flex justify-content-end" style={{borderRadius:"15px",  marginTop:"10px"}}> 
             <button disabled={testList&&testList.filter((test)=>(test.ischeck===true)).length>0?false:true} className="btn btn-outline-dark btn-sm" onClick={ResisterTest}>검사접수</button>
