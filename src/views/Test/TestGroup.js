@@ -20,7 +20,7 @@ function TestGroup(props) {
 
   const group = () => {
     setExcel(props.testdatas)
-
+    console.log(excel)
     const group = [];
         for(var i=0; i<props.testdatas.length; i++){
           group.push(props.testdatas[i].groupcode)    

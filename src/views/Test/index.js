@@ -69,7 +69,7 @@ function TestPage(props) {
     <div className="vh-100" style={{minWidth:"1000px"}}>
       <div className="row m-0">
       <div className="col-3 pt-3" style={{borderRight:"1px solid #dadada"}}>
-          <div className="row pl-3 ml-0" style={{backgroundColor: "#ffffff", width:"85%"}}><div className="pr-3 pl-3 pt-2 pb-2" style={{ backgroundColor:"#FF8C64"}}><i class="bi bi-calendar4-week" style={{ fontSize:"22px"}}></i></div><div className="ml-4" style={{fontWeight:"bold", paddingTop:"12px"}}>검사 대기 목록</div></div>
+          <div className="row pl-3 ml-0" style={{backgroundColor: "#ffffff", width:"85%"}}><div className="pr-3 pl-3 pt-2 pb-2" style={{ backgroundColor:"#FF8C64"}}><i className="bi bi-calendar4-week" style={{ fontSize:"22px"}}></i></div><div className="ml-4" style={{fontWeight:"bold", paddingTop:"12px"}}>검사 대기 목록</div></div>
           <div style={{height:"88vh"}}>
           <PeriodSearch getpatient={getpatient} setStartdate={setStartdate} setEnddate={setEnddate}/>
           <PatientList getpatient={getpatient} select={select} patients={patients} waitings={waitings} progresss={progresss} completes={completes} ClickPatient={ClickPatient}/>
@@ -77,7 +77,7 @@ function TestPage(props) {
         </div>
 
         <div className="col-5 pt-3">
-          <div className="d-flex pl-3 ml-0 mb-3 p-0" style={{backgroundColor: "#ffffff", width:"85%"}}><div className="pr-3 pl-3 pt-2 pb-2" style={{ backgroundColor:"#F2E18D"}}><i class="bi bi-droplet" style={{ fontSize:"22px"}}></i></div><div className="ml-4" style={{fontWeight:"bold", paddingTop:"12px"}}>검사 처방 목록</div></div>
+          <div className="d-flex pl-3 ml-0 mb-3 p-0" style={{backgroundColor: "#ffffff", width:"85%"}}><div className="pr-3 pl-3 pt-2 pb-2" style={{ backgroundColor:"#F2E18D"}}><i className="bi bi-droplet" style={{ fontSize:"22px"}}></i></div><div className="ml-4" style={{fontWeight:"bold", paddingTop:"12px"}}>검사 처방 목록</div></div>
           <div className="d-flex align-items-center pl-3 pr-3" style={{ backgroundColor:"#ffffff", boxShadow:"rgb(0 0 0 / 8%) 0px 0px 5px 2px", borderRadius:"15px", fontSize:"14.5px", height:"40px"}}>
             <div className="col p-0 pt-1 pb-1 text-center">차트번호 :</div>
             <div className="col p-0 pt-1 pb-1 text-center border-right" style={{fontWeight:"bold"}}>{selectpatientinfo.patientid}</div>
@@ -90,14 +90,14 @@ function TestPage(props) {
           </div>
           <div className="d-flex pt-3">
             <div style={{width:"96%", marginLeft:"2%"}}>{groupshow?<TestGroup startdate={startdate} enddate={enddate} getpatient={getpatient} selectpatientinfo={selectpatientinfo} testdatas={testdatas} gettest={gettest} setTestdatas={setTestdatas}/>
-            :<div style={{textAlign:"center", color:"#999999", marginTop:"90px"}}><div><i class="bi bi-clipboard-plus" style={{fontSize:"180px"}}></i></div><div style={{fontSize:"35px"}}>환자를 선택해주세요</div></div>}</div>
+            :<div style={{textAlign:"center", color:"#999999", marginTop:"90px"}}><div><i className="bi bi-clipboard-plus" style={{fontSize:"180px"}}></i></div><div style={{fontSize:"35px"}}>환자를 선택해주세요</div></div>}</div>
           </div>
         </div>
 
         <div className="col-4 pt-3" style={{borderLeft:"1px solid #dadada"}}>
           <div className="row pl-3 10vh ml-0" style={{backgroundColor: "#ffffff", width:"85%"}}>
             <div className="pr-3 pl-3 pt-2 pb-2" style={{ backgroundColor:"#3EB2A2"}}>
-              <i class="bi bi-display" style={{ fontSize:"22px"}}></i>
+              <i className="bi bi-display" style={{ fontSize:"22px"}}></i>
             </div>
             <div className="ml-4" style={{fontWeight:"bold", paddingTop:"12px"}}>X-RAY 결과 입력</div>
           </div>

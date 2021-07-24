@@ -33,7 +33,7 @@ function PatientList(props) {
           <Tab.Content className="overflow-auto" id="style-7" style={{height:"550px"}}>
             {props.patients.length === 0? 
             <Tab.Pane eventKey= "total" className="pt-1">
-              <div style={{textAlign:"center", color:"#999999"}}><div><i class="bi bi-person-x" style={{fontSize:"180px"}}></i></div><div style={{fontSize:"30px"}}>해당되는 환자가 없습니다.</div></div>
+              <div style={{textAlign:"center", color:"#999999"}}><div><i className="bi bi-person-x" style={{fontSize:"180px"}}></i></div><div style={{fontSize:"30px"}}>해당되는 환자가 없습니다.</div></div>
             </Tab.Pane>
             :
               <Tab.Pane eventKey= "total" className="pt-1">
@@ -50,7 +50,7 @@ function PatientList(props) {
 
               {props.waitings.length === 0? 
             <Tab.Pane eventKey= "wait" className="pt-1">
-              <div style={{textAlign:"center", color:"#999999"}}><div><i class="bi bi-person-x" style={{fontSize:"180px"}}></i></div><div style={{fontSize:"30px"}}>대기중인 환자가 없습니다.</div></div>
+              <div style={{textAlign:"center", color:"#999999"}}><div><i className="bi bi-person-x" style={{fontSize:"180px"}}></i></div><div style={{fontSize:"30px"}}>대기중인 환자가 없습니다.</div></div>
             </Tab.Pane>
             :
               <Tab.Pane eventKey= "wait" className="pt-1">
@@ -67,7 +67,7 @@ function PatientList(props) {
 
               {props.progresss.length === 0? 
             <Tab.Pane eventKey= "progress" className="pt-1">
-              <div style={{textAlign:"center", color:"#999999"}}><div><i class="bi bi-person-x" style={{fontSize:"180px"}}></i></div><div style={{fontSize:"30px"}}>진행중인 환자가 없습니다</div></div>
+              <div style={{textAlign:"center", color:"#999999"}}><div><i className="bi bi-person-x" style={{fontSize:"180px"}}></i></div><div style={{fontSize:"30px"}}>진행중인 환자가 없습니다</div></div>
             </Tab.Pane>
             :
               <Tab.Pane eventKey= "progress" className="pt-1">
@@ -84,7 +84,7 @@ function PatientList(props) {
 
               {props.completes.length === 0? 
             <Tab.Pane eventKey= "complete" className="pt-1">
-              <div style={{textAlign:"center", color:"#999999"}}><div><i class="bi bi-person-x" style={{fontSize:"180px"}}></i></div><div style={{fontSize:"30px"}}>완료된 환자가 없습니다.</div></div>
+              <div style={{textAlign:"center", color:"#999999"}}><div><i className="bi bi-person-x" style={{fontSize:"180px"}}></i></div><div style={{fontSize:"30px"}}>완료된 환자가 없습니다.</div></div>
             </Tab.Pane>
             :
               <Tab.Pane eventKey= "complete" className="pt-1">
