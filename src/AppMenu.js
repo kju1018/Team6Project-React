@@ -10,7 +10,7 @@ function AppMenu() {
     const dispatch = useDispatch();
 
     const globalUserRole = useSelector((state) => { return state.authReducer.role_authority });
-
+    const globalUserName = useSelector((state) => { return state.authReducer.username });
     const logout = () => {
       //Redux를 이용
       dispatch(createSetUseridAction(""));
@@ -30,9 +30,12 @@ function AppMenu() {
 
     return (
     <>
-    <div style={{backgroundColor:"#1B296D", height:"58vh", marginRight:"-15px"}}>
+    <div style={{backgroundColor:"#1B296D", height:"55vh", marginRight:"-15px", paddingTop:"20px"}}>
+    <div className="d-flex justify-content-center">
+      <img src="/logo2.png" width="80%" alt="img"></img>
     </div>
-    <div style={{marginTop:"3vh"}}>
+    </div>
+    <div style={{height:"45vh", paddingTop:"20px"}}>
       <ul className="nav flex-column" >
         <li className="nav-item">
           <NavLink to="/main/home" exact className="nav-link pt-2 pb-2 mt-3 mb-3" activeStyle={{color:"#FFFFFF", backgroundColor:"#2F4273"}} style={{color:"black"}}>
@@ -82,7 +85,12 @@ function AppMenu() {
             null
           }
 
-          <Button style={{marginTop:"20px", marginLeft:"35px"}} variant="dark" onClick={logout}>로그아웃</Button>
+        <div className="text-center" style={{width:"100%", position:"absolute", bottom:"0px", paddingBottom:"10px"}}>
+          <div className="pb-2">
+            {globalUserName}({globalUserRole === "ROLE_DOCTOR" ? "의사" : (globalUserRole === "ROLE_NURSE" ? "간호사" : "관리자") }) 님
+          </div>
+          <Button  variant="dark" onClick={logout}>로그아웃</Button>
+        </div>
         </li>
       </ul>
     </div>

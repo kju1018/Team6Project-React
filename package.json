@@ -27,6 +27,7 @@
     "react-virtualized": "^9.22.3",
     "redux": "^4.1.0",
     "redux-devtools-extension": "^2.13.9",
+    "sweetalert2": "^11.0.20",
     "web-vitals": "^1.0.1",
     "websocket": "^1.0.34",
     "xlsx": "^0.17.0"

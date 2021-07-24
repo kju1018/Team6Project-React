@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { Button, Modal, Nav, OverlayTrigger, Tab, Tooltip } from "react-bootstrap";
 import { AutoSizer, List } from "react-virtualized";
+import Swal from "sweetalert2";
 import PrescriptionPackageItem from "./PrescriptionPackageItem";
 import PrescriptionTestItem from "./PrescriptionTestItem";
 
@@ -56,7 +57,14 @@ function PrescriptionTestsModal(props) {
       setPrescriptionItems((prevItems) => {
         const compare = prevItems.findIndex((obj) => obj.testdataid === item.testdataid);
         if(compare >= 0){
-          alert("이미 처방받았습니다.");
+          Swal.fire({
+            text:"이미 처방 받았습니다.",
+            width: "430px",
+            imageUrl:"/exclamation.png",
+            imageWidth: 150,
+            confirmButtonText:"확인",
+            confirmButtonColor:"#3E5799"
+          });
           return prevItems;
         } else {
           const newItems = prevItems.concat(item);

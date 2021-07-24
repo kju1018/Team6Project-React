@@ -9,6 +9,10 @@ import PatientProfile from "./components/PatientProfile";
 import { getPatient, getStaticDiagnoses, getStaticDrugs, getPrescriptionList, prescribeTreatment, getAllTreatments, getStaticTests, getTestList, updateTreatment } from "apis/Treatment";
 import { sendRedisMessage } from "apis/Redis";
 import { Col, Row, Toast } from "react-bootstrap";
+import Swal from "sweetalert2";
+
+
+
 
 function Treatment(props) {
 
@@ -61,7 +65,18 @@ function Treatment(props) {
   const selectTreatment = useCallback(async(treatment) => {
     if(treatment.status === "진료 대기"){
       if(treatment.userid === globalUserid){
-        if(window.confirm("진료를 시작하시겠습니까?") === true){
+        const start = await Swal.fire({
+          text: "진료를 시작하시겠습니까?",
+          width: "430px",
+          confirmButtonText: "진료시작",
+          confirmButtonColor:"#3E5799",
+          denyButtonText:"취소",
+          showDenyButton:true,
+          imageUrl:"/question-mark.png",
+          imageWidth: 150,
+        })
+
+        if(start.isConfirmed === true){
           try {
             const response = await updateTreatment({...treatment, treatmentdate: null});
             if(response.data === "success") {
@@ -93,7 +108,16 @@ function Treatment(props) {
           }
         }
       } else {
-        alert("해당 진료를 처방할 수 없습니다.");
+        Swal.fire({
+          text:`담당 의사만 해당 진료를 진행할 수 있습니다. 
+          담당의사: ${treatment.userid}`,
+          width: "430px",
+          imageUrl:"/clear.svg",
+          imageWidth: 150,
+          confirmButtonText:"확인",
+          confirmButtonColor:"#3E5799"
+        });
+      
       }
     } else {
       setTreatment(treatment);
@@ -242,8 +266,18 @@ function Treatment(props) {
     }
   }
 
-  const saveTreatment = () => {
-    if(window.confirm("처방을 완료 하시겠습니까?") === true){
+  const saveTreatment = async() => {
+    const start = await Swal.fire({
+      text: "처방을 완료 하시겠습니까?",
+      width: "430px",
+      confirmButtonText: "완료",
+      confirmButtonColor:"#3E5799",
+      denyButtonText:"취소",
+      showDenyButton:true,
+      imageUrl:"/question-mark.png",
+      imageWidth: 150,
+    })
+    if(start.isConfirmed === true){
       prescribeList();
       setShow(true);
     }

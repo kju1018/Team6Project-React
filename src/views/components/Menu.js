@@ -19,7 +19,7 @@ function Menus(props){
 
   return (
   <>
- <Menu right  customBurgerIcon={<img src="/menu.svg" />} width={"40%"}>
+ <Menu right  customBurgerIcon={<img src="/menu.svg" />} width={"41%"}>
      <DrawerReceptions/>
   </Menu>
   <div style={{position: "fixed", bottom: "30px", right: "40px",zIndex:"1000"}}>
