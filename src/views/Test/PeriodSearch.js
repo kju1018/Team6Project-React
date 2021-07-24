@@ -6,9 +6,9 @@ import ko from 'date-fns/locale/ko'; // 한국어적용
 
 registerLocale("ko", ko) // 한국어적용
 
-function PeriodSearch({change, startdate, enddate}) {
-  const [startDate, setStartDate] = useState(new Date());
-  const [endDate, setEndDate] = useState(new Date());
+function PeriodSearch(props) {
+  const [start, setStart] = useState(new Date());
+  const [end, setEnd] = useState(new Date());
   const [btnClicked, setBtnClicked] = useState("당일");
   const ExampleCustomInput = forwardRef(({ value, onClick }, ref) => (
     <div className="example-custom-input" onClick={onClick} ref={ref}>
@@ -20,10 +20,9 @@ function PeriodSearch({change, startdate, enddate}) {
   ));
 
   const dateSubmit = () => {
-    
-    setStartDate(startDate);
-    setEndDate(endDate);
-    change(startDate, endDate) //mysql between 이상~초과 여서 인식불가. 1일 추가해줘야함
+    props.getpatient(start, end) //mysql between 이상~초과 여서 인식불가. 1일 추가해줘야함
+    props.setStartdate(start)
+    props.setEnddate(end)
   }
 
   const handleBtnClicked = (e) => {
@@ -32,22 +31,22 @@ function PeriodSearch({change, startdate, enddate}) {
     const currentDate = new Date(); 
     // 오늘 날짜
     if (value === "당일") {
-      setStartDate(new Date());
-      setEndDate(new Date());
+      setStart(new Date());
+      setEnd(new Date());
     }
     // 3일 전부터 오늘까지의 기간
     if (value === "3일") {
       let threeDaysAgo = new Date(
         currentDate.getTime() - 3 * 24 * 60 * 60 * 1000
       );
-      setStartDate(threeDaysAgo);
-      setEndDate(new Date());
+      setStart(threeDaysAgo);
+      setEnd(new Date());
     }
     // 1주일 전부터 오늘까지의 기간
     if (value === "1주일") {
       let weekAgo = new Date(currentDate.getTime() - 7 * 24 * 60 * 60 * 1000);
-      setStartDate(weekAgo);
-      setEndDate(new Date());
+      setStart(weekAgo);
+      setEnd(new Date());
     }
     // 1개월 전부터 오늘까지의 기간
     if (value === "1개월") {
@@ -56,8 +55,8 @@ function PeriodSearch({change, startdate, enddate}) {
         new Date().getMonth() - 1,
         new Date().getDate()
       );
-      setStartDate(oneMonthAgo);
-      setEndDate(new Date());
+      setStart(oneMonthAgo);
+      setEnd(new Date());
     }
     // 3개월 전부터 오늘까지의 기간
     if (value === "3개월") {
@@ -66,8 +65,8 @@ function PeriodSearch({change, startdate, enddate}) {
         new Date().getMonth() - 3,
         new Date().getDate()
       );
-      setStartDate(threeMonthAgo);
-      setEndDate(new Date());
+      setStart(threeMonthAgo);
+      setEnd(new Date());
     }
   };
 
@@ -86,8 +85,8 @@ function PeriodSearch({change, startdate, enddate}) {
                 <div className="mr-4">
                   <div>From: </div>
                 <DatePicker
-                  selected={startDate}
-                  onChange={(date) => setStartDate(date)}
+                  selected={start}
+                  onChange={(date) => setStart(date)}
                   customInput={<ExampleCustomInput />}
                   dateFormat="yyyy-MM-dd"
                   locale={ko}
@@ -99,8 +98,8 @@ function PeriodSearch({change, startdate, enddate}) {
                 <div>To: </div>
                 <div className="row ml-0">
                 <DatePicker
-                  selected={endDate}
-                  onChange={(date) => setEndDate(date)}
+                  selected={end}
+                  onChange={(date) => setEnd(date)}
                   customInput={<ExampleCustomInput />}
                   dateFormat="yyyy-MM-dd"
                   locale={ko}
@@ -109,7 +108,7 @@ function PeriodSearch({change, startdate, enddate}) {
                 </div>
               </div>
               </div>
-              <button type="submit" className="btn btn-dark btn-block" onClick={ dateSubmit }>Submit</button>
+              <button className="btn btn-dark btn-block" onClick={ dateSubmit }>Submit</button>
             </div>
           </div>
   );

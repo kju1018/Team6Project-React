@@ -176,19 +176,15 @@ function TestGroup(props) {
       try {
         cancelTests(checkedList).then(()=>{props.gettest(props.selectpatientinfo.testreceptionid); group()})
         let count = 0;
-        console.log("클릭한 검사그룹 갯수", groupList.length)
         if(groupList.length > 0) {
           for(let i=0; i<groupList.length; i++){
-            console.log(groupList[i].status)
           if(groupList[i].status === "대기중"){
             count++;
-            console.log(count)
           }
         }
 
         if(checkedList.length === 1 ) {
           if(count === groupList.length-1) {
-            console.log(count)
             cancelPatient(props.selectpatientinfo.testreceptionid).then(()=>{
               props.getpatient(props.startdate, props.enddate)
               sendRedisMessage({type:"test"})
@@ -235,19 +231,15 @@ function TestGroup(props) {
       try {
         finishTests(checkedList).then(()=>{props.gettest(props.selectpatientinfo.testreceptionid); group()})
         let count = 0;
-        console.log("클릭한 검사그룹 갯수", groupList.length)
         if(groupList.length > 0) {
           for(let i=0; i<groupList.length; i++){
-            console.log(groupList[i].status)
           if(groupList[i].status === "검사완료"){
             count++;
-            console.log(count)
           }
         }
 
         if(checkedList.length === 1 ) {
           if(count === groupList.length-1) {
-            console.log(count)
             finishPatient(props.selectpatientinfo.testreceptionid).then(()=>{
               props.getpatient(props.startdate, props.enddate)
               sendRedisMessage({type:"test"})
@@ -261,9 +253,7 @@ function TestGroup(props) {
             })
           }
         }
-        }
-        
-       
+        } 
       } catch (error) {
         console.log(error);
       }
@@ -279,17 +269,13 @@ function TestGroup(props) {
       group();
 
       let count = 0;
-      console.log(props.testdatas)
       if(props.testdatas.length > 0) {
         for(let i=0; i<props.testdatas.length; i++){
-          console.log(props.testdatas[i].result)
         if(props.testdatas[i].result !== null || props.testdatas[i].result === ""){
           count++;
-          console.log(count)
         }
       }
         if(count === props.testdatas.length) {
-          console.log("전체 입력완료")
           resultStatus(props.selectpatientinfo.testreceptionid).then(()=>{props.getpatient(props.startdate, props.enddate)})
         }
       }
@@ -305,7 +291,6 @@ function TestGroup(props) {
       [event.target.name]: event.target.value
     })
   }
-  console.log(groupList)
   return (
     <>
     <div>
@@ -329,11 +314,10 @@ function TestGroup(props) {
                 {/* checked: 체크박스 체크 유무 */}
                 <div className="row">그룹코드:<div style={{fontSize:"16px", fontWeight:"bold", paddingLeft:"8px"}}> {group.groupcode}</div> <Badge className="ml-3 pt-2" variant={group.label}  style={{fontSize:"12px"}}>{group.status}</Badge></div>
               </Accordion.Toggle>
-              <div></div>
             </Card.Header>
             <Accordion.Collapse eventKey={index.toString()}>
               <Card.Body>
-                <div className="pt-2 pb-2 mb-2 d-flex align-items-center" style={{ fontWeight:"bold", fontSize:"14.5px", borderBottom:"1px solid #a6a6a6"}}>
+                <div className="pt-2 pb-2 d-flex align-items-center" style={{fontSize:"14.5px", borderBottom:"1px solid #a6a6a6"}}>
                   <div className="col-2 p-0 text-center">처방코드</div>
                   <div className="col-3 p-0 text-center">검사명</div>
                   <div className="col-1 p-0 text-center">용기</div>
@@ -342,7 +326,7 @@ function TestGroup(props) {
                 </div>
                 {group.tests.map((test, index) => {
                   return (
-                    <div key={test.testdataid} className="pt-2 pb-2 mb-2 d-flex align-items-center" style={{fontSize:"14.5px", borderBottom:"1px solid #a6a6a6"}}>
+                    <div key={test.testdataid} className="pt-2 pb-2 d-flex align-items-center" style={{fontSize:"14.5px", borderBottom:"1px solid #a6a6a6", backgroundColor:test.result === null ? "" : "#faf4c0"}}>
                       <div className="col-2 p-0 text-center" style={{fontWeight:"bold"}}>{test.testdataid}</div>
                       <div className="col-3 p-0 text-center">{test.testdataname}</div>
                       <div className="col-1 p-0 text-center" style={{ color:test.testcontainer == "EDTA"?"orange":"purple", fontWeight:"bold", fontSize:"16px"}}>{test.testcontainer}</div>
