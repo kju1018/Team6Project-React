@@ -76,14 +76,14 @@ function TestSelectorModal(props){
                             return(
                                 <>
                                 <tr>
-                                    <td rowSpan={item[1].length+1} ><input type="checkbox" onChange={(e)=>{handleTestList(e,index)}} value={testList[index].ischeck}/></td>
-                                    <td className="border-right  border-bottom-0   " rowSpan={item[1].length+1}>{item[0]}</td>
+                                    <td className="border-bottom   "rowSpan={item[1].length+1} ><input type="checkbox" onChange={(e)=>{handleTestList(e,index)}} value={testList[index].ischeck}/></td>
+                                    <td className="border-right  border-bottom   " rowSpan={item[1].length+1}>{item[0]}</td>
                                 </tr>
                                     
                                 {item[1].map((data,index2)=>{
                                     return(
                                     <tr>
-                                        <td>{data.testdataname}</td>
+                                        <td className="border-bottom   ">{data.testdataname}</td>
                                     </tr>
                                         
                                         )
