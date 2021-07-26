@@ -26,6 +26,7 @@ function WeeklyWrite(props){
     newBoard.userid = globalUserid;
     newBoard.date = props.startDate;
     await scheduleUpdate(newBoard);
+    setBoard({content: ""});
     props.handleClose1();
     props.work();
     alert('스케줄을 등록 하였습니다!');
