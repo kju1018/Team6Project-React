@@ -12,6 +12,11 @@ export function prescribeTreatment(prescription) {
   return result;
 }
 
+//진료 상태 변경
+export function updateTreatment(treatment) {
+  const result = axios.put("/treatment/updatetreatment", treatment);
+  return result;
+}
 
 //약 목록 가져오기
 export function getStaticDrugs() {
@@ -49,7 +54,7 @@ export function getPatientList() {
   return result;
 }
 
-//
+//드로워에서 환자 클릭시 환장 정보 가져오기
 export function getPatient(patientid) {
   const result = axios.get("treatment/getpatient/"+patientid);
   return result;

@@ -6,9 +6,13 @@ import TreatmentMemo from "./TreatmentMemo";
 import { useCallback, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import PatientProfile from "./components/PatientProfile";
-import { getPatient, getStaticDiagnoses, getStaticDrugs, getPrescriptionList, prescribeTreatment, getAllTreatments, getStaticTests, getTestList } from "apis/Treatment";
+import { getPatient, getStaticDiagnoses, getStaticDrugs, getPrescriptionList, prescribeTreatment, getAllTreatments, getStaticTests, getTestList, updateTreatment } from "apis/Treatment";
 import { sendRedisMessage } from "apis/Redis";
 import { Col, Row, Toast } from "react-bootstrap";
+import Swal from "sweetalert2";
+
+
+
 
 function Treatment(props) {
 
@@ -44,15 +48,6 @@ function Treatment(props) {
   }, [globalPatient]) 
 
   const [treatment, setTreatment] = useState({})
-
-  const selectTreatment = useCallback((treatment) => {
-    if(treatment.userid !== globalUserid && treatment.status === "진료 대기"){
-      alert("해당 진료를 처방할 수 없습니다.");
-    } else {
-      setTreatment(treatment);
-    }
-  }, [globalUserid])
-
   const [patientTreatments, setPatientTreatments] = useState([]);
   const [treatmentDrugs, setTreatmentDrugs] = useState([]);
   const [treatmentDiagnoses, setTreatmentDiagnoses] = useState([]);
@@ -66,22 +61,71 @@ function Treatment(props) {
   const [prescribeLoading, setPrescribeLoading] = useState(false);
   const [treatmentsLoading, setTreatmentLoading] = useState(false);
 
-  useEffect(() => {
-    const work = async() => {
-      try {
-        const drugResponse = await getStaticDrugs();
-        const diagnosesResponse = await getStaticDiagnoses();
-        const testResponse = await getStaticTests();
-        setStaticDrugs(drugResponse.data);
-        setStaticDignoses(diagnosesResponse.data);
-        setStaticTests(testResponse.data);
-      } catch (error) {
-        console.log(error);
-      }
-    }
-    work();
-  },[])//정적 데이터 불러오기
+  //진료 선택
+  const selectTreatment = useCallback(async(treatment) => {
+    if(treatment.status === "진료 대기"){
+      if(treatment.userid === globalUserid){
+        const start = await Swal.fire({
+          text: "진료를 시작하시겠습니까?",
+          width: "430px",
+          confirmButtonText: "진료시작",
+          confirmButtonColor:"#3E5799",
+          denyButtonText:"취소",
+          showDenyButton:true,
+          imageUrl:"/question-mark.png",
+          imageWidth: 150,
+        })
 
+        if(start.isConfirmed === true){
+          try {
+            const response = await updateTreatment({...treatment, treatmentdate: null});
+            if(response.data === "success") {
+              console.log(response.data);
+              const message = {
+                type:"treatment",
+                patientid:treatment.patientid,
+                status:"진행"
+              };
+              sendRedisMessage(message);//진료가 완료 되었다는 사실을 접수처에 알림
+              setTreatment({
+                ...treatment,
+                status:"진료중"
+              });
+
+              setPatientTreatments((prevList) => {
+                const newTreatments = prevList.map((prevtreatment) => {
+                  if(prevtreatment.treatmentid === treatment.treatmentid) {
+                    return {...prevtreatment, status:"진료중"}
+                  } else {
+                    return prevtreatment;
+                  }
+                })
+                return newTreatments;
+              })
+            }
+          } catch (error) {
+            console.log(error);
+          }
+        }
+      } else {
+        Swal.fire({
+          text:`담당 의사만 해당 진료를 진행할 수 있습니다. 
+          담당의사: ${treatment.userid}`,
+          width: "430px",
+          imageUrl:"/clear.svg",
+          imageWidth: 150,
+          confirmButtonText:"확인",
+          confirmButtonColor:"#3E5799"
+        });
+      
+      }
+    } else {
+      setTreatment(treatment);
+    }
+
+  }, [globalUserid])
+
+  //선택한 진료 변경시 그 진료가 처방받은 약, 상병, 테스트 가져오기
   useEffect(() => {
     if(treatment.status==="진료 완료"){
       const work = async() => {
@@ -106,7 +150,25 @@ function Treatment(props) {
       setTreatmentTests([]);
       setMemo("");
       })
-  }, [treatment]);//선택한 진료 변경시 그 진료가 처방받은 약, 상병, 테스트 가져오기
+  }, [treatment]);
+
+  //정적 데이터 불러오기
+  useEffect(() => {
+    const work = async() => {
+      try {
+        const drugResponse = await getStaticDrugs();
+        const diagnosesResponse = await getStaticDiagnoses();
+        const testResponse = await getStaticTests();
+        setStaticDrugs(drugResponse.data);
+        setStaticDignoses(diagnosesResponse.data);
+        setStaticTests(testResponse.data);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    work();
+  },[])
+
 
   const testResult = useSelector((state) => {
     return state.receptionReducer.testresult;
@@ -124,7 +186,7 @@ function Treatment(props) {
     }
   }, [testResult]);
 
-
+  // 환자가 바뀔때
   useEffect(() => {
     const work = async() => {
       try {
@@ -146,28 +208,30 @@ function Treatment(props) {
     setTreatment({});
   }, [patient])
 
+  //약 처방 함수
   const prescribeDrugs = useCallback((prescriptionItems) => {
     setTreatmentDrugs(prescriptionItems) 
   }, []);
- //약 처방 함수
+ 
 
+   //증상 처방 함수
   const prescribeDiagnoses = useCallback((prescriptionItems) => {
     setTreatmentDiagnoses(prescriptionItems)
   },[]);
-  //증상 처방 함수
 
+
+  //검사 처방 함수
   const prescribeTests = useCallback((prescriptionItems) => {
     setTreatmentTests(prescriptionItems);
-  }, [])//검사 처방 함수
+  }, [])
 
   const prescribeList = async() => {
     try {
       let prescription = {};
 
-      let time = new Date(treatment.treatmentdate).getTime();
       let newTreatment = {
         ...treatment,
-        treatmentdate:time,
+        treatmentdate:null,
         memo:memo
       }
 
@@ -187,9 +251,11 @@ function Treatment(props) {
           setPatientTreatments(response.data);
           const message = {
             type:"treatment",
-            patientid:patient.patientid
+            patientid:patient.patientid,
+            status:"완료"
           };
           newTreatment.status = "진료 완료"
+          newTreatment.treatmentdate = treatment.treatmentdate;
           sendRedisMessage(message);//진료가 완료 되었다는 사실을 접수처에 알림
           setTreatment(newTreatment);
         }
@@ -200,8 +266,18 @@ function Treatment(props) {
     }
   }
 
-  const saveTreatment = () => {
-    if(window.confirm("처방을 완료 하시겠습니까?") === true){
+  const saveTreatment = async() => {
+    const start = await Swal.fire({
+      text: "처방을 완료 하시겠습니까?",
+      width: "430px",
+      confirmButtonText: "완료",
+      confirmButtonColor:"#3E5799",
+      denyButtonText:"취소",
+      showDenyButton:true,
+      imageUrl:"/question-mark.png",
+      imageWidth: 150,
+    })
+    if(start.isConfirmed === true){
       prescribeList();
       setShow(true);
     }

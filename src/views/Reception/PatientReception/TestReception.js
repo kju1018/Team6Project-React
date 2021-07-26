@@ -23,6 +23,7 @@ function TestReception(props){
     const deleteReceptionTest = () =>{
         if(selectedTestReception){
             props.deleteTestReception(selectedTestReception.testreceptionid)
+            setSelectedTestReception(null)
         }
        
     }
@@ -38,7 +39,7 @@ function TestReception(props){
                 <ToggleButton type="radio" variant={`${listtype === "검사완료" ? "secondary" : "light" }`} name="type"  checked={listtype==="검사완료"} value="검사완료" onChange={handleChange}><div className="ml-5 mr-5">검사완료</div></ToggleButton>
             </ButtonGroup>
             <div>
-                {props.isDrawer===false&&<button style={{marginRight:"10px"}} onClick={deleteReceptionTest} className="btn btn-dark btn-sm">취소</button>}
+                {props.isDrawer===false&&<button style={{marginRight:"10px"}} onClick={deleteReceptionTest} disabled={selectedTestReception==null || selectedTestReception.status!=="대기중"}  className="btn btn-dark btn-sm">취소</button>}
             </div>
         </div>
         <div className="rounded-lg justify-content-center">
@@ -63,7 +64,7 @@ function TestReception(props){
                                     rowRenderer={({index, key, style}) => {
                                         const item2 = {...result[index],testdate:moment(result[index].testdate).format("HH:mm")}
                                         return (
-                                            <div key={key} style={style}>
+                                            <div key={key}>
                                             <Item onClick={click} item ={item2} property={testProperty} order={index}/>
                                             </div>   
                                         );

@@ -3,6 +3,7 @@ import { useCallback, useEffect, useState } from "react";
 import { Button, Modal } from "react-bootstrap";
 import { AutoSizer, List } from "react-virtualized";
 import Item from "views/components/Item";
+import PatientItem from "./PatientItem";
 function SearchPatient(props) {
   const property = ["patientid", "patientname", "age", "sex", "phonenumber", "lasttreatment", "registerday"];
 
@@ -71,7 +72,7 @@ function SearchPatient(props) {
   const rowRenderer = ({index, key, style}) => {
     return (
       <div key={key} style={style}>
-        <Item item={searchList[index]} property={property} onClick={checkPatient}></Item>
+        <PatientItem item={searchList[index]} property={property} onClick={checkPatient} selected={checkedPatient.patientid}></PatientItem>
       </div>
     )
   }

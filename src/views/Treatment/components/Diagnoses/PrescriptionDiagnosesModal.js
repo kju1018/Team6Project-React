@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { Button, Modal, OverlayTrigger, Tooltip } from "react-bootstrap";
 import { AutoSizer, List } from "react-virtualized";
+import Swal from "sweetalert2";
 import PrescriptionDiagnosesItem from "./PrescriptionDiagnosesItem";
 
 function PrescriptionDiagnosesModal(props) {
@@ -31,7 +32,14 @@ function PrescriptionDiagnosesModal(props) {
       setPrescriptionItems((prevItems) => {
         const compare = prevItems.findIndex((obj) => obj.diagnosesdataid === item.diagnosesdataid);
         if(compare >= 0){
-          alert("이미 처방받았습니다.");
+          Swal.fire({
+            text:"이미 처방 받았습니다.",
+            width: "430px",
+            imageUrl:"/exclamation.png",
+            imageWidth: 150,
+            confirmButtonText:"확인",
+            confirmButtonColor:"#3E5799"
+          });
           return prevItems;
         } else {
           const newItem = {
@@ -86,7 +94,7 @@ function PrescriptionDiagnosesModal(props) {
       <Modal.Body >
         <div className="input-group d-flex pb-2 justify-content-end border-bottom">
           <div className="d-flex">
-          <select className="custom-select" style={{width:"110px"}} onChange={selectType}>
+          <select className="custom-select" defaultValue="dataid" style={{width:"110px"}} onChange={selectType}>
             <option value="dataid" selected={searchType ==="dataid"}>질병코드</option>
             <option value="kname" selected={searchType ==="kname"}>질병명(한글)</option>
             <option value="ename" selected={searchType ==="ename"}>질병명(영어)</option>

@@ -5,7 +5,7 @@ import { Button } from "react-bootstrap";
 import { Form } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import {  Link, Redirect, Route, Switch, useHistory } from "react-router-dom";
-import { createSetAuthTokenAction, createSetCodeNumberAction, createSetRoleAuthority, createSetUseridAction } from "redux/auth-rducer";
+import { createSetAuthTokenAction, createSetCodeNumberAction, createSetRoleAuthority, createSetUseridAction, createSetUserName } from "redux/auth-rducer";
 import Treatment from "views/Treatment";
 import HospitalNotice from "./HospitalNotice";
 import HospitalNoticeDetail from "./HospitalNoticeDetail";
@@ -73,6 +73,7 @@ function Hospital(props) {
             dispatch(createSetAuthTokenAction(response.data.authToken));
             dispatch(createSetRoleAuthority(response.data.role_authority));
             dispatch(createSetCodeNumberAction(response.data.codenumber));
+            dispatch(createSetUserName(response.data.username));
 
             //요청 헤더에 추가
             addAuthHeader(response.data.authToken);
@@ -82,6 +83,7 @@ function Hospital(props) {
             sessionStorage.setItem("authToken", response.data.authToken);
             sessionStorage.setItem("role_authority", response.data.role_authority);
             sessionStorage.setItem("codenumber", response.data.codenumber); 
+            sessionStorage.setItem("username", response.data.username);
 
           } else if(response.data.state === "err_nullAuth") {// 해당 병원에 계정이 없을경우
             setIsInvalidCode(false);

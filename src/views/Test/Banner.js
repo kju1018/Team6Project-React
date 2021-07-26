@@ -8,7 +8,7 @@ function Banner() {
           className="d-block w-100"
           src="/1.png"
           alt="Second slide"
-          height="227px"
+          height="210px"
           border="1px solid gray"
         />
       </Carousel.Item>
@@ -17,7 +17,7 @@ function Banner() {
           className="d-block w-100"
           src="/process.png"
           alt="Second slide"
-          height="227px"
+          height="210px"
           border="1px solid gray"
         />
       </Carousel.Item>
@@ -26,7 +26,7 @@ function Banner() {
           className="d-block w-100"
           src="/2.png"
           alt="First slide"
-          height="227px"
+          height="210px"
           border="1px solid gray"
         />
       </Carousel.Item>
