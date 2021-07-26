@@ -22,7 +22,7 @@ function PatientList(props) {
             </Row>
           </Nav>
           
-          <div className="pt-2 pb-2 d-flex align-items-center" style={{ backgroundColor:"#eaeaea", color:"black", borderBottom:"1px solid gray", borderTop:"1px solid gray", fontSize:"14.5px"}}>
+          <div className="pt-2 pb-2 d-flex align-items-center" style={{ backgroundColor:"#1B296D", color:"#F9F7F9", fontSize:"14.5px"}}>
             <div className="col-2 p-0 text-center">환자번호</div>
             <div className="col-3 p-0 text-center">생년월일</div>
             <div className="col-2 p-0 text-center">이름</div>
@@ -38,7 +38,7 @@ function PatientList(props) {
             :
               <Tab.Pane eventKey= "total">
               {props.patients.map((item, index)=>{return(
-                <div key={item.testreceptionid} id={item.testreceptionid} className="pt-2 pb-2 d-flex align-items-center" onClick={ e => {props.ClickPatient(e, item, index) }} style={{ fontSize:"15px", borderBottom:"1px solid #a6a6a6", backgroundColor: props.select === item.testreceptionid ? "#faf4c0" : ""}}>
+                <div key={item.testreceptionid} id={item.testreceptionid} className="pt-2 pb-2 d-flex align-items-center" onClick={ e => {props.ClickPatient(e, item, index) }} style={{ fontSize:"15px", borderBottom:"1px solid #a6a6a6", backgroundColor: props.select === item.testreceptionid ? "#E0ECF8" : ""}}>
                   <div className="col-2 p-0 text-center">{item.patientid}</div>
                   <div className="col-3 p-0 text-center">{item.ssn1}</div>
                   <div className="col-2 p-0 text-center" style={{fontWeight:"bold"}}>{item.patientname}</div>
@@ -55,7 +55,7 @@ function PatientList(props) {
             :
               <Tab.Pane eventKey= "wait">
               {props.waitings.map((item, index)=>{return(
-                  <div key={item.testreceptionid} id={item.testreceptionid} className="pt-1 pb-1 d-flex align-items-center" onClick={ e => {props.ClickPatient(e, item) }} style={{ fontSize:"15px", borderBottom:"1px solid #a6a6a6", backgroundColor: props.select === item.testreceptionid ? "#faf4c0" : ""}} >
+                  <div key={item.testreceptionid} id={item.testreceptionid} className="pt-1 pb-1 d-flex align-items-center" onClick={ e => {props.ClickPatient(e, item) }} style={{ fontSize:"15px", borderBottom:"1px solid #a6a6a6", backgroundColor: props.select === item.testreceptionid ? "#E0ECF8" : ""}} >
                   <div className="col-2 p-0 text-center">{item.patientid}</div>
                   <div className="col-3 p-0 text-center">{item.ssn1}</div>
                   <div className="col-2 p-0 text-center" style={{fontWeight:"bold"}}>{item.patientname}</div>
@@ -72,7 +72,7 @@ function PatientList(props) {
             :
               <Tab.Pane eventKey= "progress">
               {props.progresss.map((item, index)=>{return(
-                <div key={item.testreceptionid} id={item.testreceptionid} className="pt-1 pb-1 d-flex align-items-center" onClick={ e => {props.ClickPatient(e, item) }} style={{ fontSize:"15px", borderBottom:"1px solid #a6a6a6", backgroundColor: props.select === item.testreceptionid ? "#faf4c0" : ""}}>
+                <div key={item.testreceptionid} id={item.testreceptionid} className="pt-1 pb-1 d-flex align-items-center" onClick={ e => {props.ClickPatient(e, item) }} style={{ fontSize:"15px", borderBottom:"1px solid #a6a6a6", backgroundColor: props.select === item.testreceptionid ? "#E0ECF8" : ""}}>
                 <div className="col-2 p-0 text-center">{item.patientid}</div>
                 <div className="col-3 p-0 text-center">{item.ssn1}</div>
                 <div className="col-2 p-0 text-center" style={{fontWeight:"bold"}}>{item.patientname}</div>
@@ -89,7 +89,7 @@ function PatientList(props) {
             :
               <Tab.Pane eventKey= "complete">
               {props.completes.map((item, index)=>{return(
-                <div key={item.testreceptionid} id={item.testreceptionid} className="pt-1 pb-1 d-flex align-items-center" onClick={ e => {props.ClickPatient(e, item) }} style={{ fontSize:"15px", borderBottom:"1px solid #a6a6a6", backgroundColor: props.select === item.testreceptionid ? "#faf4c0" : ""}}>
+                <div key={item.testreceptionid} id={item.testreceptionid} className="pt-1 pb-1 d-flex align-items-center" onClick={ e => {props.ClickPatient(e, item) }} style={{ fontSize:"15px", borderBottom:"1px solid #a6a6a6", backgroundColor: props.select === item.testreceptionid ? "#E0ECF8" : ""}}>
                 <div className="col-2 p-0 text-center">{item.patientid}</div>
                 <div className="col-3 p-0 text-center">{item.ssn1}</div>
                 <div className="col-2 p-0 text-center" style={{fontWeight:"bold"}}>{item.patientname}</div>
