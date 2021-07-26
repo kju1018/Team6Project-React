@@ -74,8 +74,6 @@ function Weekly(props) {
         <th scope="col">날짜</th>
         <th scope="col">일정</th>
          <th scope="col">작성자</th>
-      
-        
        </tr>
      </thead>
      <tbody>
@@ -94,6 +92,7 @@ function Weekly(props) {
     </table>
     </div>
     </div>
+    
     {/* 함수명()  <- 함수를 실행하겠다는 뜻  */}
 
     <WeeklyDetail deleteScheduleState = {deleteScheduleState} board={board} show={show} handleClose1={handleClose}></WeeklyDetail>
