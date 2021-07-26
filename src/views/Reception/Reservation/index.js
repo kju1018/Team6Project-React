@@ -138,7 +138,7 @@ const CancelReservation=()=>{
         </ReceptionHeader>
         <Calendar setSelectDate = {(date)=>{setSelectDate(date)}}/>
         <div className="rounded-lg justify-content-center">
-            <div className="d-flex justify-content-between text-center border " style={{borderRadius:"15px",marginTop:"10px",marginBottom:"10px"}}>
+            <div className="d-flex justify-content-between text-center  " style={{marginTop:"10px",marginBottom:"10px",color:"white", backgroundColor:"#1B296D", paddingTop:"5px",paddingBottom:"5px"}}>
                 <div style={{width:"20%"}}>순번</div>
                 <div style={{width:"20%"}}>환자ID</div>
                 <div style={{width:"20%"}}>이름</div>
