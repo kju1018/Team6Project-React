@@ -67,7 +67,7 @@ function TestList(props) {
           (
             props.loading === true ? 
             <div className="d-flex h-100 justify-content-center align-items-center">
-              <div className="spinner-border text-success" role="status">
+              <div className="spinner-border text-primary" role="status">
                 <span className="sr-only">Loading...</span>
               </div>
             </div>
@@ -77,7 +77,7 @@ function TestList(props) {
               Object.values(groupTests).map(groupTest => {
                 return (
                   groupTest.testtype === "진단검사" ?
-                  <PackageTest key={groupTest.groupcode}  groupTest={groupTest}/>
+                  <PackageTest key={groupTest.groupcode} groupTest={groupTest}/>
                   :
                   <PackageImgTest key={groupTest.groupcode} groupTest={groupTest}></PackageImgTest>
                 );

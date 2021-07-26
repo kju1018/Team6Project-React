@@ -98,7 +98,7 @@ function SearchPatient(props) {
             {
               loading === true ? 
               <div className="d-flex h-100 justify-content-center align-items-center">
-                <div class="spinner-border text-success" role="status">
+                <div class="spinner-border text-primary" role="status">
                   <span class="sr-only">Loading...</span>
                 </div>
               </div>
