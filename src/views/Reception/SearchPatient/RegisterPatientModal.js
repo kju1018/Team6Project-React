@@ -26,7 +26,7 @@ function RegisterPatientModal(props){
     <form onSubmit={handleSubmit(onSubmit)}>
       <div className="mb-2">
         <label>이름 : </label>
-        <input className="ml-2" name="patientname" ref={register({ required: true })} />
+        <input className="ml-2" name="patientname" ref={register({ required: true })} value="김용호" />
         {errors.patientname && <div style={{color:"red"}}>이름을 입력해 주세요</div>}
       </div>
 
@@ -40,26 +40,26 @@ function RegisterPatientModal(props){
 
       <div className="mb-2">
       <label>나이 : </label>
-      <input className="ml-2" name="age" type="number" ref={register({ required: true })} />
+      <input className="ml-2" name="age" type="number" ref={register({ required: true })} value="27" />
       {errors.age && <div style={{color:"red"}}>나이를 입력해 주세요</div>}
       </div>
 
       <div className="mb-2">
       <label>주민등록번호 : </label>
  <br/>
-      <input className="mr-2" name="ssn1" type="number" ref={register({required: true, pattern: /[0-9]{6}/})} />
+      <input className="mr-2" name="ssn1" type="number" ref={register({required: true, pattern: /[0-9]{6}/})} value="950328" />
 
   
       -
    
-      <input className="ml-2" name="ssn2" type="number" ref={register({required: true, pattern: /[0-9]{7}/})} />
+      <input className="ml-2" name="ssn2" type="number" ref={register({required: true, pattern: /[0-9]{7}/})} value="1026013" />
       {(errors.ssn2?.type === "required" || errors.ssn1?.type === "required")  && <div style={{color:"red"}}>주민번호를 입력해 주세요</div>}
       {(errors.ssn2?.type === "pattern" ||errors.ssn1?.type === "pattern")  && <div style={{color:"red"}}>주민번호 13자리를 입력해 주세요</div>}
       </div>
 
       <div className="mb-2">
       <label>핸드폰번호 : </label>
-      <input className="ml-2" name="phonenumber" type="number" ref={register({ required: true })} />
+      <input className="ml-2" name="phonenumber" type="number" ref={register({ required: true })} value="01024967236" />
       {errors.phonenumber && <div style={{color:"red"}}>핸드폰 번호를 입력해 주세요</div>}
       </div>
 
