@@ -21,6 +21,7 @@ function SearchPatient(props){
     const dispatch = useDispatch();
     // 모달창에서 선택된 환자 상태
     const [selectedPatient, setSelectedPatient] = useState({
+      patientid:"-",
       patientname:"-", 
       ssn1:"-", 
       ssn2:"-", 
@@ -86,7 +87,7 @@ function SearchPatient(props){
                 <button disabled={selectedPatient.patientname!=="-"?false:true} style={{marginRight:"10px"}} className="btn btn-dark btn-sm" onClick={()=>{setTestSelectorModalshow(true)}}>검사접수</button>
                  <button disabled={selectedPatient.patientname!=="-"?false:true} style={{marginRight:"10px"}} className="btn btn-dark btn-sm" onClick={()=>{setDoctorSelectorModalshow(true)}}>진료접수</button>
         </ReceptionHeader>
-        <PatientProfile className="mt-1" selectedPatient={selectedPatient}/>
+        <PatientProfile  selectedPatient={selectedPatient}/>
         <PatientHistory selectedPatient={selectedPatient}/> 
         
       <Modal backdrop="static" size="lg" show={searchModalshow}  onHide={()=>{setSearchModalshow(false)}}>
