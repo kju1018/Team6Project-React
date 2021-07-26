@@ -6,7 +6,7 @@ function PatientProfile(props) {
       <div className="pt-5" style={{height:"calc(35vh - 50px)"}}>
         <div className="d-flex ml-0 mr-0" style={{height:"25%", minWidth:"200px"}}>
           <div className="col d-flex align-self-center ml-3 mr-3 pb-2 pt-2" style={{borderTop:"3px solid #a4a4a4",borderBottom:"3px solid #a4a4a4"}}>
-            <div className="col-5 text-center mb-1" style={{fontSize:"15px", fontWeight:"bold"}}><span>아이디</span></div>
+            <div className="col-5 text-center mb-1" style={{fontSize:"15px", fontWeight:"bold"}}><span>차트번호</span></div>
             <div className="col-7   ml-0 mr-0" style={{fontSize:"14px"}}>{props.selectedPatient.patientid}</div>
           </div>
           <div className="col d-flex align-self-center ml-3 mr-3 pb-2 pt-2" style={{borderTop:"3px solid #a4a4a4",borderBottom:"3px solid #a4a4a4"}}>
