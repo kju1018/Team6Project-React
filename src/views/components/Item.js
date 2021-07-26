@@ -30,7 +30,7 @@ function Item(props) {
      <style jsx="true">{`
      
         .test:focus {
-          background: #B3E283;
+          background: #e0ecf8;
           color:black;
         }
         
@@ -38,7 +38,7 @@ function Item(props) {
     <div tabIndex="-1" onClick={(event)=>{if(props.onClick)props.onClick(item); }} className={"test ml-2 mr-2 mb-2 pt-2 pb-2 d-flex align-items-center border-bottom  "} style={{ fontSize: "13px" }}>
     {itemArray.map((item,index)=>{
       return(
-        <div key={index} style={{color:(item==="진료 대기") || (item==="대기중")?"green":(item==="검사완료") || (item==="진료 완료")?"red":(item==="진행중") || (item==="진료중")?"yellow":"black"}} className="col pl-0 pr-0 text-center">
+        <div key={index} style={{color:(item==="진료 대기") || (item==="대기중")?"green":(item==="검사완료") || (item==="진료 완료")?"red":(item==="진행중") || (item==="진료중")?"orange":"black"}} className="col pl-0 pr-0 text-center">
 
          {item}
         </div>
