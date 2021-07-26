@@ -69,11 +69,11 @@ function PatientHistory(props) {
     const treatmentProperty = ["treatmentid","patientname","username","status","treatmentdate"]  
   return (
     <>
-      <div className="p-2 pt-3" style={{height:"60vh"}}>
+      <div className="p-2 " style={{height:"60vh"}}>
         <div style={{fontSize:"20px", fontWeight:"bold", borderBottom:"1px solid"}}><label style={{height:"100%"}}>환자 히스토리</label> {loading?<Spinner as="span" animation="border" variant="info" size="lg" role="status" className="ml-2"/>:null}</div>
         <div className="mt-3 p-1">
           <div className="rounded-lg justify-content-center">
-            <div className="d-flex justify-content-between text-center border " style={{borderRadius:"15px",marginTop:"10px",marginBottom:"10px"}}>
+            <div className="d-flex justify-content-between text-center  " style={{marginTop:"10px",marginBottom:"10px", color:"white", backgroundColor:"#1B296D", paddingTop:"5px",paddingBottom:"5px"}}>
                 <div style={{width:"20%"}}>순번</div>
                 <div style={{width:"20%"}}>진료ID</div>
                 <div style={{width:"20%"}}>환자</div>
