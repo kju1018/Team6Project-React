@@ -8,7 +8,6 @@ function TreatmentItem(props) {
     <div onClick={(event)=>{if(props.onClick)props.onClick(props.item);}}
         className={"test ml-2 mr-2 mb-2 pt-2 pb-2 d-flex align-items-center border border-dark"} 
         style={{fontWeight: props.selected===1 ? "bold" : null, backgroundColor: props.selected===1 ? "#3E5799" : null, cursor:"pointer",borderRadius:"7px",fontSize: "13px" }}>
-{/* //, boxShadow: "rgb(0 0 0 / 50%) 0px 0px 5px 2px" */}
       {props.property.map((prop,index)=>{
         return(
           <div key={index}  className={index===0?"col pl-0 pr-0  text-center":"col pl-0 pr-0 text-center border-left"} 
