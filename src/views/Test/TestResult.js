@@ -44,29 +44,28 @@ function TestResult(props) {
         props.gettest(props.selectpatientinfo.testreceptionid);
         sendRedisMessage({type:"testresult", treatmentid:treatmentid})//----------------redis 메세지
         alert("사진첨부 완료")
-      });
-    }catch(error){
-      console.log(error);
-    }
-    
 
-    inputFile.current.value = ''; //저장후 값 클리어
-
-    let count = 0;
-      console.log(props.testdatas)
-      if(props.testdatas.length > 0) {
-        for(let i=0; i<props.testdatas.length; i++){
-          console.log(props.testdatas[i].result)
-        if(props.testdatas[i].result !== null || props.testdatas[i].result === ""){
-          count++;
-          console.log(count)
+        inputFile.current.value = ''; //저장후 값 클리어
+        let count = 0;
+        console.log(props.testdatas)
+        if(props.testdatas.length > 0) {
+          for(let i=0; i<props.testdatas.length; i++){
+            console.log(props.testdatas[i].result)
+          if(props.testdatas[i].result !== null || props.testdatas[i].result === ""){
+            count++;
+            console.log(count)
+          }
         }
-      }
         if(count+1 === props.testdatas.length) {
           console.log("전체 입력완료")
           resultStatus(props.selectpatientinfo.testreceptionid).then(()=>{props.getpatient(props.startdate, props.enddate)})
         }
       }
+      });
+    }catch(error){
+      console.log(error);
+    }
+    
   }
 
   const handleChange = (event) => { //사용자 입력시 상태 변경을 위해
