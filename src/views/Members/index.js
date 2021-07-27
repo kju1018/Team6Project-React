@@ -67,7 +67,7 @@ function Members(props) {
                       <div style={{width:"18%"}}>{user.phonenumber}</div>
                       <div style={{width:"10%"}}>{user.userroom}</div>
                       <div style={{width:"15%"}}>
-                        {user.role_authority === "ROLE_DOCTOR" ? "의사" : ( user.role_authority === "ROLE_NURSE" ? "간호사" : "관리자")}
+                        {user.role_authority === "ROLE_DOCTOR" ? "의사" : ( user.role_authority === "ROLE_NURSE" ? "간호사" : "병원장")}
                       </div>
                       <div style={{width:"10%"}}>
                         {user.userenabled === 1 ? "활성화" : "비활성화"}
