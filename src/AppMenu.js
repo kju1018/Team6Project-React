@@ -87,7 +87,7 @@ function AppMenu() {
 
         <div className="text-center" style={{width:"100%", position:"absolute", bottom:"0px", paddingBottom:"10px"}}>
           <div className="pb-2">
-            {globalUserName}({globalUserRole === "ROLE_DOCTOR" ? "의사" : (globalUserRole === "ROLE_NURSE" ? "간호사" : "관리자") }) 님
+            {globalUserName}({globalUserRole === "ROLE_DOCTOR" ? "의사" : (globalUserRole === "ROLE_NURSE" ? "간호사" : "병원장") }) 님
           </div>
           <Button  variant="dark" onClick={logout}>로그아웃</Button>
         </div>
