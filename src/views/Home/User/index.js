@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { getUserList } from "apis/Main";
+import "./scrollbar2.css";
 
 function User(props){
 

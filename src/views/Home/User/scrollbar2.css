@@ -1,12 +1,9 @@
 .scrollbar
 {
-	margin-left: 22px;
 	float: left;
-	height: 300px;
-	width: 65px;
+	height: 250px;
 	background: #F5F5F5;
 	overflow-y: scroll;
-	margin-bottom: 25px;
 }
 
 .force-overflow
