@@ -78,7 +78,7 @@ function TestResult(props) {
 
   return (
     <>
-    <div style={{marginBottom:"170px", height:"67%"}}>
+    <div style={{marginBottom:"220px", height:"67%"}}>
     {show ?
     <div className="card">
       <div className="card-header" style={{fontWeight:"bold"}}>
@@ -116,7 +116,7 @@ function TestResult(props) {
         </form>
       </div>
     </div>
-    :<div style={{textAlign:"center", color:"#999999", marginTop:"35px"}}><div><i className="bi bi-cloud-arrow-up" style={{fontSize:"180px"}}></i></div><div style={{fontSize:"40px"}}>검사 없음</div></div>}
+    :<div style={{textAlign:"center", color:"#999999", paddingTop:"35px"}}><div><i className="bi bi-cloud-arrow-up" style={{fontSize:"180px"}}></i></div><div style={{fontSize:"40px"}}>검사 없음</div></div>}
    </div>
     <div style={{height:"15%"}}>
       <div style={{fontSize:"22px", fontWeight:"bold", marginBottom:"5px"}}><i className="bi bi-exclamation-octagon-fill" style={{color:"orange"}}></i> 검사실 주의사항</div>

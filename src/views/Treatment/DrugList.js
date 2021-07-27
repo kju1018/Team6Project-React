@@ -33,7 +33,7 @@ function DrugList(props) {
         ( 
           props.loading === true ? 
           <div className="d-flex h-100 justify-content-center align-items-center">
-            <div className="spinner-border text-success" role="status">
+            <div className="spinner-border text-primary" role="status">
               <span className="sr-only">Loading...</span>
             </div>
           </div>
