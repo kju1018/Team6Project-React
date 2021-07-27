@@ -19,8 +19,12 @@ export function deleteNotice(noticeid){
 }
 
 //유저정보 가져오기
-export function getUserList() {
-    const promise = axios.get("/main/userList");
+export function getUserList(usertype) {
+    const promise = axios.get("/main/userList", {
+        params: {
+            usertype
+        }
+    });
     return promise;
 }
 
