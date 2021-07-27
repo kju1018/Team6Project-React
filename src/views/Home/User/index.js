@@ -1,13 +1,15 @@
 import { useEffect, useState } from "react";
 import { getUserList } from "apis/Main";
+import "./scrollbar2.css";
 
 function User(props){
 
   const [UserList, setUserList] = useState([]);
 
   const work = async() => {
-    const response = await getUserList();    
+    const response = await getUserList("전체");    
     setUserList(response.data);
+    console.log(response.data);
   }
 
   useEffect(() => {
@@ -21,8 +23,8 @@ function User(props){
       <table className="table table-hover">
         <thead className="card-header" style={{backgroundColor:"rgb(18, 60, 114)", color:"white"}}>
         <tr>
-          <th scope="col">Room</th>
-          <th scope="col">DOCTOR</th>
+          <th scope="col">ROOM</th>
+          <th scope="col">NAME</th>
           <th scope="col">PHONE</th>
           <th scope="col">SEX</th>
         </tr>

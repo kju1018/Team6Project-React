@@ -17,17 +17,17 @@ function JoinForm(props) {
   const [errorMessageID, setErrorMesssageID] = useState(errorMsg.userid_empty);
   const [isInvalid, setIsInvalid] = useState(false);
   const [isInvalidID, setIsInvalidID] = useState(false);
-  const [isNurse, setIsNurse] = useState(false);
+  const [isNurse, setIsNurse] = useState(true);
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
-    userid:"",
-    userpassword:"",
-    confirmpassword:"",
-    username:"",
-    phonenumber:"",
+    userid:"nurse3",
+    userpassword:"12345",
+    confirmpassword:"12345",
+    username:"이원근",
+    phonenumber:"01012346654",
     userroom:"",
     sex:"남자",
-    role_authority:"ROLE_DOCTOR",
+    role_authority:"ROLE_NURSE",
     codenumber:globalcode
   });
 
@@ -93,6 +93,7 @@ function JoinForm(props) {
             setIsInvalidID(false);
             setErrorMesssageID(errorMsg.userid_empty);
             setIsInvalid(false);
+            setValidated(false);
             setErrorMesssage(errorMsg.password_empty);
             props.getUsers();
           } else if(state === "failure"){

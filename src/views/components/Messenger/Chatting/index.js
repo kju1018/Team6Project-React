@@ -73,7 +73,7 @@ function Chatting(props){
                 //유저 role 한글로 바꿔주기
                 if(result.data.role_authority==="ROLE_DOCTOR")result.data.role_authority="의사"
                 else if(result.data.role_authority==="ROLE_NURSE")result.data.role_authority="간호사"
-                else if(result.data.role_authority==="ROLE_ADMIN")result.data.role_authority="관리자"
+                else if(result.data.role_authority==="ROLE_ADMIN")result.data.role_authority="병원장"
                 setUserInfo(result.data)
                 //접속되면 처음 내 정보를 서버에 보내줌
                 webSocket.send(JSON.stringify({
