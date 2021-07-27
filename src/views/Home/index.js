@@ -22,7 +22,7 @@ function Home(props) {
       </div>
       <div className="p-2"></div>
       <div className="col p-0 pl-2 pt-0 ml-4"style={{height:"30vh"}}>
-      <div className="pb-1" style={{fontSize:"20px", fontWeight:"bold"}}>Doctor's Contact Info: </div>
+      <div className="pb-1" style={{fontSize:"20px", fontWeight:"bold"}}>Hospital's Contact Info: </div>
       <User/>
       </div>
       <div className="p-2 pt-2"></div>
