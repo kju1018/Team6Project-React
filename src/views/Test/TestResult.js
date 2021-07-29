@@ -5,7 +5,7 @@ import { useState } from "react";
 import Banner from "./Banner";
 
 function TestResult(props) { 
-  const [show, setShow] = useState();
+  const [show, setShow] = useState(false);
   const [treatmentid, setTreatmentid] = useState();
   
   useEffect(()=>{ 
@@ -14,16 +14,20 @@ function TestResult(props) {
   }, [props.testdatas])
 
   const group = () => {
+    let flag = 0;
     for(let i=0; i<props.testdatas.length; i++){ //전체 testdata 리스트의 testdataid 조회
       if(props.testdatas[i]){ 
         if(props.testdatas[i].testdataid === "xray") {
           setTreatmentid(props.testdatas[i].treatmentid);
-          setShow(true); //testdataid가 xray일 경우에만 보이기
-        } else {
-          setShow(false)
-        }
+          flag = 1;
+        } 
      }
     } 
+    if(flag === 1 ) {
+      setShow(true); //testdataid가 xray일 경우에만 보이기
+    } else {
+      setShow(false)
+    }
   }
 
   const [testimg, setTestimg] = useState({
@@ -58,7 +62,9 @@ function TestResult(props) {
         }
         if(count+1 === props.testdatas.length) {
           console.log("전체 입력완료")
-          resultStatus(props.selectpatientinfo.testreceptionid).then(()=>{props.getpatient(props.startdate, props.enddate)})
+          resultStatus(props.selectpatientinfo.testreceptionid).then(()=>{
+            props.getpatient(props.startdate, props.enddate)
+          })
         }
       }
       });
