@@ -13,8 +13,8 @@ function NoticeDetail(props) {
     <Modal size="lg" show={props.show} onHide={props.handleClose}>
     <Modal.Header closeButton style={{backgroundColor:"rgb(18, 60, 114)", color:"white"}}>
           <Modal.Title><strong>{props.board.title}</strong></Modal.Title>
-          </Modal.Header>
-          <Modal.Body style={{height:"40vh"}}>{props.board.content}</Modal.Body>
+          </Modal.Header> 
+          <Modal.Body style={{height:"40vh"}}><strong>{props.board.content}</strong></Modal.Body>
           <Modal.Footer>
             <Button variant="primary" onClick={props.handleClose}>
               CLOSE
