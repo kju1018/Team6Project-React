@@ -3,10 +3,12 @@ import ReceptionHeader from "../components/ReceptionHeader";
 import TestReception from "./TestReception";
 import TreatmentReception from "./TreatmentReception";
 import { Col, Row, Toast } from "react-bootstrap";
-import {useSelector } from "react-redux";
+import {useDispatch, useSelector } from "react-redux";
 import { GetTreatmentList,GetTestReceptionList,DeleteReceptionTreatment,DeleteReceptionTest } from "apis/Reception";
 import { sendRedisMessage } from "apis/Redis";
 import { Spinner } from "react-bootstrap";
+import { createSetToast } from "redux/toast-reducer";
+import { createSetTreatmentReception } from "redux/reception-reducer";
 
 function PatientReception(props){
    const [select, setSelect] = useState("treatmentreception");
@@ -21,6 +23,7 @@ function PatientReception(props){
     const [loading,setLoading] = useState(false);
     const [showToast,setShowToast] = useState({onoff:false, patientname:"", status:""}); 
     const toggleShowToast = () => {setShowToast((prev)=>({...prev,onoff:!prev.onoff}))}
+    const dispatch = useDispatch()
 
     useEffect(()=>{
         setLoading(true)
@@ -34,12 +37,12 @@ function PatientReception(props){
             setTreatmentsData(treatmentlist);
             setLoading(false)
             console.log(treatmentReception)
-            //진료접수가 완료되면 토스트
+            //진료접수가 완료되면 토스트    
             if((treatmentReception.status==="완료") || (treatmentReception.status==="진행") ){
                 var patientname = treatmentlist.filter((item)=>{return item.patientid===treatmentReception.patientid})[0].patientname
                 setShowToast((prev)=>({status:treatmentReception.status,patientname,onoff:true}))
+                dispatch(createSetTreatmentReception({status:"",patientname,onoff:false}))
             }
-            
         })
     },[treatmentReception])
     useEffect(()=>{

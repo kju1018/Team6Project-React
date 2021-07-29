@@ -17,8 +17,8 @@ function TestPage(props) {
  
   const [groupshow, setGroupShow] = useState(false) //testgroup 보여주는 show
  
-  const [startdate, setStartdate] = useState();
-  const [enddate, setEnddate] = useState();
+  const [startdate, setStartdate] = useState(new Date());
+  const [enddate, setEnddate] = useState(new Date());
 
   const [testdatas, setTestdatas] = useState([]);
 

@@ -281,7 +281,8 @@ console.log(groupList)
         }
       }
         if(count === props.testdatas.length) {
-          resultStatus(props.selectpatientinfo.testreceptionid).then(()=>{props.getpatient(props.startdate, props.enddate)})
+          resultStatus(props.selectpatientinfo.testreceptionid).then(()=>{
+            props.getpatient(props.startdate, props.enddate)})
         }
       }
     });
