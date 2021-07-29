@@ -36,17 +36,17 @@ function NoticeAdd(props) {
 
   return(
     <>
-    <Modal show={props.show} onHide={props.handleClose1}>
+    <Modal size="lg" show={props.show} onHide={props.handleClose1}>
               <Form className="text-center" onSubmit={handleAdd}> 
                 <h4>NOTICE<img src="/pencil.png"width="25"height="25"/></h4>
                 <hr></hr>
                 <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                   <Form.Label><strong>제목</strong></Form.Label>
-                  <Form.Control type="text" name="title" value={board.title} onChange={handleChange}/>
+                  <Form.Control style={{height:"5vh"}} type="text" name="title" value={board.title} onChange={handleChange}/>
                 </Form.Group>
                 <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
                   <Form.Label><strong>내용</strong></Form.Label>
-                  <Form.Control as="textarea" rows={3} name="content" value={board.content} onChange={handleChange}/>
+                  <Form.Control style={{height:"35vh"}} as="textarea" rows={3} name="content" value={board.content} onChange={handleChange}/>
                 </Form.Group>
               </Form>
               <Modal.Footer>
