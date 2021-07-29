@@ -59,6 +59,7 @@ function TestResult(props) {
         if(count === props.testdatas.length -1) {
           console.log("전체 입력완료")
           resultStatus(props.selectpatientinfo.testreceptionid).then(()=>{props.getpatient(props.startdate, props.enddate)})
+
         }
       }
 

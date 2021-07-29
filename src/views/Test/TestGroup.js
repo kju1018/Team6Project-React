@@ -243,21 +243,13 @@ function TestGroup(props) {
           }
         }
 
-        // if(checkedList.length === 1 ) {
-        //   if(count === groupList.length-1) {
-        //     finishPatient(props.selectpatientinfo.testreceptionid).then(()=>{
-        //       props.getpatient(props.startdate, props.enddate)
-        //       sendRedisMessage({type:"test"})
-        //     })
-        //   }
-        // } else {
+
           if(count === groupList.length-checkedList.length) {
             finishPatient(props.selectpatientinfo.testreceptionid).then(()=>{
               props.getpatient(props.startdate, props.enddate)
               sendRedisMessage({type:"test"})
             })
           }
-        //}
         } 
       } catch (error) {
         console.log(error);
