@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 import { Col, Row, Toast } from "react-bootstrap";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import ButtonHeader from "./components/ButtonHeader";
 import PackageImgTest from "./components/Tests/PackageImgTest";
 import PackageTest from "./components/Tests/PackageTest";
 import PrescriptionTestsModal from "./components/Tests/PrescriptionTestsModal";
+import {createSetTreatmentReception } from "redux/reception-reducer";
 
 function TestList(props) {
   const [show, setShow] = useState(false);
@@ -15,6 +16,7 @@ function TestList(props) {
   const [receptionToast, setReceptionToast] = useState(false);
   const receptionToastShow = () => setReceptionToast(true);
   const receptionToastClose = () => setReceptionToast(false);
+  const dispatch = useDispatch();
 
   const treatmentReception = useSelector((state)=>(state.receptionReducer.treatmentreception)) 
 
@@ -50,6 +52,7 @@ function TestList(props) {
   useEffect(() => {
     if(treatmentReception.status === "접수"){
       receptionToastShow();
+      dispatch(createSetTreatmentReception({patientid:treatmentReception.patientid, status:""}));
     }
   }, [treatmentReception])
 
