@@ -66,7 +66,7 @@ function Weekly(props) {
     />
     </div>
     </h5>
-    <div className="scrollbar" id="style-7">
+    <div className="scrollbar" id="style-7"  style={{height:"60vh"}}>
     <div className="force-overflow-auto">
    <table className="table table-hover">
      <thead className="card-header" style={{backgroundColor:"rgb(18, 60, 114)", color:"white"}}>

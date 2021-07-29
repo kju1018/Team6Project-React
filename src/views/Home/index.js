@@ -8,11 +8,11 @@ function Home(props) {
   return (
     <div className="container-fluid row vh-100 p-3">
    <div className="col-8">
-      <div className="col card p-3" style={{height:"30vh"}}>
+      <div className="col card p-3" style={{height:"45vh"}}>
       <Notice/>
       </div>
       <div className="p-2"></div>
-      <div className="col card p-3"style={{height:"65vh"}}>
+      <div className="col card p-3"style={{height:"50vh"}}>
       <Weekly/>
       </div>
    </div>

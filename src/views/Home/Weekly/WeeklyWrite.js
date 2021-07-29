@@ -34,13 +34,13 @@ function WeeklyWrite(props){
 
   return (
     <>
-    <Modal show={props.show} onHide={props.handleClose}>
+    <Modal size="lg"  show={props.show} onHide={props.handleClose}>
               <Form onSubmit={handleAdd}>
                 <h4 className="text-center">WEEKLY <img src="/weekly.png"width="25"height="25"/></h4>
                 <hr></hr>
                 <Form.Group className="mb-3, text-center" controlId="exampleForm.ControlTextarea1">
                   <Form.Label><strong>내용</strong></Form.Label>
-                  <Form.Control as="textarea" rows={3} name="content" value={board.content} onChange={handleChange}/>
+                  <Form.Control  style={{height:"40vh"}} as="textarea" rows={3} name="content" value={board.content} onChange={handleChange}/>
                 </Form.Group>
               </Form>
               <Modal.Footer>

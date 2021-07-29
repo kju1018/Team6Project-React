@@ -57,7 +57,7 @@ return(
       <img src="/pen.png"width="25"height="25"/></Button>
     </h5> 
     <NoticeAdd show={show1} handleClose1={handleClose1} work={work}></NoticeAdd>
-  <div className="scrollbar" id="style-7">
+  <div className="scrollbar" id="style-7" style={{height: "40vh"}}>
     <div className="force-overflow-auto">
    <table className="table table-hover">
      <thead className="card-header" style={{backgroundColor:"rgb(18, 60, 114)", color:"white"}}>
