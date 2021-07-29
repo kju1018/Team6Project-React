@@ -1,5 +1,5 @@
 import { sendRedisMessage } from "apis/Redis";
-import { createXray, resultStatus } from "apis/test";
+import { createXray, finishPatient, resultStatus } from "apis/test";
 import { useEffect, useRef } from "react";
 import { useState } from "react";
 import Banner from "./Banner";
@@ -63,6 +63,9 @@ function TestResult(props) {
         if(count+1 === props.testdatas.length) {
           console.log("전체 입력완료")
           resultStatus(props.selectpatientinfo.testreceptionid).then(()=>{
+            props.getpatient(props.startdate, props.enddate)
+          })
+          finishPatient(props.selectpatientinfo.testreceptionid).then(()=>{
             props.getpatient(props.startdate, props.enddate)
           })
         }
