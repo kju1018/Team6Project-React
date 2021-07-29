@@ -223,9 +223,7 @@ function UpdateForm(props) {
         {loading === true ? <Spinner className="mr-2" as="span" animation="border" size="sm" role="status"/> : null}
           비활성화</Button>
         :
-        <Button className="w-25" variant="danger" type="button" onClick={deleteUserFun}>
-        {loading === true ? <Spinner className="mr-2" as="span" animation="border" size="sm" role="status"/> : null}
-          삭제</Button>
+        null
         }
         
       </div>
